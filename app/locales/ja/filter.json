@@ -66,6 +66,7 @@
     "material": {
       "bamboo": "竹",
       "bone": "ボーン",
+      "brocade": "ブロケード",
       "canvas": "キャンバス",
       "ceramic": "セラミック",
       "chiffon": "シフォン",
@@ -261,6 +262,7 @@
       "stud": "スタッド",
       "sun": "太陽",
       "suspenders": "サスペンダー",
+      "sword": "剣",
       "tag": "タグ",
       "tassel": "タッセル",
       "teapot": "ティーポット",
@@ -395,6 +397,7 @@
       "low": "低/ロー"
     },
     "structure": {
+      "ankle_strap": "アンクルストラップ",
       "asymmetric": "アシンメトリー",
       "boned": "ボーン入り",
       "braided": "編み込み",
@@ -529,6 +532,7 @@
       "chokers": {
         "choker": "チョーカー",
         "collar": "襟/首輪",
+        "eyewear": "メガネ",
         "headphones": "ヘッドホン",
         "necklace": "ネックレス",
         "scarf": "スカーフ",
@@ -594,6 +598,7 @@
         "food": "食べ物",
         "handbag": "ハンドバッグ",
         "handheld": "手持ち物",
+        "hourglass": "砂時計",
         "instrument": "楽器",
         "kickboard": "ビート板",
         "lantern": "ランタン",
@@ -741,6 +746,7 @@
       "chokers": {
         "bow_tie": "蝶ネクタイ",
         "cravat": "クラバット",
+        "goggles": "ゴーグル",
         "necktie": "ネクタイ",
         "pendant_choker": "ペンダントチョーカー",
         "ruff_collar": "ひだ襟",

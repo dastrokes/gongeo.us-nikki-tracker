@@ -66,6 +66,7 @@
     "material": {
       "bamboo": "Bambu",
       "bone": "Osso",
+      "brocade": "Brocado",
       "canvas": "Lona",
       "ceramic": "Cerâmica",
       "chiffon": "Chiffon",
@@ -261,6 +262,7 @@
       "stud": "Tacha",
       "sun": "Sol",
       "suspenders": "Suspensórios",
+      "sword": "Espada",
       "tag": "Etiqueta",
       "tassel": "Borla",
       "teapot": "Bule de Chá",
@@ -395,6 +397,7 @@
       "low": "Baixa"
     },
     "structure": {
+      "ankle_strap": "Tira no tornozelo",
       "asymmetric": "Assimétrico",
       "boned": "Com barbatanas",
       "braided": "Trançado",
@@ -529,6 +532,7 @@
       "chokers": {
         "choker": "Choker",
         "collar": "Gola/Gargantilha",
+        "eyewear": "Óculos",
         "headphones": "Fones de ouvido",
         "necklace": "Colar",
         "scarf": "Cachecol",
@@ -594,6 +598,7 @@
         "food": "Comida",
         "handbag": "Bolsa de mão",
         "handheld": "Objeto na mão",
+        "hourglass": "Ampulheta",
         "instrument": "Instrumento",
         "kickboard": "Prancha de natação",
         "lantern": "Lanterna",
@@ -741,6 +746,7 @@
       "chokers": {
         "bow_tie": "Gravata-borboleta",
         "cravat": "Plastrão",
+        "goggles": "Óculos de Proteção",
         "necktie": "Gravata",
         "pendant_choker": "Gargantilha com pingente",
         "ruff_collar": "Gola de rufo",

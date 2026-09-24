@@ -66,6 +66,7 @@
     "material": {
       "bamboo": "竹子",
       "bone": "骨質",
+      "brocade": "錦緞",
       "canvas": "帆布",
       "ceramic": "陶瓷",
       "chiffon": "雪紡",
@@ -261,6 +262,7 @@
       "stud": "鉚釘",
       "sun": "太陽",
       "suspenders": "背帶",
+      "sword": "劍",
       "tag": "標籤",
       "tassel": "穗飾",
       "teapot": "茶壺",
@@ -395,6 +397,7 @@
       "low": "低"
     },
     "structure": {
+      "ankle_strap": "腳踝綁帶",
       "asymmetric": "不對稱",
       "boned": "撐骨",
       "braided": "辮狀編織",
@@ -529,6 +532,7 @@
       "chokers": {
         "choker": "項圈",
         "collar": "領圈",
+        "eyewear": "眼鏡",
         "headphones": "耳機",
         "necklace": "項鍊",
         "scarf": "圍巾",
@@ -594,6 +598,7 @@
         "food": "食物",
         "handbag": "手提包",
         "handheld": "手持物",
+        "hourglass": "沙漏",
         "instrument": "樂器",
         "kickboard": "浮板",
         "lantern": "燈籠",
@@ -741,6 +746,7 @@
       "chokers": {
         "bow_tie": "蝴蝶領結",
         "cravat": "領巾式領帶",
+        "goggles": "護目鏡",
         "necktie": "領帶",
         "pendant_choker": "吊墜項圈",
         "ruff_collar": "拉夫領",

@@ -66,6 +66,7 @@
     "material": {
       "bamboo": "Bambus",
       "bone": "Knochen",
+      "brocade": "Brokat",
       "canvas": "Canvas",
       "ceramic": "Keramik",
       "chiffon": "Chiffon",
@@ -261,6 +262,7 @@
       "stud": "Niete",
       "sun": "Sonne",
       "suspenders": "Hosenträger",
+      "sword": "Schwert",
       "tag": "Etikett",
       "tassel": "Quaste",
       "teapot": "Teekanne",
@@ -395,6 +397,7 @@
       "low": "Niedrig"
     },
     "structure": {
+      "ankle_strap": "Knöchelriemen",
       "asymmetric": "Asymmetrisch",
       "boned": "Mit Stäbchen",
       "braided": "Geflochten",
@@ -529,6 +532,7 @@
       "chokers": {
         "choker": "Choker",
         "collar": "Kragen",
+        "eyewear": "Brille",
         "headphones": "Kopfhörer",
         "necklace": "Halskette",
         "scarf": "Schal",
@@ -594,6 +598,7 @@
         "food": "Essen",
         "handbag": "Handtasche",
         "handheld": "Tragbares",
+        "hourglass": "Sanduhr",
         "instrument": "Instrument",
         "kickboard": "Kickboard",
         "lantern": "Laterne",
@@ -741,6 +746,7 @@
       "chokers": {
         "bow_tie": "Fliege",
         "cravat": "Krawattenschal",
+        "goggles": "Schutzbrille",
         "necktie": "Krawatte",
         "pendant_choker": "Anhänger",
         "ruff_collar": "Halskrause",

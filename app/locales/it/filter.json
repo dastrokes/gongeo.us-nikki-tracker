@@ -66,6 +66,7 @@
     "material": {
       "bamboo": "Bambù",
       "bone": "Osso",
+      "brocade": "Broccato",
       "canvas": "Tela",
       "ceramic": "Ceramica",
       "chiffon": "Chiffon",
@@ -261,6 +262,7 @@
       "stud": "Borchia",
       "sun": "Sole",
       "suspenders": "Bretelle",
+      "sword": "Spada",
       "tag": "Etichetta",
       "tassel": "Nappina",
       "teapot": "Teiera",
@@ -395,6 +397,7 @@
       "low": "Bassa"
     },
     "structure": {
+      "ankle_strap": "Cinturino alla caviglia",
       "asymmetric": "Asimmetrico",
       "boned": "Steccato",
       "braided": "Intrecciato",
@@ -529,6 +532,7 @@
       "chokers": {
         "choker": "Girocollo",
         "collar": "Collare",
+        "eyewear": "Occhiali",
         "headphones": "Cuffie",
         "necklace": "Collana",
         "scarf": "Sciarpa",
@@ -594,6 +598,7 @@
         "food": "Cibo",
         "handbag": "Borsa a mano",
         "handheld": "Oggetto in mano",
+        "hourglass": "Clessidra",
         "instrument": "Strumento",
         "kickboard": "Tavoletta da nuoto",
         "lantern": "Lanterna",
@@ -741,6 +746,7 @@
       "chokers": {
         "bow_tie": "Papillon",
         "cravat": "Cravatta a foulard",
+        "goggles": "Occhialini",
         "necktie": "Cravatta",
         "pendant_choker": "Choker con pendente",
         "ruff_collar": "Gorgiera",

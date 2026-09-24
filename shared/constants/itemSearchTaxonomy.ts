@@ -118,6 +118,7 @@ export const ITEM_SEARCH_SUBCATEGORY_PARENT_BY_TYPE = {
   chokers: {
     bow_tie: 'tie',
     cravat: 'tie',
+    goggles: 'eyewear',
     necktie: 'tie',
     pendant_choker: 'choker',
     ruff_collar: 'collar',

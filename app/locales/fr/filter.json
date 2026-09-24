@@ -66,6 +66,7 @@
     "material": {
       "bamboo": "Bambou",
       "bone": "Os",
+      "brocade": "Brocart",
       "canvas": "Toile",
       "ceramic": "Céramique",
       "chiffon": "Mousseline",
@@ -261,6 +262,7 @@
       "stud": "Clou",
       "sun": "Soleil",
       "suspenders": "Bretelles",
+      "sword": "Épée",
       "tag": "Étiquette",
       "tassel": "Gland",
       "teapot": "Théière",
@@ -395,6 +397,7 @@
       "low": "Basse"
     },
     "structure": {
+      "ankle_strap": "Bride de cheville",
       "asymmetric": "Asymétrique",
       "boned": "Baleiné",
       "braided": "Tressé",
@@ -529,6 +532,7 @@
       "chokers": {
         "choker": "Ras de cou",
         "collar": "Col",
+        "eyewear": "Lunettes",
         "headphones": "Casque audio",
         "necklace": "Collier",
         "scarf": "Écharpe",
@@ -594,6 +598,7 @@
         "food": "Nourriture",
         "handbag": "Sac à main",
         "handheld": "Tenu en main",
+        "hourglass": "Sablier",
         "instrument": "Instrument",
         "kickboard": "Planche de natation",
         "lantern": "Lanterne",
@@ -741,6 +746,7 @@
       "chokers": {
         "bow_tie": "Nœud papillon",
         "cravat": "Lavallière",
+        "goggles": "Lunettes de protection",
         "necktie": "Cravate",
         "pendant_choker": "Ras-de-cou à pendentif",
         "ruff_collar": "Fraise",

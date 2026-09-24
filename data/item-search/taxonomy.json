@@ -58,6 +58,7 @@
     "chokers": {
       "bow_tie": "tie",
       "cravat": "tie",
+      "goggles": "eyewear",
       "necktie": "tie",
       "pendant_choker": "choker",
       "ruff_collar": "collar",

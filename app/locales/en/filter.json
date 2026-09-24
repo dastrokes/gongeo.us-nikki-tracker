@@ -66,6 +66,7 @@
     "material": {
       "bamboo": "Bamboo",
       "bone": "Bone",
+      "brocade": "Brocade",
       "canvas": "Canvas",
       "ceramic": "Ceramic",
       "chiffon": "Chiffon",
@@ -261,6 +262,7 @@
       "stud": "Stud",
       "sun": "Sun",
       "suspenders": "Suspenders",
+      "sword": "Sword",
       "tag": "Tag",
       "tassel": "Tassel",
       "teapot": "Teapot",
@@ -395,6 +397,7 @@
       "low": "Low"
     },
     "structure": {
+      "ankle_strap": "Ankle Strap",
       "asymmetric": "Asymmetric",
       "boned": "Boned",
       "braided": "Braided",
@@ -529,6 +532,7 @@
       "chokers": {
         "choker": "Choker",
         "collar": "Collar",
+        "eyewear": "Eyewear",
         "headphones": "Headphones",
         "necklace": "Necklace",
         "scarf": "Scarf",
@@ -594,6 +598,7 @@
         "food": "Food",
         "handbag": "Handbag",
         "handheld": "Handheld",
+        "hourglass": "Hourglass",
         "instrument": "Instrument",
         "kickboard": "Kickboard",
         "lantern": "Lantern",
@@ -741,6 +746,7 @@
       "chokers": {
         "bow_tie": "Bow Tie",
         "cravat": "Cravat",
+        "goggles": "Goggles",
         "necktie": "Necktie",
         "pendant_choker": "Pendant Choker",
         "ruff_collar": "Ruff Collar",

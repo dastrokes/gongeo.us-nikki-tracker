@@ -66,6 +66,7 @@
     "material": {
       "bamboo": "대나무",
       "bone": "뼈",
+      "brocade": "브로케이드",
       "canvas": "캔버스",
       "ceramic": "세라믹",
       "chiffon": "시폰",
@@ -261,6 +262,7 @@
       "stud": "스터드",
       "sun": "태양",
       "suspenders": "서스펜더",
+      "sword": "검",
       "tag": "태그",
       "tassel": "태슬",
       "teapot": "찻주전자",
@@ -395,6 +397,7 @@
       "low": "로우"
     },
     "structure": {
+      "ankle_strap": "발목 스트랩",
       "asymmetric": "비대칭",
       "boned": "보닝 있음",
       "braided": "땋은",
@@ -529,6 +532,7 @@
       "chokers": {
         "choker": "초커",
         "collar": "목 장식",
+        "eyewear": "안경",
         "headphones": "헤드폰",
         "necklace": "목걸이",
         "scarf": "스카프",
@@ -594,6 +598,7 @@
         "food": "음식",
         "handbag": "핸드백",
         "handheld": "손에 든 물건",
+        "hourglass": "모래시계",
         "instrument": "악기",
         "kickboard": "킥판",
         "lantern": "랜턴/등불",
@@ -741,6 +746,7 @@
       "chokers": {
         "bow_tie": "나비넥타이",
         "cravat": "크라바트",
+        "goggles": "고글",
         "necktie": "넥타이",
         "pendant_choker": "펜던트 초커",
         "ruff_collar": "러프 칼라",

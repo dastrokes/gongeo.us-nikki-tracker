@@ -45,6 +45,7 @@
     "material": [
       "bamboo",
       "bone",
+      "brocade",
       "canvas",
       "ceramic",
       "chiffon",
@@ -240,6 +241,7 @@
       "stud",
       "sun",
       "suspenders",
+      "sword",
       "tag",
       "tassel",
       "teapot",
@@ -354,6 +356,7 @@
     "sock_height": ["ankle", "crew", "knee_high", "thigh_high"],
     "sole_height": ["flat", "high", "low"],
     "structure": [
+      "ankle_strap",
       "asymmetric",
       "boned",
       "braided",
@@ -457,7 +460,15 @@
       "bottoms": ["overalls", "pants", "shorts", "skirt", "skort"],
       "bracelets": ["bracelet", "cuff", "hand_chain", "watch"],
       "chestAccessories": ["brooch", "chest_piece", "corsage"],
-      "chokers": ["choker", "collar", "headphones", "necklace", "scarf", "tie"],
+      "chokers": [
+        "choker",
+        "collar",
+        "eyewear",
+        "headphones",
+        "necklace",
+        "scarf",
+        "tie"
+      ],
       "dresses": ["dress", "jumpsuit"],
       "earrings": ["ear_cuff", "earring"],
       "faceDecorations": [
@@ -507,6 +518,7 @@
         "food",
         "handbag",
         "handheld",
+        "hourglass",
         "instrument",
         "kickboard",
         "lantern",
@@ -631,6 +643,7 @@
       "chokers": [
         "bow_tie",
         "cravat",
+        "goggles",
         "necktie",
         "pendant_choker",
         "ruff_collar",

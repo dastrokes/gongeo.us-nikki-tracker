@@ -312,6 +312,11 @@
   {
     "field": "material",
     "itemType": null,
+    "value": "brocade"
+  },
+  {
+    "field": "material",
+    "itemType": null,
     "value": "canvas"
   },
   {
@@ -1182,6 +1187,11 @@
   {
     "field": "ornament",
     "itemType": null,
+    "value": "sword"
+  },
+  {
+    "field": "ornament",
+    "itemType": null,
     "value": "tag"
   },
   {
@@ -1752,6 +1762,11 @@
   {
     "field": "structure",
     "itemType": null,
+    "value": "ankle_strap"
+  },
+  {
+    "field": "structure",
+    "itemType": null,
     "value": "asymmetric"
   },
   {
@@ -2307,6 +2322,11 @@
   {
     "field": "category",
     "itemType": "chokers",
+    "value": "eyewear"
+  },
+  {
+    "field": "category",
+    "itemType": "chokers",
     "value": "headphones"
   },
   {
@@ -2558,6 +2578,11 @@
     "field": "category",
     "itemType": "handhelds",
     "value": "handheld"
+  },
+  {
+    "field": "category",
+    "itemType": "handhelds",
+    "value": "hourglass"
   },
   {
     "field": "category",
@@ -3133,6 +3158,11 @@
     "field": "subcategory",
     "itemType": "chokers",
     "value": "cravat"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "chokers",
+    "value": "goggles"
   },
   {
     "field": "subcategory",

@@ -76,4 +76,6 @@ export const ENTITY_SLUG_DATA = [
   [73, 'where-flowers-wake'],
   [74, 'hushed-hues'],
   [75, 'reeling-frames'],
+  [76, 'gilded-judgment'],
+  [77, 'a-story-dedicated-to-children'],
 ] as const

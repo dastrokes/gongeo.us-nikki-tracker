@@ -148,14 +148,14 @@
           </NuxtLinkLocale>
         </div>
         <div
-          v-if="bannerGroups.length > 0"
+          v-if="displayedBannerGroups.length > 0"
           class="flex flex-col gap-4 sm:flex-row"
         >
           <div
-            v-for="group in bannerGroups"
+            v-for="group in displayedBannerGroups"
             :key="group.key"
             class="aspect-2/1 w-full sm:w-1/2"
-            :class="bannerGroups.length === 1 ? 'sm:mx-auto' : ''"
+            :class="displayedBannerGroups.length === 1 ? 'sm:mx-auto' : ''"
           >
             <BannerCarousel
               :banners="group.banners"
@@ -887,9 +887,22 @@
   const bannerGroups: BannerGroup[] = CURRENT_BANNER_GROUPS.map((group) =>
     createBannerGroup(group.key, group.bannerIds, group.targetTime)
   ).filter((group) => group.banners.length > 0)
-  const primaryBannerGroupKey = bannerGroups[0]?.key ?? null
 
   const currentBanners = bannerGroups.flatMap((group) => group.banners)
+  const shouldSplitDoubleFiveStarGroup =
+    currentBanners.length === 2 &&
+    currentBanners.every((banner) => banner.bannerType === 2)
+  const displayedBannerGroups = shouldSplitDoubleFiveStarGroup
+    ? bannerGroups.flatMap((group) =>
+        group.banners.map((banner) => ({
+          key: `${group.key}-${banner.bannerId}`,
+          banners: [banner],
+          targetTime: group.targetTime,
+        }))
+      )
+    : bannerGroups
+  const primaryBannerGroupKey = displayedBannerGroups[0]?.key ?? null
+
   const newCurrentBanners = currentBanners.filter(
     (banner) => banner.runs.length === 1
   )

@@ -1088,8 +1088,8 @@
                   // 5★ items: 12-20 pulls
                   pullsToObtain = Math.floor(seededRandom(seed) * 9) + 12
                 } else {
-                  // 4★ items in mixed banner: 3-5 pulls
-                  pullsToObtain = Math.floor(seededRandom(seed) * 3) + 3
+                  // 4★ items in 5★ banner: 8-10 pulls
+                  pullsToObtain = Math.floor(seededRandom(seed) * 3) + 8
                 }
               }
 

@@ -107,6 +107,13 @@ export const ENTITY_SLUG_DATA = [
   [1280010123, 'forestlight-haven'],
   [1280010124, 'perched-in-time'],
   [1280010125, 'the-forest-s-reply'],
+  [1280010126, 'above-all-gold'],
+  [1280010127, 'above-all-gold-radiance'],
+  [1280010128, 'on-his-planet'],
+  [1280010129, 'on-his-planet-radiance'],
+  [1280010130, 'feathers-and-bloom'],
+  [1280010131, 'unbroken-voyage'],
+  [1280010132, 'symphony-fountain'],
   [1280030001, 'flower-lantern'],
   [1280040001, 'luminous-bloom'],
 ] as const

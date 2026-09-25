@@ -543,7 +543,9 @@
       "momo_token_placeholder": "Cookie からの momoToken",
       "import_pull_history": "ガチャ履歴をインポート",
       "import_wardrobe": "ワードローブデータをインポート",
+      "wardrobe_partial_notice": "奇想の手帳からは完成したセットコーデのパーツのみインポートされます。",
       "import_eurekas": "祝福の光データをインポート",
+      "eureka_partial_notice": "奇想の手帳からは星4・星5の祝福の光のみインポートされます。",
       "submit_global_stats": "グローバル統計のデータを送信する",
       "submit_button": "プル履歴の送信とインポート",
       "fetching": "共鳴データを取得しています。お待ちください…"

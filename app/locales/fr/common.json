@@ -543,7 +543,9 @@
       "momo_token_placeholder": "momoToken de Cookie",
       "import_pull_history": "Importer l’historique des tirages",
       "import_wardrobe": "Importer les données de garde-robe",
+      "wardrobe_partial_notice": "Whim-Log n’importe que les pièces des tenues complètes.",
       "import_eurekas": "Importer les données Eurêka",
+      "eureka_partial_notice": "Whim-Log n’importe que les Eurêkas 4 et 5 étoiles.",
       "submit_global_stats": "Soumettre des données pour les statistiques mondiales",
       "submit_button": "Soumettre et importer l’historique des extractions",
       "fetching": "Récupération des données de résonance, veuillez patienter…"

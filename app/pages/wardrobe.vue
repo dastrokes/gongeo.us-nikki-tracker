@@ -135,13 +135,13 @@
             block
             type="primary"
             class="h-9 justify-center"
-            @click="openWardrobeCompendium"
+            @click="openWhimLogWardrobeImport"
           >
             <template #icon>
-              <n-icon size="16"><ListAlt /></n-icon>
+              <n-icon size="16"><Sync /></n-icon>
             </template>
             <span class="truncate leading-normal">
-              {{ t('common.view_compendium') }}
+              {{ t('wardrobe.update_from_pearpal') }}
             </span>
           </n-button>
 
@@ -307,7 +307,7 @@
                 :depth="3"
                 class="block text-sm"
               >
-                {{ t('wardrobe.empty_description') }}
+                {{ t('wardrobe.onboarding.import_description') }}
               </n-text>
             </div>
             <n-tag
@@ -325,13 +325,13 @@
             block
             type="primary"
             class="h-10 justify-center"
-            @click="openWardrobeCompendiumFromOnboarding"
+            @click="openWhimLogWardrobeImportFromOnboarding"
           >
             <template #icon>
-              <n-icon size="16"><ListAlt /></n-icon>
+              <n-icon size="16"><Sync /></n-icon>
             </template>
             <span class="truncate leading-normal">
-              {{ t('common.view_compendium') }}
+              {{ t('wardrobe.update_from_pearpal') }}
             </span>
           </n-button>
 
@@ -2758,16 +2758,23 @@
     await importTrackerWardrobeEntries()
   }
 
-  const openWardrobeCompendium = () => navigateTo(localePath('/items'))
+  const openWhimLogWardrobeImport = () =>
+    navigateTo({
+      path: localePath('/import'),
+      query: {
+        method: 'pearpal',
+        returnTo: 'wardrobe',
+      },
+    })
 
   const applyOnboardingRegion = () => {
     setActiveRegionScope(onboardingRegionScope.value)
   }
 
-  const openWardrobeCompendiumFromOnboarding = () => {
+  const openWhimLogWardrobeImportFromOnboarding = () => {
     applyOnboardingRegion()
     completeOnboarding()
-    return openWardrobeCompendium()
+    return openWhimLogWardrobeImport()
   }
 
   const handleOnboardingNext = () => {

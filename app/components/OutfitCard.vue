@@ -53,7 +53,7 @@
         class="pointer-events-none absolute inset-0 h-full w-full object-fill"
       />
       <p
-        class="relative z-10 line-clamp-2 w-full min-w-0 text-left text-[10px] leading-snug font-semibold text-white"
+        class="relative z-10 line-clamp-2 w-full min-w-0 text-left text-[10px] leading-normal font-semibold text-white"
       >
         {{ name }}
       </p>
@@ -71,7 +71,7 @@
         class="pointer-events-none absolute inset-0 h-full w-full object-fill"
       />
       <p
-        class="relative z-10 line-clamp-2 text-xs leading-snug font-semibold text-white sm:text-sm"
+        class="relative z-10 line-clamp-2 text-xs leading-normal font-semibold text-white sm:text-sm"
       >
         {{ name }}
       </p>
@@ -206,8 +206,7 @@
 
   const metaPaddingClass = computed(() => [
     props.meta === 'edit' || props.size === 'sm' ? 'p-2' : 'p-3',
-    props.size === 'sm' ? 'h-16 sm:h-20' : 'h-20 sm:h-24',
-    'pr-8',
+    props.size === 'sm' ? 'min-h-16 sm:min-h-20' : 'min-h-20 sm:min-h-24',
   ])
   const thumbnailMetaPaddingClass = 'pr-6'
 

@@ -214,11 +214,11 @@
               class="pointer-events-none absolute inset-0 h-full w-full object-fill"
             />
             <p
-              class="relative z-10 font-semibold text-white"
+              class="relative z-10 leading-normal font-semibold text-white"
               :class="
                 isThumbnailView
-                  ? 'line-clamp-2 w-full min-w-0 text-left text-[10px] leading-snug'
-                  : 'line-clamp-2 text-xs leading-snug sm:text-sm'
+                  ? 'line-clamp-2 w-full min-w-0 text-left text-[10px]'
+                  : 'line-clamp-2 text-xs sm:text-sm'
               "
             >
               {{ entry.name }}

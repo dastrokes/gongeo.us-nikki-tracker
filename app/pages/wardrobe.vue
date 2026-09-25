@@ -1509,7 +1509,7 @@
                       class="pointer-events-none absolute inset-0 h-full w-full object-fill"
                     />
                     <p
-                      class="relative z-10 line-clamp-2 text-xs font-semibold text-white sm:text-sm"
+                      class="relative z-10 line-clamp-2 text-xs leading-normal font-semibold text-white sm:text-sm"
                     >
                       {{ candidate.name }}
                     </p>

@@ -543,7 +543,9 @@
       "momo_token_placeholder": "来自 Cookie 的 momoToken",
       "import_pull_history": "导入抽卡记录",
       "import_wardrobe": "导入衣橱数据",
+      "wardrobe_partial_notice": "奇想手账仅导入已完成套装中的部件。",
       "import_eurekas": "导入祝福闪光数据",
+      "eureka_partial_notice": "奇想手账仅导入四星和五星祝福闪光。",
       "submit_global_stats": "提交数据用于社区统计",
       "submit_button": "提交并导入抽卡历史",
       "fetching": "正在获取共鸣数据，请稍候…"

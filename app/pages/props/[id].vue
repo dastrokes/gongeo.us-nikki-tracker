@@ -79,7 +79,7 @@
                 class="group relative aspect-square w-full overflow-hidden rounded-lg shadow-lg"
               >
                 <div
-                  class="absolute inset-0 bg-slate-100 bg-[url('/images/bg.webp')] bg-cover bg-center dark:bg-slate-300"
+                  class="absolute inset-0 bg-slate-100 bg-[url('/images/bg.webp')] bg-cover bg-center"
                 />
                 <div
                   class="absolute inset-0"
@@ -223,7 +223,7 @@
                 "
               >
                 <div
-                  class="absolute inset-0 bg-slate-100 bg-[url('/images/bg.webp')] bg-cover bg-center dark:bg-slate-300"
+                  class="absolute inset-0 bg-slate-100 bg-[url('/images/bg.webp')] bg-cover bg-center"
                 />
                 <div
                   class="absolute inset-0"

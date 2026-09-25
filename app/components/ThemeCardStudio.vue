@@ -29,7 +29,7 @@
           <article
             v-for="(prompt, index) in prompts"
             :key="index"
-            class="group relative aspect-[300/439] min-w-0 overflow-hidden rounded-xl border bg-slate-100 bg-[url('/images/bg.webp')] bg-cover bg-center shadow-xs transition-[border-color,box-shadow] dark:bg-slate-300"
+            class="group relative aspect-2/3 min-w-0 overflow-hidden rounded-xl border bg-slate-100 bg-[url('/images/bg.webp')] bg-cover bg-center shadow-xs transition-[border-color,box-shadow]"
             :class="outfitCardClass(index)"
             :style="outfitCardStyle(index)"
           >
@@ -71,7 +71,7 @@
                   {{ String(index + 1).padStart(2, '0') }}
                 </span>
                 <span
-                  class="line-clamp-2 text-[11px] leading-[1.25] font-semibold text-slate-800 sm:text-xs dark:text-slate-100"
+                  class="line-clamp-2 text-[11px] leading-[1.25] font-semibold text-slate-800 sm:text-xs"
                 >
                   {{ prompt }}
                 </span>
@@ -81,14 +81,14 @@
                 class="absolute inset-x-0 top-[34px] bottom-0 flex items-center justify-center"
               >
                 <span
-                  class="flex size-8 items-center justify-center rounded-full border border-rose-200 bg-rose-50/70 text-rose-500 transition-colors group-hover:bg-rose-100 dark:border-rose-900/70 dark:bg-rose-950/25"
+                  class="flex size-8 items-center justify-center rounded-full border border-rose-200 bg-rose-50/70 text-rose-500 transition-colors group-hover:bg-rose-100"
                 >
                   <n-icon size="15"><Plus /></n-icon>
                 </span>
               </div>
               <span
                 v-else
-                class="absolute bottom-1 left-1/2 z-10 w-max max-w-[calc(100%-8px)] min-w-[58%] -translate-x-1/2 truncate rounded-lg border border-white/60 bg-white/92 px-2 py-1 text-center text-[9px] font-semibold text-slate-800 shadow-sm backdrop-blur-xs sm:text-[11px] dark:border-slate-600/70 dark:bg-slate-900/92 dark:text-slate-100"
+                class="absolute bottom-1 left-1/2 z-10 w-max max-w-[calc(100%-8px)] min-w-[58%] -translate-x-1/2 truncate rounded-lg border border-white/60 bg-white/90 px-2 py-1 text-center text-[9px] font-semibold text-slate-800 shadow-sm backdrop-blur-xs sm:text-[11px]"
               >
                 {{ selectedOutfit(index)!.name }}
               </span>
@@ -98,7 +98,7 @@
               circle
               quaternary
               size="small"
-              class="absolute top-9 right-1 z-20 size-8 !min-w-8 !rounded-full !border !border-rose-200/90 !bg-white/94 !text-rose-500 !shadow-sm backdrop-blur-sm transition-[color,background-color,border-color,box-shadow,transform] before:absolute before:-inset-1.5 before:rounded-full before:content-[''] hover:!border-rose-300 hover:!bg-rose-50 hover:!text-rose-600 hover:!shadow-md active:scale-95 motion-reduce:transform-none dark:!border-rose-800/80 dark:!bg-slate-900/94 dark:!text-rose-300 dark:hover:!border-rose-700 dark:hover:!bg-rose-950/80 dark:hover:!text-rose-200"
+              class="absolute top-9 right-1 z-20 size-8 !min-w-8 !rounded-full !border !border-rose-200/90 !bg-white/94 !text-rose-500 !shadow-sm backdrop-blur-sm transition-[color,background-color,border-color,box-shadow,transform] before:absolute before:-inset-1.5 before:rounded-full before:content-[''] hover:!border-rose-300 hover:!bg-rose-50 hover:!text-rose-600 hover:!shadow-md active:scale-95 motion-reduce:transform-none"
               :aria-label="
                 t('creation_hub.remove', {
                   name: selectedOutfit(index)!.name,

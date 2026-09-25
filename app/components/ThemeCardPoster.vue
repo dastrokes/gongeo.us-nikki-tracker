@@ -71,7 +71,7 @@
           </span>
           <div
             v-if="outfitFor(index)"
-            class="absolute bottom-[10px] left-1/2 z-10 flex h-[34px] w-max max-w-[calc(100%-36px)] min-w-[150px] -translate-x-1/2 items-center justify-center truncate rounded-xl border border-[#e2d8e6c7] bg-white/92 px-[18px] text-center text-[22px] leading-none font-bold text-slate-800 shadow-[0_2px_8px_rgb(67_44_72/0.10)] backdrop-blur-xs"
+            class="absolute bottom-[10px] left-1/2 z-10 flex h-[34px] w-max max-w-[calc(100%-36px)] min-w-[150px] -translate-x-1/2 items-center justify-center truncate rounded-xl border border-[#e2d8e6c7] bg-white/90 px-[18px] text-center text-[22px] leading-none font-bold text-slate-800 shadow-[0_2px_8px_rgb(67_44_72/0.10)] backdrop-blur-xs"
           >
             {{ outfitFor(index)!.name }}
           </div>

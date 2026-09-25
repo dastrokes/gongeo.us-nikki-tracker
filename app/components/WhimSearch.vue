@@ -770,7 +770,7 @@
             class="group relative aspect-2/3 w-full max-w-74 overflow-hidden rounded-3xl bg-white shadow-md ring-1 shadow-rose-950/10 ring-black/5 dark:bg-slate-950 dark:ring-white/10"
           >
             <div
-              class="absolute inset-0 bg-slate-100 bg-[url('/images/bg.webp')] bg-cover bg-center dark:bg-slate-300"
+              class="absolute inset-0 bg-slate-100 bg-[url('/images/bg.webp')] bg-cover bg-center"
             ></div>
             <div
               class="absolute inset-0"
@@ -837,7 +837,7 @@
                 class="group relative aspect-2/3 w-full max-w-[min(62vw,14.5rem)] overflow-hidden rounded-3xl bg-white shadow-md ring-1 shadow-rose-950/10 ring-black/5 dark:bg-slate-950 dark:ring-white/10"
               >
                 <div
-                  class="absolute inset-0 bg-slate-100 bg-[url('/images/bg.webp')] bg-cover bg-center dark:bg-slate-300"
+                  class="absolute inset-0 bg-slate-100 bg-[url('/images/bg.webp')] bg-cover bg-center"
                 ></div>
                 <div
                   class="absolute inset-0"
@@ -1053,7 +1053,7 @@
                     luckyRevealPhase === 'revealed' &&
                     Boolean(luckyDisplayResult)
                   "
-                  class="absolute inset-0 bg-slate-100 bg-[url('/images/bg.webp')] bg-cover bg-center dark:bg-slate-300"
+                  class="absolute inset-0 bg-slate-100 bg-[url('/images/bg.webp')] bg-cover bg-center"
                 ></div>
                 <div
                   v-if="
@@ -1390,7 +1390,7 @@
                       luckyRevealPhase === 'revealed' &&
                       Boolean(luckyDisplayResult)
                     "
-                    class="absolute inset-0 bg-slate-100 bg-[url('/images/bg.webp')] bg-cover bg-center dark:bg-slate-300"
+                    class="absolute inset-0 bg-slate-100 bg-[url('/images/bg.webp')] bg-cover bg-center"
                   ></div>
                   <div
                     v-if="

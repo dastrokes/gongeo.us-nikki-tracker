@@ -47,7 +47,7 @@
               class="group relative block aspect-2/3 cursor-pointer overflow-hidden rounded-lg transition-all duration-300 ease-in-out"
             >
               <div
-                class="absolute inset-0 bg-slate-100 bg-[url('/images/bg.webp')] bg-cover bg-center dark:bg-slate-300"
+                class="absolute inset-0 bg-slate-100 bg-[url('/images/bg.webp')] bg-cover bg-center"
               ></div>
               <!-- Tint overlay -->
               <div

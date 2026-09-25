@@ -214,7 +214,7 @@
         @click="editMode && handleItemCardClick(entry.id, $event)"
       >
         <div
-          class="relative aspect-2/3 overflow-hidden rounded-lg bg-[url('/images/bg.webp')] bg-cover bg-center shadow-md transition-shadow duration-300 hover:shadow-xl"
+          class="relative aspect-2/3 overflow-hidden rounded-lg bg-[linear-gradient(to_bottom,var(--color-slate-100)_60%,#000_80%)] shadow-md transition-shadow duration-300 hover:shadow-xl"
           :style="
             isItemBatchSelected(entry.id)
               ? getQualityRingStyle(entry.quality)
@@ -222,19 +222,26 @@
           "
         >
           <div
-            class="absolute inset-0"
-            :class="getListingQualityOverlayClass(entry.quality)"
-          ></div>
-          <NuxtImg
-            :src="entry.image"
-            :alt="entry.name"
-            class="absolute inset-0 z-10 h-full w-full object-cover transition-transform duration-500 ease-out hover:scale-110"
-            :preset="imagePreset"
-            fit="cover"
-            :loading="getListingImageLoading(index)"
-            :fetchpriority="getListingImageFetchPriority(index)"
-            :sizes="imageSizes"
-          />
+            class="absolute inset-0 mask-[linear-gradient(to_bottom,#000_68%,rgba(0,0,0,0.9)_74%,rgba(0,0,0,0.7)_82%,rgba(0,0,0,0.42)_90%,rgba(0,0,0,0.1)_100%)]"
+          >
+            <div
+              class="absolute inset-0 bg-slate-100 bg-[url('/images/bg.webp')] bg-cover bg-center"
+            ></div>
+            <div
+              class="absolute inset-0"
+              :class="getListingQualityOverlayClass(entry.quality)"
+            ></div>
+            <NuxtImg
+              :src="entry.image"
+              :alt="entry.name"
+              class="absolute inset-0 z-10 h-full w-full object-cover transition-transform duration-500 ease-out hover:scale-110"
+              :preset="imagePreset"
+              fit="cover"
+              :loading="getListingImageLoading(index)"
+              :fetchpriority="getListingImageFetchPriority(index)"
+              :sizes="imageSizes"
+            />
+          </div>
 
           <div
             v-if="!isThumbnailView || editMode"
@@ -340,13 +347,6 @@
                 : [nameFadeStandardClass, editMode ? 'p-2' : 'p-3']
             "
           >
-            <img
-              src="/images/fade.png"
-              alt=""
-              aria-hidden="true"
-              draggable="false"
-              class="pointer-events-none absolute inset-0 h-full w-full object-fill"
-            />
             <p
               class="relative z-10 leading-normal font-semibold text-white"
               :class="

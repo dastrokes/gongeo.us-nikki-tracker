@@ -1455,13 +1455,10 @@
                 @click="setSharePick(activeSharePickSlotKey, candidate.id)"
               >
                 <div
-                  class="relative overflow-hidden rounded-lg bg-cover bg-center shadow-md transition-shadow duration-300 group-hover:shadow-xl"
-                  :class="[
-                    candidate.entity === 'banner' ? 'aspect-2/1' : 'aspect-2/3',
-                    candidate.entity === 'momo'
-                      ? `bg-[url('/images/momo_bg.webp')]`
-                      : `bg-[url('/images/bg.webp')]`,
-                  ]"
+                  class="relative overflow-hidden rounded-lg bg-[linear-gradient(to_bottom,var(--color-slate-100)_60%,#000_80%)] shadow-md transition-shadow duration-300 group-hover:shadow-xl"
+                  :class="
+                    candidate.entity === 'banner' ? 'aspect-2/1' : 'aspect-2/3'
+                  "
                   :style="
                     getSavedSharePickId(activeSharePickSlotKey) === candidate.id
                       ? getQualityRingStyle(candidate.quality)
@@ -1469,19 +1466,31 @@
                   "
                 >
                   <div
-                    class="absolute inset-0"
-                    :class="getListingQualityOverlayClass(candidate.quality)"
-                  ></div>
-                  <NuxtImg
-                    :src="candidate.listingImageSrc"
-                    :alt="candidate.name"
-                    class="absolute inset-0 z-10 h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-110"
-                    :class="{ 'object-top': candidate.entity === 'outfit' }"
-                    :preset="candidate.listingImagePreset"
-                    fit="cover"
-                    loading="lazy"
-                    sizes="200px"
-                  />
+                    class="absolute inset-0 mask-[linear-gradient(to_bottom,#000_68%,rgba(0,0,0,0.9)_74%,rgba(0,0,0,0.7)_82%,rgba(0,0,0,0.42)_90%,rgba(0,0,0,0.1)_100%)]"
+                  >
+                    <div
+                      class="absolute inset-0 bg-slate-100 bg-cover bg-center"
+                      :class="
+                        candidate.entity === 'momo'
+                          ? `bg-[url('/images/momo_bg.webp')]`
+                          : `bg-[url('/images/bg.webp')]`
+                      "
+                    ></div>
+                    <div
+                      class="absolute inset-0"
+                      :class="getListingQualityOverlayClass(candidate.quality)"
+                    ></div>
+                    <NuxtImg
+                      :src="candidate.listingImageSrc"
+                      :alt="candidate.name"
+                      class="absolute inset-0 z-10 h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-110"
+                      :class="{ 'object-top': candidate.entity === 'outfit' }"
+                      :preset="candidate.listingImagePreset"
+                      fit="cover"
+                      loading="lazy"
+                      sizes="200px"
+                    />
+                  </div>
                   <div class="absolute top-2 right-2 z-20">
                     <n-tag
                       round
@@ -1501,13 +1510,6 @@
                   <div
                     class="absolute right-0 bottom-0 left-0 z-20 flex h-20 flex-col justify-end overflow-hidden p-3 sm:h-24"
                   >
-                    <img
-                      src="/images/fade.png"
-                      alt=""
-                      aria-hidden="true"
-                      draggable="false"
-                      class="pointer-events-none absolute inset-0 h-full w-full object-fill"
-                    />
                     <p
                       class="relative z-10 line-clamp-2 text-xs leading-normal font-semibold text-white sm:text-sm"
                     >

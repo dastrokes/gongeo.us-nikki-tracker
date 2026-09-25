@@ -15,7 +15,7 @@ Read this guide for UI, page, component, catalog-listing, filter, or localizatio
 
 - Use `useCatalogListing` or `useStaticCatalogListing` for catalog listing pages.
 - Catalog listings hydrate from `public/catalog/index.json`; do not reintroduce paginated item, outfit, makeup, or momo listing APIs without a concrete reason.
-- Use Supabase composables for detail, facet, search, and mutation flows.
+- Use the configured data API for catalog details, facets, and search. Keep authenticated user, stats, and feedback workflow mutations on the main Supabase path.
 - Keep the listing response shape stable wherever produced: `{ data, total, page, totalPages }`.
 - Keep listing page size at `18` across catalog helpers and UI unless the product requirement changes.
 - Preserve filter and query synchronization in `items`, `outfits`, `tierlist`, and similar listing pages.

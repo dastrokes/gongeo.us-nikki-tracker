@@ -543,7 +543,9 @@
       "momo_token_placeholder": "쿠키의 momoToken",
       "import_pull_history": "뽑기 기록 가져오기",
       "import_wardrobe": "옷장 데이터 가져오기",
+      "wardrobe_partial_notice": "상상 노트에서는 완성된 세트의 파츠만 가져옵니다.",
       "import_eurekas": "축복 섬광 데이터 가져오기",
+      "eureka_partial_notice": "상상 노트에서는 4성 및 5성 축복 섬광만 가져옵니다.",
       "submit_global_stats": "글로벌 통계를 위한 데이터 제출",
       "submit_button": "뽑기 기록 제출 및 가져오기",
       "fetching": "공명 데이터를 가져오는 중입니다. 잠시 기다려 주세요…"

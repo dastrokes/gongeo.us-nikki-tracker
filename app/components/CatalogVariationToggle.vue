@@ -26,6 +26,7 @@
     defineProps<{
       value: CatalogVariationFilter
       options?: readonly CatalogVariationFilter[]
+      unavailableOptions?: readonly CatalogVariationFilter[]
     }>(),
     {
       options: () => [
@@ -37,6 +38,7 @@
         'all-evos',
         'glowup',
       ],
+      unavailableOptions: () => [],
     }
   )
 
@@ -62,7 +64,12 @@
   }))
 
   const variationOptions = computed(() =>
-    props.options.map((option) => variationOptionMap.value[option])
+    props.options.map((option) => ({
+      ...variationOptionMap.value[option],
+      class: props.unavailableOptions.includes(option)
+        ? 'opacity-45'
+        : undefined,
+    }))
   )
 
   const renderVariationOptionLabel = (option: SelectOption) =>

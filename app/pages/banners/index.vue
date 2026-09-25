@@ -111,6 +111,9 @@
                   </n-button>
                   <n-button
                     v-bind="qualityButtonThemes.star5"
+                    :class="{
+                      'opacity-45': bannerUnavailableQualities.includes(5),
+                    }"
                     size="small"
                     @click="qualityFilter = 5"
                   >
@@ -123,6 +126,9 @@
                   </n-button>
                   <n-button
                     v-bind="qualityButtonThemes.star4"
+                    :class="{
+                      'opacity-45': bannerUnavailableQualities.includes(4),
+                    }"
                     size="small"
                     @click="qualityFilter = 4"
                   >
@@ -552,17 +558,42 @@
   // Selected banner ID for popselect
   const selectedBannerId = ref(0)
 
+  const matchesBannerQuality = (banner: Banner, quality: number) =>
+    quality === 5
+      ? banner.bannerType === 1 || banner.bannerType === 2
+      : quality === 4 && banner.bannerType === 3
+  const matchesBannerVersion = (banner: Banner, version: string) => {
+    if (isListingMissingFilterValue(version)) {
+      return (
+        banner.runs.length === 0 ||
+        banner.runs.some((run) => isListingFieldMissing(run.version))
+      )
+    }
+    return isExactVersion(version)
+      ? banner.runs.some((run) => matchesVersionFilter(run.version, version))
+      : matchesFirstRunVersionFilter(banner.runs, version)
+  }
+  const bannerUnavailableQualities = computed(() =>
+    [5, 4].filter(
+      (quality) =>
+        !sortedBanners.value.some(
+          (banner) =>
+            matchesBannerQuality(banner, quality) &&
+            (!versionFilter.value ||
+              matchesBannerVersion(banner, versionFilter.value))
+        )
+    )
+  )
+
   // Filtered banners based on active filters
   const filteredBanners = computed(() => {
     let banners = sortedBanners.value
 
     // Filter by banner quality
     banners = banners.filter((banner) => {
-      const is5Star = banner.bannerType === 1 || banner.bannerType === 2 // permanent and limited 5★
-      const is4Star = banner.bannerType === 3 // limited 4★
-
-      if (qualityFilter.value === 5) return is5Star
-      if (qualityFilter.value === 4) return is4Star
+      if (qualityFilter.value) {
+        return matchesBannerQuality(banner, qualityFilter.value)
+      }
 
       return true
     })
@@ -570,17 +601,7 @@
     const selectedVersion = versionFilter.value
     if (selectedVersion) {
       banners = banners.filter((banner) => {
-        if (isListingMissingFilterValue(selectedVersion)) {
-          return (
-            banner.runs.length === 0 ||
-            banner.runs.some((run) => isListingFieldMissing(run.version))
-          )
-        }
-        return isExactVersion(selectedVersion)
-          ? banner.runs.some((run) =>
-              matchesVersionFilter(run.version, selectedVersion)
-            )
-          : matchesFirstRunVersionFilter(banner.runs, selectedVersion)
+        return matchesBannerVersion(banner, selectedVersion)
       })
     }
 
@@ -802,7 +823,17 @@
     ...createVersionFilterOptions(
       availableVersions.value,
       (version) => getVersionFilterLabel(version) ?? version
-    ),
+    ).map((option) => ({
+      ...option,
+      class: listingFacetOptionClass(
+        sortedBanners.value.some(
+          (banner) =>
+            (!qualityFilter.value ||
+              matchesBannerQuality(banner, qualityFilter.value)) &&
+            matchesBannerVersion(banner, String(option.value))
+        )
+      ),
+    })),
     ...(SHOW_LISTING_MISSING_FILTER_OPTIONS
       ? [
           {

@@ -37,7 +37,8 @@
 
       <CompendiumQualityFilter
         v-model:value="qualityFilter"
-        :disabled-qualities="[2]"
+        :quality-options="momoQualityOptions"
+        :unavailable-qualities="momoUnavailableQualities"
       />
 
       <n-select
@@ -265,7 +266,7 @@
       : null
   )
 
-  const qualityOptions = [5, 4, 3, 2] as const
+  const qualityOptions = [5, 4, 3] as const
   type MomoListingPrimaryFilter = 'version' | 'source' | null
   type MomoWardrobeFilter = 'all' | 'owned' | 'missing'
   type CompendiumSection = 'outfits' | 'items' | 'momo' | 'makeups' | 'props'
@@ -330,7 +331,8 @@
     return 'all'
   }
 
-  const obtainOptions = computed(() => [
+  const momoApplicableSources = shallowRef<Set<string> | null>(null)
+  const allObtainOptions = computed(() => [
     ...createMomoSourceFilterOptions(t),
     ...(SHOW_LISTING_MISSING_FILTER_OPTIONS
       ? [
@@ -341,10 +343,17 @@
         ]
       : []),
   ])
+  const obtainOptions = computed(() =>
+    decorateListingFacetOptions(
+      allObtainOptions.value,
+      (value) =>
+        !momoApplicableSources.value || momoApplicableSources.value.has(value)
+    )
+  )
   const availableObtainValues = computed(() =>
     Array.from(
       new Set([
-        ...obtainOptions.value.map((option) => option.value as string),
+        ...allObtainOptions.value.map((option) => option.value as string),
         LISTING_MISSING_FILTER_VALUE,
       ])
     )
@@ -506,6 +515,68 @@
     },
   })
 
+  const momoFacetKey = computed(() =>
+    JSON.stringify({
+      search: searchMatchingMomoIds.value,
+      quality: qualityFilter.value,
+      version: versionFilter.value,
+      source: obtainFilter.value,
+      wardrobe: wardrobeFilter.value,
+      wardrobeReady: wardrobeInitialized.value,
+      wardrobeVersion: wardrobeMutationVersion.value,
+      region: activeRegionScope.value,
+    })
+  )
+  const { entriesByFilter: momoFacetEntries, ready: momoFacetsReady } =
+    await useCatalogListingFacets({
+      key: () => momoFacetKey.value,
+      query: () => ({
+        entity: 'momo',
+        filters: {
+          searchIds: searchMatchingMomoIds.value,
+          quality: qualityFilter.value,
+          version: versionFilter.value,
+          source: obtainFilter.value,
+        },
+        page: 1,
+        pageSize: Number.MAX_SAFE_INTEGER,
+        ownershipMode: wardrobeInitialized.value ? wardrobeFilter.value : 'all',
+        regionScope: activeRegionScope.value,
+        wardrobe: { ownedMomoIds: ownedMomoIds.value },
+      }),
+      filterKeys: ['quality', 'version', 'source', 'ownershipMode'],
+    })
+
+  const getMomoFacetEntries = (filter: string) =>
+    momoFacetEntries.value[filter] ?? []
+  watchEffect(() => {
+    if (!momoFacetsReady.value) {
+      momoApplicableSources.value = null
+      return
+    }
+
+    const entries = getMomoFacetEntries('source')
+    momoApplicableSources.value = new Set(
+      allObtainOptions.value
+        .map((option) => option.value as string)
+        .filter((value) => hasCatalogSourceFacetValue(entries, value, 'momo'))
+    )
+  })
+  const momoQualityOptions = computed(() => {
+    return [...qualityOptions]
+  })
+  const momoUnavailableQualities = computed(() =>
+    momoFacetsReady.value
+      ? momoQualityOptions.value.filter(
+          (quality) =>
+            !hasCatalogQualityFacetValue(
+              getMomoFacetEntries('quality'),
+              quality
+            )
+        )
+      : []
+  )
+
   const entries = computed(() => {
     const rows = (data.value?.data || []) as MomoListEntry[]
     return rows.map((entry) => ({
@@ -563,12 +634,36 @@
     ])
   }
   const wardrobeFilterOptions = computed<IconSelectOption[]>(() => [
-    { label: t('common.all'), value: 'all', icon: DotCircle },
-    { label: t('wardrobe.status.owned'), value: 'owned', icon: CheckCircle },
+    {
+      label: t('common.all'),
+      value: 'all',
+      icon: DotCircle,
+      class: listingFacetOptionClass(
+        !momoFacetsReady.value ||
+          getMomoFacetEntries('ownershipMode').length > 0
+      ),
+    },
+    {
+      label: t('wardrobe.status.owned'),
+      value: 'owned',
+      icon: CheckCircle,
+      class: listingFacetOptionClass(
+        !momoFacetsReady.value ||
+          getMomoFacetEntries('ownershipMode').some((entry) =>
+            ownedMomoIds.value.includes(entry.id)
+          )
+      ),
+    },
     {
       label: t('wardrobe.status.missing'),
       value: 'missing',
       icon: TimesCircle,
+      class: listingFacetOptionClass(
+        !momoFacetsReady.value ||
+          getMomoFacetEntries('ownershipMode').some(
+            (entry) => !ownedMomoIds.value.includes(entry.id)
+          )
+      ),
     },
   ])
   const renderWardrobeFilterOptionLabel = (option: SelectOption) => {
@@ -913,7 +1008,17 @@
     ...createVersionFilterOptions(
       availableVersions.value,
       (version) => getVersionFilterLabel(version) ?? version
-    ),
+    ).map((option) => ({
+      ...option,
+      class: listingFacetOptionClass(
+        !momoFacetsReady.value ||
+          hasCatalogVersionFacetValue(
+            getMomoFacetEntries('version'),
+            String(option.value),
+            'momo'
+          )
+      ),
+    })),
     ...(SHOW_LISTING_MISSING_FILTER_OPTIONS
       ? [
           {

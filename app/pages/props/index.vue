@@ -38,7 +38,8 @@
 
       <CompendiumQualityFilter
         v-model:value="qualityFilter"
-        :quality-options="[6, 5, 4, 3]"
+        :quality-options="propQualityOptions"
+        :unavailable-qualities="propUnavailableQualities"
       />
 
       <n-select
@@ -362,12 +363,29 @@
     { label: t('common.props'), value: 'props', icon: Box },
   ])
   const ownershipOptions = computed<IconSelectOption[]>(() => [
-    { label: t('common.all'), value: 'all', icon: DotCircle },
-    { label: t('wardrobe.status.owned'), value: 'owned', icon: CheckCircle },
+    {
+      label: t('common.all'),
+      value: 'all',
+      icon: DotCircle,
+      class: listingFacetOptionClass(
+        getPropFacetEntries('ownership').length > 0
+      ),
+    },
+    {
+      label: t('wardrobe.status.owned'),
+      value: 'owned',
+      icon: CheckCircle,
+      class: listingFacetOptionClass(
+        getPropFacetEntries('ownership').some((entry) => isPropOwned(entry.id))
+      ),
+    },
     {
       label: t('wardrobe.status.missing'),
       value: 'missing',
       icon: TimesCircle,
+      class: listingFacetOptionClass(
+        getPropFacetEntries('ownership').some((entry) => !isPropOwned(entry.id))
+      ),
     },
   ])
   const entryCountLabels = computed(() => ({
@@ -392,6 +410,69 @@
         image: getImageSrc('prop', entry.id),
       }))
   )
+  type PropFacetFilter = 'quality' | 'version' | 'source' | 'ownership'
+  const matchesPropEntry = (
+    entry: PropListingEntry,
+    omittedFilter?: PropFacetFilter
+  ) => {
+    const query = searchQuery.value.trim().toLocaleLowerCase()
+    const selectedSource = sourceFilter.value
+      ? resolvePropSourceFromObtainGroupKey(sourceFilter.value)
+      : null
+
+    if (
+      omittedFilter !== 'quality' &&
+      qualityFilter.value !== null &&
+      entry.quality !== qualityFilter.value
+    ) {
+      return false
+    }
+    if (
+      omittedFilter !== 'version' &&
+      versionFilter.value &&
+      (isListingMissingFilterValue(versionFilter.value)
+        ? Boolean(entry.version)
+        : !entry.version ||
+          !matchesVersionFilter(entry.version, versionFilter.value))
+    ) {
+      return false
+    }
+    if (
+      omittedFilter !== 'source' &&
+      sourceFilter.value !== null &&
+      (isListingMissingFilterValue(sourceFilter.value)
+        ? Boolean(entry.sources?.length)
+        : !selectedSource || !entry.sources?.includes(selectedSource))
+    ) {
+      return false
+    }
+    if (
+      omittedFilter !== 'ownership' &&
+      ownershipFilter.value === 'owned' &&
+      !isPropOwned(entry.id)
+    ) {
+      return false
+    }
+    if (
+      omittedFilter !== 'ownership' &&
+      ownershipFilter.value === 'missing' &&
+      isPropOwned(entry.id)
+    ) {
+      return false
+    }
+    return !query || entry.name.toLocaleLowerCase().includes(query)
+  }
+  const getPropFacetEntries = (filter: PropFacetFilter) =>
+    entries.value.filter((entry) => matchesPropEntry(entry, filter))
+  const propQualityOptions = computed(() => [6, 5, 4, 3])
+  const propUnavailableQualities = computed(() =>
+    propQualityOptions.value.filter(
+      (quality) =>
+        !getPropFacetEntries('quality').some(
+          (entry) => entry.quality === quality
+        )
+    )
+  )
   const availableVersions = computed(() =>
     Array.from(
       new Set(
@@ -406,7 +487,19 @@
       const key = `version.${version}`
       const translated = t(key)
       return translated === key ? version : `${version} - ${translated}`
-    }),
+    }).map((option) => ({
+      ...option,
+      class: listingFacetOptionClass(
+        getPropFacetEntries('version').some((entry) =>
+          isListingMissingFilterValue(String(option.value))
+            ? !entry.version
+            : Boolean(
+                entry.version &&
+                matchesVersionFilter(entry.version, String(option.value))
+              )
+        )
+      ),
+    })),
     ...(SHOW_LISTING_MISSING_FILTER_OPTIONS
       ? [
           {
@@ -436,17 +529,16 @@
   }
   const sourceOptions = computed(() => {
     const availableSources = new Set(
-      entries.value.flatMap((entry) => entry.sources ?? [])
+      getPropFacetEntries('source').flatMap((entry) => entry.sources ?? [])
     )
-    const options = PROP_SOURCES.filter((source) =>
-      availableSources.has(source)
-    ).map((source) => {
+    const options = PROP_SOURCES.map((source) => {
       const labelKey = resolvePropSourceLabelKey(source)
       const translated = labelKey ? t(labelKey) : source
       const value = resolveObtainGroupKeyFromPropSource(source)
       return {
         label: labelKey && translated !== labelKey ? translated : value,
         value,
+        class: listingFacetOptionClass(availableSources.has(source)),
       }
     })
 
@@ -459,46 +551,9 @@
 
     return options
   })
-  const matchesVersionFilter = (version?: string) => {
-    if (!versionFilter.value) return true
-    if (isListingMissingFilterValue(versionFilter.value)) return !version
-    if (!version) return false
-    if (versionFilter.value.endsWith('.x')) {
-      return version.startsWith(`${versionFilter.value.slice(0, -2)}.`)
-    }
-    return version === versionFilter.value
-  }
-  const filteredEntries = computed(() => {
-    const query = searchQuery.value.trim().toLocaleLowerCase()
-    const selectedSource = sourceFilter.value
-      ? resolvePropSourceFromObtainGroupKey(sourceFilter.value)
-      : null
-
-    return entries.value.filter((entry) => {
-      if (
-        qualityFilter.value !== null &&
-        entry.quality !== qualityFilter.value
-      ) {
-        return false
-      }
-      if (!matchesVersionFilter(entry.version)) return false
-      if (
-        sourceFilter.value !== null &&
-        (isListingMissingFilterValue(sourceFilter.value)
-          ? Boolean(entry.sources?.length)
-          : !selectedSource || !entry.sources?.includes(selectedSource))
-      ) {
-        return false
-      }
-      if (ownershipFilter.value === 'owned' && !isPropOwned(entry.id)) {
-        return false
-      }
-      if (ownershipFilter.value === 'missing' && isPropOwned(entry.id)) {
-        return false
-      }
-      return !query || entry.name.toLocaleLowerCase().includes(query)
-    })
-  })
+  const filteredEntries = computed(() =>
+    entries.value.filter((entry) => matchesPropEntry(entry))
+  )
   const pagedEntries = computed(() => {
     const start = (currentPage.value - 1) * pageSize.value
     return filteredEntries.value.slice(start, start + pageSize.value)

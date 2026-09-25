@@ -37,7 +37,11 @@
         @update:value="handleCompendiumSectionChange"
       />
 
-      <CompendiumQualityFilter v-model:value="qualityFilter" />
+      <CompendiumQualityFilter
+        v-model:value="qualityFilter"
+        :quality-options="itemQualityOptions"
+        :unavailable-qualities="itemUnavailableQualities"
+      />
 
       <n-select
         v-model:value="wardrobeFilter"
@@ -50,7 +54,10 @@
         :disabled="!isWardrobeReady"
       />
 
-      <CatalogVariationToggle v-model:value="variationFilter" />
+      <CatalogVariationToggle
+        v-model:value="variationFilter"
+        :unavailable-options="itemUnavailableVariations"
+      />
 
       <n-select
         v-model:value="pieceFilter"
@@ -102,6 +109,7 @@
           <n-tree-select
             v-model:value="sourceTreeFilter"
             :options="sourceTreeOptions"
+            :render-label="renderListingSourceTreeLabel"
             size="small"
             class="min-w-0"
             clearable
@@ -391,6 +399,7 @@
         :filters="advancedFilters"
         :loading="isFacetOptionsRefreshing"
         :options="advancedFacetOptions"
+        :available-options="displayFacetData?.advanced ?? {}"
         ignore-close-selector="[data-advanced-filters-trigger]"
         @update:show="isAdvancedFiltersDrawerOpen = $event"
         @update:filters="updateAdvancedFilters"
@@ -527,8 +536,9 @@
   const availableObtains = computed(() =>
     getLocaleMessageNumericIds(messages.value, 'obtain')
   )
-
-  const obtainOptions = computed(() => {
+  const itemApplicableSources = shallowRef<Set<string> | null>(null)
+  const itemApplicableSourceDetails = shallowRef<Set<string> | null>(null)
+  const allObtainOptions = computed(() => {
     const groupMap = new Map<string, { labelKey: string; ids: number[] }>()
 
     availableObtains.value.forEach((id) => {
@@ -583,21 +593,27 @@
       })
       .map(({ label, value }) => ({ label, value }))
   })
-  const sourceTreeOptions = computed<TreeSelectOption[]>(() => [
-    ...createSourceTreeFilterOptions(obtainOptions.value, t, 'item'),
-    ...(SHOW_LISTING_MISSING_FILTER_OPTIONS
-      ? [
-          {
-            key: LISTING_MISSING_FILTER_VALUE,
-            label: t('compendium.missing_value'),
-            value: LISTING_MISSING_FILTER_VALUE,
-          },
-        ]
-      : []),
-  ])
+  const sourceTreeOptions = computed<TreeSelectOption[]>(() => {
+    return [
+      ...decorateListingSourceTreeOptions(
+        createSourceTreeFilterOptions(allObtainOptions.value, t, 'item'),
+        itemApplicableSources.value,
+        itemApplicableSourceDetails.value
+      ),
+      ...(SHOW_LISTING_MISSING_FILTER_OPTIONS
+        ? [
+            {
+              key: LISTING_MISSING_FILTER_VALUE,
+              label: t('compendium.missing_value'),
+              value: LISTING_MISSING_FILTER_VALUE,
+            },
+          ]
+        : []),
+    ]
+  })
 
   const availableObtainValues = computed(() => [
-    ...obtainOptions.value.map((option) => option.value as string),
+    ...allObtainOptions.value.map((option) => option.value as string),
     LISTING_MISSING_FILTER_VALUE,
   ])
 
@@ -902,13 +918,13 @@
       !isListingMissingFilterValue(typeFilter.value)
   )
   const isCategoryFilterEnabled = computed(
-    () => supportsCategoryFilters.value && categoryOptions.value.length > 0
+    () => supportsCategoryFilters.value && allCategories.value.length > 0
   )
   const isSubcategoryFilterEnabled = computed(
     () =>
       supportsCategoryFilters.value &&
       !!categoryFilter.value &&
-      subcategoryOptions.value.length > 0
+      allSubcategories.value.length > 0
   )
   const isAdvancedFiltersEnabled = computed(
     () => advancedFilterFields.value.length > 0
@@ -1099,6 +1115,103 @@
     fetchMatchingIds: fetchMatchingItemIds,
   } = itemsAsyncData
 
+  const itemFacetKey = computed(() =>
+    JSON.stringify({
+      ...buildItemFetchFilters(),
+      wardrobe: wardrobeFilter.value,
+      wardrobeReady: wardrobeInitialized.value,
+      wardrobeVersion: wardrobeMutationVersion.value,
+      region: activeRegionScope.value,
+    })
+  )
+  const { entriesByFilter: itemFacetEntries, ready: itemFacetsReady } =
+    await useCatalogListingFacets({
+      key: () => itemFacetKey.value,
+      query: () => ({
+        entity: 'item',
+        filters: buildItemFetchFilters(),
+        page: 1,
+        pageSize: Number.MAX_SAFE_INTEGER,
+        ownershipMode: wardrobeInitialized.value ? wardrobeFilter.value : 'all',
+        regionScope: activeRegionScope.value,
+        wardrobe: {
+          ownedItemIds: ownedItemIds.value,
+          isItemOwned,
+        },
+      }),
+      filterKeys: [
+        'quality',
+        'type',
+        'version',
+        'style',
+        'label',
+        'source',
+        'sourceDetail',
+        'piece',
+        'variations',
+        'ownershipMode',
+      ],
+    })
+
+  const getItemFacetEntries = (filter: string) =>
+    itemFacetEntries.value[filter] ?? []
+  watchEffect(() => {
+    if (!itemFacetsReady.value) {
+      itemApplicableSources.value = null
+      itemApplicableSourceDetails.value = null
+      return
+    }
+
+    const entries = getItemFacetEntries('source')
+    itemApplicableSources.value = new Set(
+      allObtainOptions.value
+        .map((option) => option.value as string)
+        .filter((value) => hasCatalogSourceFacetValue(entries, value, 'item'))
+    )
+    const detailEntries = getItemFacetEntries('sourceDetail')
+    itemApplicableSourceDetails.value = new Set(
+      getLimitedBannerSourceDetails('item')
+        .filter((detail) =>
+          detailEntries.some((entry) =>
+            matchesSourceDetailFilter(
+              entry,
+              { source: detail.source, sourceDetail: detail.key },
+              'item'
+            )
+          )
+        )
+        .map((detail) => `${detail.source}:${detail.key}`)
+    )
+  })
+  const itemQualityOptions = computed(() => {
+    return [5, 4, 3, 2]
+  })
+  const itemUnavailableQualities = computed(() =>
+    itemFacetsReady.value
+      ? itemQualityOptions.value.filter(
+          (quality) =>
+            !hasCatalogQualityFacetValue(
+              getItemFacetEntries('quality'),
+              quality
+            )
+        )
+      : []
+  )
+  const itemUnavailableVariations = computed(() =>
+    itemFacetsReady.value
+      ? (
+          ['base', 'all', 'evo1', 'evo2', 'evo3', 'all-evos', 'glowup'] as const
+        ).filter(
+          (value) =>
+            !hasCatalogVariationFacetValue(
+              getItemFacetEntries('variations'),
+              value,
+              'item'
+            )
+        )
+      : []
+  )
+
   const entries = computed(() => {
     const data = (compendiumData.value?.data || []) as ItemListEntry[]
 
@@ -1130,12 +1243,38 @@
     plural: t('common.items'),
   }))
   const wardrobeFilterOptions = computed<IconSelectOption[]>(() => [
-    { label: t('common.all'), value: 'all', icon: DotCircle },
-    { label: t('wardrobe.status.owned'), value: 'owned', icon: CheckCircle },
+    {
+      label: t('common.all'),
+      value: 'all',
+      icon: DotCircle,
+      class: listingFacetOptionClass(
+        !itemFacetsReady.value ||
+          getItemFacetEntries('ownershipMode').length > 0
+      ),
+    },
+    {
+      label: t('wardrobe.status.owned'),
+      value: 'owned',
+      icon: CheckCircle,
+      class: listingFacetOptionClass(
+        !itemFacetsReady.value ||
+          !wardrobeInitialized.value ||
+          getItemFacetEntries('ownershipMode').some((entry) =>
+            isItemOwned(entry.id)
+          )
+      ),
+    },
     {
       label: t('wardrobe.status.missing'),
       value: 'missing',
       icon: TimesCircle,
+      class: listingFacetOptionClass(
+        !itemFacetsReady.value ||
+          !wardrobeInitialized.value ||
+          getItemFacetEntries('ownershipMode').some(
+            (entry) => !isItemOwned(entry.id)
+          )
+      ),
     },
   ])
   const renderIconSelectOptionLabel = (option: SelectOption) => {
@@ -2198,6 +2337,9 @@
   })
 
   const typeOptions = computed(() => {
+    const isAvailable = (type: ItemType) =>
+      !itemFacetsReady.value ||
+      hasCatalogTypeFacetValue(getItemFacetEntries('type'), type)
     const types = availableTypes.value
 
     const grouped: Record<'clothes' | 'accessories' | 'other', ItemType[]> = {
@@ -2206,7 +2348,7 @@
       other: [],
     }
 
-    types.forEach((type) => {
+    types.filter(isAvailable).forEach((type) => {
       const category = getItemTypeCategory(type)
       if (category === 'makeups') return
       grouped[category].push(type)
@@ -2222,6 +2364,10 @@
         children: grouped.clothes.map((type) => ({
           label: t(`type.${type}`),
           value: type,
+          class: listingFacetOptionClass(
+            !itemFacetsReady.value ||
+              hasCatalogTypeFacetValue(getItemFacetEntries('type'), type)
+          ),
         })),
       })
     }
@@ -2234,6 +2380,10 @@
         children: grouped.accessories.map((type) => ({
           label: t(`type.${type}`),
           value: type,
+          class: listingFacetOptionClass(
+            !itemFacetsReady.value ||
+              hasCatalogTypeFacetValue(getItemFacetEntries('type'), type)
+          ),
         })),
       })
     }
@@ -2246,9 +2396,23 @@
         children: grouped.other.map((type) => ({
           label: t(`type.${type}`),
           value: type,
+          class: listingFacetOptionClass(
+            !itemFacetsReady.value ||
+              hasCatalogTypeFacetValue(getItemFacetEntries('type'), type)
+          ),
         })),
       })
     }
+
+    options.push(
+      ...types
+        .filter((type) => !isAvailable(type))
+        .map((type) => ({
+          label: t(`type.${type}`),
+          value: type,
+          class: listingFacetOptionClass(false),
+        }))
+    )
 
     if (SHOW_LISTING_MISSING_FILTER_OPTIONS) {
       options.push({
@@ -2281,37 +2445,6 @@
     { immediate: true }
   )
 
-  const currentAvailableCategories = computed(() =>
-    isCurrentFacetDataReady.value
-      ? Array.from(
-          new Set([
-            ...(itemSearchFacets.value?.categories ?? []),
-            ...(SHOW_LISTING_MISSING_FILTER_OPTIONS
-              ? [ITEM_SEARCH_UNCATEGORIZED_VALUE]
-              : []),
-          ])
-        )
-      : []
-  )
-
-  const currentAvailableSubcategories = computed(() =>
-    isCurrentFacetDataReady.value
-      ? Array.from(
-          new Set([
-            ...(itemSearchFacets.value?.subcategories ?? []),
-            ...(SHOW_LISTING_MISSING_FILTER_OPTIONS
-              ? [ITEM_SEARCH_UNCATEGORIZED_VALUE]
-              : []),
-          ])
-        )
-      : []
-  )
-  const currentAdvancedFacetOptions = computed<ItemSearchAdvancedFacetMap>(
-    () =>
-      isCurrentFacetDataReady.value
-        ? (itemSearchFacets.value?.advanced ?? {})
-        : {}
-  )
   const displayFacetData = computed(() =>
     isCurrentFacetDataReady.value
       ? (itemSearchFacets.value ?? null)
@@ -2326,13 +2459,24 @@
     () => displayFacetData.value?.subcategories ?? []
   )
   const advancedFacetOptions = computed<ItemSearchAdvancedFacetMap>(
-    () => displayFacetData.value?.advanced ?? {}
+    () => getItemSearchAttributeFacets(typeFilter.value).advanced
+  )
+  const allCategories = computed(() =>
+    typeFilter.value
+      ? getItemSearchAttributeFacets(typeFilter.value).categories
+      : []
+  )
+  const allSubcategories = computed(() =>
+    typeFilter.value
+      ? getItemSearchAttributeFacets(typeFilter.value, {
+          category: categoryFilter.value,
+        }).subcategories
+      : []
   )
 
   watch(
-    [currentAvailableCategories, isCurrentFacetDataReady],
-    ([nextCategories, isReady]) => {
-      if (!isReady) return
+    allCategories,
+    (nextCategories) => {
       if (!categoryFilter.value) return
 
       const resolved = resolveItemSearchFacetValue(
@@ -2353,9 +2497,8 @@
   )
 
   watch(
-    [currentAvailableSubcategories, isCurrentFacetDataReady],
-    ([nextSubcategories, isReady]) => {
-      if (!isReady) return
+    allSubcategories,
+    (nextSubcategories) => {
       if (!subcategoryFilter.value) return
 
       const resolved = resolveItemSearchFacetValue(
@@ -2375,10 +2518,6 @@
   )
 
   const validateAdvancedFilters = () => {
-    if (typeFilter.value && !isCurrentFacetDataReady.value) {
-      return
-    }
-
     const allowedFields = new Set(advancedFilterFields.value)
     const nextFilters = {
       ...createEmptyItemSearchAdvancedFilters(),
@@ -2399,7 +2538,7 @@
         const resolved = getItemSearchAdvancedFacetValue(
           field,
           value,
-          currentAdvancedFacetOptions.value
+          advancedFacetOptions.value
         )
         if (!hasActiveItemSearchAdvancedFilterValue(resolved)) {
           nextFilters[field] = isItemSearchArrayField(field) ? [] : null
@@ -2420,11 +2559,7 @@
   }
 
   watch(
-    [
-      advancedFilterFields,
-      () => JSON.stringify(currentAdvancedFacetOptions.value),
-      isCurrentFacetDataReady,
-    ],
+    [advancedFilterFields, () => JSON.stringify(advancedFacetOptions.value)],
     validateAdvancedFilters,
     { immediate: true }
   )
@@ -2441,41 +2576,33 @@
   }
 
   const categoryOptions = computed<SelectOption[]>(() =>
-    sortItemSearchFacetValues(
-      Array.from(
-        new Set([
-          ...availableCategories.value,
-          ...(SHOW_LISTING_MISSING_FILTER_OPTIONS
-            ? [ITEM_SEARCH_UNCATEGORIZED_VALUE]
-            : []),
-        ])
-      )
-    ).map((value) => ({
-      label:
-        value === ITEM_SEARCH_UNCATEGORIZED_VALUE
-          ? t('compendium.missing_value')
-          : translateFilterToken('category', value, typeFilter.value),
-      value,
-    }))
+    decorateListingFacetOptions(
+      sortItemSearchFacetValues(allCategories.value).map((value) => ({
+        label:
+          value === ITEM_SEARCH_UNCATEGORIZED_VALUE
+            ? t('compendium.missing_value')
+            : translateFilterToken('category', value, typeFilter.value),
+        value,
+      })),
+      (value) =>
+        !isCurrentFacetDataReady.value ||
+        availableCategories.value.includes(value)
+    )
   )
 
   const subcategoryOptions = computed<SelectOption[]>(() =>
-    sortItemSearchFacetValues(
-      Array.from(
-        new Set([
-          ...availableSubcategories.value,
-          ...(SHOW_LISTING_MISSING_FILTER_OPTIONS
-            ? [ITEM_SEARCH_UNCATEGORIZED_VALUE]
-            : []),
-        ])
-      )
-    ).map((value) => ({
-      label:
-        value === ITEM_SEARCH_UNCATEGORIZED_VALUE
-          ? t('compendium.missing_value')
-          : translateFilterToken('subcategory', value, typeFilter.value),
-      value,
-    }))
+    decorateListingFacetOptions(
+      sortItemSearchFacetValues(allSubcategories.value).map((value) => ({
+        label:
+          value === ITEM_SEARCH_UNCATEGORIZED_VALUE
+            ? t('compendium.missing_value')
+            : translateFilterToken('subcategory', value, typeFilter.value),
+        value,
+      })),
+      (value) =>
+        !isCurrentFacetDataReady.value ||
+        availableSubcategories.value.includes(value)
+    )
   )
   const getCategoryFallbackOption = (value: string | number) => {
     const normalizedValue = normalizeItemSearchTokenKey(String(value))
@@ -2506,6 +2633,10 @@
     ...STYLE_DEFINITIONS.map((style) => ({
       label: t(style.i18nKey),
       value: style.key,
+      class: listingFacetOptionClass(
+        !itemFacetsReady.value ||
+          hasCatalogStyleFacetValue(getItemFacetEntries('style'), style.key)
+      ),
     })),
     ...(SHOW_LISTING_MISSING_FILTER_OPTIONS
       ? [
@@ -2518,24 +2649,49 @@
   ])
 
   const pieceFilterOptions = computed<IconSelectOption[]>(() => [
-    { label: t('common.all'), value: 'all', icon: DotCircle },
+    {
+      label: t('common.all'),
+      value: 'all',
+      icon: DotCircle,
+      class: listingFacetOptionClass(
+        !itemFacetsReady.value || getItemFacetEntries('piece').length > 0
+      ),
+    },
     {
       label: t('compendium.item_piece_filter.outfit'),
       value: 'outfit',
       icon: Tshirt,
+      class: listingFacetOptionClass(
+        !itemFacetsReady.value ||
+          getItemFacetEntries('piece').some((entry) =>
+            catalogIndex.index.value?.outfitIdsByItemId.has(entry.id)
+          )
+      ),
     },
     {
       label: t('compendium.item_piece_filter.individual'),
       value: 'individual',
       icon: ListAlt,
+      class: listingFacetOptionClass(
+        !itemFacetsReady.value ||
+          getItemFacetEntries('piece').some(
+            (entry) =>
+              !catalogIndex.index.value?.outfitIdsByItemId.has(entry.id)
+          )
+      ),
     },
   ])
 
   const labelOptions = computed(() => [
-    ...TAG_DEFINITIONS.map((tag) => ({
-      label: t(tag.i18nKey),
-      value: tag.key,
-    })),
+    ...decorateListingFacetOptions(
+      TAG_DEFINITIONS.map((tag) => ({
+        label: t(tag.i18nKey),
+        value: tag.key,
+      })),
+      (value) =>
+        !itemFacetsReady.value ||
+        hasCatalogLabelFacetValue(getItemFacetEntries('label'), value)
+    ),
     ...(SHOW_LISTING_MISSING_FILTER_OPTIONS
       ? [
           {
@@ -2551,7 +2707,17 @@
       ...createVersionFilterOptions(
         availableVersions.value,
         (version) => getVersionFilterLabel(version) ?? version
-      ),
+      ).map((option) => ({
+        ...option,
+        class: listingFacetOptionClass(
+          !itemFacetsReady.value ||
+            hasCatalogVersionFacetValue(
+              getItemFacetEntries('version'),
+              String(option.value),
+              'item'
+            )
+        ),
+      })),
       ...(SHOW_LISTING_MISSING_FILTER_OPTIONS
         ? [
             {

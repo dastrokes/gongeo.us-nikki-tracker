@@ -39,7 +39,8 @@
 
       <CompendiumQualityFilter
         v-model:value="qualityFilter"
-        :disabled-qualities="[2]"
+        :quality-options="outfitQualityOptions"
+        :unavailable-qualities="outfitUnavailableQualities"
       />
 
       <n-select
@@ -53,7 +54,10 @@
         :disabled="!isWardrobeReady"
       />
 
-      <CatalogVariationToggle v-model:value="variationFilter" />
+      <CatalogVariationToggle
+        v-model:value="variationFilter"
+        :unavailable-options="outfitUnavailableVariations"
+      />
     </template>
 
     <template #filter-row>
@@ -94,6 +98,7 @@
         <n-tree-select
           v-model:value="sourceTreeFilter"
           :options="sourceTreeOptions"
+          :render-label="renderListingSourceTreeLabel"
           size="small"
           class="min-w-0"
           clearable
@@ -309,8 +314,10 @@
   const availableObtains = computed(() =>
     getLocaleMessageNumericIds(messages.value, 'obtain')
   )
+  const outfitApplicableSources = shallowRef<Set<string> | null>(null)
+  const outfitApplicableSourceDetails = shallowRef<Set<string> | null>(null)
 
-  const obtainOptions = computed(() => [
+  const allObtainOptions = computed(() => [
     ...createObtainFilterOptions(availableObtains.value, t, {
       includeGroup: isObtainGroupVisibleInOutfits,
       fallbackLabel: (id) => `Obtain ${id}`,
@@ -325,13 +332,17 @@
       : []),
   ])
   const sourceTreeOptions = computed<TreeSelectOption[]>(() =>
-    createSourceTreeFilterOptions(obtainOptions.value, t, 'outfit')
+    decorateListingSourceTreeOptions(
+      createSourceTreeFilterOptions(allObtainOptions.value, t, 'outfit'),
+      outfitApplicableSources.value,
+      outfitApplicableSourceDetails.value
+    )
   )
 
   const availableObtainValues = computed(() =>
     Array.from(
       new Set([
-        ...obtainOptions.value.map((option) => option.value as string),
+        ...allObtainOptions.value.map((option) => option.value as string),
         LISTING_MISSING_FILTER_VALUE,
       ])
     )
@@ -649,6 +660,101 @@
     },
   })
 
+  const outfitFacetKey = computed(() =>
+    JSON.stringify({
+      ...buildOutfitFetchFilters(),
+      wardrobe: wardrobeFilter.value,
+      wardrobeReady: wardrobeInitialized.value,
+      wardrobeVersion: wardrobeMutationVersion.value,
+      region: activeRegionScope.value,
+    })
+  )
+  const { entriesByFilter: outfitFacetEntries, ready: outfitFacetsReady } =
+    await useCatalogListingFacets({
+      key: () => outfitFacetKey.value,
+      query: () => ({
+        entity: 'outfit',
+        filters: buildOutfitFetchFilters(),
+        page: 1,
+        pageSize: Number.MAX_SAFE_INTEGER,
+        ownershipMode: wardrobeInitialized.value ? wardrobeFilter.value : 'all',
+        regionScope: activeRegionScope.value,
+        wardrobe: { getOutfitProgress },
+      }),
+      filterKeys: [
+        'quality',
+        'version',
+        'style',
+        'label',
+        'source',
+        'sourceDetail',
+        'variations',
+        'ownershipMode',
+      ],
+    })
+
+  const getOutfitFacetEntries = (filter: string) =>
+    outfitFacetEntries.value[filter] ?? []
+  watchEffect(() => {
+    if (!outfitFacetsReady.value) {
+      outfitApplicableSources.value = null
+      outfitApplicableSourceDetails.value = null
+      return
+    }
+
+    const candidates = allObtainOptions.value.map(
+      (option) => option.value as string
+    )
+    const entries = getOutfitFacetEntries('source')
+    outfitApplicableSources.value = new Set(
+      candidates.filter((value) =>
+        hasCatalogSourceFacetValue(entries, value, 'outfit')
+      )
+    )
+    const detailEntries = getOutfitFacetEntries('sourceDetail')
+    outfitApplicableSourceDetails.value = new Set(
+      getLimitedBannerSourceDetails('outfit')
+        .filter((detail) =>
+          detailEntries.some((entry) =>
+            matchesSourceDetailFilter(
+              entry,
+              { source: detail.source, sourceDetail: detail.key },
+              'outfit'
+            )
+          )
+        )
+        .map((detail) => `${detail.source}:${detail.key}`)
+    )
+  })
+  const outfitQualityOptions = computed(() => {
+    return [5, 4, 3]
+  })
+  const outfitUnavailableQualities = computed(() =>
+    outfitFacetsReady.value
+      ? outfitQualityOptions.value.filter(
+          (quality) =>
+            !hasCatalogQualityFacetValue(
+              getOutfitFacetEntries('quality'),
+              quality
+            )
+        )
+      : []
+  )
+  const outfitUnavailableVariations = computed(() =>
+    outfitFacetsReady.value
+      ? (
+          ['base', 'all', 'evo1', 'evo2', 'evo3', 'all-evos', 'glowup'] as const
+        ).filter(
+          (value) =>
+            !hasCatalogVariationFacetValue(
+              getOutfitFacetEntries('variations'),
+              value,
+              'outfit'
+            )
+        )
+      : []
+  )
+
   const entries = computed(() => {
     const data = (compendiumData.value?.data || []) as OutfitListEntry[]
     const outfitItems =
@@ -684,14 +790,41 @@
   }))
   const totalItems = computed(() => compendiumData.value?.total || 0)
   const wardrobeFilterOptions = computed<IconSelectOption[]>(() => [
-    { label: t('common.all'), value: 'all', icon: DotCircle },
-    { label: t('wardrobe.status.owned'), value: 'owned', icon: CheckCircle },
-    { label: t('wardrobe.filters.partial'), value: 'partial', icon: Adjust },
     {
-      label: t('wardrobe.status.missing'),
-      value: 'missing',
-      icon: TimesCircle,
+      label: t('common.all'),
+      value: 'all',
+      icon: DotCircle,
+      class: listingFacetOptionClass(
+        !outfitFacetsReady.value ||
+          getOutfitFacetEntries('ownershipMode').length > 0
+      ),
     },
+    ...(['owned', 'partial', 'missing'] as const).map((value) => ({
+      label: t(
+        value === 'partial'
+          ? 'wardrobe.filters.partial'
+          : `wardrobe.status.${value}`
+      ),
+      value,
+      icon:
+        value === 'owned'
+          ? CheckCircle
+          : value === 'partial'
+            ? Adjust
+            : TimesCircle,
+      class: listingFacetOptionClass(
+        !outfitFacetsReady.value ||
+          !wardrobeInitialized.value ||
+          getOutfitFacetEntries('ownershipMode').some((entry) => {
+            const itemIds =
+              catalogIndex.index.value?.outfitItemsById.get(entry.id) ?? []
+            const status = getOutfitProgress(itemIds).status
+            return value === 'owned'
+              ? status === 'owned' || status === 'partial'
+              : status === value
+          })
+      ),
+    })),
   ])
   const renderWardrobeFilterOptionLabel = (option: SelectOption) => {
     const { icon } = option as IconSelectOption
@@ -1827,6 +1960,10 @@
     ...STYLE_DEFINITIONS.map((style) => ({
       label: t(style.i18nKey),
       value: style.key,
+      class: listingFacetOptionClass(
+        !outfitFacetsReady.value ||
+          hasCatalogStyleFacetValue(getOutfitFacetEntries('style'), style.key)
+      ),
     })),
     ...(SHOW_LISTING_MISSING_FILTER_OPTIONS
       ? [
@@ -1839,10 +1976,15 @@
   ])
 
   const labelOptions = computed(() => [
-    ...TAG_DEFINITIONS.map((tag) => ({
-      label: t(tag.i18nKey),
-      value: tag.key,
-    })),
+    ...decorateListingFacetOptions(
+      TAG_DEFINITIONS.map((tag) => ({
+        label: t(tag.i18nKey),
+        value: tag.key,
+      })),
+      (value) =>
+        !outfitFacetsReady.value ||
+        hasCatalogLabelFacetValue(getOutfitFacetEntries('label'), value)
+    ),
     ...(SHOW_LISTING_MISSING_FILTER_OPTIONS
       ? [
           {
@@ -1857,7 +1999,17 @@
     ...createVersionFilterOptions(
       availableVersions.value,
       (version) => getVersionFilterLabel(version) ?? version
-    ),
+    ).map((option) => ({
+      ...option,
+      class: listingFacetOptionClass(
+        !outfitFacetsReady.value ||
+          hasCatalogVersionFacetValue(
+            getOutfitFacetEntries('version'),
+            String(option.value),
+            'outfit'
+          )
+      ),
+    })),
     ...(SHOW_LISTING_MISSING_FILTER_OPTIONS
       ? [
           {

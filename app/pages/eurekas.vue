@@ -193,7 +193,8 @@
           />
           <CompendiumQualityFilter
             v-model:value="quality"
-            :quality-options="[5, 4, 3]"
+            :quality-options="eurekaQualityOptions"
+            :unavailable-qualities="eurekaUnavailableQualities"
             class="shrink-0"
           />
           <n-button
@@ -548,10 +549,52 @@
       ? Math.round((completeCount.value / totalEurekas.value) * 100)
       : 0
   )
+  type EurekaFacetFilter = 'quality' | 'position' | 'style' | 'status'
+  const matchesEurekaEntry = (
+    entry: EurekaCatalogEntry,
+    omittedFilter?: EurekaFacetFilter
+  ) => {
+    const needle = search.value.trim().toLocaleLowerCase()
+    return (
+      (!needle || eurekaName(entry).toLocaleLowerCase().includes(needle)) &&
+      (omittedFilter === 'quality' ||
+        quality.value === null ||
+        entry.quality === quality.value) &&
+      (omittedFilter === 'position' ||
+        position.value === null ||
+        (isListingMissingFilterValue(position.value)
+          ? isListingFieldMissing(entry.position)
+          : entry.position === position.value)) &&
+      (omittedFilter === 'style' ||
+        style.value === null ||
+        (isListingMissingFilterValue(style.value)
+          ? isListingFieldMissing(entry.mainStyle)
+          : entry.mainStyle === style.value)) &&
+      (omittedFilter === 'status' ||
+        ownershipStatus.value === null ||
+        progressFor(entry).status === ownershipStatus.value)
+    )
+  }
+  const getEurekaFacetEntries = (filter: EurekaFacetFilter) =>
+    catalog.entries.value.filter((entry) => matchesEurekaEntry(entry, filter))
+  const eurekaQualityOptions = computed(() => [5, 4, 3])
+  const eurekaUnavailableQualities = computed(() =>
+    eurekaQualityOptions.value.filter(
+      (candidate) =>
+        !getEurekaFacetEntries('quality').some(
+          (entry) => entry.quality === candidate
+        )
+    )
+  )
   const positionOptions = computed(() => [
     ...(['head', 'hands', 'feet'] as EurekaPosition[]).map((value) => ({
       label: t(`eurekas.positions.${value}`),
       value,
+      class: listingFacetOptionClass(
+        getEurekaFacetEntries('position').some(
+          (entry) => entry.position === value
+        )
+      ),
     })),
     ...(SHOW_LISTING_MISSING_FILTER_OPTIONS
       ? [
@@ -564,7 +607,15 @@
   ])
   const styleOptions = computed(() => [
     ...(['elegant', 'fresh', 'sweet', 'sexy', 'cool'] as EurekaStyle[]).map(
-      (value) => ({ label: t(`style.${value}`), value })
+      (value) => ({
+        label: t(`style.${value}`),
+        value,
+        class: listingFacetOptionClass(
+          getEurekaFacetEntries('style').some(
+            (entry) => entry.mainStyle === value
+          )
+        ),
+      })
     ),
     ...(SHOW_LISTING_MISSING_FILTER_OPTIONS
       ? [
@@ -586,6 +637,11 @@
       (value) => ({
         label: statusLabel(value),
         value,
+        class: listingFacetOptionClass(
+          getEurekaFacetEntries('status').some(
+            (entry) => progressFor(entry).status === value
+          )
+        ),
       })
     )
   )
@@ -605,23 +661,8 @@
   }
 
   const filteredEntries = computed(() => {
-    const needle = search.value.trim().toLocaleLowerCase()
     return [...catalog.entries.value]
-      .filter(
-        (entry) =>
-          (!needle || eurekaName(entry).toLocaleLowerCase().includes(needle)) &&
-          (quality.value === null || entry.quality === quality.value) &&
-          (position.value === null ||
-            (isListingMissingFilterValue(position.value)
-              ? isListingFieldMissing(entry.position)
-              : entry.position === position.value)) &&
-          (style.value === null ||
-            (isListingMissingFilterValue(style.value)
-              ? isListingFieldMissing(entry.mainStyle)
-              : entry.mainStyle === style.value)) &&
-          (ownershipStatus.value === null ||
-            progressFor(entry).status === ownershipStatus.value)
-      )
+      .filter((entry) => matchesEurekaEntry(entry))
       .sort((left, right) => {
         if (right.quality !== left.quality) {
           return right.quality - left.quality

@@ -1254,8 +1254,8 @@
     "agree_count": "Zustimmen {count}",
     "disagree_count": "Widersprechen {count}",
     "guidelines_action": "Richtlinien",
-    "back_to_queue": "Zurück zur Feedback-Warteschlange",
     "suggest_new_terms_action": "Neue Suchbegriffe vorschlagen",
+    "back_to_queue": "Zurück zur Feedback-Warteschlange",
     "no_tags": "Für diesen Gegenstand sind noch keine Tag-Daten verfügbar.",
     "guidelines": {
       "page_title": "Feedback-Richtlinien",

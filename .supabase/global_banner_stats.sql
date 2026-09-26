@@ -19,7 +19,7 @@ returns jsonb
 language sql
 stable
 as $$
-with banner_rows as (
+with banner_rows as not materialized (
   select
     uid,
     region,
@@ -456,5 +456,15 @@ alter function public.refresh_global_banner_stats(integer)
 alter function public.refresh_global_core_stats()
   set search_path = public;
 
+-- Keep higher memory limits scoped to scheduled stats generation.
+alter function public.refresh_global_core_stats()
+  set work_mem = '32MB';
+
 alter function public.refresh_global_banner_stats_all()
   set search_path = public;
+
+alter function public.refresh_global_banner_stats_all()
+  set work_mem = '32MB';
+
+alter function public.generate_tierlist_data()
+  set work_mem = '8MB';

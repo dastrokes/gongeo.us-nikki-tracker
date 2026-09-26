@@ -1254,8 +1254,8 @@
     "agree_count": "D'accordo {count}",
     "disagree_count": "In disaccordo {count}",
     "guidelines_action": "Linee guida",
-    "back_to_queue": "Torna alla coda dei feedback",
     "suggest_new_terms_action": "Suggerisci nuovi termini di ricerca",
+    "back_to_queue": "Torna alla coda dei feedback",
     "no_tags": "Nessun dato tag disponibile per questo elemento ancora.",
     "guidelines": {
       "page_title": "Linee guida Feedback",

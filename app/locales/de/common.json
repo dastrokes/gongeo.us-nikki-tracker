@@ -15,7 +15,7 @@
     "variations": "Variationen",
     "dye_palette": "Farbpalette",
     "available_immediately": "Sofort verfügbar",
-    "complete_outfit": "Komplettes Outfit",
+    "complete_outfit": "Vollständiges Outfit",
     "slot": "Slot",
     "color": "Farbe",
     "style": "Stil",
@@ -545,7 +545,7 @@
       "import_wardrobe": "Garderobendaten importieren",
       "wardrobe_partial_notice": "Whim-Log importiert nur Teile aus vollständigen Outfits.",
       "import_eurekas": "Heureka-Daten importieren",
-      "eureka_partial_notice": "Whim-Log importiert nur 4- und 5-Sterne-Heurekas.",
+      "eureka_partial_notice": "Whim-Log importiert nur 4- und 5-Sterne-Heureka.",
       "submit_global_stats": "Für globale Statistiken übermitteln",
       "submit_button": "Übermitteln und Importieren",
       "fetching": "Resonanz-Daten werden gesammelt, bitte warten…"

@@ -494,7 +494,7 @@ const getRegionScopedItemIds = (
   scope: CatalogRegionScope
 ) => filterCatalogIdsByRegionScope('item', itemIds, scope)
 
-const getRegionScopedMakeupIds = (
+export const getRegionScopedMakeupIds = (
   makeupIds: readonly number[],
   scope: CatalogRegionScope
 ) => filterCatalogIdsByRegionScope('makeup', makeupIds, scope)
@@ -514,7 +514,7 @@ const getOutfitItemIdsForScope = (
   return outfitItemIds
 }
 
-const getFullMakeupComponentIdsForScope = (
+export const getFullMakeupComponentIdsForScope = (
   index: CatalogLocalIndex,
   scope: CatalogRegionScope
 ) => {

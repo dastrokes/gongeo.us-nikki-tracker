@@ -80,6 +80,7 @@
     filters: ItemSearchAdvancedFilters
     loading?: boolean
     options: ItemSearchAdvancedFacetMap
+    availableOptions?: ItemSearchAdvancedFacetMap
   }>()
 
   const emit = defineEmits<{
@@ -88,12 +89,17 @@
 
   const { t } = useI18n()
   const { translateFilterToken } = useFilterToken()
-
-  const buildOptions = (field: ItemSearchAdvancedField): SelectOption[] =>
-    sortItemSearchFacetValues(props.options[field] ?? []).map((value) => ({
-      label: translateFilterToken(field, value),
-      value,
-    }))
+  const buildOptions = (field: ItemSearchAdvancedField): SelectOption[] => {
+    return decorateListingFacetOptions(
+      sortItemSearchFacetValues(props.options[field] ?? []).map((value) => ({
+        label: translateFilterToken(field, value),
+        value,
+      })),
+      (value) =>
+        !props.availableOptions ||
+        (props.availableOptions[field] ?? []).includes(value)
+    )
+  }
   const getFallbackOption = (
     field: ItemSearchAdvancedField,
     value: string | number

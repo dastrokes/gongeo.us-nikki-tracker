@@ -62,7 +62,7 @@ export const useCompendiumListingView = (
     'absolute inset-x-0 bottom-0 z-20 flex h-10 w-full flex-col justify-end overflow-hidden px-1.5 pb-1 sm:h-12'
 
   const nameFadeStandardClass =
-    'absolute right-0 bottom-0 left-0 z-20 flex h-20 flex-col justify-end overflow-hidden sm:h-24'
+    'absolute right-0 bottom-0 left-0 z-20 flex min-h-20 flex-col justify-end overflow-hidden sm:min-h-24'
 
   const setViewMode = (mode: ListingDisplayMode) => {
     if (viewMode.value === mode) return

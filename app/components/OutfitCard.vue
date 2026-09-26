@@ -1,23 +1,32 @@
 <template>
   <div :class="cardClasses">
     <div
-      class="absolute inset-0 bg-slate-100 bg-[url('/images/bg.webp')] bg-cover bg-center dark:bg-slate-300"
-    ></div>
-    <!-- Tint overlay -->
-    <div
       class="absolute inset-0"
-      :style="overlayClass"
-    ></div>
-    <NuxtImg
-      :src="imageSrc"
-      :alt="name"
-      :class="imageClasses"
-      :preset="imagePreset"
-      fit="cover"
-      :loading="loading"
-      :fetchpriority="fetchpriority"
-      :sizes="imageSizes"
-    />
+      :class="
+        showInfo
+          ? 'mask-[linear-gradient(to_bottom,#000_68%,rgba(0,0,0,0.9)_74%,rgba(0,0,0,0.7)_82%,rgba(0,0,0,0.42)_90%,rgba(0,0,0,0.1)_100%)]'
+          : ''
+      "
+    >
+      <div
+        class="absolute inset-0 bg-slate-100 bg-[url('/images/bg.webp')] bg-cover bg-center"
+      ></div>
+      <!-- Tint overlay -->
+      <div
+        class="absolute inset-0"
+        :style="overlayClass"
+      ></div>
+      <NuxtImg
+        :src="imageSrc"
+        :alt="name"
+        :class="imageClasses"
+        :preset="imagePreset"
+        fit="cover"
+        :loading="loading"
+        :fetchpriority="fetchpriority"
+        :sizes="imageSizes"
+      />
+    </div>
 
     <div
       v-if="showInfo && !isThumbnailListing && meta !== 'edit'"
@@ -45,15 +54,8 @@
       class="absolute inset-x-0 bottom-0 z-20 flex h-10 w-full flex-col justify-end overflow-hidden px-1.5 pb-1 sm:h-12"
       :class="thumbnailMetaPaddingClass"
     >
-      <img
-        src="/images/fade.png"
-        alt=""
-        aria-hidden="true"
-        draggable="false"
-        class="pointer-events-none absolute inset-0 h-full w-full object-fill"
-      />
       <p
-        class="relative z-10 line-clamp-2 w-full min-w-0 text-left text-[10px] leading-snug font-semibold text-white"
+        class="relative z-10 line-clamp-2 w-full min-w-0 text-left text-[10px] leading-normal font-semibold text-white"
       >
         {{ name }}
       </p>
@@ -63,15 +65,8 @@
       class="absolute right-0 bottom-0 left-0 z-20 flex flex-col justify-end overflow-hidden"
       :class="metaPaddingClass"
     >
-      <img
-        src="/images/fade.png"
-        alt=""
-        aria-hidden="true"
-        draggable="false"
-        class="pointer-events-none absolute inset-0 h-full w-full object-fill"
-      />
       <p
-        class="relative z-10 line-clamp-2 text-xs leading-snug font-semibold text-white sm:text-sm"
+        class="relative z-10 line-clamp-2 text-xs leading-normal font-semibold text-white sm:text-sm"
       >
         {{ name }}
       </p>
@@ -206,13 +201,12 @@
 
   const metaPaddingClass = computed(() => [
     props.meta === 'edit' || props.size === 'sm' ? 'p-2' : 'p-3',
-    props.size === 'sm' ? 'h-16 sm:h-20' : 'h-20 sm:h-24',
-    'pr-8',
+    props.size === 'sm' ? 'min-h-16 sm:min-h-20' : 'min-h-20 sm:min-h-24',
   ])
   const thumbnailMetaPaddingClass = 'pr-6'
 
   const cardClasses = computed(() => [
-    'relative aspect-2/3 rounded-lg overflow-hidden shadow-md',
+    'relative aspect-2/3 rounded-lg overflow-hidden bg-[linear-gradient(to_bottom,var(--color-slate-100)_60%,#000_80%)] shadow-md',
   ])
 
   const imageClasses = computed(() => [

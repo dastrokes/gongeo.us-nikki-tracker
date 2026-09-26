@@ -15,14 +15,6 @@ const __dirname = path.dirname(__filename)
 const repoRoot = path.resolve(__dirname, '..')
 const termsPath = path.join(repoRoot, 'data', 'item-search', 'terms.json')
 const taxonomyPath = path.join(repoRoot, 'data', 'item-search', 'taxonomy.json')
-const defaultItemAttributesPath = path.join(
-  repoRoot,
-  'data',
-  'item-search',
-  'generated',
-  'supabase',
-  'item-attributes.jsonl'
-)
 const attributePath = path.join(repoRoot, 'data', 'attribute.json')
 const registryModulePath = path.join(
   repoRoot,
@@ -56,7 +48,7 @@ const normalizeString = (value) =>
 
 const parseArgs = (argv) => {
   const args = {
-    itemAttributesPath: defaultItemAttributesPath,
+    itemAttributesPath: null,
     dryRun: false,
     prune: false,
   }
@@ -66,10 +58,11 @@ const parseArgs = (argv) => {
     if (!arg) continue
 
     if (arg === '--item-attributes-path') {
-      args.itemAttributesPath = path.resolve(
-        repoRoot,
-        normalizeString(argv[index + 1]) ?? ''
-      )
+      const suppliedPath = normalizeString(argv[index + 1])
+      if (!suppliedPath || suppliedPath.startsWith('--')) {
+        throw new Error('--item-attributes-path requires a path')
+      }
+      args.itemAttributesPath = path.resolve(repoRoot, suppliedPath)
       index += 1
       continue
     }
@@ -426,8 +419,12 @@ export const syncItemSearchTermsFromAttributes = async (
   if (args.help) {
     return {
       usage:
-        'node scripts/sync-item-search-terms-from-attributes.mjs [--item-attributes-path <path>] [--dry-run] [--prune]',
+        'node scripts/sync-item-search-terms-from-attributes.mjs --item-attributes-path <reviewed-full-catalog.jsonl> [--dry-run] [--prune]',
     }
+  }
+
+  if (!args.itemAttributesPath) {
+    throw new Error('--item-attributes-path is required')
   }
 
   if (!fs.existsSync(args.itemAttributesPath)) {

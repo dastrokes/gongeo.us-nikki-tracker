@@ -6,7 +6,7 @@ import {
   purgeCloudflareCache,
 } from './cloudflare-cache-lib.mjs'
 import { loadEnvFile } from './item-search-index-lib.mjs'
-import { purgeNetlifyCache } from './netlify-cache-lib.mjs'
+import { normalizeCacheTags, purgeNetlifyCache } from './netlify-cache-lib.mjs'
 
 const tags = []
 const BANNER_STATS_TAG_PATTERN = /^stats-banner-(\d+)$/
@@ -75,21 +75,21 @@ if (bannerIds.length > 0) {
   }
 }
 
-const cloudflareTags = getCloudflareCatalogCacheTags(tags)
-const cloudflareConfigured = Boolean(
-  process.env.CLOUDFLARE_CACHE_PURGE_URL || process.env.CLOUDFLARE_DATA_TOKEN
+const normalizedTags = normalizeCacheTags(tags)
+const cloudflareTags = getCloudflareCatalogCacheTags(normalizedTags)
+const netlifyTags = normalizedTags.filter(
+  (tag) => !cloudflareTags.includes(tag)
 )
 const [netlifyResult, cloudflareResult] = await Promise.all([
-  purgeNetlifyCache({ tags }),
-  cloudflareTags.length > 0 && cloudflareConfigured
+  netlifyTags.length > 0
+    ? purgeNetlifyCache({ tags: netlifyTags })
+    : Promise.resolve({ cacheTags: [], batches: [] }),
+  cloudflareTags.length > 0
     ? purgeCloudflareCache({ tags: cloudflareTags })
     : Promise.resolve({
         cacheTags: [],
         batches: [],
-        skipped:
-          cloudflareTags.length === 0
-            ? 'no Worker-owned catalog tags'
-            : 'Cloudflare purge is not configured',
+        skipped: 'no Worker-owned catalog tags',
       }),
 ])
 

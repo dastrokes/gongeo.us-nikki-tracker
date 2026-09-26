@@ -52,6 +52,7 @@
           :filters="filters"
           :loading="loading"
           :options="options"
+          :available-options="availableOptions"
           @update:filters="emit('update:filters', $event)"
         />
 
@@ -73,6 +74,7 @@
     filters: ItemSearchAdvancedFilters
     loading?: boolean
     options: ItemSearchAdvancedFacetMap
+    availableOptions?: ItemSearchAdvancedFacetMap
     ignoreCloseSelector?: string
   }>()
 

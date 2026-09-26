@@ -37,6 +37,7 @@
               v-if="supportsVariationFilter"
               v-model:value="variationFilter"
               :options="variationFilterOptions"
+              :unavailable-options="tierUnavailableVariations"
               class="max-w-40"
             />
 
@@ -59,7 +60,9 @@
                   size="small"
                   v-bind="getQualityButtonTheme(q, qualityFilter === q)"
                   class="min-w-10"
-                  :disabled="q === 2"
+                  :class="{
+                    'opacity-45': !isTierValueAvailable('quality', String(q)),
+                  }"
                   @click="qualityFilter = q"
                 >
                   <span class="flex items-center gap-1">
@@ -89,6 +92,9 @@
                   size="small"
                   v-bind="getQualityButtonTheme(q, bannerQualityFilter === q)"
                   class="min-w-10"
+                  :class="{
+                    'opacity-45': !isTierValueAvailable('quality', String(q)),
+                  }"
                   @click="bannerQualityFilter = q"
                 >
                   <span class="flex items-center gap-1">
@@ -257,7 +263,9 @@
                 size="small"
                 v-bind="getQualityButtonTheme(q, qualityFilter === q)"
                 class="min-w-10"
-                :disabled="q === 2"
+                :class="{
+                  'opacity-45': !isTierValueAvailable('quality', String(q)),
+                }"
                 @click="qualityFilter = q"
               >
                 <span class="flex items-center gap-1">
@@ -287,6 +295,9 @@
                 size="small"
                 v-bind="getQualityButtonTheme(q, bannerQualityFilter === q)"
                 class="min-w-10"
+                :class="{
+                  'opacity-45': !isTierValueAvailable('quality', String(q)),
+                }"
                 @click="bannerQualityFilter = q"
               >
                 <span class="flex items-center gap-1">
@@ -362,6 +373,7 @@
             v-if="mode !== 'banners'"
             v-model:value="sourceTreeFilter"
             :options="sourceTreeOptions"
+            :render-label="renderListingSourceTreeLabel"
             size="small"
             class="min-w-0"
             clearable
@@ -1010,6 +1022,7 @@
       :fields="advancedFilterFields"
       :filters="advancedFilters"
       :options="advancedFacetOptions"
+      :available-options="currentAdvancedFacetOptions"
       @update:show="isAdvancedFiltersDrawerOpen = $event"
       @update:filters="updateAdvancedFilters"
     />
@@ -1177,7 +1190,7 @@
   const availableObtains = computed(() =>
     getLocaleMessageNumericIds(messages.value, 'obtain')
   )
-  const obtainOptions = computed(() => {
+  const allObtainOptions = computed(() => {
     if (mode.value === 'momo') {
       return createMomoSourceFilterOptions(t)
     }
@@ -1219,22 +1232,45 @@
       : null
   )
   const sourceTreeOptions = computed<TreeSelectOption[]>(() => {
-    if (!sourceDetailEntity.value) {
-      return obtainOptions.value.map((option) => ({
-        ...option,
-        key: String(option.value),
-      }))
-    }
-
-    return createSourceTreeFilterOptions(
-      obtainOptions.value,
-      t,
-      sourceDetailEntity.value
+    const options = sourceDetailEntity.value
+      ? createSourceTreeFilterOptions(
+          allObtainOptions.value,
+          t,
+          sourceDetailEntity.value
+        )
+      : allObtainOptions.value.map((option) => ({
+          ...option,
+          key: String(option.value),
+        }))
+    const availableSources = new Set(
+      allObtainOptions.value
+        .map((option) => String(option.value))
+        .filter((value) => isTierValueAvailable('source', value))
+    )
+    const details = sourceDetailEntity.value
+      ? new Set(
+          getLimitedBannerSourceDetails(sourceDetailEntity.value)
+            .filter((detail) =>
+              getTierFacetEntries('sourceDetail').some((entry) =>
+                matchesSourceDetailFilter(
+                  entry,
+                  { source: detail.source, sourceDetail: detail.key },
+                  sourceDetailEntity.value!
+                )
+              )
+            )
+            .map((detail) => `${detail.source}:${detail.key}`)
+        )
+      : null
+    return decorateListingSourceTreeOptions(
+      options,
+      availableSources,
+      tierFacetsReady.value ? details : null
     )
   })
 
   const availableObtainValues = computed(() =>
-    obtainOptions.value.map((option) => option.value as string)
+    allObtainOptions.value.map((option) => option.value as string)
   )
 
   const availableStyles = STYLE_DEFINITIONS.map((style) => style.key)
@@ -1261,7 +1297,11 @@
     if (!value) return null
     const parsed = Number(value)
     const availableQualities =
-      tierMode === 'props' ? [6, 5, 4, 3] : [5, 4, 3, 2]
+      tierMode === 'props'
+        ? [6, 5, 4, 3]
+        : tierMode === 'items'
+          ? [5, 4, 3, 2]
+          : [5, 4, 3]
     return availableQualities.includes(parsed) ? parsed : null
   }
 
@@ -1309,6 +1349,18 @@
     mode.value === 'makeups'
       ? ['base', 'all', 'evo3']
       : ['base', 'all', 'evo1', 'evo2', 'evo3', 'all-evos', 'glowup']
+  )
+  const tierUnavailableVariations = computed(() =>
+    tierFacetsReady.value
+      ? variationFilterOptions.value.filter(
+          (value) =>
+            !hasCatalogVariationFacetValue(
+              getTierFacetEntries('variations'),
+              value,
+              tierFacetEntity.value as 'item' | 'outfit' | 'makeup'
+            )
+        )
+      : []
   )
   const supportsTierModeVariationFilter = (tierMode: TierMode) =>
     tierMode === 'items' || tierMode === 'outfits' || tierMode === 'makeups'
@@ -1492,7 +1544,11 @@
     supportsTierlistStyleFilter(mode.value)
   )
   const qualityFilterOptions = computed(() =>
-    mode.value === 'props' ? [6, 5, 4, 3] : [5, 4, 3, 2]
+    mode.value === 'props'
+      ? [6, 5, 4, 3]
+      : mode.value === 'items'
+        ? [5, 4, 3, 2]
+        : [5, 4, 3]
   )
   const advancedFilterFields = computed(() =>
     mode.value === 'items'
@@ -1533,9 +1589,36 @@
   )
   const isWardrobeFiltered = computed(() => wardrobeFilter.value !== 'all')
   const wardrobeFilterOptions = computed<IconSelectOption[]>(() => {
+    const entries = getTierFacetEntries('ownershipMode')
+    const isAvailable = (value: string) => {
+      if (!tierFacetsReady.value || !isWardrobeReady.value) return true
+      if (value === 'all') return entries.length > 0
+      return entries.some((entry) => {
+        if (mode.value === 'items') {
+          const owned = isItemOwned(entry.id)
+          return value === 'owned' ? owned : !owned
+        }
+        const itemIds =
+          catalogIndex.index.value?.outfitItemsById.get(entry.id) ?? []
+        const status = getOutfitProgress(itemIds).status
+        return value === 'owned'
+          ? status === 'owned' || status === 'partial'
+          : status === value
+      })
+    }
     const options: IconSelectOption[] = [
-      { label: t('common.all'), value: 'all', icon: DotCircle },
-      { label: t('wardrobe.status.owned'), value: 'owned', icon: CheckCircle },
+      {
+        label: t('common.all'),
+        value: 'all',
+        icon: DotCircle,
+        class: listingFacetOptionClass(isAvailable('all')),
+      },
+      {
+        label: t('wardrobe.status.owned'),
+        value: 'owned',
+        icon: CheckCircle,
+        class: listingFacetOptionClass(isAvailable('owned')),
+      },
     ]
 
     if (mode.value === 'outfits') {
@@ -1543,6 +1626,7 @@
         label: t('wardrobe.filters.partial'),
         value: 'partial',
         icon: Adjust,
+        class: listingFacetOptionClass(isAvailable('partial')),
       })
     }
 
@@ -1550,6 +1634,7 @@
       label: t('wardrobe.status.missing'),
       value: 'missing',
       icon: TimesCircle,
+      class: listingFacetOptionClass(isAvailable('missing')),
     })
     return options
   })
@@ -1680,6 +1765,7 @@
   }
 
   const itemTypeOptions = computed(() => {
+    const isAvailable = (type: ItemType) => isTierValueAvailable('type', type)
     const types = availableItemTypes.slice().sort((a, b) => {
       const orderA = itemCategoryOrder[a] ?? 999
       const orderB = itemCategoryOrder[b] ?? 999
@@ -1692,7 +1778,7 @@
       other: [],
     }
 
-    types.forEach((type) => {
+    types.filter(isAvailable).forEach((type) => {
       const category = getItemTypeCategory(type)
       if (category === 'makeups') return
       grouped[category].push(type)
@@ -1708,6 +1794,7 @@
         children: grouped.clothes.map((type) => ({
           label: t(`type.${type}`),
           value: type,
+          class: listingFacetOptionClass(isTierValueAvailable('type', type)),
         })),
       })
     }
@@ -1720,6 +1807,7 @@
         children: grouped.accessories.map((type) => ({
           label: t(`type.${type}`),
           value: type,
+          class: listingFacetOptionClass(isTierValueAvailable('type', type)),
         })),
       })
     }
@@ -1732,9 +1820,20 @@
         children: grouped.other.map((type) => ({
           label: t(`type.${type}`),
           value: type,
+          class: listingFacetOptionClass(isTierValueAvailable('type', type)),
         })),
       })
     }
+
+    options.push(
+      ...types
+        .filter((type) => !isAvailable(type))
+        .map((type) => ({
+          label: t(`type.${type}`),
+          value: type,
+          class: listingFacetOptionClass(false),
+        }))
+    )
 
     return options
   })
@@ -1743,6 +1842,7 @@
     makeupItemTypes.map((type) => ({
       label: t(`type.${type}`),
       value: type,
+      class: listingFacetOptionClass(isTierValueAvailable('type', type)),
     }))
   )
 
@@ -1755,9 +1855,144 @@
     canMutate: isWardrobeReady,
     mutationVersion: wardrobeMutationVersion,
     init: initWardrobe,
+    isItemOwned,
     getOutfitProgress,
   } = useWardrobe()
   const { activeRegionScope } = useWardrobeSettings()
+
+  const tierFacetEntity = computed<StaticCatalogListingEntity>(() =>
+    mode.value === 'outfits'
+      ? 'outfit'
+      : mode.value === 'makeups'
+        ? 'makeup'
+        : mode.value === 'momo'
+          ? 'momo'
+          : 'item'
+  )
+  const tierFacetFilters = computed<Record<string, unknown>>(() => ({
+    quality: qualityFilter.value,
+    type:
+      mode.value === 'items' || mode.value === 'makeups'
+        ? itemTypeFilter.value
+        : null,
+    category: mode.value === 'items' ? itemCategoryFilter.value : null,
+    subcategory: mode.value === 'items' ? itemSubcategoryFilter.value : null,
+    version: versionFilter.value,
+    style: supportsStyleFilter.value ? styleFilter.value : null,
+    label: effectiveLabelFilter.value,
+    source: obtainFilter.value,
+    sourceDetail: sourceDetailFilter.value,
+    variations: variationFilter.value,
+    ...(mode.value === 'items' ? activeAdvancedFilters.value : {}),
+  }))
+  const tierFacetKey = computed(() =>
+    JSON.stringify({
+      mode: mode.value,
+      filters: tierFacetFilters.value,
+      wardrobe: wardrobeFilter.value,
+      wardrobeReady: isWardrobeReady.value,
+      wardrobeVersion: wardrobeMutationVersion.value,
+      region: activeRegionScope.value,
+    })
+  )
+  const { entriesByFilter: tierFacetEntries, ready: tierFacetsReady } =
+    await useCatalogListingFacets({
+      key: () => tierFacetKey.value,
+      enabled: () => mode.value !== 'banners' && mode.value !== 'props',
+      query: () => ({
+        entity: tierFacetEntity.value,
+        filters: tierFacetFilters.value,
+        page: 1,
+        pageSize: Number.MAX_SAFE_INTEGER,
+        regionScope: activeRegionScope.value,
+        ownershipMode:
+          isWardrobeReady.value &&
+          (mode.value === 'items' || mode.value === 'outfits')
+            ? wardrobeFilter.value === 'partial' && mode.value === 'items'
+              ? 'all'
+              : wardrobeFilter.value
+            : 'all',
+        wardrobe: {
+          ownedItemIds: ownedItemIds.value,
+          getOutfitProgress,
+        },
+      }),
+      filterKeys: [
+        'quality',
+        'type',
+        'version',
+        'style',
+        'label',
+        'source',
+        'sourceDetail',
+        'variations',
+        'ownershipMode',
+      ],
+    })
+  const getTierFacetEntries = (filter: string) =>
+    tierFacetEntries.value[filter] ?? []
+  const isTierValueAvailable = (filter: string, value: string) => {
+    if (mode.value === 'banners') {
+      return Object.values(BANNER_DATA).some((banner) => {
+        if (banner.bannerType === 1) return false
+        const quality = banner.bannerType === 3 ? 4 : 5
+        const version = banner.runs[0]?.version
+        return filter === 'quality'
+          ? quality === Number(value) &&
+              (!versionFilter.value ||
+                (!!version &&
+                  matchesVersionFilter(version, versionFilter.value)))
+          : (bannerQualityFilter.value === null ||
+              quality === bannerQualityFilter.value) &&
+              !!version &&
+              matchesVersionFilter(version, value)
+      })
+    }
+
+    if (mode.value === 'props') {
+      return catalogIndex.props.value.some((prop) => {
+        if (prop.variantRootId !== undefined) return false
+        const selectedSource = obtainFilter.value
+          ? resolvePropSourceFromObtainGroupKey(obtainFilter.value)
+          : null
+        return (
+          (filter === 'quality' ||
+            qualityFilter.value === null ||
+            prop.quality === qualityFilter.value) &&
+          (filter === 'version' ||
+            !versionFilter.value ||
+            (!!prop.version &&
+              matchesVersionFilter(prop.version, versionFilter.value))) &&
+          (filter === 'source' ||
+            !obtainFilter.value ||
+            (!!selectedSource && prop.sources?.includes(selectedSource))) &&
+          (filter === 'quality'
+            ? prop.quality === Number(value)
+            : filter === 'version'
+              ? !!prop.version && matchesVersionFilter(prop.version, value)
+              : prop.sources?.includes(
+                  resolvePropSourceFromObtainGroupKey(value) as PropSource
+                ))
+        )
+      })
+    }
+
+    if (!tierFacetsReady.value) return true
+    const entries = getTierFacetEntries(filter)
+    if (filter === 'quality') {
+      return hasCatalogQualityFacetValue(entries, Number(value))
+    }
+    if (filter === 'version') {
+      return hasCatalogVersionFacetValue(entries, value, tierFacetEntity.value)
+    }
+    if (filter === 'style') return hasCatalogStyleFacetValue(entries, value)
+    if (filter === 'label') return hasCatalogLabelFacetValue(entries, value)
+    if (filter === 'source') {
+      return hasCatalogSourceFacetValue(entries, value, tierFacetEntity.value)
+    }
+    if (filter === 'type') return hasCatalogTypeFacetValue(entries, value)
+    return true
+  }
 
   type TierItemFacetData = ItemSearchFacetResponse & { cacheKey: string }
 
@@ -1834,29 +2069,43 @@
       ? (itemSearchFacets.value?.subcategories ?? [])
       : []
   )
-  const advancedFacetOptions = computed<ItemSearchAdvancedFacetMap>(() =>
-    isCurrentItemFacetDataReady.value
-      ? (itemSearchFacets.value?.advanced ?? {})
-      : {}
+  const advancedFacetOptions = computed<ItemSearchAdvancedFacetMap>(
+    () => getItemSearchAttributeFacets(itemTypeFilter.value).advanced
+  )
+  const currentAdvancedFacetOptions = computed<ItemSearchAdvancedFacetMap>(
+    () =>
+      isCurrentItemFacetDataReady.value
+        ? (itemSearchFacets.value?.advanced ?? {})
+        : {}
+  )
+  const allItemCategories = computed(() =>
+    itemTypeFilter.value
+      ? getItemSearchAttributeFacets(itemTypeFilter.value).categories
+      : []
+  )
+  const allItemSubcategories = computed(() =>
+    itemTypeFilter.value
+      ? getItemSearchAttributeFacets(itemTypeFilter.value, {
+          category: itemCategoryFilter.value,
+        }).subcategories
+      : []
   )
 
   const isItemCategoryFilterEnabled = computed(
     () =>
-      supportsItemSearchCategories.value &&
-      availableItemCategories.value.length > 0
+      supportsItemSearchCategories.value && allItemCategories.value.length > 0
   )
 
   const isItemSubcategoryFilterEnabled = computed(
     () =>
       isItemCategoryFilterEnabled.value &&
       !!itemCategoryFilter.value &&
-      availableItemSubcategories.value.length > 0
+      allItemSubcategories.value.length > 0
   )
 
   watch(
-    [availableItemCategories, isCurrentItemFacetDataReady],
-    ([nextCategories, isReady]) => {
-      if (!isReady) return
+    allItemCategories,
+    (nextCategories) => {
       if (!itemCategoryFilter.value) return
 
       const resolved = resolveItemSearchFacetValue(
@@ -1877,9 +2126,8 @@
   )
 
   watch(
-    [availableItemSubcategories, isCurrentItemFacetDataReady],
-    ([nextSubcategories, isReady]) => {
-      if (!isReady) return
+    allItemSubcategories,
+    (nextSubcategories) => {
       if (!itemSubcategoryFilter.value) return
 
       const resolved = resolveItemSearchFacetValue(
@@ -1899,14 +2147,6 @@
   )
 
   const validateAdvancedFilters = () => {
-    if (
-      mode.value === 'items' &&
-      itemTypeFilter.value &&
-      !isCurrentItemFacetDataReady.value
-    ) {
-      return
-    }
-
     const allowedFields = new Set(advancedFilterFields.value)
     const nextFilters = {
       ...createEmptyItemSearchAdvancedFilters(),
@@ -1966,24 +2206,32 @@
   }
 
   const itemCategoryOptions = computed(() =>
-    sortItemSearchFacetValues(availableItemCategories.value).map((value) => ({
-      label:
-        value === ITEM_SEARCH_UNCATEGORIZED_VALUE
-          ? t('compendium.uncategorized')
-          : translateFilterToken('category', value, itemTypeFilter.value),
-      value,
-    }))
+    decorateListingFacetOptions(
+      sortItemSearchFacetValues(allItemCategories.value).map((value) => ({
+        label:
+          value === ITEM_SEARCH_UNCATEGORIZED_VALUE
+            ? t('compendium.uncategorized')
+            : translateFilterToken('category', value, itemTypeFilter.value),
+        value,
+      })),
+      (value) =>
+        !isCurrentItemFacetDataReady.value ||
+        availableItemCategories.value.includes(value)
+    )
   )
 
   const itemSubcategoryOptions = computed(() =>
-    sortItemSearchFacetValues(availableItemSubcategories.value).map(
-      (value) => ({
+    decorateListingFacetOptions(
+      sortItemSearchFacetValues(allItemSubcategories.value).map((value) => ({
         label:
           value === ITEM_SEARCH_UNCATEGORIZED_VALUE
             ? t('compendium.uncategorized')
             : translateFilterToken('subcategory', value, itemTypeFilter.value),
         value,
-      })
+      })),
+      (value) =>
+        !isCurrentItemFacetDataReady.value ||
+        availableItemSubcategories.value.includes(value)
     )
   )
 
@@ -1991,14 +2239,18 @@
     STYLE_DEFINITIONS.map((style) => ({
       label: t(style.i18nKey),
       value: style.key,
+      class: listingFacetOptionClass(isTierValueAvailable('style', style.key)),
     }))
   )
 
   const labelOptions = computed(() =>
-    TAG_DEFINITIONS.map((tag) => ({
-      label: t(tag.i18nKey),
-      value: tag.key,
-    }))
+    decorateListingFacetOptions(
+      TAG_DEFINITIONS.map((tag) => ({
+        label: t(tag.i18nKey),
+        value: tag.key,
+      })),
+      (value) => isTierValueAvailable('label', value)
+    )
   )
 
   const getVersionFilterLabel = (version: string) => {
@@ -2007,7 +2259,15 @@
     return translated !== key ? `${version} - ${translated}` : version
   }
   const versionOptions = computed(() =>
-    createVersionFilterOptions(availableVersions.value, getVersionFilterLabel)
+    createVersionFilterOptions(
+      availableVersions.value,
+      getVersionFilterLabel
+    ).map((option) => ({
+      ...option,
+      class: listingFacetOptionClass(
+        isTierValueAvailable('version', String(option.value))
+      ),
+    }))
   )
   const renderVersionOptionLabel = (option: {
     label?: string | number

@@ -37,7 +37,8 @@
 
       <CompendiumQualityFilter
         v-model:value="qualityFilter"
-        :disabled-qualities="[2]"
+        :quality-options="momoQualityOptions"
+        :unavailable-qualities="momoUnavailableQualities"
       />
 
       <n-select
@@ -103,7 +104,7 @@
         @click="editMode && handleMomoCardClick(entry.id, $event)"
       >
         <div
-          class="relative aspect-2/3 overflow-hidden rounded-lg bg-[url('/images/momo_bg.webp')] bg-cover bg-center shadow-md transition-shadow duration-300 group-hover:shadow-xl"
+          class="relative aspect-2/3 overflow-hidden rounded-lg bg-[linear-gradient(to_bottom,var(--color-slate-100)_60%,#000_80%)] shadow-md transition-shadow duration-300 group-hover:shadow-xl"
           :style="
             isMomoBatchSelected(entry.id)
               ? getQualityRingStyle(entry.quality)
@@ -111,19 +112,26 @@
           "
         >
           <div
-            class="absolute inset-0"
-            :class="getListingQualityOverlayClass(entry.quality)"
-          ></div>
-          <NuxtImg
-            :src="entry.image"
-            :alt="entry.name"
-            class="absolute inset-0 z-10 h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-110"
-            :preset="imagePreset"
-            fit="cover"
-            :loading="getListingImageLoading(index)"
-            :fetchpriority="getListingImageFetchPriority(index)"
-            :sizes="imageSizes"
-          />
+            class="absolute inset-0 mask-[linear-gradient(to_bottom,#000_68%,rgba(0,0,0,0.9)_74%,rgba(0,0,0,0.7)_82%,rgba(0,0,0,0.42)_90%,rgba(0,0,0,0.1)_100%)]"
+          >
+            <div
+              class="absolute inset-0 bg-slate-100 bg-[url('/images/momo_bg.webp')] bg-cover bg-center"
+            ></div>
+            <div
+              class="absolute inset-0"
+              :class="getListingQualityOverlayClass(entry.quality)"
+            ></div>
+            <NuxtImg
+              :src="entry.image"
+              :alt="entry.name"
+              class="absolute inset-0 z-10 h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-110"
+              :preset="imagePreset"
+              fit="cover"
+              :loading="getListingImageLoading(index)"
+              :fetchpriority="getListingImageFetchPriority(index)"
+              :sizes="imageSizes"
+            />
+          </div>
 
           <div
             v-if="!isThumbnailView || editMode"
@@ -195,22 +203,15 @@
             :class="
               isThumbnailView
                 ? [nameFadeThumbnailClass, 'pr-6']
-                : [nameFadeStandardClass, 'p-3', 'pr-8']
+                : [nameFadeStandardClass, 'p-3']
             "
           >
-            <img
-              src="/images/fade.png"
-              alt=""
-              aria-hidden="true"
-              draggable="false"
-              class="pointer-events-none absolute inset-0 h-full w-full object-fill"
-            />
             <p
-              class="relative z-10 font-semibold text-white"
+              class="relative z-10 leading-normal font-semibold text-white"
               :class="
                 isThumbnailView
-                  ? 'line-clamp-2 w-full min-w-0 text-left text-[10px] leading-snug'
-                  : 'line-clamp-2 text-xs leading-snug sm:text-sm'
+                  ? 'line-clamp-2 w-full min-w-0 text-left text-[10px]'
+                  : 'line-clamp-2 text-xs sm:text-sm'
               "
             >
               {{ entry.name }}
@@ -265,7 +266,7 @@
       : null
   )
 
-  const qualityOptions = [5, 4, 3, 2] as const
+  const qualityOptions = [5, 4, 3] as const
   type MomoListingPrimaryFilter = 'version' | 'source' | null
   type MomoWardrobeFilter = 'all' | 'owned' | 'missing'
   type CompendiumSection = 'outfits' | 'items' | 'momo' | 'makeups' | 'props'
@@ -330,7 +331,8 @@
     return 'all'
   }
 
-  const obtainOptions = computed(() => [
+  const momoApplicableSources = shallowRef<Set<string> | null>(null)
+  const allObtainOptions = computed(() => [
     ...createMomoSourceFilterOptions(t),
     ...(SHOW_LISTING_MISSING_FILTER_OPTIONS
       ? [
@@ -341,10 +343,17 @@
         ]
       : []),
   ])
+  const obtainOptions = computed(() =>
+    decorateListingFacetOptions(
+      allObtainOptions.value,
+      (value) =>
+        !momoApplicableSources.value || momoApplicableSources.value.has(value)
+    )
+  )
   const availableObtainValues = computed(() =>
     Array.from(
       new Set([
-        ...obtainOptions.value.map((option) => option.value as string),
+        ...allObtainOptions.value.map((option) => option.value as string),
         LISTING_MISSING_FILTER_VALUE,
       ])
     )
@@ -506,6 +515,68 @@
     },
   })
 
+  const momoFacetKey = computed(() =>
+    JSON.stringify({
+      search: searchMatchingMomoIds.value,
+      quality: qualityFilter.value,
+      version: versionFilter.value,
+      source: obtainFilter.value,
+      wardrobe: wardrobeFilter.value,
+      wardrobeReady: wardrobeInitialized.value,
+      wardrobeVersion: wardrobeMutationVersion.value,
+      region: activeRegionScope.value,
+    })
+  )
+  const { entriesByFilter: momoFacetEntries, ready: momoFacetsReady } =
+    await useCatalogListingFacets({
+      key: () => momoFacetKey.value,
+      query: () => ({
+        entity: 'momo',
+        filters: {
+          searchIds: searchMatchingMomoIds.value,
+          quality: qualityFilter.value,
+          version: versionFilter.value,
+          source: obtainFilter.value,
+        },
+        page: 1,
+        pageSize: Number.MAX_SAFE_INTEGER,
+        ownershipMode: wardrobeInitialized.value ? wardrobeFilter.value : 'all',
+        regionScope: activeRegionScope.value,
+        wardrobe: { ownedMomoIds: ownedMomoIds.value },
+      }),
+      filterKeys: ['quality', 'version', 'source', 'ownershipMode'],
+    })
+
+  const getMomoFacetEntries = (filter: string) =>
+    momoFacetEntries.value[filter] ?? []
+  watchEffect(() => {
+    if (!momoFacetsReady.value) {
+      momoApplicableSources.value = null
+      return
+    }
+
+    const entries = getMomoFacetEntries('source')
+    momoApplicableSources.value = new Set(
+      allObtainOptions.value
+        .map((option) => option.value as string)
+        .filter((value) => hasCatalogSourceFacetValue(entries, value, 'momo'))
+    )
+  })
+  const momoQualityOptions = computed(() => {
+    return [...qualityOptions]
+  })
+  const momoUnavailableQualities = computed(() =>
+    momoFacetsReady.value
+      ? momoQualityOptions.value.filter(
+          (quality) =>
+            !hasCatalogQualityFacetValue(
+              getMomoFacetEntries('quality'),
+              quality
+            )
+        )
+      : []
+  )
+
   const entries = computed(() => {
     const rows = (data.value?.data || []) as MomoListEntry[]
     return rows.map((entry) => ({
@@ -563,12 +634,36 @@
     ])
   }
   const wardrobeFilterOptions = computed<IconSelectOption[]>(() => [
-    { label: t('common.all'), value: 'all', icon: DotCircle },
-    { label: t('wardrobe.status.owned'), value: 'owned', icon: CheckCircle },
+    {
+      label: t('common.all'),
+      value: 'all',
+      icon: DotCircle,
+      class: listingFacetOptionClass(
+        !momoFacetsReady.value ||
+          getMomoFacetEntries('ownershipMode').length > 0
+      ),
+    },
+    {
+      label: t('wardrobe.status.owned'),
+      value: 'owned',
+      icon: CheckCircle,
+      class: listingFacetOptionClass(
+        !momoFacetsReady.value ||
+          getMomoFacetEntries('ownershipMode').some((entry) =>
+            ownedMomoIds.value.includes(entry.id)
+          )
+      ),
+    },
     {
       label: t('wardrobe.status.missing'),
       value: 'missing',
       icon: TimesCircle,
+      class: listingFacetOptionClass(
+        !momoFacetsReady.value ||
+          getMomoFacetEntries('ownershipMode').some(
+            (entry) => !ownedMomoIds.value.includes(entry.id)
+          )
+      ),
     },
   ])
   const renderWardrobeFilterOptionLabel = (option: SelectOption) => {
@@ -913,7 +1008,17 @@
     ...createVersionFilterOptions(
       availableVersions.value,
       (version) => getVersionFilterLabel(version) ?? version
-    ),
+    ).map((option) => ({
+      ...option,
+      class: listingFacetOptionClass(
+        !momoFacetsReady.value ||
+          hasCatalogVersionFacetValue(
+            getMomoFacetEntries('version'),
+            String(option.value),
+            'momo'
+          )
+      ),
+    })),
     ...(SHOW_LISTING_MISSING_FILTER_OPTIONS
       ? [
           {

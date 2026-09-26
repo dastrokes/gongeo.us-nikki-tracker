@@ -15,6 +15,7 @@
         size="small"
         v-bind="getQualityButtonTheme(quality, value === quality)"
         class="min-w-0 flex-1 px-1! sm:min-w-10 sm:flex-none sm:px-3!"
+        :class="{ 'opacity-45': unavailableQualities.includes(quality) }"
         :disabled="disabledQualities.includes(quality)"
         @click="value = quality"
       >
@@ -36,10 +37,12 @@
     defineProps<{
       qualityOptions?: number[]
       disabledQualities?: number[]
+      unavailableQualities?: number[]
     }>(),
     {
       qualityOptions: () => [5, 4, 3, 2],
       disabledQualities: () => [],
+      unavailableQualities: () => [],
     }
   )
 

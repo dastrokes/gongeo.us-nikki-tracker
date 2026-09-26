@@ -643,15 +643,56 @@
                     :label="$t('navigation.import')"
                     class="w-full"
                   >
-                    <div
-                      class="flex w-full flex-col gap-2 sm:flex-row sm:gap-6"
-                    >
-                      <n-checkbox v-model:checked="importPullHistory">
-                        {{ $t('import.form.import_pull_history') }}
-                      </n-checkbox>
-                      <n-checkbox v-model:checked="importEurekaOwnership">
-                        {{ $t('import.form.import_eurekas') }}
-                      </n-checkbox>
+                    <div class="w-full">
+                      <div class="flex flex-wrap items-center gap-2 sm:gap-6">
+                        <n-checkbox v-model:checked="importPullHistory">
+                          {{ $t('import.form.import_pull_history') }}
+                        </n-checkbox>
+                        <div class="flex items-center gap-1">
+                          <n-checkbox v-model:checked="importWardrobeOwnership">
+                            {{ $t('import.form.import_wardrobe') }}
+                          </n-checkbox>
+                          <n-tooltip trigger="hover">
+                            <template #trigger>
+                              <n-button
+                                text
+                                circle
+                                size="small"
+                                :aria-label="
+                                  $t('import.form.wardrobe_partial_notice')
+                                "
+                              >
+                                <template #icon>
+                                  <n-icon :depth="3"><InfoCircle /></n-icon>
+                                </template>
+                              </n-button>
+                            </template>
+                            {{ $t('import.form.wardrobe_partial_notice') }}
+                          </n-tooltip>
+                        </div>
+                        <div class="flex items-center gap-1">
+                          <n-checkbox v-model:checked="importEurekaOwnership">
+                            {{ $t('import.form.import_eurekas') }}
+                          </n-checkbox>
+                          <n-tooltip trigger="hover">
+                            <template #trigger>
+                              <n-button
+                                text
+                                circle
+                                size="small"
+                                :aria-label="
+                                  $t('import.form.eureka_partial_notice')
+                                "
+                              >
+                                <template #icon>
+                                  <n-icon :depth="3"><InfoCircle /></n-icon>
+                                </template>
+                              </n-button>
+                            </template>
+                            {{ $t('import.form.eureka_partial_notice') }}
+                          </n-tooltip>
+                        </div>
+                      </div>
                     </div>
                   </n-form-item>
                   <n-form-item
@@ -901,6 +942,7 @@
     CheckCircle,
     Bookmark,
     ExclamationCircle,
+    InfoCircle,
     Youtube,
   } from '@vicons/fa'
   import { BANNER_DATA } from '~~/data/banners'
@@ -1103,8 +1145,7 @@
     importTarget !== 'wardrobe' && importTarget !== 'eurekas'
   )
   const submitGlobalStats = ref(importPullHistory.value)
-  // Pearpal no longer returns clothes; keep the importer ready for its return.
-  const importWardrobeOwnership = ref(false)
+  const importWardrobeOwnership = ref(importTarget !== 'eurekas')
   const importEurekaOwnership = ref(importTarget !== 'wardrobe')
   const importingPearpalWardrobe = ref(false)
   const importingPearpalEurekas = ref(false)
@@ -1484,13 +1525,23 @@
 
               try {
                 const clothes = noteBookData.info_from_gm?.clothes
-                if (!Array.isArray(clothes)) {
-                  throw new Error('No clothes list found in response data')
-                }
-
+                const suits = noteBookData.info_from_self?.suit_list
                 await wardrobe.init()
-                const directImport =
-                  await wardrobe.importOwnedItemsFromPearpal(clothes)
+                let directImport
+                if (Array.isArray(clothes) && clothes.length > 0) {
+                  directImport =
+                    await wardrobe.importOwnedItemsFromPearpal(clothes)
+                } else if (Array.isArray(suits)) {
+                  directImport =
+                    await wardrobe.importCompletedOutfitsFromPearpal(suits)
+                } else if (Array.isArray(clothes)) {
+                  directImport =
+                    await wardrobe.importOwnedItemsFromPearpal(clothes)
+                } else {
+                  throw new Error(
+                    'No clothes or suit list found in response data'
+                  )
+                }
 
                 let inferredImport = {
                   imported: 0,

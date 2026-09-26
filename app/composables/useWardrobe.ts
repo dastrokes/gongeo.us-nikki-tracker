@@ -381,6 +381,36 @@ export const useWardrobe = () => {
     }
   }
 
+  const importCompletedOutfitsFromPearpal = async (
+    suitIds: readonly (string | number)[]
+  ) => {
+    if (!canMutate.value) {
+      throw new Error('Wardrobe storage is not ready')
+    }
+
+    await catalogIndex.load(['items', 'outfits', 'outfitItems'])
+
+    const index = catalogIndex.index.value
+    if (!index) {
+      throw new Error('Catalog index is not ready')
+    }
+
+    const itemIds = getPearpalCompletedOutfitItemIds(suitIds, index)
+    const result = await markWardrobeIdsOwned({
+      itemIds,
+      makeupIds: [],
+      momoIds: [],
+    })
+
+    return {
+      foundItems: itemIds.length,
+      foundMakeups: 0,
+      importedItems: result.items,
+      importedMakeups: 0,
+      imported: result.total,
+    }
+  }
+
   const markEurekaColorsOwned = async (
     colorIds: readonly number[],
     owned: boolean
@@ -652,6 +682,7 @@ export const useWardrobe = () => {
     toggleEurekaColorOwned,
     markWardrobeIdsOwned,
     importOwnedItemsFromPearpal,
+    importCompletedOutfitsFromPearpal,
     importOwnedEurekasFromPearpal,
     getTrackerWardrobeImportPreview,
     importOwnedItemsFromTracker,

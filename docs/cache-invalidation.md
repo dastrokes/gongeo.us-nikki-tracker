@@ -1,6 +1,6 @@
 # Cache Invalidation
 
-The Nitro fallback uses `Netlify-Cache-ID`; the Cloudflare data API uses the equivalent `Cache-Tag`. Stable deploy-scoped files, like `/catalog/index.json`, should not get a custom cache ID.
+The Cloudflare data API uses `Cache-Tag` for catalog responses. The tracker uses `Netlify-Cache-ID` for its remaining site-owned cached responses. Stable deploy-scoped files, like `/catalog/index.json`, should not get a custom cache ID.
 
 ## IDs
 
@@ -34,16 +34,14 @@ The Nitro fallback uses `Netlify-Cache-ID`; the Cloudflare data API uses the equ
 
 ## Locale Variants
 
-Tracker clients always send `lang`. The Cloudflare search API requires it and includes it in the canonical cache identity. Retained Nitro routes may still resolve the locale header or cookie for older callers.
+Tracker clients always send `lang`. The Cloudflare search API requires it and includes it in the canonical cache identity.
 
 ## Commands
 
-The CLI loads `.env` and requires `NETLIFY_SITE_ID` plus `NETLIFY_AUTH_TOKEN`.
-When `CLOUDFLARE_CACHE_PURGE_URL` and `CLOUDFLARE_DATA_TOKEN` are
-configured, Worker-owned catalog tags are also purged from the Cloudflare data
-API. Other tags remain Netlify-only. While the Nitro rollback routes are
-retained, catalog tags are sent to both configured caches so they do not retain
-stale data.
+The CLI loads `.env` and routes catalog tags only to the Cloudflare data API;
+they require `CLOUDFLARE_CACHE_PURGE_URL` and `CLOUDFLARE_DATA_TOKEN`. Site-owned
+tags are sent only to Netlify and require `NETLIFY_SITE_ID` plus
+`NETLIFY_AUTH_TOKEN`. A catalog-only purge does not require Netlify credentials.
 
 One-off purge:
 

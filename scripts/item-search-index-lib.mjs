@@ -1,7 +1,6 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { createClient } from '@supabase/supabase-js'
 import { loadItemSearchRegistry } from '../data/item-search/registry.mjs'
 
 const __filename = fileURLToPath(import.meta.url)
@@ -15,15 +14,7 @@ const defaultItemAttributesPath = path.resolve(
   'index',
   'item-attributes.jsonl'
 )
-const defaultLocalCopyRoot = path.resolve(
-  repoRoot,
-  'data',
-  'item-search',
-  'generated',
-  'supabase'
-)
 const itemSearchRegistry = loadItemSearchRegistry()
-const DEFAULT_EXPORT_PAGE_SIZE = 1000
 
 export const SEARCH_NAMESPACE_CONFIG = itemSearchRegistry.searchNamespaces.map(
   (namespace) => ({ namespace })
@@ -171,7 +162,6 @@ export const parseArgs = (argv) => {
   const args = {
     itemAttributesPath: defaultItemAttributesPath,
     catalogPath: null,
-    replaceTypes: false,
     batchSize: 250,
     namespace: null,
     overwrite: false,
@@ -212,11 +202,6 @@ export const parseArgs = (argv) => {
         args.batchSize = Math.floor(parsed)
       }
       index += 1
-      continue
-    }
-
-    if (arg === '--replace-types') {
-      args.replaceTypes = true
       continue
     }
 
@@ -432,18 +417,6 @@ export const chunkArray = (values, chunkSize) => {
   }
 
   return chunks
-}
-
-const writeJsonLines = (filePath, rows) => {
-  fs.mkdirSync(path.dirname(filePath), { recursive: true })
-  fs.writeFileSync(
-    filePath,
-    rows
-      .map((row) => JSON.stringify(row))
-      .join('\n')
-      .concat(rows.length > 0 ? '\n' : ''),
-    'utf8'
-  )
 }
 
 const hasStructuredValue = (value) => {
@@ -688,87 +661,6 @@ export const buildSearchDocumentRowFromItemAttributeRow = (
 
 export const buildItemAttributeRow = (row) => normalizeItemAttributeRow(row)
 
-export const toUpsertRow = buildItemAttributeRow
-
-const createDataSupabaseClient = () => {
-  if (!process.env.SUPABASE_DATA_URL || !process.env.SUPABASE_DATA_SECRET_KEY) {
-    throw new Error(
-      'SUPABASE_DATA_URL and SUPABASE_DATA_SECRET_KEY must be set in the environment or .env'
-    )
-  }
-
-  return createClient(
-    process.env.SUPABASE_DATA_URL,
-    process.env.SUPABASE_DATA_SECRET_KEY,
-    {
-      auth: {
-        autoRefreshToken: false,
-        persistSession: false,
-        detectSessionInUrl: false,
-      },
-    }
-  )
-}
-
-const fetchAllItemAttributeRows = async ({
-  client,
-  pageSize = DEFAULT_EXPORT_PAGE_SIZE,
-}) => {
-  const rows = []
-  let from = 0
-
-  while (true) {
-    const { data, error } = await client
-      .from('item_attributes')
-      .select('item_id,item_type,category,subcategory,metadata')
-      .order('item_id', { ascending: true })
-      .range(from, from + pageSize - 1)
-
-    if (error) {
-      throw error
-    }
-
-    const batch = Array.isArray(data) ? data : []
-    rows.push(...batch)
-
-    if (batch.length < pageSize) {
-      break
-    }
-
-    from += pageSize
-  }
-
-  return rows
-}
-
-export const refreshItemSearchLocalCopy = async ({
-  outputRoot = defaultLocalCopyRoot,
-  pageSize = DEFAULT_EXPORT_PAGE_SIZE,
-} = {}) => {
-  loadEnvFile()
-  const client = createDataSupabaseClient()
-  const rawRows = await fetchAllItemAttributeRows({
-    client,
-    pageSize,
-  })
-  const normalizedRows = rawRows.map((row) => normalizeItemAttributeRow(row))
-
-  const normalizedOutputRoot = path.resolve(outputRoot)
-  const itemAttributesPath = path.join(
-    normalizedOutputRoot,
-    'item-attributes.jsonl'
-  )
-  writeJsonLines(itemAttributesPath, normalizedRows)
-
-  return {
-    output_root: normalizedOutputRoot,
-    item_attributes_path: itemAttributesPath,
-    exported_count: normalizedRows.length,
-  }
-}
-
-export const exportItemSearchLocalCopy = refreshItemSearchLocalCopy
-
 export const buildSearchVectorUpsertRows = (
   itemAttributeRow,
   catalogRow = null
@@ -789,59 +681,6 @@ export const buildSearchVectorUpsertRows = (
       },
     }
   })
-}
-
-export const syncItemIndexToSupabase = async (argv = process.argv.slice(2)) => {
-  loadEnvFile()
-
-  const args = parseArgs(argv)
-  const client = createDataSupabaseClient()
-
-  const itemRows = parseJsonLines(args.itemAttributesPath).map((row) =>
-    buildItemAttributeRow(row)
-  )
-  const distinctTypes = Array.from(
-    new Set(itemRows.map((row) => row.item_type))
-  ).sort()
-  let supabaseWrittenCount = 0
-
-  if (args.replaceTypes && distinctTypes.length > 0) {
-    const { error: deleteError } = await client
-      .from('item_attributes')
-      .delete()
-      .in('item_type', distinctTypes)
-
-    if (deleteError) {
-      throw deleteError
-    }
-  }
-
-  for (const batch of chunkArray(itemRows, args.batchSize)) {
-    // Default behavior is append-only: existing item_id rows are skipped.
-    // Pass --overwrite to update existing rows in place.
-    const { data, error } = await client
-      .from('item_attributes')
-      .upsert(batch, {
-        onConflict: 'item_id',
-        ignoreDuplicates: !args.overwrite,
-      })
-      .select('item_id')
-
-    if (error) {
-      throw error
-    }
-
-    supabaseWrittenCount += Array.isArray(data) ? data.length : 0
-  }
-
-  return {
-    item_attributes_path: args.itemAttributesPath,
-    imported_count: itemRows.length,
-    item_types: distinctTypes,
-    replace_types: args.replaceTypes,
-    overwrite: args.overwrite,
-    supabase_written: supabaseWrittenCount,
-  }
 }
 
 const PINECONE_DOCUMENT_API_VERSION = '2026-07'

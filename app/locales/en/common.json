@@ -543,7 +543,9 @@
       "momo_token_placeholder": "momoToken from Cookie",
       "import_pull_history": "Import Pull History",
       "import_wardrobe": "Import Wardrobe Data",
+      "wardrobe_partial_notice": "Whim-Log imports only items from completed outfits.",
       "import_eurekas": "Import Eureka Data",
+      "eureka_partial_notice": "Whim-Log imports only 4-star and 5-star Eurekas.",
       "submit_global_stats": "Submit data for global stats",
       "submit_button": "Submit and Import Pull History",
       "fetching": "Fetching resonance data, please wait…"

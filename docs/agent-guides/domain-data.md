@@ -2,6 +2,8 @@
 
 Read this guide when changing banners, outfits, source maps, game versions, or maintained domain data.
 
+For a cross-project game-version release or reviewed item-search follow-up, use `$game-data-update`; this guide covers tracker-local invariants only.
+
 - `data/banners.ts` is the fallback source for the game version through `shared/utils/gameVersion.ts`.
 - Keep banner IDs and each banner's `runs` list in chronological order.
 - When adding a file under `data/outfits/`, also update `data/outfits/index.ts`.

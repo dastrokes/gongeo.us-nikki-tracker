@@ -38,7 +38,8 @@
 
       <CompendiumQualityFilter
         v-model:value="qualityFilter"
-        :quality-options="[6, 5, 4, 3]"
+        :quality-options="propQualityOptions"
+        :unavailable-qualities="propUnavailableQualities"
       />
 
       <n-select
@@ -103,7 +104,7 @@
         @click="editMode && handlePropCardClick(entry.id, $event)"
       >
         <div
-          class="relative aspect-square overflow-hidden rounded-lg bg-[url('/images/bg.webp')] bg-cover bg-center shadow-md transition-shadow duration-300 hover:shadow-xl"
+          class="relative aspect-square overflow-hidden rounded-lg bg-[linear-gradient(to_bottom,var(--color-slate-100)_60%,#000_80%)] shadow-md transition-shadow duration-300 hover:shadow-xl"
           :style="
             isPropBatchSelected(entry.id)
               ? getQualityRingStyle(entry.quality)
@@ -111,27 +112,34 @@
           "
         >
           <div
-            class="absolute inset-0"
-            :class="getListingQualityOverlayClass(entry.quality)"
-          />
-
-          <NuxtImg
-            v-if="!failedImageIds.has(entry.id)"
-            :src="entry.image"
-            :alt="entry.name"
-            class="absolute inset-0 z-10 h-full w-full object-contain p-2 transition-transform duration-500 ease-out hover:scale-110"
-            :preset="propImagePreset"
-            fit="contain"
-            :loading="getListingImageLoading(index)"
-            :fetchpriority="getListingImageFetchPriority(index)"
-            :sizes="imageSizes"
-            @error="markImageFailed(entry.id)"
-          />
-          <div
-            v-else
-            class="absolute inset-0 z-10 flex flex-col items-center justify-center gap-2 p-4 text-center text-white/75"
+            class="absolute inset-0 mask-[linear-gradient(to_bottom,#000_68%,rgba(0,0,0,0.9)_74%,rgba(0,0,0,0.7)_82%,rgba(0,0,0,0.42)_90%,rgba(0,0,0,0.1)_100%)]"
           >
-            <n-icon :size="isThumbnailView ? 24 : 38"><Box /></n-icon>
+            <div
+              class="absolute inset-0 bg-slate-100 bg-[url('/images/bg.webp')] bg-cover bg-center"
+            ></div>
+            <div
+              class="absolute inset-0"
+              :class="getListingQualityOverlayClass(entry.quality)"
+            />
+
+            <NuxtImg
+              v-if="!failedImageIds.has(entry.id)"
+              :src="entry.image"
+              :alt="entry.name"
+              class="absolute inset-0 z-10 h-full w-full object-contain p-2 transition-transform duration-500 ease-out hover:scale-110"
+              :preset="propImagePreset"
+              fit="contain"
+              :loading="getListingImageLoading(index)"
+              :fetchpriority="getListingImageFetchPriority(index)"
+              :sizes="imageSizes"
+              @error="markImageFailed(entry.id)"
+            />
+            <div
+              v-else
+              class="absolute inset-0 z-10 flex flex-col items-center justify-center gap-2 p-4 text-center text-white/75"
+            >
+              <n-icon :size="isThumbnailView ? 24 : 38"><Box /></n-icon>
+            </div>
           </div>
 
           <div
@@ -205,19 +213,12 @@
                 : [propNameFadeStandardClass, 'p-2', 'pr-8']
             "
           >
-            <img
-              src="/images/fade.png"
-              alt=""
-              aria-hidden="true"
-              draggable="false"
-              class="pointer-events-none absolute inset-0 h-full w-full object-fill"
-            />
             <p
-              class="relative z-10 font-semibold text-white"
+              class="relative z-10 leading-normal font-semibold text-white"
               :class="
                 isThumbnailView
-                  ? 'line-clamp-2 w-full min-w-0 text-left text-[10px] leading-snug'
-                  : 'line-clamp-2 text-xs leading-snug sm:text-sm'
+                  ? 'line-clamp-2 w-full min-w-0 text-left text-[10px]'
+                  : 'line-clamp-2 text-xs sm:text-sm'
               "
             >
               {{ entry.name }}
@@ -362,12 +363,29 @@
     { label: t('common.props'), value: 'props', icon: Box },
   ])
   const ownershipOptions = computed<IconSelectOption[]>(() => [
-    { label: t('common.all'), value: 'all', icon: DotCircle },
-    { label: t('wardrobe.status.owned'), value: 'owned', icon: CheckCircle },
+    {
+      label: t('common.all'),
+      value: 'all',
+      icon: DotCircle,
+      class: listingFacetOptionClass(
+        getPropFacetEntries('ownership').length > 0
+      ),
+    },
+    {
+      label: t('wardrobe.status.owned'),
+      value: 'owned',
+      icon: CheckCircle,
+      class: listingFacetOptionClass(
+        getPropFacetEntries('ownership').some((entry) => isPropOwned(entry.id))
+      ),
+    },
     {
       label: t('wardrobe.status.missing'),
       value: 'missing',
       icon: TimesCircle,
+      class: listingFacetOptionClass(
+        getPropFacetEntries('ownership').some((entry) => !isPropOwned(entry.id))
+      ),
     },
   ])
   const entryCountLabels = computed(() => ({
@@ -392,6 +410,69 @@
         image: getImageSrc('prop', entry.id),
       }))
   )
+  type PropFacetFilter = 'quality' | 'version' | 'source' | 'ownership'
+  const matchesPropEntry = (
+    entry: PropListingEntry,
+    omittedFilter?: PropFacetFilter
+  ) => {
+    const query = searchQuery.value.trim().toLocaleLowerCase()
+    const selectedSource = sourceFilter.value
+      ? resolvePropSourceFromObtainGroupKey(sourceFilter.value)
+      : null
+
+    if (
+      omittedFilter !== 'quality' &&
+      qualityFilter.value !== null &&
+      entry.quality !== qualityFilter.value
+    ) {
+      return false
+    }
+    if (
+      omittedFilter !== 'version' &&
+      versionFilter.value &&
+      (isListingMissingFilterValue(versionFilter.value)
+        ? Boolean(entry.version)
+        : !entry.version ||
+          !matchesVersionFilter(entry.version, versionFilter.value))
+    ) {
+      return false
+    }
+    if (
+      omittedFilter !== 'source' &&
+      sourceFilter.value !== null &&
+      (isListingMissingFilterValue(sourceFilter.value)
+        ? Boolean(entry.sources?.length)
+        : !selectedSource || !entry.sources?.includes(selectedSource))
+    ) {
+      return false
+    }
+    if (
+      omittedFilter !== 'ownership' &&
+      ownershipFilter.value === 'owned' &&
+      !isPropOwned(entry.id)
+    ) {
+      return false
+    }
+    if (
+      omittedFilter !== 'ownership' &&
+      ownershipFilter.value === 'missing' &&
+      isPropOwned(entry.id)
+    ) {
+      return false
+    }
+    return !query || entry.name.toLocaleLowerCase().includes(query)
+  }
+  const getPropFacetEntries = (filter: PropFacetFilter) =>
+    entries.value.filter((entry) => matchesPropEntry(entry, filter))
+  const propQualityOptions = computed(() => [6, 5, 4, 3])
+  const propUnavailableQualities = computed(() =>
+    propQualityOptions.value.filter(
+      (quality) =>
+        !getPropFacetEntries('quality').some(
+          (entry) => entry.quality === quality
+        )
+    )
+  )
   const availableVersions = computed(() =>
     Array.from(
       new Set(
@@ -406,7 +487,19 @@
       const key = `version.${version}`
       const translated = t(key)
       return translated === key ? version : `${version} - ${translated}`
-    }),
+    }).map((option) => ({
+      ...option,
+      class: listingFacetOptionClass(
+        getPropFacetEntries('version').some((entry) =>
+          isListingMissingFilterValue(String(option.value))
+            ? !entry.version
+            : Boolean(
+                entry.version &&
+                matchesVersionFilter(entry.version, String(option.value))
+              )
+        )
+      ),
+    })),
     ...(SHOW_LISTING_MISSING_FILTER_OPTIONS
       ? [
           {
@@ -436,17 +529,16 @@
   }
   const sourceOptions = computed(() => {
     const availableSources = new Set(
-      entries.value.flatMap((entry) => entry.sources ?? [])
+      getPropFacetEntries('source').flatMap((entry) => entry.sources ?? [])
     )
-    const options = PROP_SOURCES.filter((source) =>
-      availableSources.has(source)
-    ).map((source) => {
+    const options = PROP_SOURCES.map((source) => {
       const labelKey = resolvePropSourceLabelKey(source)
       const translated = labelKey ? t(labelKey) : source
       const value = resolveObtainGroupKeyFromPropSource(source)
       return {
         label: labelKey && translated !== labelKey ? translated : value,
         value,
+        class: listingFacetOptionClass(availableSources.has(source)),
       }
     })
 
@@ -459,46 +551,9 @@
 
     return options
   })
-  const matchesVersionFilter = (version?: string) => {
-    if (!versionFilter.value) return true
-    if (isListingMissingFilterValue(versionFilter.value)) return !version
-    if (!version) return false
-    if (versionFilter.value.endsWith('.x')) {
-      return version.startsWith(`${versionFilter.value.slice(0, -2)}.`)
-    }
-    return version === versionFilter.value
-  }
-  const filteredEntries = computed(() => {
-    const query = searchQuery.value.trim().toLocaleLowerCase()
-    const selectedSource = sourceFilter.value
-      ? resolvePropSourceFromObtainGroupKey(sourceFilter.value)
-      : null
-
-    return entries.value.filter((entry) => {
-      if (
-        qualityFilter.value !== null &&
-        entry.quality !== qualityFilter.value
-      ) {
-        return false
-      }
-      if (!matchesVersionFilter(entry.version)) return false
-      if (
-        sourceFilter.value !== null &&
-        (isListingMissingFilterValue(sourceFilter.value)
-          ? Boolean(entry.sources?.length)
-          : !selectedSource || !entry.sources?.includes(selectedSource))
-      ) {
-        return false
-      }
-      if (ownershipFilter.value === 'owned' && !isPropOwned(entry.id)) {
-        return false
-      }
-      if (ownershipFilter.value === 'missing' && isPropOwned(entry.id)) {
-        return false
-      }
-      return !query || entry.name.toLocaleLowerCase().includes(query)
-    })
-  })
+  const filteredEntries = computed(() =>
+    entries.value.filter((entry) => matchesPropEntry(entry))
+  )
   const pagedEntries = computed(() => {
     const start = (currentPage.value - 1) * pageSize.value
     return filteredEntries.value.slice(start, start + pageSize.value)

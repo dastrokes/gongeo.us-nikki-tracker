@@ -56,6 +56,7 @@ export interface PearpalNoteBookResponse {
   }
   info_from_self: {
     gacha_list: PearpalTrackerItem[]
+    suit_list?: Array<string | number>
     magic_ball_list?: PearpalMagicBallItem[]
   }
 }

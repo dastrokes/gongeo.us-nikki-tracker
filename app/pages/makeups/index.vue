@@ -37,7 +37,8 @@
 
       <CompendiumQualityFilter
         v-model:value="qualityFilter"
-        :disabled-qualities="[2]"
+        :quality-options="makeupQualityOptions"
+        :unavailable-qualities="makeupUnavailableQualities"
       />
 
       <n-select
@@ -54,6 +55,7 @@
       <CatalogVariationToggle
         v-model:value="variationFilter"
         :options="variationFilterOptions"
+        :unavailable-options="makeupUnavailableVariations"
       />
 
       <n-select
@@ -105,6 +107,7 @@
         <n-tree-select
           v-model:value="sourceTreeFilter"
           :options="sourceTreeOptions"
+          :render-label="renderListingSourceTreeLabel"
           size="small"
           class="min-w-0"
           clearable
@@ -126,7 +129,7 @@
         @click="editMode && handleMakeupCardClick(entry.id, $event)"
       >
         <div
-          class="relative aspect-2/3 overflow-hidden rounded-lg bg-[url('/images/bg.webp')] bg-cover bg-center shadow-md transition-shadow duration-300 hover:shadow-xl"
+          class="relative aspect-2/3 overflow-hidden rounded-lg bg-[linear-gradient(to_bottom,var(--color-slate-100)_60%,#000_80%)] shadow-md transition-shadow duration-300 hover:shadow-xl"
           :style="
             isMakeupBatchSelected(entry.id)
               ? getQualityRingStyle(entry.quality)
@@ -134,19 +137,26 @@
           "
         >
           <div
-            class="absolute inset-0"
-            :class="getListingQualityOverlayClass(entry.quality)"
-          ></div>
-          <NuxtImg
-            :src="entry.image"
-            :alt="entry.name"
-            class="absolute inset-0 z-10 h-full w-full object-cover transition-transform duration-500 ease-out hover:scale-110"
-            :preset="imagePreset"
-            fit="cover"
-            :loading="getListingImageLoading(index)"
-            :fetchpriority="getListingImageFetchPriority(index)"
-            :sizes="imageSizes"
-          />
+            class="absolute inset-0 mask-[linear-gradient(to_bottom,#000_68%,rgba(0,0,0,0.9)_74%,rgba(0,0,0,0.7)_82%,rgba(0,0,0,0.42)_90%,rgba(0,0,0,0.1)_100%)]"
+          >
+            <div
+              class="absolute inset-0 bg-slate-100 bg-[url('/images/bg.webp')] bg-cover bg-center"
+            ></div>
+            <div
+              class="absolute inset-0"
+              :class="getListingQualityOverlayClass(entry.quality)"
+            ></div>
+            <NuxtImg
+              :src="entry.image"
+              :alt="entry.name"
+              class="absolute inset-0 z-10 h-full w-full object-cover transition-transform duration-500 ease-out hover:scale-110"
+              :preset="imagePreset"
+              fit="cover"
+              :loading="getListingImageLoading(index)"
+              :fetchpriority="getListingImageFetchPriority(index)"
+              :sizes="imageSizes"
+            />
+          </div>
 
           <div
             v-if="!isThumbnailView || editMode"
@@ -235,22 +245,15 @@
             :class="
               isThumbnailView
                 ? [nameFadeThumbnailClass, 'pr-6']
-                : [nameFadeStandardClass, 'p-3', 'pr-8']
+                : [nameFadeStandardClass, 'p-3']
             "
           >
-            <img
-              src="/images/fade.png"
-              alt=""
-              aria-hidden="true"
-              draggable="false"
-              class="pointer-events-none absolute inset-0 h-full w-full object-fill"
-            />
             <p
-              class="relative z-10 font-semibold text-white"
+              class="relative z-10 leading-normal font-semibold text-white"
               :class="
                 isThumbnailView
-                  ? 'line-clamp-2 w-full min-w-0 text-left text-[10px] leading-snug'
-                  : 'line-clamp-2 text-xs leading-snug sm:text-sm'
+                  ? 'line-clamp-2 w-full min-w-0 text-left text-[10px]'
+                  : 'line-clamp-2 text-xs sm:text-sm'
               "
             >
               {{ entry.name }}
@@ -390,7 +393,8 @@
   const availableObtains = computed(() =>
     getLocaleMessageNumericIds(messages.value, 'obtain')
   )
-  const obtainOptions = computed(() => [
+  const makeupApplicableSources = shallowRef<Set<string> | null>(null)
+  const allObtainOptions = computed(() => [
     ...createObtainFilterOptions(availableObtains.value, t, {
       includeGroup: isObtainGroupVisibleInMakeups,
       fallbackLabel: (id) => `Obtain ${id}`,
@@ -405,12 +409,16 @@
       : []),
   ])
   const sourceTreeOptions = computed<TreeSelectOption[]>(() =>
-    createSourceTreeFilterOptions(obtainOptions.value, t, 'makeup')
+    decorateListingSourceTreeOptions(
+      createSourceTreeFilterOptions(allObtainOptions.value, t, 'makeup'),
+      makeupApplicableSources.value,
+      null
+    )
   )
   const availableObtainValues = computed(() =>
     Array.from(
       new Set([
-        ...obtainOptions.value.map((option) => option.value as string),
+        ...allObtainOptions.value.map((option) => option.value as string),
         LISTING_MISSING_FILTER_VALUE,
       ])
     )
@@ -559,6 +567,7 @@
     markMakeupsOwned,
     toggleMakeupOwned,
   } = useWardrobe()
+  const catalogIndex = useCatalogIndex()
   const { activeRegionScope } = useWardrobeSettings()
   const wardrobeModeError = ref<Error | null>(null)
   const wardrobeError = computed(() =>
@@ -622,6 +631,16 @@
         wardrobeMutationVersion.value
       )}-${currentPage.value}-${pageSize.value}-${viewMode.value}`
   )
+  const buildMakeupFetchFilters = () => ({
+    quality: qualityFilter.value,
+    type: slotFilter.value,
+    version: versionFilter.value,
+    style: styleFilter.value,
+    source: obtainFilter.value,
+    sourceDetail: sourceDetailFilter.value,
+    kind: makeupKindFilter.value,
+    variations: variationFilter.value,
+  })
   const {
     data: compendiumData,
     pending: isListingPending,
@@ -633,16 +652,7 @@
     key: () => cacheKey.value,
     query: () => ({
       entity: 'makeup',
-      filters: {
-        quality: qualityFilter.value,
-        type: slotFilter.value,
-        version: versionFilter.value,
-        style: styleFilter.value,
-        source: obtainFilter.value,
-        sourceDetail: sourceDetailFilter.value,
-        kind: makeupKindFilter.value,
-        variations: variationFilter.value,
-      },
+      filters: buildMakeupFetchFilters(),
       page: currentPage.value,
       pageSize: pageSize.value,
       ownershipMode: wardrobeFilter.value,
@@ -659,6 +669,87 @@
       wardrobeModeError.value = nextError
     },
   })
+
+  const makeupFacetKey = computed(() =>
+    JSON.stringify({
+      ...buildMakeupFetchFilters(),
+      wardrobe: wardrobeFilter.value,
+      wardrobeReady: wardrobeInitialized.value,
+      wardrobeVersion: wardrobeMutationVersion.value,
+      region: activeRegionScope.value,
+    })
+  )
+  const { entriesByFilter: makeupFacetEntries, ready: makeupFacetsReady } =
+    await useCatalogListingFacets({
+      key: () => makeupFacetKey.value,
+      query: () => ({
+        entity: 'makeup',
+        filters: buildMakeupFetchFilters(),
+        page: 1,
+        pageSize: Number.MAX_SAFE_INTEGER,
+        ownershipMode: wardrobeInitialized.value ? wardrobeFilter.value : 'all',
+        regionScope: activeRegionScope.value,
+        wardrobe: {
+          ownedMakeupIds: ownedMakeupIds.value,
+          getFullMakeupProgress,
+        },
+      }),
+      filterKeys: [
+        'quality',
+        'type',
+        'version',
+        'style',
+        'source',
+        'kind',
+        'variations',
+        'ownershipMode',
+      ],
+    })
+
+  const getMakeupFacetEntries = (filter: string) =>
+    makeupFacetEntries.value[filter] ?? []
+  watchEffect(() => {
+    if (!makeupFacetsReady.value) {
+      makeupApplicableSources.value = null
+      return
+    }
+
+    const candidates = allObtainOptions.value.map(
+      (option) => option.value as string
+    )
+    const entries = getMakeupFacetEntries('source')
+    makeupApplicableSources.value = new Set(
+      candidates.filter((value) =>
+        hasCatalogSourceFacetValue(entries, value, 'makeup')
+      )
+    )
+  })
+  const makeupQualityOptions = computed(() => {
+    return [5, 4, 3]
+  })
+  const makeupUnavailableQualities = computed(() =>
+    makeupFacetsReady.value
+      ? makeupQualityOptions.value.filter(
+          (quality) =>
+            !hasCatalogQualityFacetValue(
+              getMakeupFacetEntries('quality'),
+              quality
+            )
+        )
+      : []
+  )
+  const makeupUnavailableVariations = computed(() =>
+    makeupFacetsReady.value
+      ? variationFilterOptions.filter(
+          (value) =>
+            !hasCatalogVariationFacetValue(
+              getMakeupFacetEntries('variations'),
+              value,
+              'makeup'
+            )
+        )
+      : []
+  )
 
   const entries = computed(() => {
     const data = (compendiumData.value?.data || []) as ItemListEntry[]
@@ -804,9 +895,40 @@
     supportsPartialWardrobeFilter(slotFilter.value)
   )
   const wardrobeFilterOptions = computed<IconSelectOption[]>(() => {
+    const facetEntries = getMakeupFacetEntries(
+      'ownershipMode'
+    ) as ItemListEntry[]
+    const statusFor = (entry: ItemListEntry) => {
+      if (entry.type !== 'fullMakeup') {
+        return ownedMakeupIds.value.includes(entry.id) ? 'owned' : 'missing'
+      }
+      const componentIds = getRegionScopedMakeupIds(
+        catalogIndex.index.value?.makeupItemsById.get(entry.id) ?? [],
+        activeRegionScope.value
+      )
+      return getFullMakeupProgress(componentIds).status
+    }
     const options: IconSelectOption[] = [
-      { label: t('common.all'), value: 'all', icon: DotCircle },
-      { label: t('wardrobe.status.owned'), value: 'owned', icon: CheckCircle },
+      {
+        label: t('common.all'),
+        value: 'all',
+        icon: DotCircle,
+        class: listingFacetOptionClass(
+          !makeupFacetsReady.value || facetEntries.length > 0
+        ),
+      },
+      {
+        label: t('wardrobe.status.owned'),
+        value: 'owned',
+        icon: CheckCircle,
+        class: listingFacetOptionClass(
+          !makeupFacetsReady.value ||
+            !wardrobeInitialized.value ||
+            facetEntries.some((entry) =>
+              ['owned', 'partial'].includes(statusFor(entry))
+            )
+        ),
+      },
     ]
 
     if (hasFullMakeupInResult.value) {
@@ -814,6 +936,11 @@
         label: t('wardrobe.filters.partial'),
         value: 'partial',
         icon: Adjust,
+        class: listingFacetOptionClass(
+          !makeupFacetsReady.value ||
+            !wardrobeInitialized.value ||
+            facetEntries.some((entry) => statusFor(entry) === 'partial')
+        ),
       })
     }
 
@@ -821,6 +948,11 @@
       label: t('wardrobe.status.missing'),
       value: 'missing',
       icon: TimesCircle,
+      class: listingFacetOptionClass(
+        !makeupFacetsReady.value ||
+          !wardrobeInitialized.value ||
+          facetEntries.some((entry) => statusFor(entry) === 'missing')
+      ),
     })
 
     return options
@@ -1293,6 +1425,10 @@
     ...makeupItemTypes.map((type) => ({
       label: t(`type.${type}`),
       value: type,
+      class: listingFacetOptionClass(
+        !makeupFacetsReady.value ||
+          hasCatalogTypeFacetValue(getMakeupFacetEntries('type'), type)
+      ),
     })),
     ...(SHOW_LISTING_MISSING_FILTER_OPTIONS
       ? [
@@ -1308,6 +1444,10 @@
     ...STYLE_DEFINITIONS.map((style) => ({
       label: t(style.i18nKey),
       value: style.key,
+      class: listingFacetOptionClass(
+        !makeupFacetsReady.value ||
+          hasCatalogStyleFacetValue(getMakeupFacetEntries('style'), style.key)
+      ),
     })),
     ...(SHOW_LISTING_MISSING_FILTER_OPTIONS
       ? [
@@ -1318,17 +1458,54 @@
         ]
       : []),
   ])
+  const fullMakeupComponentIds = computed(() =>
+    catalogIndex.index.value
+      ? getFullMakeupComponentIdsForScope(
+          catalogIndex.index.value,
+          activeRegionScope.value
+        )
+      : new Set<number>()
+  )
   const makeupKindFilterOptions = computed<IconSelectOption[]>(() => [
-    { label: t('common.all'), value: 'all', icon: DotCircle },
+    {
+      label: t('common.all'),
+      value: 'all',
+      icon: DotCircle,
+      class: listingFacetOptionClass(
+        !makeupFacetsReady.value || getMakeupFacetEntries('kind').length > 0
+      ),
+    },
     {
       label: t('common.makeups'),
       value: 'full',
       icon: PaintBrush,
+      class: listingFacetOptionClass(
+        !makeupFacetsReady.value ||
+          (getMakeupFacetEntries('kind') as ItemListEntry[]).some((entry) =>
+            matchesCatalogMakeupKindFilter(
+              entry.id,
+              entry.type,
+              'full',
+              fullMakeupComponentIds.value
+            )
+          )
+      ),
     },
     {
       label: t('compendium.makeup_kind_filter.individual'),
       value: 'individual',
       icon: UserEdit,
+      class: listingFacetOptionClass(
+        !makeupFacetsReady.value ||
+          (getMakeupFacetEntries('kind') as ItemListEntry[]).some((entry) =>
+            matchesCatalogMakeupKindFilter(
+              entry.id,
+              entry.type,
+              'individual',
+              fullMakeupComponentIds.value
+            )
+          )
+      ),
     },
   ])
   const versionOptions = computed<SelectOption[]>(() => [
@@ -1336,7 +1513,17 @@
       const key = `version.${version}`
       const translated = t(key)
       return translated !== key ? `${version} - ${translated}` : version
-    }),
+    }).map((option) => ({
+      ...option,
+      class: listingFacetOptionClass(
+        !makeupFacetsReady.value ||
+          hasCatalogVersionFacetValue(
+            getMakeupFacetEntries('version'),
+            String(option.value),
+            'makeup'
+          )
+      ),
+    })),
     ...(SHOW_LISTING_MISSING_FILTER_OPTIONS
       ? [
           {

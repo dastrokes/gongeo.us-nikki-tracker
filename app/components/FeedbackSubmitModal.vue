@@ -16,14 +16,24 @@
         <p class="text-sm opacity-75">
           {{ t('feedback.submit_description', { name: itemName }) }}
         </p>
-        <NuxtLinkLocale
-          :to="guidelinesPath"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="inline-flex text-sm font-medium text-rose-500 hover:text-rose-600 dark:text-rose-300 dark:hover:text-rose-200"
-        >
-          {{ t('feedback.guidelines_action') }}
-        </NuxtLinkLocale>
+        <div class="flex flex-wrap items-center gap-x-4 gap-y-1">
+          <NuxtLinkLocale
+            :to="guidelinesPath"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex text-sm font-medium text-rose-500 hover:text-rose-600 dark:text-rose-300 dark:hover:text-rose-200"
+          >
+            {{ t('feedback.guidelines_action') }}
+          </NuxtLinkLocale>
+          <a
+            href="https://gongeo.us/contact"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex text-sm font-medium text-rose-500 hover:text-rose-600 dark:text-rose-300 dark:hover:text-rose-200"
+          >
+            {{ t('feedback.suggest_new_terms_action') }}
+          </a>
+        </div>
       </div>
 
       <div

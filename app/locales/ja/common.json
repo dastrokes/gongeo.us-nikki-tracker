@@ -1255,6 +1255,7 @@
     "disagree_count": "反対 {count}",
     "guidelines_action": "ガイドライン",
     "back_to_queue": "フィードバックキューに戻る",
+    "suggest_new_terms_action": "新しい検索語を提案",
     "no_tags": "このアイテムのタグデータはまだありません。",
     "guidelines": {
       "page_title": "フィードバックガイドライン",

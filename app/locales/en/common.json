@@ -1254,6 +1254,7 @@
     "agree_count": "Agree {count}",
     "disagree_count": "Disagree {count}",
     "guidelines_action": "Guidelines",
+    "suggest_new_terms_action": "Suggest new terms",
     "back_to_queue": "Back to feedback queue",
     "no_tags": "No tag data is available for this item yet.",
     "guidelines": {

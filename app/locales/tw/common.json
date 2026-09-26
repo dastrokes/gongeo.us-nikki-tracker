@@ -1255,6 +1255,7 @@
     "disagree_count": "反對 {count}",
     "guidelines_action": "說明",
     "back_to_queue": "返回回饋佇列",
+    "suggest_new_terms_action": "建議新搜尋詞",
     "no_tags": "這件單品暫時沒有可用的標籤資料。",
     "guidelines": {
       "page_title": "回饋說明",

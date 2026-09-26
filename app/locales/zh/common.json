@@ -1255,6 +1255,7 @@
     "disagree_count": "反对 {count}",
     "guidelines_action": "说明",
     "back_to_queue": "返回反馈队列",
+    "suggest_new_terms_action": "建议新搜索词",
     "no_tags": "这件单品暂时没有可用的标签数据。",
     "guidelines": {
       "page_title": "反馈说明",

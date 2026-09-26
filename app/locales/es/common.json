@@ -1255,6 +1255,7 @@
     "disagree_count": "En desacuerdo {count}",
     "guidelines_action": "Directrices",
     "back_to_queue": "Volver a la cola de comentarios",
+    "suggest_new_terms_action": "Sugerir nuevos términos de búsqueda",
     "no_tags": "No hay datos de etiquetas disponibles para este artículo todavía.",
     "guidelines": {
       "page_title": "Directriz de Comentarios",

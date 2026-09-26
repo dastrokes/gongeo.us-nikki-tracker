@@ -1255,6 +1255,7 @@
     "disagree_count": "Pas d'accord {count}",
     "guidelines_action": "Directives",
     "back_to_queue": "Retour à la file d'attente",
+    "suggest_new_terms_action": "Suggérer de nouveaux termes de recherche",
     "no_tags": "Aucune donnée de tag n'est encore disponible pour cet article.",
     "guidelines": {
       "page_title": "Directives des commentaires",

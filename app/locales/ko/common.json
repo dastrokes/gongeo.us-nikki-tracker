@@ -1254,8 +1254,8 @@
     "agree_count": "동의 {count}",
     "disagree_count": "반대 {count}",
     "guidelines_action": "가이드라인",
-    "back_to_queue": "피드백 대기열로 돌아가기",
     "suggest_new_terms_action": "새 검색어 제안",
+    "back_to_queue": "피드백 대기열로 돌아가기",
     "no_tags": "이 아이템에 사용할 수 있는 태그 데이터가 아직 없습니다.",
     "guidelines": {
       "page_title": "피드백 가이드라인",

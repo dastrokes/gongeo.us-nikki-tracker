@@ -1254,8 +1254,8 @@
     "agree_count": "Concordar {count}",
     "disagree_count": "Discordar {count}",
     "guidelines_action": "Diretrizes",
-    "back_to_queue": "Voltar para a fila de feedback",
     "suggest_new_terms_action": "Sugerir novos termos de pesquisa",
+    "back_to_queue": "Voltar para a fila de feedback",
     "no_tags": "Nenhum dado de tag está disponível para este item ainda.",
     "guidelines": {
       "page_title": "Diretrizes de Feedback",

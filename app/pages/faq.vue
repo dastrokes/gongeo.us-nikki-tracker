@@ -1,23 +1,24 @@
 <template>
-  <div class="mx-auto max-w-7xl space-y-2 sm:space-y-4">
+  <div class="mx-auto max-w-4xl space-y-2 sm:space-y-4">
     <n-card
       size="small"
       class="rounded-xl p-0 sm:p-2"
+      content-class="p-4 sm:p-6"
     >
-      <div class="mb-12 text-center">
-        <n-h1 class="mb-4 font-bold">{{ $t('faq.title') }}</n-h1>
+      <div class="mb-8 text-center">
+        <n-h1 class="mb-0 font-bold">{{ $t('faq.title') }}</n-h1>
       </div>
 
       <div class="space-y-6">
         <n-collapse arrow-placement="right">
           <n-collapse-item
-            v-for="(faq, key) in faqs"
+            v-for="key in faqKeys"
             :key="key"
             :title="$t(`faq.questions.${key}.question`)"
           >
-            <div class="text-sm">
-              <p>{{ $t(`faq.questions.${key}.answer`) }}</p>
-            </div>
+            <p class="text-sm leading-6">
+              {{ $t(`faq.questions.${key}.answer`) }}
+            </p>
           </n-collapse-item>
           <n-collapse-item title="gongeous?">
             <div class="text-sm">
@@ -47,16 +48,15 @@
     twitterDescription: () => t('meta.description.faq'),
   })
 
-  const faqs = {
-    data_source: {},
-    ban_risk: {},
-    data_storage: {},
-    server_data: {},
-    platform_support: {},
-    cookie_script: {},
-    data_loss: {},
-    no_pulls: {},
-    auto_update: {},
-    export: {},
-  }
+  const faqKeys = [
+    'data_source',
+    'platform_support',
+    'cookie_script',
+    'data_loss',
+    'auto_update',
+    'data_storage',
+    'cloud_sync',
+    'ban_risk',
+    'server_data',
+  ] as const
 </script>

@@ -58,7 +58,7 @@
       "data_source": "Fonte de dados",
       "data_source_tooltip": "Escolha uma fonte de dados. Se indisponível, a outra fonte será usada como alternativa.",
       "auto_option": "\"Auto\" combina as duas fontes, preferindo a que tem mais pulls por banner.",
-      "pearpal_website": "Site Pearpal",
+      "pearpal_website": "Site Pear-Pal",
       "whimlog": "Whim-Log",
       "game": "Jogo",
       "auto": "Auto"
@@ -161,8 +161,8 @@
       "item_detail": "Veja informações detalhadas sobre o item {name}, incluindo qualidade, evolução e brilho, estatísticas e trajes e banners relacionados.",
       "search": "Descubra as capacidades de busca exclusivas do Infinity Nikki com a Busca de Caprichos. Encontre itens e roupas usando linguagem natural, tags de estilo e atributos semânticos.",
       "random": "Sorteie um item aleatório de Infinity Nikki com o Gira-encantos. Adicione dicas ou filtros opcionais, descubra peças surpresa e abra os detalhes no compêndio.",
-      "faq": "Encontre respostas para perguntas frequentes sobre o gongeo.us, incluindo privacidade de dados, métodos de importação e diretrizes de uso.",
-      "about": "Saiba mais sobre gongeo.us, incluindo sua finalidade, política de privacidade, isenções de responsabilidade e como ele oferece suporte à comunidade Infinity Nikki.",
+      "faq": "Encontre respostas sobre importação, armazenamento no navegador, backups na nuvem, privacidade e segurança da conta no gongeo.us.",
+      "about": "Leia o aviso legal e a política de privacidade do gongeo.us, incluindo como o site lida com dados locais, backups na nuvem, análises e serviços de terceiros.",
       "contact": "Envie feedback geral, relatórios de bugs ou sugestões para gongeo.us.",
       "stats": "Veja suas estatísticas pessoais de pulls de ressonância de Infinity Nikki, análise de sorte, sequências e atividade de pulls."
     }
@@ -201,7 +201,7 @@
           "empty_wardrobe_warning": "Aviso: este perfil local não tem dados de guarda-roupa. Enviar irá limpar os dados de guarda-roupa atualmente salvos na nuvem para este perfil."
         },
         "confirm_sync": {
-          "content": "Isso sincronizará os dados locais do perfil {profile} com os dados da nuvem, mesclando-os. Continuar?"
+          "content": "Isso mesclará os dados de ressonância da nuvem com o perfil local {profile} e substituirá os dados locais de posse do guarda-roupa e de Eurekas pela cópia da nuvem. Continuar?"
         },
         "missing_profiles": {
           "title": "Criar perfis ausentes",
@@ -488,12 +488,12 @@
       "tw": "TW/HK/Macau",
       "asia": "Ásia"
     },
-    "login_pearpal": "Faça login no site da Pearpal",
-    "login_pearpal_desc": "Abra o site Pearpal em uma nova guia e faça login com sua conta Infold se ainda não estiver conectado.",
-    "login_pearpal_incognito_hint": "Se você tiver várias contas, é recomendável abrir o Pearpal em uma janela anônima/privada do navegador.",
+    "login_pearpal": "Faça login no site da Pear-Pal",
+    "login_pearpal_desc": "Abra o site Pear-Pal em uma nova guia e faça login com sua conta Infold se ainda não estiver conectado.",
+    "login_pearpal_incognito_hint": "Se você tiver várias contas, é recomendável abrir o Pear-Pal em uma janela anônima/privada do navegador.",
     "login_whimlog": "Sincronizar dados em Whim-Log",
     "login_whimlog_desc": "Abra Whim-Log em uma nova aba, faça login e sincronize seus dados.",
-    "get_cookie": "Obtenha o cookie do site Pearpal",
+    "get_cookie": "Obtenha o cookie do site Pear-Pal",
     "get_cookie_desc": "Escolha como deseja receber seu Cookie:",
     "gongeous_cookie": "Gongeous Cookie",
     "bookmark_method": "Método de marcador (recomendado)",
@@ -503,8 +503,8 @@
     "title": "Siga estas etapas para obter seu cookie:",
     "bookmark_steps": {
       "step1": "Arraste o botão \"Gongeous Cookie\" para a barra de favoritos (só precisa ser feito uma vez):",
-      "step2": "Mude para o site Pearpal em uma guia diferente, certifique-se de estar conectado",
-      "step3": "Clique no marcador \"Gongeous Cookie\" enquanto estiver no site da Pearpal",
+      "step2": "Mude para o site Pear-Pal em uma guia diferente, certifique-se de estar conectado",
+      "step3": "Clique no marcador \"Gongeous Cookie\" enquanto estiver no site da Pear-Pal",
       "step4": "Copie o texto de saída no pop-up (deve ser semelhante ao exemplo na área de entrada abaixo)",
       "step5": "Volte aqui e cole o texto de saída na área de entrada abaixo",
       "tip": "Dica: você pode manter o marcador para obter o cookie na próxima vez que importar"
@@ -526,14 +526,14 @@
     "manual_steps": {
       "note": "(Usando o Google Chrome como exemplo, os nomes exatos podem variar para outros navegadores, mas as etapas serão semelhantes)",
       "step3": "Vá para a guia \"Aplicativo\" (ou \"Armazenamento\" no Firefox)",
-      "step4": "Na barra lateral esquerda, expanda “Cookies” e selecione o site Pearpal",
+      "step4": "Na barra lateral esquerda, expanda “Cookies” e selecione o site Pear-Pal",
       "step5": "Alternativamente, você pode usar uma extensão de navegador para cookies como Cookie Editor",
       "step6": "Encontre e copie os valores para:",
       "step6_items": {
         "momo_id": "momoNid (para o campo Momo ID)",
         "momo_token": "momoToken (para o campo Momo Token)"
       },
-      "step7": "Para UID, acesse seu perfil Pearpal e copie seu número UID"
+      "step7": "Para UID, acesse seu perfil Pear-Pal e copie seu número UID"
     },
     "security_note": "Nota: Nunca compartilhe esses valores de Cookies com mais ninguém!",
     "data_note": "Importante: os dados extraídos por meio deste método de importação são retidos por apenas 180 dias. Os dados anteriores a {date} não estarão disponíveis. Você pode usar \"Importar de Whim-Log\" para importar dados mais antigos.",
@@ -575,14 +575,14 @@
       "data_paste_failed": "Falha ao analisar os dados de entrada. Certifique-se de que é um formato válido",
       "auth_success": "Autenticação bem-sucedida!",
       "auth_failed": "Falha na autenticação",
-      "auth_failed_hint": "Verifique suas entradas e tente abrir o Pearpal em uma janela anônima/privada do navegador.",
+      "auth_failed_hint": "Verifique suas entradas e tente abrir o Pear-Pal em uma janela anônima/privada do navegador.",
       "stats_submit_failed": "Falha ao enviar estatísticas globais",
       "fetch_history_failed": "Falha ao buscar o histórico de pull",
       "invalid_form": "Dados de formulário inválidos",
       "import_success": "Dados importados com sucesso!",
       "import_failed": "Falha ao importar arquivo",
-      "pearpal_tracker_success": "Dados Pearpal importados com sucesso!",
-      "pearpal_tracker_failed": "Falha ao importar dados do Pearpal.",
+      "pearpal_tracker_success": "Dados Pear-Pal importados com sucesso!",
+      "pearpal_tracker_failed": "Falha ao importar dados do Pear-Pal.",
       "wardrobe_updated": "Adicionados {items} trajes, {makeups} maquiagens, {momo} capas do Momo e {props} decorações.",
       "wardrobe_up_to_date": "O guarda-roupa já está atualizado.",
       "wardrobe_import_failed": "Falha ao importar o guarda-roupa.",
@@ -600,7 +600,7 @@
     "check_compatibility": "Verifique a compatibilidade do navegador",
     "pc_recommended": "Você está usando um dispositivo móvel, pode importar usando os navegadores suportados listados abaixo. Outros navegadores não foram testados e podem não funcionar. Para obter a melhor experiência, recomendamos usar um navegador de PC para importar dados.",
     "bookmark_script": {
-      "invalid_site": "Por favor, use este marcador no site da Pearpal"
+      "invalid_site": "Por favor, use este marcador no site da Pear-Pal"
     },
     "maintenance": {
       "title": "Em manutenção",
@@ -796,87 +796,90 @@
     "title": "Perguntas frequentes",
     "questions": {
       "data_source": {
-        "question": "Como você está obtendo os dados?",
-        "answer": "Estamos usando a mesma API da página de histórico de pull do jogo para acessar os servidores Infold Games que armazenam os dados de pull do banner. Para acessar os dados, precisamos nos autenticar no servidor Infold Games usando o Cookie da sua conta."
-      },
-      "ban_risk": {
-        "question": "Serei banido por usar isso?",
-        "answer": "Esta é uma ferramenta de terceiros, portanto sempre há algum risco, embora em última análise dependa de Infold Games. No entanto, ferramentas semelhantes são amplamente utilizadas em outros jogos gacha (Paimon.moe、Star Rail Station、WuWa Tracker etc.) e também na comunidade chinesa de Infinity Nikki (小黑盒 游创工坊). Tome essas informações como referência e faça seu próprio julgamento."
-      },
-      "data_storage": {
-        "question": "Quais dados você está armazenando?",
-        "answer": "Seu histórico de pull é armazenado localmente em seu navegador, portanto, na próxima vez que você visitar o site, ele estará lá, a menos que você limpe os dados do navegador. Não coletamos nenhuma informação pessoal, incluindo o cookie que você enviou."
-      },
-      "server_data": {
-        "question": "Quais dados são enviados para o servidor?",
-        "answer": "Somente suas estatísticas de pull serão enviadas para ajudar a calcular as estatísticas globais se você optar por participar. Isso inclui uma versão com hash do seu UID e as informações de 4★ e 5★ itens que você extraiu."
+        "question": "Como posso importar meus dados?",
+        "answer": "Você tem três opções: importar o histórico de ressonâncias pelo serviço usado na página de histórico do jogo, trazer dados sincronizados com o Whim-Log ou restaurar um backup JSON do gongeo.us. A importação direta do jogo usa seu UID e um cookie temporário da conta Pear-Pal para solicitar o histórico da sua região."
       },
       "platform_support": {
-        "question": "Funcionará se eu jogar no celular ou no PS5?",
-        "answer": "Sim, não importa em qual plataforma você jogue, você pode importar seus dados do PC ou celular. No entanto, no celular pode não funcionar para todos os navegadores, é recomendável usar o PC para uma melhor experiência. Verifique a página de importação para navegadores suportados e mais detalhes."
+        "question": "Posso importar dados se jogo no celular ou no PlayStation 5?",
+        "answer": "Sim. A plataforma em que você joga não faz diferença, e a importação pode ser iniciada em um navegador compatível para computador ou celular. Recomendamos um navegador de computador porque os favoritos funcionam de maneira diferente entre navegadores móveis."
       },
       "cookie_script": {
-        "question": "Preciso executar um script para obter meu cookie?",
-        "answer": "Não, eles são apenas por conveniência, você pode obter o cookie manualmente, verifique as instruções de inserção manual na página de importação para obter mais detalhes. No entanto, a única maneira de obter o Cookie no celular agora é usar o método de marcador."
+        "question": "Preciso executar um script para obter o cookie da minha conta Pear-Pal?",
+        "answer": "Não necessariamente. No computador, a página Importar dados oferece os métodos por favorito, console do navegador e inserção manual do cookie. No celular, use o método por favorito. Nunca compartilhe o cookie da sua conta com ninguém."
       },
       "data_loss": {
-        "question": "Por que os dados estão incompletos ou ausentes em alguns banners?",
-        "answer": "Isso acontece porque o histórico de pull só é armazenado no jogo por 180 dias. Depois disso, ele é excluído dos servidores do jogo e fica indisponível. Para preservar seus dados, você pode armazená-los em seu navegador ou exportá-los para backup. Dessa forma, você poderá manter registros que não estão mais disponíveis no jogo. Se você importar no futuro, os dados existentes serão mesclados com os novos dados."
-      },
-      "no_pulls": {
-        "question": "Segui as etapas de importação e vi que os banners foram processados, mas por que não aparece nenhum histórico de pull?",
-        "answer": "Verifique novamente se os valores da sua região e do cookie estão corretos. Certifique-se de que o UID e o ID do cookie não estejam misturados."
+        "question": "Por que meu histórico de pulls está incompleto ou ausente?",
+        "answer": "O jogo mantém o histórico de pulls por apenas 180 dias, então uma importação direta não consegue recuperar registros mais antigos. Se estiverem faltando pulls recentes, confira se você selecionou a região e os banners corretos e informou UID, momoNid e momoToken nos campos correspondentes. O Whim-Log ou um backup JSON anterior ainda pode conter um histórico que já não está disponível no jogo."
       },
       "auto_update": {
-        "question": "Meus dados pull serão atualizados automaticamente?",
-        "answer": "Não, seus dados pull não serão atualizados automaticamente. O site precisa ser atualizado para suportar novos banners após cada atualização do jogo. Por motivos de segurança, o seu Cookie irá expirar após algum tempo, então você precisará importar novamente os seus dados. No entanto, se você armazenar seus dados em seu navegador, você só precisará reimportá-los para novos banners."
+        "question": "Meu histórico de pulls é atualizado automaticamente?",
+        "answer": "Não. O histórico salvo continua disponível, mas é preciso importar novamente para adicionar novos pulls. Os cookies da conta Pear-Pal expiram e não são armazenados, então talvez você precise de um cookie novo na próxima vez. Novos banners também precisam ser adicionados ao gongeo.us antes que possam ser importados."
       },
-      "export": {
-        "question": "Como posso exportar meu histórico de pull?",
-        "answer": "Você pode exportar seu histórico de pull como uma imagem PNG ou um arquivo JSON. Se os dados do seu navegador forem apagados, você poderá usar o arquivo JSON para restaurar seu histórico."
+      "data_storage": {
+        "question": "Onde meus dados ficam armazenados e como devo fazer backup?",
+        "answer": "Por padrão, seu histórico de ressonâncias, a posse do guarda-roupa e de Eurekas, os perfis, as listas de níveis e as preferências ficam no navegador. Você pode perder o acesso a esses dados se limpar os dados do site, usar navegação privada, reinstalar o navegador ou trocar de navegador ou dispositivo. Exporte um backup JSON de tempos em tempos ou use o backup opcional na nuvem. Exportações PNG e cartões de compartilhamento não restauram seus dados."
+      },
+      "cloud_sync": {
+        "question": "Preciso de uma conta e como funciona o backup na nuvem?",
+        "answer": "Você não precisa de uma conta para usar as principais ferramentas pessoais. Ao entrar, “Carregar para a nuvem” substitui o backup do perfil selecionado pelos dados que estão no seu navegador. “Sincronizar da nuvem” mescla os registros de ressonância do backup com o rastreador local, mas substitui os dados locais de posse do guarda-roupa e de Eurekas pela cópia da nuvem. Leia a confirmação com atenção e exporte antes um backup JSON se tiver dúvidas."
+      },
+      "ban_risk": {
+        "question": "Usar o gongeo.us pode afetar minha conta do jogo?",
+        "answer": "O gongeo.us é uma ferramenta não oficial de terceiros, portanto ninguém pode garantir que a importação seja isenta de riscos. O importador lê dados dos serviços de histórico e do Pear-Pal do jogo; ele não altera sua conta. A Infold Games controla esses serviços e pode mudar suas regras, então cabe a você decidir se deseja usar o importador."
+      },
+      "server_data": {
+        "question": "Quais dados saem do meu navegador?",
+        "answer": "Em uma importação direta, seu UID e o cookie da conta Pear-Pal são enviados ao serviço da Infold Games da sua região. Se você ativar as estatísticas da comunidade, o gongeo.us receberá um hash do UID, sua região, os totais dos banners e detalhes dos pulls de 4★ e 5★. Backups na nuvem, votos, envios de listas de níveis, feedback e formulários de contato só enviam dados quando você escolhe usar esses recursos. O cookie da conta Pear-Pal não é armazenado com os dados do rastreador."
       }
     }
   },
   "about": {
-    "title": "Isenção de responsabilidade e política de privacidade",
+    "title": "Aviso legal e política de privacidade",
+    "project": {
+      "title": "O que o gongeo.us oferece",
+      "content": "O gongeo.us é uma ferramenta complementar de Infinity Nikki feita por fãs. Ele ajuda estilistas a salvar e entender o histórico de ressonâncias, acompanhar a posse do guarda-roupa e de Eurekas e consultar dados atuais do jogo.",
+      "features": "Você também pode explorar estatísticas de banners e da comunidade, pesquisar nos compêndios de itens e trajes, consultar a linha do tempo dos banners, criar listas de níveis, pré-visualizar lookbooks e gerar imagens para compartilhar. As principais ferramentas pessoais funcionam localmente e sem uma conta."
+    },
     "infinityNikkiAssets": {
-      "title": "Isenção de responsabilidade de plataforma e conteúdo",
-      "content": "gongeo.us é uma plataforma independente administrada por fãs e não é afiliada, endossada ou parceira de Infinity Nikki ou Infold Games. Todos os recursos oficiais do jogo, recursos visuais e conteúdo relacionado são propriedade exclusiva de Infold Games e são usados aqui exclusivamente para compartilhamento da comunidade e para fins educacionais. Não reivindicamos qualquer propriedade ou direito sobre este conteúdo.",
-      "acknowledgment": "Ao utilizar esta plataforma, você reconhece seu status não oficial e aceita todos os riscos associados ao acesso a conteúdo não oficial ou de terceiros."
+      "title": "Projeto não oficial de fãs",
+      "content": "O gongeo.us é um projeto independente feito por fãs. Não é afiliado, endossado nem associado a Infinity Nikki ou à Infold Games. Os nomes oficiais do jogo, marcas, ilustrações e outros conteúdos pertencem à Infold Games e aos respectivos detentores dos direitos.",
+      "acknowledgment": "Mudanças no jogo ou nos serviços dos quais ele depende podem afetar o funcionamento do site ou deixar alguns recursos indisponíveis. Use o site e as ferramentas de importação por sua conta e risco."
     },
     "dataAndStats": {
-      "title": "Isenção de responsabilidade sobre dados e estatísticas",
-      "content": "Todas as estatísticas e dados de jogo apresentados em gongeo.us são contribuídos voluntariamente pelos usuários e não são provenientes de Infold Games. Esses conjuntos de dados representam apenas uma pequena parte da comunidade de jogadores e podem não refletir totalmente o comportamento geral dos jogadores ou as tendências do jogo.",
-      "insights": "Quaisquer percepções ou conclusões extraídas dos dados são apenas para fins informativos e devem ser consideradas à luz da sua natureza orientada para a comunidade."
+      "title": "Dados e estatísticas da comunidade",
+      "content": "As estatísticas da comunidade sobre pulls, votos e listas de níveis vêm de pessoas que optam por participar. Elas não são um conjunto completo de dados da Infold Games e talvez não representem toda a base de jogadores.",
+      "insights": "Considere tendências e conclusões como um retrato da comunidade participante, não como estatísticas oficiais de todo o jogo."
     },
     "intellectualProperty": {
       "title": "Propriedade intelectual",
-      "content": "gongeo.us é um projeto independente de fãs. Todas as marcas registradas, conteúdo do jogo e propriedade intelectual relacionadas a Infinity Nikki permanecem propriedade exclusiva de Infold Games e seus licenciadores.",
-      "siteContent": "Exceto quando explicitamente declarado de outra forma, todo o código original, design do site e ativos personalizados nesta plataforma são de propriedade da gongeo.us e protegidos pelas leis de direitos autorais e propriedade intelectual aplicáveis. A cópia, reutilização ou distribuição não autorizada é proibida sem permissão por escrito.",
-      "usage": "Esta plataforma é fornecida \"no estado em que se encontra\" e destina-se exclusivamente ao uso pessoal e não comercial."
+      "content": "Todas as marcas, conteúdos do jogo e demais propriedades intelectuais relacionadas a Infinity Nikki pertencem à Infold Games e a seus licenciadores.",
+      "siteContent": "O código-fonte original do gongeo.us está disponível sob a Licença MIT. Essa licença não permite reutilizar recursos de Infinity Nikki, conteúdos de terceiros, nomes ou marcas exibidos no site.",
+      "usage": "O gongeo.us é fornecido “no estado em que se encontra”, sem garantia de disponibilidade contínua, integridade ou precisão."
     },
     "dataCollection": {
       "title": "Coleta e armazenamento de dados",
-      "content": "Coletamos apenas os dados mínimos necessários para operar nosso serviço. Não coletamos nem armazenamos nenhuma informação pessoal ou cookies de rastreamento. Quaisquer cookies ou UIDs que você fornecer são usados exclusivamente para comunicação com o servidor Infold Games para verificar sua conta e recuperar seu histórico de pull.",
-      "pullHistory": "Seu histórico de pull é armazenado localmente em seu navegador depois de importado. Para backup na nuvem ou acesso entre dispositivos, você pode opcionalmente fazer login via Discord, Google ou e-mail para sincronizar seus dados por meio de armazenamento seguro em nuvem fornecido pela Supabase. Você também pode optar por contribuir com estatísticas anônimas sobre suas puxadas de 4 e 5 estrelas para ajudar a gerar estatísticas da comunidade."
+      "content": "Por padrão, seus dados pessoais do rastreador ficam no navegador. Isso inclui o histórico de ressonâncias e suas edições, a posse do guarda-roupa e de Eurekas, detalhes dos perfis, listas de níveis salvas e preferências do site. Quando você informa um cookie da conta Pear-Pal para uma importação direta, ele é usado para solicitar dados ao serviço da Infold Games da sua região e não é salvo com os dados do rastreador.",
+      "pullHistory": "O backup na nuvem e o acesso entre dispositivos são opcionais. Se você entrar com Discord, Google ou e-mail, poderá enviar ou sincronizar dados do perfil pelo Supabase. Um backup na nuvem pode incluir histórico de ressonâncias, edições, escolhas de evolução, dados do Whim-Log, posse do guarda-roupa e de Eurekas e nomes de perfis. Você pode apagar seus backups na nuvem pela página Perfil.",
+      "community": "Se você ativar as estatísticas da comunidade durante uma importação, o gongeo.us receberá um hash do UID do jogo, sua região, os totais dos banners, datas e horários e detalhes dos pulls de 4★ e 5★. Se estiver conectado, o ID da sua conta também poderá ser vinculado ao envio. Votos em banners e envios de listas de níveis da comunidade usam um identificador gerado pelo navegador para evitar envios duplicados. Feedbacks e votos são vinculados à conta conectada.",
+      "contact": "Se você usar o formulário de contato, receberemos sua mensagem e qualquer nome, endereço de e-mail ou captura de tela que você decidir incluir. Não envie credenciais do jogo, cookies da conta Pear-Pal, senhas nem outras informações confidenciais."
     },
     "accountSecurity": {
-      "title": "Conta e segurança",
-      "content": "Todos os recursos essenciais permanecem totalmente acessíveis sem a necessidade de uma conta. Se você optar por entrar, a autenticação será realizada com segurança pelo Supabase. Nunca acessamos ou armazenamos suas credenciais de login. Você tem controle total sobre seus dados, podendo compartilhá-los, carregá-los, sincronizá-los ou excluí-los a qualquer momento. Para exclusão permanente da conta, entre em contato conosco através do Discord ou e-mail.",
-      "security": "Embora implementemos as medidas de segurança necessárias usando padrões da indústria, esteja ciente de que nenhuma transmissão pela Internet pode ser garantida como totalmente segura."
+      "title": "Contas e segurança",
+      "content": "Você não precisa de uma conta para usar os principais recursos pessoais. Se entrar, o Supabase e o provedor escolhido cuidarão da autenticação; o gongeo.us não armazena sua senha. Você pode apagar dados locais e backups de perfis na nuvem pela página Perfil. Para excluir sua conta, fale conosco pelo Discord ou por e-mail.",
+      "security": "Tomamos medidas razoáveis para proteger o serviço, mas nenhum método de envio ou armazenamento de dados on-line é totalmente seguro."
     },
     "analytics": {
-      "title": "Análise e rastreamento",
-      "content": "Utilizamos o Umami, um serviço analítico focado na privacidade, para monitorar o uso do site. Ele coleta apenas informações anônimas, como visualizações de páginas, URLs de referência e dados básicos do navegador, sem usar cookies ou identificadores pessoais. Esses dados nos ajudam a melhorar sua experiência. Para mais informações, consulte a política de privacidade da Umami."
+      "title": "Análises",
+      "content": "Usamos um serviço Umami hospedado por nós para entender o uso geral do site, incluindo visualizações de página, páginas de origem, tipos de dispositivo e informações básicas do navegador. O Umami não usa cookies. Essas informações nos ajudam a manter e melhorar o gongeo.us."
     },
     "errorMonitoring": {
       "title": "Monitoramento de erros",
-      "message": "Usamos Sentry.io para rastrear e corrigir erros técnicos. O Sentry pode coletar dados técnicos limitados (como detalhes de erros, informações do navegador e endereços IP anonimizados) para nos ajudar a manter e melhorar o site. Para obter mais informações, consulte a política de privacidade do Sentry.io."
+      "message": "Usamos o Sentry no site público para diagnosticar problemas técnicos. Um relatório de erro pode incluir a página que você estava vendo, detalhes do erro, informações do navegador e do dispositivo, detalhes de solicitações de rede e um endereço IP processado pelo Sentry. Não inclua informações confidenciais em relatórios de bugs nem em capturas de tela enviadas pelo formulário de contato."
     },
     "advertising": {
       "title": "Publicidade",
-      "content": "Utilizamos o Google AdSense para exibir anúncios nesta plataforma. O AdSense pode usar cookies e tecnologias semelhantes para veicular anúncios com base na sua visita a este e a outros sites.",
-      "eeaNotice": "Para usuários no Espaço Econômico Europeu (EEE), Reino Unido e outras regiões aplicáveis, será apresentado um formulário de consentimento para gerenciar suas preferências em relação a anúncios personalizados e não personalizados, de acordo com as leis de privacidade aplicáveis."
+      "content": "O Google AdSense exibe anúncios no gongeo.us. Ele pode usar cookies e tecnologias semelhantes para escolher anúncios com base nas suas visitas a este e a outros sites.",
+      "eeaNotice": "Se você estiver no Espaço Econômico Europeu (EEE), no Reino Unido ou em outra região onde o consentimento seja obrigatório, verá um formulário para escolher entre anúncios personalizados e não personalizados."
     }
   },
   "vote": {
@@ -1057,7 +1060,7 @@
     "not_found_item": "Item não encontrado",
     "not_found_outfit": "Roupa não encontrada",
     "back_to_list": "Voltar à lista",
-    "go_to_pearpal": "Ver localização do baú no mapa do Pearpal",
+    "go_to_pearpal": "Ver localização do baú no mapa do Pear-Pal",
     "filter_slot": "Filtrar por slot",
     "filter_category": "Filtrar por categoria",
     "filter_subcategory": "Filtrar por subcategoria",

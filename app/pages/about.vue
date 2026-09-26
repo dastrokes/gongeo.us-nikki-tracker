@@ -1,14 +1,27 @@
 <template>
-  <div class="mx-auto max-w-7xl space-y-2 sm:space-y-4">
+  <div class="mx-auto max-w-4xl space-y-2 sm:space-y-4">
     <n-card
       size="small"
       class="rounded-xl p-0 sm:p-2"
+      content-class="p-4 sm:p-6"
     >
-      <div class="mb-12 text-center">
-        <n-h1 class="mb-4 font-bold">{{ $t('about.title') }}</n-h1>
+      <div class="mb-8 text-center">
+        <n-h1 class="mb-0 font-bold">{{ $t('about.title') }}</n-h1>
       </div>
 
       <div>
+        <section class="mb-8">
+          <n-h2 class="mb-4 font-semibold">
+            {{ $t('about.project.title') }}
+          </n-h2>
+          <p>
+            {{ $t('about.project.content') }}
+          </p>
+          <p class="mt-4">
+            {{ $t('about.project.features') }}
+          </p>
+        </section>
+
         <section class="mb-8">
           <n-h2 class="mb-4 font-semibold">
             {{ $t('about.infinityNikkiAssets.title') }}
@@ -54,6 +67,8 @@
           }}</n-h2>
           <p>{{ $t('about.dataCollection.content') }}</p>
           <p class="mt-4">{{ $t('about.dataCollection.pullHistory') }}</p>
+          <p class="mt-4">{{ $t('about.dataCollection.community') }}</p>
+          <p class="mt-4">{{ $t('about.dataCollection.contact') }}</p>
         </section>
 
         <section class="mb-8">
@@ -62,14 +77,6 @@
           }}</n-h2>
           <p>{{ $t('about.accountSecurity.content') }}</p>
           <p class="mt-4">{{ $t('about.accountSecurity.security') }}</p>
-        </section>
-
-        <section class="mb-8">
-          <n-h2 class="mb-4 font-semibold">{{
-            $t('about.advertising.title')
-          }}</n-h2>
-          <p>{{ $t('about.advertising.content') }}</p>
-          <p class="mt-4">{{ $t('about.advertising.eeaNotice') }}</p>
         </section>
 
         <section class="mb-8">
@@ -88,6 +95,14 @@
           <p>
             {{ $t('about.errorMonitoring.message') }}
           </p>
+        </section>
+
+        <section class="mb-8">
+          <n-h2 class="mb-4 font-semibold">{{
+            $t('about.advertising.title')
+          }}</n-h2>
+          <p>{{ $t('about.advertising.content') }}</p>
+          <p class="mt-4">{{ $t('about.advertising.eeaNotice') }}</p>
         </section>
 
         <SocialLinks />

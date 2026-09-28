@@ -162,6 +162,7 @@
   import { ChartBar, Star, Users } from '@vicons/fa'
   import { breakpointsTailwind } from '@vueuse/core'
   import { BANNER_DATA } from '~~/data/banners'
+  import { LATEST_BANNER_ID } from '~~/data/config'
   import OUTFIT_DATA, { type OutfitKey } from '~~/data/outfits'
 
   interface ChartFormatterParam {
@@ -196,12 +197,7 @@
   ] as const
   const communityFirstItemMobileMinChartHeight =
     communityFirstItemSkeletonHeights.length * 48 + 16
-  const gameVersionHeaders = getGameVersionRequestHeaders()
-
-  const fetchGlobalData = () =>
-    $fetch<GlobalBootstrapData | null>('/api/global', {
-      headers: gameVersionHeaders,
-    })
+  const fetchGlobalData = () => getGlobalLandingStats(LATEST_BANNER_ID)
 
   const globalDataOptions = {
     default: () => null,
@@ -210,8 +206,8 @@
   }
 
   const { data: globalStats, status: globalStatsStatus } =
-    useAsyncData<GlobalBootstrapData | null>(
-      'global-data',
+    useAsyncData<GlobalLandingStatsData | null>(
+      'landing-global-stats',
       fetchGlobalData,
       globalDataOptions
     )

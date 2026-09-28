@@ -1090,7 +1090,7 @@
     )
   )
 
-  // ── Community stats (from /api/global) ─────────
+  // ── Community stats (from the Cloudflare data API) ─────────
   const communityStatsSkeletonHeights = [
     80, 80, 80, 80, 60, 60, 60, 60, 40, 40,
   ] as const

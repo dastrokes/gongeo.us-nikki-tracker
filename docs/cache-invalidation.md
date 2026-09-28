@@ -1,6 +1,6 @@
 # Cache Invalidation
 
-The Cloudflare data API uses `Cache-Tag` for catalog responses. The tracker uses `Netlify-Cache-ID` for its remaining site-owned cached responses. Stable deploy-scoped files, like `/catalog/index.json`, should not get a custom cache ID.
+The Cloudflare data API uses `Cache-Tag` for catalog and stats responses. The tracker uses `Netlify-Cache-ID` for its remaining site-owned cached responses. Stable deploy-scoped files, like `/catalog/index.json`, should not get a custom cache ID.
 
 ## IDs
 
@@ -13,7 +13,7 @@ The Cloudflare data API uses `Cache-Tag` for catalog responses. The tracker uses
 | Momo detail                     | `momo-details`, `momo-detail-{id}`     |
 | Hashed catalog parts            | `catalog-assets`                       |
 | Lookbook                        | `lookbook`                             |
-| Stats                           | `stats`, `stats-banner-{id}`           |
+| Stats                           | `stats`, `stats-{id}`                  |
 | Images                          | `images`                               |
 | Sitemaps                        | `sitemap`                              |
 
@@ -27,10 +27,10 @@ The Cloudflare data API uses `Cache-Tag` for catalog responses. The tracker uses
 - Catalog index release: no purge; the deploy invalidates `/catalog/index.json`.
 - Hashed catalog generation bug: purge `catalog-assets`.
 - Lookbook decoder/source change: purge `lookbook`.
-- One banner's stats change: purge `stats-banner-{id}`. The purge command first
-  runs `refresh_global_banner_stats(id)` in the main Supabase project, then
-  clears both `/api/global/{id}` variants and, for the latest banner,
-  `/api/global`.
+- Published stats snapshot: purge `stats` after the D1 publication succeeds;
+  this covers both full and summary responses.
+- One banner's published stats change: purge `stats-{id}`; summary responses also
+  carry `stats-0`, because they include core totals.
 
 ## Locale Variants
 
@@ -38,7 +38,7 @@ Tracker clients always send `lang`. The Cloudflare search API requires it and in
 
 ## Commands
 
-The CLI loads `.env` and routes catalog tags only to the Cloudflare data API;
+The CLI loads `.env` and routes catalog and stats tags to the Cloudflare data API;
 they require `CLOUDFLARE_CACHE_PURGE_URL` and `CLOUDFLARE_DATA_TOKEN`. Site-owned
 tags are sent only to Netlify and require `NETLIFY_SITE_ID` plus
 `NETLIFY_AUTH_TOKEN`. A catalog-only purge does not require Netlify credentials.
@@ -55,15 +55,20 @@ Sitemap purge:
 npm run purge -- sitemap
 ```
 
-Single-banner stats purge (for example, `/api/global/72`):
+Single-banner stats purge:
 
 ```powershell
-npm run purge -- stats-banner-72
+npm run purge -- stats-72
 ```
 
-If the Supabase refresh fails, the command stops without purging the cache, so
-the existing cached response remains available rather than exposing stale
-database output as freshly cached data.
+Complete published-stats purge:
+
+```powershell
+npm run purge -- stats
+```
+
+Purging only invalidates cached responses. Publish a validated D1 snapshot
+before purging stats tags; the command no longer runs aggregation in Supabase.
 
 Positional tags avoid npm 11 consuming the reserved `--tag value` option. The
 equivalent `--tag=value` form is also supported.

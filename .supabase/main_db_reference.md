@@ -1,11 +1,12 @@
 # Main DB Reference (`fimzdbqulflilnnopibz`)
 
-Condensed schema reference for LLM/agent context.
+Condensed tracker-side schema contract for LLM/agent context. Executable global-stat aggregation SQL is owned by the backup workflow repository.
 
 Canonical source for expanded query notes:
 
 - `C:\Users\dastrokes\Dev\git\gongeo.us-data-processor\docs\database-query-reference.md`
-- `C:\Users\dastrokes\Dev\git\gongeo.us-nikki-tracker\.supabase\generate_percentile_data.sql`
+- `C:\Users\dastrokes\Dev\git\gongeo.us-db-backup\sql\supabase\global-banner-stats.sql`
+- `C:\Users\dastrokes\Dev\git\gongeo.us-db-backup\sql\supabase\generate-percentile-data.sql`
 
 ## Functions
 

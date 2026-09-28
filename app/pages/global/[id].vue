@@ -575,7 +575,6 @@
   const bannerName = computed(() =>
     banner.value ? t(`banner.${banner.value.bannerId}.name`) : ''
   )
-  const gameVersionHeaders = getGameVersionRequestHeaders()
   const storedSelectedScopeValue = useState<string | null>(
     'global-banner-selected-scope',
     () => null
@@ -595,10 +594,7 @@
     () => `global-banner-detail-${bannerId.value}`,
     () =>
       banner.value
-        ? $fetch<GlobalBannerPayload>(`/api/global/${banner.value.bannerId}`, {
-            headers: gameVersionHeaders,
-            query: { detail: '1' },
-          })
+        ? getBannerStats(banner.value.bannerId).then(({ payload }) => payload)
         : Promise.resolve(null),
     {
       default: () => null,

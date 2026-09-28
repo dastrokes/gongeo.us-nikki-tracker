@@ -8,7 +8,6 @@ export const CACHE_TAGS = {
   outfitDetails: 'outfit-details',
   makeupDetails: 'makeup-details',
   momoDetails: 'momo-details',
-  stats: 'stats',
   images: 'images',
   lookbook: 'lookbook',
   sitemap: 'sitemap',
@@ -18,7 +17,6 @@ export const itemDetailCacheId = (id: string) => `item-detail-${id}`
 export const outfitDetailCacheId = (id: string) => `outfit-detail-${id}`
 export const makeupDetailCacheId = (id: string) => `makeup-detail-${id}`
 export const momoDetailCacheId = (id: string) => `momo-detail-${id}`
-export const bannerStatsCacheId = (id: number) => `stats-banner-${id}`
 
 const HEADER = {
   cache: 'cache-control',
@@ -39,8 +37,6 @@ const CDN_IMMUTABLE =
   'public, s-maxage=31536000, stale-while-revalidate=604800, stale-if-error=86400'
 const CDN_SITEMAP =
   'public, s-maxage=86400, stale-while-revalidate=3600, stale-if-error=3600'
-const CDN_API_SHORT =
-  'public, durable, s-maxage=86400, stale-while-revalidate=86400, stale-if-error=86400'
 const CDN_API_LONG =
   'public, durable, s-maxage=2592000, stale-while-revalidate=604800, stale-if-error=86400'
 const CDN_SEARCH =
@@ -151,10 +147,6 @@ const apiProfiles = {
     cacheIds: [CACHE_TAGS.lookbook],
     includeVersion: true,
   }),
-  stats: createProfile(BROWSER_REVALIDATE, CDN_API_SHORT, {
-    cacheIds: [CACHE_TAGS.stats],
-    includeVersion: true,
-  }),
   noStore: sharedProfiles.noStore,
 } as const satisfies Record<string, CacheProfile>
 
@@ -257,12 +249,6 @@ export function getCacheHeaders(
   options: CacheHeaderOptions = {}
 ): CacheHeaders {
   return resolveCacheHeaders(scope, profile, options).headers
-}
-
-export function getGameVersionRequestHeaders(): CacheHeaders {
-  return {
-    [GAME_VERSION_HEADER]: getGameVersion(),
-  }
 }
 
 const pageVersionVaryOptions = {

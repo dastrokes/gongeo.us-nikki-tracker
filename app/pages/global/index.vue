@@ -669,11 +669,7 @@
     )
   })
 
-  const gameVersionHeaders = getGameVersionRequestHeaders()
-  const fetchGlobalData = () =>
-    $fetch<GlobalBootstrapData | null>('/api/global', {
-      headers: gameVersionHeaders,
-    })
+  const fetchGlobalData = () => getGlobalBootstrapStats(LATEST_BANNER_ID)
 
   const globalDataOptions = {
     default: () => null,
@@ -950,9 +946,7 @@
   })
 
   async function fetchBannerFirstItemData(bannerId: number) {
-    return $fetch<GlobalBootstrapData>(`/api/global/${bannerId}`, {
-      headers: gameVersionHeaders,
-    })
+    return getGlobalBannerSummary(bannerId)
   }
 
   async function ensureFirstItemDataForBanner(

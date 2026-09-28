@@ -1,17 +1,19 @@
 import { normalizeCacheTags } from './netlify-cache-lib.mjs'
 
 const MAX_PURGE_TAGS = 100
-const CLOUDFLARE_CATALOG_TAG_PATTERNS = [
+const CLOUDFLARE_CACHE_TAG_PATTERNS = [
   /^(?:item|outfit|makeup|momo)-details$/,
   /^(?:item|outfit|makeup|momo)-detail-[1-9]\d*$/,
   /^item-search$/,
+  /^stats$/,
+  /^stats-(?:0|[1-9]\d*)$/,
 ]
 
-export const isCloudflareCatalogCacheTag = (tag) =>
-  CLOUDFLARE_CATALOG_TAG_PATTERNS.some((pattern) => pattern.test(tag))
+export const isCloudflareCacheTag = (tag) =>
+  CLOUDFLARE_CACHE_TAG_PATTERNS.some((pattern) => pattern.test(tag))
 
-export const getCloudflareCatalogCacheTags = (tags) =>
-  normalizeCacheTags(tags).filter(isCloudflareCatalogCacheTag)
+export const getCloudflareCacheTags = (tags) =>
+  normalizeCacheTags(tags).filter(isCloudflareCacheTag)
 
 export async function purgeCloudflareCache({
   tags,
@@ -25,21 +27,21 @@ export async function purgeCloudflareCache({
 
   if (!purgeUrl) {
     throw new Error(
-      'CLOUDFLARE_CACHE_PURGE_URL is required to purge Cloudflare catalog cache'
+      'CLOUDFLARE_CACHE_PURGE_URL is required to purge Cloudflare Worker cache'
     )
   }
   if (!purgeToken) {
     throw new Error(
-      'CLOUDFLARE_DATA_TOKEN is required to purge Cloudflare catalog cache'
+      'CLOUDFLARE_DATA_TOKEN is required to purge Cloudflare Worker cache'
     )
   }
   if (typeof fetchFn !== 'function') {
-    throw new Error('fetch is required to purge Cloudflare catalog cache')
+    throw new Error('fetch is required to purge Cloudflare Worker cache')
   }
 
-  const cacheTags = getCloudflareCatalogCacheTags(tags ?? [])
+  const cacheTags = getCloudflareCacheTags(tags ?? [])
   if (cacheTags.length === 0) {
-    throw new Error('At least one Cloudflare catalog cache tag is required')
+    throw new Error('At least one Cloudflare Worker cache tag is required')
   }
 
   const batches = []
@@ -56,7 +58,7 @@ export async function purgeCloudflareCache({
     const text = await response.text().catch(() => '')
     if (!response.ok) {
       throw new Error(
-        `Cloudflare catalog cache purge failed with ${response.status}: ${text}`
+        `Cloudflare Worker cache purge failed with ${response.status}: ${text}`
       )
     }
     batches.push({ status: response.status, body: text, cacheTags: batch })

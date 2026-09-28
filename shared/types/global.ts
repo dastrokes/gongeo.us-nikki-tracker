@@ -46,6 +46,14 @@ export interface GlobalBootstrapData extends GlobalCorePayload {
   completionLevels?: GlobalBannerCompletionLevels
 }
 
+export interface GlobalLandingStatsData {
+  pulls: number
+  users: number
+  bannerId: number
+  firstItemDistribution: FirstItemDistribution
+  updatedAt: string
+}
+
 export interface GlobalBannerPayload {
   date?: string
   bannerId: number

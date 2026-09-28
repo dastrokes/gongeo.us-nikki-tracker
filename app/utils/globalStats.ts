@@ -1,24 +1,7 @@
-import { withSupabaseRetry } from './supabaseRetry'
-
-type MaybeSingleQueryResult = {
-  data: unknown
-  error: unknown
-}
-
-type MaybeSingleQueryBuilder = {
-  maybeSingle: () => PromiseLike<MaybeSingleQueryResult>
-}
-
-type EqQueryBuilder = {
-  eq: (column: string, value: unknown) => MaybeSingleQueryBuilder
-}
-
-type SelectQueryBuilder = {
-  select: (columns: string) => EqQueryBuilder
-}
-
-type SupabaseClient = {
-  from: (table: string) => SelectQueryBuilder
+type StatsApiRow = {
+  banner_id: number
+  payload: unknown
+  updated_at: string
 }
 
 type BannerScopePayload = GlobalBannerPayload['scopes'][string]
@@ -215,19 +198,53 @@ const toFirstItemDistribution = (
   )
 }
 
-const fetchCoreStatsRow = async (
-  supabase: SupabaseClient
-): Promise<GlobalCoreStatsRow | null> => {
-  const { data, error } = await withSupabaseRetry(() =>
-    supabase
-      .from('user_global_stats')
-      .select('banner_id,payload,updated_at')
-      .eq('banner_id', 0)
-      .maybeSingle()
-  )
+const toFirstItemDistributionRecord = (
+  value: unknown
+): FirstItemDistribution => {
+  if (!isRecord(value)) return {}
 
-  if (error) throw error
-  if (!isRecord(data)) return null
+  return Object.entries(value).reduce<FirstItemDistribution>(
+    (result, [key, items]) => {
+      if (!Array.isArray(items)) return result
+      result[key] = toBannerItemDistribution(items)
+      return result
+    },
+    {}
+  )
+}
+
+const fetchStatsRow = async (bannerId: number): Promise<StatsApiRow | null> => {
+  const response = await fetch(getDataApiUrl(`/stats/${bannerId}`), {
+    headers: { Accept: 'application/json' },
+    signal: AbortSignal.timeout(10000),
+  })
+
+  if (response.status === 404) return null
+  if (!response.ok) {
+    throw new Error(`Stats data API returned HTTP ${response.status}`)
+  }
+
+  const data: unknown = await response.json()
+  if (!isRecord(data)) throw new Error('Stats data API returned an invalid row')
+
+  if (
+    typeof data.banner_id !== 'number' ||
+    !Number.isSafeInteger(data.banner_id) ||
+    typeof data.updated_at !== 'string'
+  ) {
+    throw new Error('Stats data API returned invalid row metadata')
+  }
+
+  return {
+    banner_id: data.banner_id,
+    payload: data.payload,
+    updated_at: data.updated_at,
+  }
+}
+
+const fetchCoreStatsRow = async (): Promise<GlobalCoreStatsRow | null> => {
+  const data = await fetchStatsRow(0)
+  if (!data) return null
 
   const payload = toCorePayload(data.payload)
 
@@ -242,19 +259,10 @@ const fetchCoreStatsRow = async (
 }
 
 const fetchBannerStatsRow = async (
-  supabase: SupabaseClient,
   bannerId: number
 ): Promise<GlobalBannerStatsRow | null> => {
-  const { data, error } = await withSupabaseRetry(() =>
-    supabase
-      .from('user_global_stats')
-      .select('banner_id,payload,updated_at')
-      .eq('banner_id', bannerId)
-      .maybeSingle()
-  )
-
-  if (error) throw error
-  if (!isRecord(data)) return null
+  const data = await fetchStatsRow(bannerId)
+  if (!data) return null
   const payload = toBannerPayload(data.payload, bannerId)
 
   return {
@@ -265,11 +273,8 @@ const fetchBannerStatsRow = async (
   }
 }
 
-export const getCoreStats = async (
-  supabase: unknown
-): Promise<GlobalCoreStatsRow> => {
-  const supabaseClient = supabase as SupabaseClient
-  const row = await fetchCoreStatsRow(supabaseClient)
+export const getCoreStats = async (): Promise<GlobalCoreStatsRow> => {
+  const row = await fetchCoreStatsRow()
 
   if (!row) {
     return {
@@ -290,11 +295,9 @@ export const getCoreStats = async (
 }
 
 export const getBannerStats = async (
-  supabase: unknown,
   bannerId: number
 ): Promise<GlobalBannerStatsRow> => {
-  const supabaseClient = supabase as SupabaseClient
-  const row = await fetchBannerStatsRow(supabaseClient, bannerId)
+  const row = await fetchBannerStatsRow(bannerId)
 
   if (!row) {
     return {
@@ -312,4 +315,91 @@ export const getBannerStats = async (
   }
 
   return row
+}
+
+export const getGlobalLandingStats = async (
+  bannerId: number
+): Promise<GlobalLandingStatsData> => {
+  if (!Number.isSafeInteger(bannerId) || bannerId <= 0) {
+    throw new Error('Invalid banner ID for landing stats')
+  }
+
+  const response = await fetch(getDataApiUrl(`/stats/${bannerId}/summary`), {
+    headers: { Accept: 'application/json' },
+    signal: AbortSignal.timeout(10000),
+  })
+
+  if (response.status === 404) {
+    return {
+      pulls: 0,
+      users: 0,
+      bannerId,
+      firstItemDistribution: {},
+      updatedAt: '',
+    }
+  }
+  if (!response.ok) {
+    throw new Error(`Stats summary data API returned HTTP ${response.status}`)
+  }
+
+  const data: unknown = await response.json()
+  if (
+    !isRecord(data) ||
+    typeof data.bannerId !== 'number' ||
+    !Number.isSafeInteger(data.bannerId) ||
+    typeof data.updatedAt !== 'string'
+  ) {
+    throw new Error('Stats summary data API returned an invalid response')
+  }
+
+  return {
+    pulls:
+      typeof data.pulls === 'number' && Number.isFinite(data.pulls)
+        ? data.pulls
+        : 0,
+    users:
+      typeof data.users === 'number' && Number.isFinite(data.users)
+        ? data.users
+        : 0,
+    bannerId: data.bannerId,
+    firstItemDistribution: toFirstItemDistributionRecord(
+      data.firstItemDistribution
+    ),
+    updatedAt: data.updatedAt,
+  }
+}
+
+export const getGlobalBannerSummary = async (
+  bannerId: number
+): Promise<GlobalBootstrapData> => {
+  const banner = await getBannerStats(bannerId)
+
+  return {
+    date: banner.payload.date ?? banner.updated_at ?? new Date().toISOString(),
+    bannerId: banner.payload.bannerId ?? bannerId,
+    firstItemDistribution: banner.firstItemDistribution,
+    completionLevels: banner.payload.completionLevels,
+  }
+}
+
+export const getGlobalBootstrapStats = async (
+  latestBannerId: number
+): Promise<GlobalBootstrapData> => {
+  const [core, latestBanner] = await Promise.all([
+    getCoreStats(),
+    getBannerStats(latestBannerId),
+  ])
+
+  return {
+    date: core.payload.date ?? core.updated_at ?? new Date().toISOString(),
+    pulls: core.payload.pulls ?? 0,
+    users: core.payload.users ?? 0,
+    pullsPerBanner: core.payload.pullsPerBanner ?? {},
+    fiveStarDistribution: core.payload.fiveStarDistribution ?? {},
+    fourStarType2Distribution: core.payload.fourStarType2Distribution ?? {},
+    fourStarType3Distribution: core.payload.fourStarType3Distribution ?? {},
+    bannerId: latestBanner.payload.bannerId ?? latestBannerId,
+    firstItemDistribution: latestBanner.firstItemDistribution,
+    completionLevels: latestBanner.payload.completionLevels,
+  }
 }

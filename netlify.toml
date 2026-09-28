@@ -21,7 +21,7 @@ pattern = "^/(?:[a-z]{2}/)?(banner|item|outfit)(?:/.*)?$"
 for = "/.netlify/images*"
 
   [headers.values]
-  cache-control = "public, max-age=86400, stale-while-revalidate=604800"
+  cache-control = "public, max-age=2592000, stale-while-revalidate=604800"
   CDN-Cache-Control = "public, s-maxage=31536000, stale-while-revalidate=604800, stale-if-error=604800"
   Netlify-CDN-Cache-Control = "public, durable, s-maxage=31536000, stale-while-revalidate=604800, stale-if-error=604800"
 
@@ -29,7 +29,7 @@ for = "/.netlify/images*"
 for = "/images/*"
 
   [headers.values]
-  cache-control = "public, max-age=86400, stale-while-revalidate=604800"
+  cache-control = "public, max-age=2592000, stale-while-revalidate=604800"
   CDN-Cache-Control = "public, s-maxage=31536000, stale-while-revalidate=604800, stale-if-error=604800"
   Netlify-CDN-Cache-Control = "public, durable, s-maxage=31536000, stale-while-revalidate=604800, stale-if-error=604800"
 

@@ -2,21 +2,9 @@ import { getGameVersion } from './gameVersion'
 
 export const GAME_VERSION_HEADER = 'X-Game-Version'
 export const CACHE_TAGS = {
-  catalogAssets: 'catalog-assets',
-  itemSearch: 'item-search',
-  itemDetails: 'item-details',
-  outfitDetails: 'outfit-details',
-  makeupDetails: 'makeup-details',
-  momoDetails: 'momo-details',
-  images: 'images',
   lookbook: 'lookbook',
   sitemap: 'sitemap',
 } as const
-
-export const itemDetailCacheId = (id: string) => `item-detail-${id}`
-export const outfitDetailCacheId = (id: string) => `outfit-detail-${id}`
-export const makeupDetailCacheId = (id: string) => `makeup-detail-${id}`
-export const momoDetailCacheId = (id: string) => `momo-detail-${id}`
 
 const HEADER = {
   cache: 'cache-control',
@@ -41,8 +29,6 @@ const CDN_API_LONG =
   'public, durable, s-maxage=2592000, stale-while-revalidate=604800, stale-if-error=86400'
 const CDN_SEARCH =
   'public, durable, s-maxage=86400, stale-while-revalidate=86400, stale-if-error=3600'
-const CDN_ITEM_SEARCH =
-  'public, durable, s-maxage=2592000, stale-while-revalidate=604800, stale-if-error=86400'
 const THEME_VARY = `cookie=${THEME_COOKIE}`
 const THEME_QUERY_VARY = `${THEME_VARY},query`
 
@@ -139,10 +125,6 @@ const apiProfiles = {
   catalog: createProfile(BROWSER_REVALIDATE, CDN_API_LONG, {
     includeVersion: true,
   }),
-  detail: createProfile(BROWSER_REVALIDATE, CDN_API_LONG),
-  search: createProfile(NO_STORE, CDN_ITEM_SEARCH, {
-    cacheIds: [CACHE_TAGS.itemSearch],
-  }),
   lookbook: createProfile(NO_STORE, CDN_SEARCH, {
     cacheIds: [CACHE_TAGS.lookbook],
     includeVersion: true,
@@ -204,15 +186,7 @@ export function resolveCacheHeaders(
   const config = getProfile(scope, profile)
   const headers: CacheHeaders = { ...config.headers }
   const includeVersion = options.includeVersion ?? config.includeVersion
-  const vary = mergeVary(
-    headers[HEADER.vary],
-    buildVary({
-      ...options,
-      varyHeaders: includeVersion
-        ? [...new Set([...(options.varyHeaders ?? []), GAME_VERSION_HEADER])]
-        : options.varyHeaders,
-    })
-  )
+  const vary = mergeVary(headers[HEADER.vary], buildVary(options))
   const cacheIds = normalizeCacheIds([
     ...(config.cacheIds ?? []),
     ...(options.cacheIds ?? []),
@@ -251,18 +225,17 @@ export function getCacheHeaders(
   return resolveCacheHeaders(scope, profile, options).headers
 }
 
-const pageVersionVaryOptions = {
+const pageVersionOptions = {
   includeVersion: true,
-  varyHeaders: [GAME_VERSION_HEADER],
 } satisfies CacheHeaderOptions
 
 export const pageStatic = getCacheHeaders('page', 'prerenderedStatic')
 export const pageThemeNoTag = getCacheHeaders('page', 'themeAware')
 export const pageTheme = getCacheHeaders('page', 'themeAware', {
-  ...pageVersionVaryOptions,
+  ...pageVersionOptions,
 })
 export const pageThemeQuery = getCacheHeaders('page', 'themeAwareQuery', {
-  ...pageVersionVaryOptions,
+  ...pageVersionOptions,
 })
 export const i18nMessages = getCacheHeaders('page', 'i18nMessages')
 export const sitemapHeaders = getCacheHeaders('page', 'sitemap')

@@ -4,11 +4,14 @@ export const LATEST_BANNER_ID = 77
 
 export const IMPORT_PAGE_MAINTENANCE = false
 
+const MID_PATCH_DATES = ['2026-10-11'] as const
+
 const MAINTENANCE_TIMES = {
   major: '12:50:00',
   midPatch: '19:00:00',
   end: '20:00:00',
 } as const
+
 type MaintenanceSchedule = 'major' | 'midPatch'
 
 const getMaintenanceTime = (date: string, time: string) =>
@@ -42,6 +45,7 @@ const majorMaintenanceDates = new Set([
   ...bannerRuns.filter((run) => run.bannerType === 2).map((run) => run.end),
 ])
 const midPatchMaintenanceDates = new Set([
+  ...MID_PATCH_DATES,
   ...bannerRuns
     .filter((run) => isFirstHalfFourStarRun(run.bannerType, run))
     .map((run) => run.end),

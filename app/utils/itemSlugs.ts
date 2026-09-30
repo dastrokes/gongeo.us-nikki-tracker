@@ -2,7 +2,8 @@ import { ENTITY_SLUG_DATA } from '../../data/entitySlugs/item'
 
 export const itemSlugHelpers = createEntitySlugHelpers(
   'items',
-  ENTITY_SLUG_DATA
+  ENTITY_SLUG_DATA,
+  createItemSlugOverrides(ENTITY_SLUG_DATA, getItemType)
 )
 
 export const getItemSlugIds = itemSlugHelpers.getIds

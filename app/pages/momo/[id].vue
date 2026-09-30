@@ -297,6 +297,8 @@
 <script setup lang="ts">
   import { Images, Star } from '@vicons/fa'
 
+  definePageMeta({ key: (route) => `momo-detail-${route.params.id}` })
+
   const { t, te, locale } = useI18n()
   const message = useMessage()
   const localePath = useLocalePath()

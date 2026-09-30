@@ -4,13 +4,18 @@ import { ENTITY_SLUG_DATA as MAKEUP_SLUG_DATA } from '../../data/entitySlugs/mak
 import { ENTITY_SLUG_DATA as MOMO_SLUG_DATA } from '../../data/entitySlugs/momo'
 import { ENTITY_SLUG_DATA as OUTFIT_SLUG_DATA } from '../../data/entitySlugs/outfit'
 import { ENTITY_SLUG_DATA as PROP_SLUG_DATA } from '../../data/entitySlugs/prop'
+import { getItemType } from './itemType'
 
 export type EntitySlugType =
   'banner' | 'item' | 'makeup' | 'momo' | 'outfit' | 'prop'
 
 const helpersByEntity = {
   banner: createEntitySlugHelpers('banners', BANNER_SLUG_DATA),
-  item: createEntitySlugHelpers('items', ITEM_SLUG_DATA),
+  item: createEntitySlugHelpers(
+    'items',
+    ITEM_SLUG_DATA,
+    createItemSlugOverrides(ITEM_SLUG_DATA, getItemType)
+  ),
   makeup: createEntitySlugHelpers('makeups', MAKEUP_SLUG_DATA),
   momo: createEntitySlugHelpers('momo', MOMO_SLUG_DATA),
   outfit: createEntitySlugHelpers('outfits', OUTFIT_SLUG_DATA),

@@ -475,6 +475,8 @@
   import { Star } from '@vicons/fa'
   import type { DropdownOption } from 'naive-ui'
 
+  definePageMeta({ key: (route) => `outfit-detail-${route.params.id}` })
+
   type WardrobeVariantMarkKey =
     | VariantType
     | 'complete-set'

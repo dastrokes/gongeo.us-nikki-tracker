@@ -2,7 +2,8 @@ export type EntitySlugData = readonly (readonly [number, string])[]
 
 export const createEntitySlugHelpers = (
   routePrefix: string,
-  data: EntitySlugData
+  data: EntitySlugData,
+  overrides: EntitySlugData = []
 ) => {
   let byId: ReadonlyMap<string, string> | null = null
   let bySlug: ReadonlyMap<string, string> | null = null
@@ -13,6 +14,10 @@ export const createEntitySlugHelpers = (
     const nextById = new Map<string, string>()
     const nextBySlug = new Map<string, string>()
     data.forEach(([id, slug]) => {
+      nextById.set(String(id), slug)
+      nextBySlug.set(slug, String(id))
+    })
+    overrides.forEach(([id, slug]) => {
       nextById.set(String(id), slug)
       nextBySlug.set(slug, String(id))
     })

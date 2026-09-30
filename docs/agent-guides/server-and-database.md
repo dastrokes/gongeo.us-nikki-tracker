@@ -14,6 +14,12 @@ Read this guide for server endpoints, caching, locale resolution, Supabase, SQL,
 - D1 query/schema behavior belongs in the sibling data API and data processor projects. Keep tracker reference markdown condensed.
 - Reference files are non-executable maps. Verify risky behavior against code, schemas, or APIs.
 
+## Runtime boundaries
+
+- Nitro auto-imports server and shared helpers, but not frontend helpers from `app/`. Explicitly import any frontend dependency in a module loaded by server code, including transitive dependencies.
+- Put pure logic used by both runtimes in `shared/`; do not import a client composable into a server handler for its validation helpers or constants.
+- When adding a dependency to server-loaded code, inspect its import chain and explicitly import frontend helpers where they are used. Frontend auto-import declarations and a passing type check do not prove a dependency exists in Nitro at runtime.
+
 ## Supabase clients
 
 - App/client code uses `useSupabaseClient` from `app/composables/useSupabaseClient.ts`.

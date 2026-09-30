@@ -11,6 +11,10 @@ Read this guide for UI, page, component, catalog-listing, filter, or localizatio
 - Preserve the existing Naive UI and Tailwind 4 patterns.
 - Use Outfit weights `400`, `500`, `600`, and `700`; avoid heavier weights unless requested.
 
+## Component boundaries
+
+- Avoid unnecessary micro-components and premature abstraction. Keep simple implementation details inline unless extraction provides meaningful reuse, encapsulates substantial behavior, or establishes a clear component boundary.
+
 ## Catalog behavior
 
 - Use `useCatalogListing` or `useStaticCatalogListing` for catalog listing pages.

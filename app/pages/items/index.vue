@@ -132,73 +132,128 @@
             @update:value="updateTypeFilter"
           />
 
-          <n-select
-            :value="categoryFilter"
-            :options="categoryOptions"
-            :fallback-option="getCategoryFallbackOption"
-            :loading="isFacetOptionsRefreshing"
-            size="small"
-            class="min-w-0"
-            clearable
-            filterable
-            :disabled="!isCategoryFilterEnabled || isFacetOptionsRefreshing"
-            :show-checkmark="false"
-            :placeholder="t('compendium.filter_category')"
-            @update:value="updateCategoryFilter"
-          />
-
-          <n-select
-            v-model:value="subcategoryFilter"
-            :options="subcategoryOptions"
-            :fallback-option="getSubcategoryFallbackOption"
-            :loading="isFacetOptionsRefreshing"
-            size="small"
-            class="min-w-0"
-            clearable
-            filterable
-            :disabled="!isSubcategoryFilterEnabled || isFacetOptionsRefreshing"
-            :show-checkmark="false"
-            :placeholder="t('compendium.filter_subcategory')"
-          />
-
-          <n-button-group class="w-full">
-            <n-button
-              size="small"
-              class="min-w-0 flex-1 justify-between"
-              :disabled="!isAdvancedFiltersEnabled"
-              data-advanced-filters-trigger
-              @click="toggleAdvancedFiltersDrawer"
-            >
-              <span>{{ t('compendium.advanced_filters') }}</span>
-              <span
-                v-if="activeAdvancedFilterCount > 0"
-                class="ml-1"
+          <n-tooltip
+            v-model:show="disabledFilterTooltipShow.category"
+            :disabled="!categoryFilterDisabledReason"
+          >
+            <template #trigger>
+              <div
+                class="min-w-0 rounded-md focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden"
+                :tabindex="categoryFilterDisabledReason ? 0 : undefined"
+                :aria-label="categoryFilterDisabledReason || undefined"
+                @focus="disabledFilterTooltipShow.category = true"
+                @blur="disabledFilterTooltipShow.category = false"
+                @keydown.esc="disabledFilterTooltipShow.category = false"
               >
-                ({{ activeAdvancedFilterCount }})
-              </span>
-            </n-button>
-
-            <n-tooltip
-              v-if="activeAdvancedFilterCount > 0"
-              trigger="hover"
-            >
-              <template #trigger>
-                <n-button
+                <n-select
+                  :value="categoryFilter"
+                  :options="categoryOptions"
+                  :fallback-option="getCategoryFallbackOption"
+                  :loading="isFacetOptionsRefreshing"
                   size="small"
-                  :disabled="!isAdvancedFiltersEnabled"
-                  :aria-label="t('common.clear')"
-                  @click="clearAdvancedFilters"
-                >
-                  <template #icon>
-                    <n-icon>
-                      <Times />
-                    </n-icon>
-                  </template>
-                </n-button>
-              </template>
-              {{ t('common.clear') }}
-            </n-tooltip>
-          </n-button-group>
+                  class="min-w-0"
+                  clearable
+                  filterable
+                  :disabled="
+                    !isCategoryFilterEnabled || isFacetOptionsRefreshing
+                  "
+                  :show-checkmark="false"
+                  :placeholder="t('compendium.filter_category')"
+                  @update:value="updateCategoryFilter"
+                />
+              </div>
+            </template>
+            {{ categoryFilterDisabledReason }}
+          </n-tooltip>
+
+          <n-tooltip
+            v-model:show="disabledFilterTooltipShow.subcategory"
+            :disabled="!subcategoryFilterDisabledReason"
+          >
+            <template #trigger>
+              <div
+                class="min-w-0 rounded-md focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden"
+                :tabindex="subcategoryFilterDisabledReason ? 0 : undefined"
+                :aria-label="subcategoryFilterDisabledReason || undefined"
+                @focus="disabledFilterTooltipShow.subcategory = true"
+                @blur="disabledFilterTooltipShow.subcategory = false"
+                @keydown.esc="disabledFilterTooltipShow.subcategory = false"
+              >
+                <n-select
+                  v-model:value="subcategoryFilter"
+                  :options="subcategoryOptions"
+                  :fallback-option="getSubcategoryFallbackOption"
+                  :loading="isFacetOptionsRefreshing"
+                  size="small"
+                  class="min-w-0"
+                  clearable
+                  filterable
+                  :disabled="
+                    !isSubcategoryFilterEnabled || isFacetOptionsRefreshing
+                  "
+                  :show-checkmark="false"
+                  :placeholder="t('compendium.filter_subcategory')"
+                />
+              </div>
+            </template>
+            {{ subcategoryFilterDisabledReason }}
+          </n-tooltip>
+
+          <n-tooltip
+            v-model:show="disabledFilterTooltipShow.advanced"
+            :disabled="!advancedFiltersDisabledReason"
+          >
+            <template #trigger>
+              <div
+                class="min-w-0 rounded-md focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden"
+                :tabindex="advancedFiltersDisabledReason ? 0 : undefined"
+                :aria-label="advancedFiltersDisabledReason || undefined"
+                @focus="disabledFilterTooltipShow.advanced = true"
+                @blur="disabledFilterTooltipShow.advanced = false"
+                @keydown.esc="disabledFilterTooltipShow.advanced = false"
+              >
+                <n-button-group class="w-full">
+                  <n-button
+                    size="small"
+                    class="min-w-0 flex-1 justify-between"
+                    :disabled="!isAdvancedFiltersEnabled"
+                    data-advanced-filters-trigger
+                    @click="toggleAdvancedFiltersDrawer"
+                  >
+                    <span>{{ t('compendium.advanced_filters') }}</span>
+                    <span
+                      v-if="activeAdvancedFilterCount > 0"
+                      class="ml-1"
+                    >
+                      ({{ activeAdvancedFilterCount }})
+                    </span>
+                  </n-button>
+
+                  <n-tooltip
+                    v-if="activeAdvancedFilterCount > 0"
+                    trigger="hover"
+                  >
+                    <template #trigger>
+                      <n-button
+                        size="small"
+                        :disabled="!isAdvancedFiltersEnabled"
+                        :aria-label="t('common.clear')"
+                        @click="clearAdvancedFilters"
+                      >
+                        <template #icon>
+                          <n-icon>
+                            <Times />
+                          </n-icon>
+                        </template>
+                      </n-button>
+                    </template>
+                    {{ t('common.clear') }}
+                  </n-tooltip>
+                </n-button-group>
+              </div>
+            </template>
+            {{ advancedFiltersDisabledReason }}
+          </n-tooltip>
         </div>
       </div>
     </template>
@@ -929,6 +984,38 @@
   const isAdvancedFiltersEnabled = computed(
     () => advancedFilterFields.value.length > 0
   )
+  const disabledFilterTooltipShow = reactive({
+    category: false,
+    subcategory: false,
+    advanced: false,
+  })
+  const categoryFilterDisabledReason = computed(() => {
+    if (!supportsCategoryFilters.value) {
+      return t('compendium.filter_select_slot_first')
+    }
+    if (isFacetOptionsRefreshing.value) return t('common.loading')
+    return isCategoryFilterEnabled.value
+      ? ''
+      : t('compendium.filter_no_options')
+  })
+  const subcategoryFilterDisabledReason = computed(() => {
+    if (!supportsCategoryFilters.value) {
+      return t('compendium.filter_select_slot_first')
+    }
+    if (isCategoryFilterEnabled.value && !categoryFilter.value) {
+      return t('compendium.filter_select_category_first')
+    }
+    if (isFacetOptionsRefreshing.value) return t('common.loading')
+    return isSubcategoryFilterEnabled.value
+      ? ''
+      : t('compendium.filter_no_options')
+  })
+  const advancedFiltersDisabledReason = computed(() => {
+    if (isAdvancedFiltersEnabled.value) return ''
+    return supportsCategoryFilters.value
+      ? t('compendium.advanced_filters_empty')
+      : t('compendium.filter_select_slot_first')
+  })
   const hasActiveAdvancedFilters = computed(
     () => activeAdvancedFilterCount.value > 0
   )
@@ -2458,8 +2545,10 @@
   const availableSubcategories = computed(
     () => displayFacetData.value?.subcategories ?? []
   )
-  const advancedFacetOptions = computed<ItemSearchAdvancedFacetMap>(
-    () => getItemSearchAttributeFacets(typeFilter.value).advanced
+  const advancedFacetOptions = computed<ItemSearchAdvancedFacetMap>(() =>
+    isAdvancedFiltersEnabled.value
+      ? getItemSearchAttributeFacets(typeFilter.value).advanced
+      : {}
   )
   const allCategories = computed(() =>
     typeFilter.value

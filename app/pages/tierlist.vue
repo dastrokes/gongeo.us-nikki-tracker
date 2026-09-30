@@ -399,44 +399,95 @@
             @update:value="updateItemTypeFilter"
           />
 
-          <n-select
-            v-if="mode === 'items'"
-            v-model:value="itemCategoryFilter"
-            :options="itemCategoryOptions"
-            size="small"
-            class="min-w-0"
-            clearable
-            filterable
-            :disabled="!isItemCategoryFilterEnabled"
-            :show-checkmark="false"
-            :placeholder="t('compendium.filter_category')"
-          />
-
-          <n-select
-            v-if="mode === 'items'"
-            v-model:value="itemSubcategoryFilter"
-            :options="itemSubcategoryOptions"
-            size="small"
-            class="min-w-0"
-            clearable
-            filterable
-            :disabled="!isItemSubcategoryFilterEnabled"
-            :show-checkmark="false"
-            :placeholder="t('compendium.filter_subcategory')"
-          />
-
-          <n-button
-            v-if="mode === 'items'"
-            size="small"
-            class="justify-between"
-            :disabled="!showAdvancedFiltersButton"
-            @click="isAdvancedFiltersDrawerOpen = true"
+          <n-tooltip
+            v-model:show="disabledFilterTooltipShow.category"
+            :disabled="!itemCategoryFilterDisabledReason"
           >
-            <span>{{ t('compendium.advanced_filters') }}</span>
-            <span v-if="activeAdvancedFilterCount > 0">
-              ({{ activeAdvancedFilterCount }})
-            </span>
-          </n-button>
+            <template #trigger>
+              <div
+                class="min-w-0 rounded-md focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden"
+                :tabindex="itemCategoryFilterDisabledReason ? 0 : undefined"
+                :aria-label="itemCategoryFilterDisabledReason || undefined"
+                @focus="disabledFilterTooltipShow.category = true"
+                @blur="disabledFilterTooltipShow.category = false"
+                @keydown.esc="disabledFilterTooltipShow.category = false"
+              >
+                <n-select
+                  v-if="mode === 'items'"
+                  v-model:value="itemCategoryFilter"
+                  :options="itemCategoryOptions"
+                  size="small"
+                  class="min-w-0"
+                  clearable
+                  filterable
+                  :disabled="!isItemCategoryFilterEnabled"
+                  :show-checkmark="false"
+                  :placeholder="t('compendium.filter_category')"
+                />
+              </div>
+            </template>
+            {{ itemCategoryFilterDisabledReason }}
+          </n-tooltip>
+
+          <n-tooltip
+            v-model:show="disabledFilterTooltipShow.subcategory"
+            :disabled="!itemSubcategoryFilterDisabledReason"
+          >
+            <template #trigger>
+              <div
+                class="min-w-0 rounded-md focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden"
+                :tabindex="itemSubcategoryFilterDisabledReason ? 0 : undefined"
+                :aria-label="itemSubcategoryFilterDisabledReason || undefined"
+                @focus="disabledFilterTooltipShow.subcategory = true"
+                @blur="disabledFilterTooltipShow.subcategory = false"
+                @keydown.esc="disabledFilterTooltipShow.subcategory = false"
+              >
+                <n-select
+                  v-if="mode === 'items'"
+                  v-model:value="itemSubcategoryFilter"
+                  :options="itemSubcategoryOptions"
+                  size="small"
+                  class="min-w-0"
+                  clearable
+                  filterable
+                  :disabled="!isItemSubcategoryFilterEnabled"
+                  :show-checkmark="false"
+                  :placeholder="t('compendium.filter_subcategory')"
+                />
+              </div>
+            </template>
+            {{ itemSubcategoryFilterDisabledReason }}
+          </n-tooltip>
+
+          <n-tooltip
+            v-model:show="disabledFilterTooltipShow.advanced"
+            :disabled="!advancedFiltersDisabledReason"
+          >
+            <template #trigger>
+              <div
+                class="min-w-0 rounded-md focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden"
+                :tabindex="advancedFiltersDisabledReason ? 0 : undefined"
+                :aria-label="advancedFiltersDisabledReason || undefined"
+                @focus="disabledFilterTooltipShow.advanced = true"
+                @blur="disabledFilterTooltipShow.advanced = false"
+                @keydown.esc="disabledFilterTooltipShow.advanced = false"
+              >
+                <n-button
+                  v-if="mode === 'items'"
+                  size="small"
+                  class="w-full justify-between"
+                  :disabled="!showAdvancedFiltersButton"
+                  @click="isAdvancedFiltersDrawerOpen = true"
+                >
+                  <span>{{ t('compendium.advanced_filters') }}</span>
+                  <span v-if="activeAdvancedFilterCount > 0">
+                    ({{ activeAdvancedFilterCount }})
+                  </span>
+                </n-button>
+              </div>
+            </template>
+            {{ advancedFiltersDisabledReason }}
+          </n-tooltip>
         </div>
       </div>
     </n-card>
@@ -2069,8 +2120,10 @@
       ? (itemSearchFacets.value?.subcategories ?? [])
       : []
   )
-  const advancedFacetOptions = computed<ItemSearchAdvancedFacetMap>(
-    () => getItemSearchAttributeFacets(itemTypeFilter.value).advanced
+  const advancedFacetOptions = computed<ItemSearchAdvancedFacetMap>(() =>
+    showAdvancedFiltersButton.value
+      ? getItemSearchAttributeFacets(itemTypeFilter.value).advanced
+      : {}
   )
   const currentAdvancedFacetOptions = computed<ItemSearchAdvancedFacetMap>(
     () =>
@@ -2102,6 +2155,36 @@
       !!itemCategoryFilter.value &&
       allItemSubcategories.value.length > 0
   )
+  const disabledFilterTooltipShow = reactive({
+    category: false,
+    subcategory: false,
+    advanced: false,
+  })
+  const itemCategoryFilterDisabledReason = computed(() => {
+    if (!itemTypeFilter.value) {
+      return t('compendium.filter_select_slot_first')
+    }
+    return isItemCategoryFilterEnabled.value
+      ? ''
+      : t('compendium.filter_no_options')
+  })
+  const itemSubcategoryFilterDisabledReason = computed(() => {
+    if (!itemTypeFilter.value) {
+      return t('compendium.filter_select_slot_first')
+    }
+    if (isItemCategoryFilterEnabled.value && !itemCategoryFilter.value) {
+      return t('compendium.filter_select_category_first')
+    }
+    return isItemSubcategoryFilterEnabled.value
+      ? ''
+      : t('compendium.filter_no_options')
+  })
+  const advancedFiltersDisabledReason = computed(() => {
+    if (showAdvancedFiltersButton.value) return ''
+    return itemTypeFilter.value
+      ? t('compendium.advanced_filters_empty')
+      : t('compendium.filter_select_slot_first')
+  })
 
   watch(
     allItemCategories,

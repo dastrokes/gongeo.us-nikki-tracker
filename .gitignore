@@ -2,32 +2,34 @@
 node_modules/
 
 # Nuxt/Nitro build outputs
-.nuxt/
-.output/
-.nitro/
-.data/
+/.nuxt/
+/.output/
+/.nitro/
+/.data/
+/dist/
+
+# Tool caches and TypeScript build metadata
 .cache/
-dist/
+*.tsbuildinfo
 
 # Netlify build output
-.netlify/
+/.netlify/
 
 # Generated image assets
-public/images/outfits/
-public/images/items/
-public/images/props/
-public/images/momo/
-public/images/eurekas/
+/public/images/outfits/
+/public/images/items/
+/public/images/props/
+/public/images/momo/
+/public/images/eurekas/
 
 # Generated item-search artifacts
-data/item-search/generated/
-reports/item-search/
+/data/item-search/generated/
 
 # Auto-generated types
-components.d.ts
+/app/components.d.ts
 
 # Husky runtime files (keep custom hooks trackable)
-.husky/_/
+/.husky/_/
 
 # Logs
 logs/
@@ -39,19 +41,19 @@ logs/
 !.env.example
 
 # Supabase CLI local state
-supabase/.branches/
-supabase/.temp/
+/supabase/.branches/
+/supabase/.temp/
 
 # Editor and OS files
 .DS_Store
+Thumbs.db
+Desktop.ini
 .fleet/
 .idea/
 .vscode/
 
-# Local agent instructions
-AGENTS.md
+# Local agent/tool state
 .agents/
 .claude/
 .codex/
-.impeccable/
-skills-lock.json
+/skills-lock.json

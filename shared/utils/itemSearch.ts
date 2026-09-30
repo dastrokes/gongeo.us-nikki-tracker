@@ -762,11 +762,13 @@ export const getItemSearchAdvancedFields = (
 export const getItemSearchCompendiumAdvancedFields = (
   itemType?: string | null
 ): ItemSearchAdvancedField[] =>
-  getItemSearchAdvancedFields(itemType).filter(
-    (field) =>
-      !isItemSearchArrayField(field) ||
-      ITEM_SEARCH_COMPENDIUM_ARRAY_ADVANCED_FIELDS.has(field)
-  )
+  isSupportedItemSearchItemType(itemType)
+    ? getItemSearchAdvancedFields(itemType).filter(
+        (field) =>
+          !isItemSearchArrayField(field) ||
+          ITEM_SEARCH_COMPENDIUM_ARRAY_ADVANCED_FIELDS.has(field)
+      )
+    : []
 
 export const isItemSearchCompendiumSingleSelectArrayField = (
   field: ItemSearchAdvancedField

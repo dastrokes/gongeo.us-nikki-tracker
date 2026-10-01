@@ -237,7 +237,8 @@
       "help_translate": "번역을 도와주세요"
     },
     "search": {
-      "placeholder": "이름으로 검색",
+      "placeholder": "이름이나 특징으로 검색",
+      "helper": "이름, 별칭, 능력으로 검색하거나 원하는 아이템의 특징을 설명해 주세요.",
       "for_query": "\"{query}\" 검색"
     },
     "social": {

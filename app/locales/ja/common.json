@@ -237,7 +237,8 @@
       "help_translate": "翻訳を手伝ってください"
     },
     "search": {
-      "placeholder": "名前で検索",
+      "placeholder": "名前や特徴で検索",
+      "helper": "名前・別名・能力で検索するか、探しているものの特徴を入力してください。",
       "for_query": "「{query}」を検索"
     },
     "social": {

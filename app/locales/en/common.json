@@ -237,7 +237,8 @@
       "help_translate": "Help translate"
     },
     "search": {
-      "placeholder": "Search by name",
+      "placeholder": "Search by name or detail",
+      "helper": "Find names, aliases and abilities, or describe what you’re looking for.",
       "for_query": "for \"{query}\""
     },
     "social": {

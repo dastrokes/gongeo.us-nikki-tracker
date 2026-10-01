@@ -92,19 +92,9 @@ export const useWhimSearchAutocomplete = () => {
   const searchTerms = (query: string) => {
     void ensureTermPinyinLoaded()
 
-    const fragment = query.trim().split(/\s+/).at(-1) ?? ''
-    if (!fragment) return []
-
-    const sortedResults = termIndex.value
-      .search(fragment)
-      .sort((left, right) => {
-        const priority =
-          getSearchMatchPriority(left.item.value, fragment) -
-          getSearchMatchPriority(right.item.value, fragment)
-        return priority || (left.score ?? 1) - (right.score ?? 1)
-      })
-
-    return sortedResults.slice(0, 7).map((result) => result.item)
+    return getSearchTermSuggestions(query, (fragment) =>
+      termIndex.value.search(fragment)
+    )
   }
 
   const buildSearchIndex = async () => {

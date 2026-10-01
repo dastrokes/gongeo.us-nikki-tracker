@@ -237,7 +237,8 @@
       "help_translate": "幫助翻譯"
     },
     "search": {
-      "placeholder": "按名稱搜尋",
+      "placeholder": "按名稱或細節搜尋",
+      "helper": "搜尋名稱、花名或能力，也可以描述你想找的物品。",
       "for_query": "搜尋 “{query}”"
     },
     "social": {
@@ -960,7 +961,7 @@
       "clear_confirm": "要清除這張卡片的所有套裝選擇嗎？",
       "choose": "選擇套裝",
       "change": "更換套裝",
-      "search": "依名稱、別名或能力搜尋套裝",
+      "search": "依名稱、花名或能力搜尋套裝",
       "empty": "沒有符合目前搜尋或篩選條件的套裝。",
       "preview": "預覽卡片",
       "export_name": "infinity-nikki-favorites-tw.png",
@@ -1148,7 +1149,7 @@
     "clear_query": "清除搜尋",
     "autocomplete_names": "名稱",
     "autocomplete_terms": "搜尋詞",
-    "autocomplete_alias": "別名：{alias}",
+    "autocomplete_alias": "花名：{alias}",
     "autocomplete_ability_alias": "能力：{alias}",
     "autocomplete_add_term": "將 {term} 加入搜尋",
     "autocomplete_open_entity": "開啟{type}：{name}",

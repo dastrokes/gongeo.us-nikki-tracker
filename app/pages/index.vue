@@ -129,14 +129,16 @@
         size="small"
         class="rounded-xl p-0 shadow-none sm:p-2"
       >
-        <div class="mb-4 flex items-center justify-between gap-4">
+        <div class="mb-4 flex min-h-11 items-start justify-between gap-4">
           <div>
             <h2
               class="text-xl font-semibold text-slate-900 dark:text-slate-100"
             >
               {{ $t('default.current_banners') }}
             </h2>
-            <span class="mt-2 block h-0.5 w-5 rounded-full bg-rose-500" />
+            <span
+              class="mt-2 block w-5 rounded-full border-t-2 border-rose-500"
+            />
           </div>
           <NuxtLinkLocale
             no-prefetch
@@ -170,21 +172,23 @@
     <!-- ═══ Compendium and Explore More ═══ -->
     <section
       ref="compendiumSectionRef"
-      class="grid scroll-mt-16 gap-4 lg:grid-cols-[0.9fr_1.1fr] lg:items-stretch"
+      class="grid scroll-mt-16 gap-4 xl:grid-cols-[0.9fr_1.1fr] xl:items-stretch"
     >
       <n-card
         size="small"
-        class="rounded-xl p-0 shadow-none sm:p-2 lg:h-full"
-        content-class="lg:flex lg:h-full lg:flex-col"
+        class="rounded-xl p-0 shadow-none sm:p-2 xl:h-full"
+        content-class="xl:flex xl:h-full xl:flex-col"
       >
-        <div class="mb-4 flex items-end justify-between gap-4">
+        <div class="mb-4 flex min-h-11 items-start justify-between gap-4">
           <div>
             <h2
               class="text-xl font-semibold text-slate-900 dark:text-slate-100"
             >
               {{ $t('navigation.compendium') }}
             </h2>
-            <span class="mt-2 block h-0.5 w-5 rounded-full bg-rose-500" />
+            <span
+              class="mt-2 block w-5 rounded-full border-t-2 border-rose-500"
+            />
           </div>
           <NuxtLinkLocale
             no-prefetch
@@ -196,22 +200,46 @@
           </NuxtLinkLocale>
         </div>
 
-        <!-- Compendium Grid -->
-        <div
-          class="grid grid-cols-4 gap-2 sm:gap-3 md:grid-cols-2 lg:flex-1 lg:grid-cols-4"
+        <button
+          type="button"
+          class="mb-4 flex min-h-11 w-full min-w-0 cursor-pointer items-center gap-3 rounded-xl border border-[#DDD2E8] bg-white/80 px-3 py-2.5 text-left text-sm text-slate-500 transition-colors hover:border-rose-300 hover:bg-white focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden dark:border-[#3A3858] dark:bg-slate-950/30 dark:text-slate-400 dark:hover:border-rose-300/30 dark:hover:bg-slate-900/45"
+          :aria-label="$t('default.search.placeholder')"
+          aria-haspopup="dialog"
+          aria-controls="global-search-overlay"
+          :aria-expanded="isSearchOpen"
+          @click="openSearch"
         >
+          <n-icon
+            size="18"
+            class="shrink-0 text-rose-500 dark:text-rose-300"
+          >
+            <Search />
+          </n-icon>
+          <span class="min-w-0 flex-1 truncate">
+            {{ $t('default.search.placeholder') }}
+          </span>
+          <kbd
+            aria-hidden="true"
+            class="hidden shrink-0 rounded-md border border-slate-200 bg-slate-50 px-1.5 py-0.5 text-xs font-semibold text-slate-400 sm:inline-flex dark:border-slate-700 dark:bg-slate-800 dark:text-slate-400"
+          >
+            /
+          </kbd>
+        </button>
+
+        <!-- Compendium Grid -->
+        <div class="grid grid-cols-4 gap-2 sm:gap-3 xl:flex-1">
           <div
             v-for="column in compendiumColumns"
             :key="column.key"
-            class="min-w-0 md:grid md:grid-cols-[minmax(0,1fr)_8rem] md:gap-2 lg:flex lg:flex-col lg:gap-0"
+            class="min-w-0 xl:flex xl:flex-col"
           >
             <NuxtLinkLocale
               no-prefetch
               :to="column.path"
-              class="group block min-h-20 rounded-lg text-center focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden md:min-h-0 lg:min-h-20 lg:flex-1"
+              class="group block min-h-20 rounded-lg text-center focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden xl:flex-1"
             >
               <span
-                class="flex min-h-20 flex-col items-center justify-center gap-1.5 rounded-lg border border-black/5 bg-white/70 px-1 py-2 ring-1 ring-white/60 transition-all duration-300 ring-inset group-hover:-translate-y-0.5 group-hover:border-rose-200 group-hover:bg-white motion-reduce:transform-none sm:gap-2 sm:px-2 sm:py-3 md:h-full md:min-h-0 lg:min-h-20 dark:border-white/8 dark:bg-slate-950/25 dark:ring-white/4 dark:group-hover:border-rose-300/20 dark:group-hover:bg-slate-900/45"
+                class="flex min-h-20 flex-col items-center justify-center gap-1.5 rounded-lg border border-black/5 bg-white/70 px-1 py-2 ring-1 ring-white/60 transition-all duration-300 ring-inset group-hover:-translate-y-0.5 group-hover:border-rose-200 group-hover:bg-white motion-reduce:transform-none sm:gap-2 sm:px-2 sm:py-3 xl:h-full dark:border-white/8 dark:bg-slate-950/25 dark:ring-white/4 dark:group-hover:border-rose-300/20 dark:group-hover:bg-slate-900/45"
               >
                 <n-icon
                   :size="24"
@@ -230,7 +258,7 @@
             <NuxtLinkLocale
               no-prefetch
               :to="column.preview.path"
-              class="group relative mt-2 block aspect-2/3 w-full overflow-hidden rounded-lg bg-slate-100 bg-[url('/images/bg.webp')] bg-cover bg-center transition-colors duration-300 ease-out focus-visible:ring-2 focus-visible:ring-rose-500/80 focus-visible:outline-hidden focus-visible:ring-inset md:mt-0 lg:mt-2 dark:bg-slate-800"
+              class="group relative mt-2 block aspect-2/3 w-full overflow-hidden rounded-lg bg-slate-100 bg-[url('/images/bg.webp')] bg-cover bg-center transition-colors duration-300 ease-out focus-visible:ring-2 focus-visible:ring-rose-500/80 focus-visible:outline-hidden focus-visible:ring-inset dark:bg-slate-800"
               :aria-label="column.preview.linkLabel"
             >
               <LazyNuxtImg
@@ -266,25 +294,27 @@
 
       <n-card
         size="small"
-        class="rounded-xl p-0 shadow-none sm:p-2 lg:h-full"
-        content-class="lg:flex lg:h-full lg:flex-col"
+        class="rounded-xl p-0 shadow-none sm:p-2 xl:h-full"
+        content-class="xl:flex xl:h-full xl:flex-col"
       >
-        <div class="mb-4">
+        <div class="mb-4 min-h-11">
           <h2 class="text-xl font-semibold text-slate-900 dark:text-slate-100">
             {{ $t('navigation.explore') }}
           </h2>
-          <span class="mt-2 block h-0.5 w-5 rounded-full bg-rose-500" />
+          <span
+            class="mt-2 block w-5 rounded-full border-t-2 border-rose-500"
+          />
         </div>
 
         <!-- Feature Row -->
         <div
           ref="featureRowRef"
-          class="grid grid-cols-2 gap-3 md:grid-cols-3 lg:flex-1 lg:grid-rows-2"
+          class="grid grid-cols-2 gap-3 md:grid-cols-3 xl:flex-1 xl:grid-rows-2"
         >
           <!-- Eureka Tracker -->
           <NuxtLinkLocale
             no-prefetch
-            class="group order-4 block h-44 w-full cursor-pointer rounded-xl focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden lg:h-auto lg:min-h-44"
+            class="group order-4 block h-44 w-full cursor-pointer rounded-xl focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden xl:h-auto xl:min-h-44"
             :to="'/eurekas'"
           >
             <div
@@ -336,7 +366,7 @@
           <!-- Lookbook Preview -->
           <NuxtLinkLocale
             no-prefetch
-            class="group order-5 block h-44 w-full cursor-pointer rounded-xl focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden lg:h-auto lg:min-h-44"
+            class="group order-5 block h-44 w-full cursor-pointer rounded-xl focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden xl:h-auto xl:min-h-44"
             :to="'/lookbook'"
           >
             <div
@@ -403,83 +433,67 @@
             </div>
           </NuxtLinkLocale>
 
-          <!-- Whim Search -->
+          <!-- Creation Hub -->
           <NuxtLinkLocale
             no-prefetch
-            class="group order-1 block h-44 w-full cursor-pointer rounded-xl focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden lg:h-auto lg:min-h-44"
-            :to="'/search'"
+            class="group order-1 block h-44 w-full cursor-pointer rounded-xl focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden xl:h-auto xl:min-h-44"
+            :to="'/create'"
           >
             <div
-              class="relative flex h-full w-full items-center justify-center overflow-hidden rounded-xl border border-black/5 bg-slate-50/70 ring-1 ring-white/60 transition-all duration-300 ring-inset group-hover:-translate-y-0.5 group-hover:border-rose-200/70 group-hover:bg-white/80 group-hover:shadow-[0_8px_20px_rgba(244,63,94,0.12)] motion-reduce:transform-none dark:border-white/8 dark:bg-slate-950/30 dark:ring-white/4 dark:group-hover:border-rose-300/20 dark:group-hover:bg-slate-900/45"
+              class="relative flex h-full w-full flex-col items-center justify-center overflow-hidden rounded-xl border border-black/5 bg-slate-50/70 ring-1 ring-white/60 transition-all duration-300 ring-inset group-hover:-translate-y-0.5 group-hover:border-rose-200/70 group-hover:bg-white/80 group-hover:shadow-[0_8px_20px_rgba(244,63,94,0.12)] motion-reduce:transform-none dark:border-white/8 dark:bg-slate-950/30 dark:ring-white/4 dark:group-hover:border-rose-300/20 dark:group-hover:bg-slate-900/45"
             >
-              <!-- Decorative Search Interface Background -->
+              <!-- Decorative outfit card preview -->
               <div
                 v-if="shouldRenderFeatureAssets"
-                class="absolute inset-x-2 top-2 bottom-11 flex flex-col items-center justify-center gap-1.5"
+                aria-hidden="true"
+                class="flex min-h-0 w-full flex-1 items-center justify-center p-2 transition-transform duration-300 group-hover:scale-[1.03] motion-reduce:transform-none"
               >
-                <!-- Mini Searchbar -->
                 <div
-                  class="relative flex h-7 w-[80%] shrink-0 items-center overflow-hidden rounded-full bg-white shadow-xs ring-1 ring-black/5 dark:bg-slate-900 dark:ring-white/10"
+                  class="flex aspect-4/5 h-full max-h-30 shrink-0 flex-col gap-1.5 rounded-lg border border-slate-200/80 bg-white/95 p-1.5 shadow-xs dark:border-slate-700 dark:bg-slate-900"
                 >
-                  <n-icon
-                    class="ml-2.5 shrink-0 text-rose-400"
-                    size="11"
-                    ><Search
-                  /></n-icon>
+                  <div class="flex shrink-0 items-center gap-1">
+                    <n-icon
+                      size="10"
+                      class="text-rose-400 dark:text-rose-300"
+                      ><PaintBrush
+                    /></n-icon>
+                    <span
+                      class="h-1 min-w-0 flex-1 rounded-full bg-slate-200 dark:bg-slate-600"
+                    />
+                  </div>
                   <div
-                    class="ml-2 h-1.5 w-1/4 rounded-full bg-slate-200 dark:bg-slate-700"
-                  ></div>
-                  <div class="ml-auto flex shrink-0 items-center gap-1 pr-1">
-                    <!-- Filter button -->
+                    class="grid min-h-0 flex-1 grid-cols-3 grid-rows-3 gap-1"
+                  >
                     <div
-                      class="flex h-4 w-4 items-center justify-center rounded-full text-slate-400 dark:text-slate-500"
+                      v-for="index in 9"
+                      :key="`creation-preview-card-${index}`"
+                      class="flex flex-col items-center justify-center gap-1 rounded-[3px]"
+                      :class="creationPreviewCardClasses[(index - 1) % 3]"
                     >
-                      <n-icon size="8"><Filter /></n-icon>
-                    </div>
-                    <!-- Search button -->
-                    <div
-                      class="flex h-5 w-9 items-center justify-center rounded-full bg-rose-500 shadow-sm dark:bg-rose-600"
-                    >
-                      <div class="h-1 w-3.5 rounded-full bg-white/70"></div>
+                      <n-icon size="12"><Tshirt /></n-icon>
+                      <span
+                        class="h-0.5 w-3 rounded-full bg-current opacity-30"
+                      />
                     </div>
                   </div>
-                </div>
-                <!-- Mini Results Grid (Item Cards) -->
-                <div
-                  class="grid shrink-0 grid-cols-6 gap-1.5 opacity-70 dark:opacity-80"
-                >
-                  <div
-                    v-for="index in 18"
-                    :key="`mini-result-${index}`"
-                    class="h-6 w-4 rounded-[3px] shadow-xs"
-                    :class="
-                      ['bg-amber-500/80', 'bg-sky-500/80', 'bg-slate-500/80'][
-                        (index - 1) % 3
-                      ]
-                    "
-                  ></div>
                 </div>
               </div>
               <div
                 v-else
-                class="absolute inset-x-2 top-2 bottom-11 flex flex-col items-center justify-center gap-1.5"
+                aria-hidden="true"
+                class="flex min-h-0 w-full flex-1 items-center justify-center p-2"
               >
-                <n-skeleton class="h-7 w-[80%] shrink-0 rounded-full" />
-                <div class="grid shrink-0 grid-cols-6 gap-1.5 opacity-70">
-                  <n-skeleton
-                    v-for="index in 18"
-                    :key="`search-preview-skeleton-${index}`"
-                    class="h-6 w-4 rounded-[3px]"
-                  />
-                </div>
+                <n-skeleton class="aspect-4/5 h-full max-h-30 rounded-lg" />
               </div>
 
-              <div class="absolute right-2 bottom-2 left-2 z-10">
+              <div class="z-10 w-full shrink-0 px-2 pb-2">
                 <div
-                  class="pointer-events-none flex w-full items-center justify-center gap-1 rounded-lg border border-slate-200/60 bg-white/90 px-3 py-1.5 text-sm font-semibold text-rose-600 shadow-none backdrop-blur-sm dark:border-white/8 dark:bg-slate-950/80 dark:text-rose-300"
+                  class="pointer-events-none flex min-h-8 w-full items-center justify-center gap-1 rounded-lg border border-slate-200/60 bg-white/90 px-2 py-1.5 text-sm font-semibold text-rose-600 shadow-none backdrop-blur-sm dark:border-white/8 dark:bg-slate-950/80 dark:text-rose-300"
                 >
-                  <n-icon><Search /></n-icon>
-                  <span>{{ $t('search_page.title') }}</span>
+                  <n-icon class="shrink-0"><PaintBrush /></n-icon>
+                  <span class="min-w-0 text-center leading-snug">{{
+                    $t('navigation.creation_hub')
+                  }}</span>
                 </div>
               </div>
             </div>
@@ -488,7 +502,7 @@
           <!-- Whim-O-Matic -->
           <NuxtLinkLocale
             no-prefetch
-            class="group order-2 block h-44 w-full cursor-pointer rounded-xl focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden lg:h-auto lg:min-h-44"
+            class="group order-2 block h-44 w-full cursor-pointer rounded-xl focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden xl:h-auto xl:min-h-44"
             :to="'/random'"
           >
             <div
@@ -522,7 +536,7 @@
           <!-- Tier List Preview -->
           <NuxtLinkLocale
             no-prefetch
-            class="group order-3 block h-44 w-full cursor-pointer rounded-xl focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden lg:h-auto lg:min-h-44"
+            class="group order-3 block h-44 w-full cursor-pointer rounded-xl focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden xl:h-auto xl:min-h-44"
             :to="'/tierlist'"
           >
             <div
@@ -583,7 +597,7 @@
           <!-- Outfit Silhouette Quiz -->
           <NuxtLinkLocale
             no-prefetch
-            class="group order-6 block h-44 w-full cursor-pointer rounded-xl focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden lg:h-auto lg:min-h-44"
+            class="group order-6 block h-44 w-full cursor-pointer rounded-xl focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden xl:h-auto xl:min-h-44"
             :to="'/quiz'"
           >
             <div
@@ -640,11 +654,13 @@
         size="small"
         class="rounded-xl p-0 shadow-none sm:p-2"
       >
-        <div class="mb-4">
+        <div class="mb-4 min-h-11">
           <h2 class="text-xl font-semibold text-slate-900 dark:text-slate-100">
             {{ $t('default.community_stats') }}
           </h2>
-          <span class="mt-2 block h-0.5 w-5 rounded-full bg-rose-500" />
+          <span
+            class="mt-2 block w-5 rounded-full border-t-2 border-rose-500"
+          />
         </div>
         <div
           class="grid grid-cols-1 gap-4 lg:grid-cols-[minmax(0,240px)_minmax(0,1fr)] lg:items-stretch"
@@ -770,7 +786,6 @@
     SortAmountDown,
     Search,
     Magic,
-    Filter,
     ChevronRight,
     PaintBrush,
     Paw,
@@ -784,6 +799,7 @@
   const { getImageSrc } = imageProvider()
   const { isDark } = useTheme()
   const localePath = useLocalePath()
+  const { isOpen: isSearchOpen, openSearch } = useGlobalSearch()
   const bannersSectionRef = ref<HTMLElement | null>(null)
   const compendiumSectionRef = ref<HTMLElement | null>(null)
   const featureRowRef = ref<HTMLElement | null>(null)
@@ -807,6 +823,12 @@
   const heroLogoColorStep = ref(0)
   const heroLogoClickStreak = ref(0)
   const showGongeousEasterEgg = ref(false)
+
+  const creationPreviewCardClasses = [
+    'bg-rose-100 text-rose-400 dark:bg-rose-950/60 dark:text-rose-300',
+    'bg-indigo-100 text-indigo-400 dark:bg-indigo-950/60 dark:text-indigo-300',
+    'bg-amber-100 text-amber-500 dark:bg-amber-950/60 dark:text-amber-300',
+  ] as const
 
   const heroLogoHueSteps = [0, 90, 180, 270] as const
 

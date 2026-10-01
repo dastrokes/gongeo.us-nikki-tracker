@@ -4,6 +4,7 @@
     text
     size="tiny"
     :aria-label="$t('common.search')"
+    :title="$t('default.search.helper')"
     class="lg:hidden"
     @click.stop="toggleSearch"
   >
@@ -17,6 +18,7 @@
     type="button"
     class="hidden cursor-pointer items-center gap-2 rounded-xl border border-gray-300 bg-white px-2 py-1 hover:border-gray-400 focus-visible:ring-1 focus-visible:ring-rose-500/80 focus-visible:outline-hidden lg:flex dark:border-gray-600 dark:bg-gray-800 dark:hover:border-gray-500"
     :aria-label="$t('common.search')"
+    :title="$t('default.search.helper')"
     @click.stop="toggleSearch"
   >
     <n-icon
@@ -32,8 +34,15 @@
     </kbd>
   </button>
 
-  <n-modal v-model:show="showSearch">
+  <n-modal
+    v-model:show="showSearch"
+    @after-leave="restoreSearchTriggerFocus"
+  >
     <div
+      id="global-search-overlay"
+      role="dialog"
+      aria-modal="true"
+      :aria-label="$t('common.search')"
       class="fixed inset-x-2 top-2 z-50 rounded-3xl sm:inset-x-0 sm:top-14 sm:w-full sm:max-w-2xl lg:mx-auto"
     >
       <div
@@ -53,6 +62,8 @@
               ref="searchInputRef"
               v-model="searchQuery"
               :placeholder="$t('default.search.placeholder')"
+              :aria-label="$t('default.search.placeholder')"
+              aria-describedby="global-search-help"
               role="combobox"
               aria-autocomplete="list"
               aria-controls="global-search-results"
@@ -60,6 +71,7 @@
               :aria-activedescendant="activeResultOptionId"
               class="min-w-0 flex-1 border-none bg-transparent p-0 text-lg text-slate-800 placeholder-slate-400 outline-hidden focus:ring-0 dark:text-slate-100"
               autocomplete="off"
+              enterkeyhint="search"
               @focus="openAutocomplete"
               @input="handleInput"
               @compositionstart="handleSearchCompositionStart"
@@ -78,6 +90,13 @@
               >
             </div>
           </div>
+
+          <p
+            id="global-search-help"
+            class="mt-2 text-xs leading-relaxed text-slate-500 dark:text-slate-400"
+          >
+            {{ $t('default.search.helper') }}
+          </p>
 
           <div class="mt-3 grid grid-cols-2 gap-2">
             <button
@@ -198,7 +217,7 @@
                         : '',
                     ]"
                     @mousedown.prevent
-                    @mouseenter="
+                    @pointermove="
                       highlightedAutocompleteKey =
                         getEntityAutocompleteKey(item)
                     "
@@ -282,7 +301,7 @@
                         : '',
                     ]"
                     @mousedown.prevent
-                    @mouseenter="
+                    @pointermove="
                       highlightedAutocompleteKey = getTermAutocompleteKey(term)
                     "
                     @click="selectTermSuggestion(term)"
@@ -348,7 +367,7 @@
   )
 
   const searchQuery = ref('')
-  const showSearch = ref(false)
+  const { isOpen: showSearch, openSearch: toggleSearch } = useGlobalSearch()
   const isLoading = ref(false)
   const searchInputRef = ref<HTMLInputElement | null>(null)
   const isAutocompleteOpen = ref(false)
@@ -357,6 +376,11 @@
   const highlightedAutocompleteKey = ref<string | null>(null)
   const areResultsDismissed = ref(false)
   let autocompleteEntityIndexPromise: Promise<void> | null = null
+  let searchTrigger: HTMLElement | null = null
+
+  const restoreSearchTriggerFocus = () => {
+    if (searchTrigger?.isConnected) searchTrigger.focus()
+  }
 
   const syncAutocompleteQuery = useDebounceFn(() => {
     autocompleteQuery.value = searchQuery.value.trim()
@@ -633,18 +657,28 @@
     }
   }
 
-  const toggleSearch = async () => {
-    showSearch.value = true
+  watch(
+    showSearch,
+    async (isOpen) => {
+      if (!isOpen) return
 
-    // Build search index on first open if not already built
-    if (!isAutocompleteEntityIndexBuilt.value) {
-      void ensureAutocompleteEntityIndex()
-    }
+      if (import.meta.client) {
+        searchTrigger =
+          document.activeElement instanceof HTMLElement
+            ? document.activeElement
+            : null
+      }
 
-    // Focus the search input after modal is rendered
-    await nextTick()
-    searchInputRef.value?.focus()
-  }
+      // Every entry point opens the same index and focused input.
+      if (!isAutocompleteEntityIndexBuilt.value) {
+        void ensureAutocompleteEntityIndex()
+      }
+
+      await nextTick()
+      searchInputRef.value?.focus()
+    },
+    { immediate: true }
+  )
 
   const closeSearch = () => {
     showSearch.value = false

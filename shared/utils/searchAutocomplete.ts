@@ -19,6 +19,52 @@ export const getSearchMatchPriority = (value: string, query: string) => {
   return 2
 }
 
+export const getSearchTermSuggestions = <
+  T extends { id: string; value: string },
+>(
+  query: string,
+  search: (fragment: string) => { item: T; score?: number }[],
+  limit = 7
+): T[] => {
+  const words = query.trim().split(/\s+/)
+  if (!words[0]) return []
+
+  const matches = new Map<
+    string,
+    { item: T; fragmentIndex: number; priority: number; score: number }
+  >()
+
+  // Prefer the longest matching phrase, then fall back to the last word.
+  for (
+    let fragmentIndex = 0;
+    fragmentIndex < words.length;
+    fragmentIndex += 1
+  ) {
+    const fragment = words.slice(fragmentIndex).join(' ')
+    for (const result of search(fragment)) {
+      if (matches.has(result.item.id)) continue
+      matches.set(result.item.id, {
+        item: result.item,
+        fragmentIndex,
+        priority: getSearchMatchPriority(result.item.value, fragment),
+        score: result.score ?? 1,
+      })
+    }
+    if (matches.size >= limit) break
+  }
+
+  return [...matches.values()]
+    .sort((left, right) => {
+      return (
+        left.fragmentIndex - right.fragmentIndex ||
+        left.priority - right.priority ||
+        left.score - right.score
+      )
+    })
+    .slice(0, limit)
+    .map((result) => result.item)
+}
+
 export const getAutocompleteGroupOrder = (
   hasExactName: boolean,
   hasExactTerm: boolean

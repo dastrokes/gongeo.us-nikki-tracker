@@ -364,7 +364,7 @@ export const OUTFIT_SEARCH_ALIASES: OutfitSearchAliasMap = {
     10382: ['water', ...EN_ABILITY_ALIASES.celestialTide],
     10366: ['ballerina', 'ballet', ...EN_ABILITY_ALIASES.spinningReflections],
     10295: ['leaf'],
-    10399: ['egyption'],
+    10399: ['egyptian'],
     10430: ['pirate'],
     10347: ['rose'],
     10045: EN_ABILITY_ALIASES.purification,

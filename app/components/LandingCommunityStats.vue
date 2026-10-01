@@ -3,11 +3,11 @@
     size="small"
     class="rounded-xl p-0 shadow-none sm:p-2"
   >
-    <div class="mb-4">
+    <div class="mb-4 min-h-11">
       <h2 class="text-xl font-semibold text-slate-900 dark:text-slate-100">
         {{ $t('default.community_stats') }}
       </h2>
-      <span class="mt-2 block h-0.5 w-5 rounded-full bg-rose-500" />
+      <span class="mt-2 block w-5 rounded-full border-t-2 border-rose-500" />
     </div>
     <div
       class="grid grid-cols-1 gap-4 lg:grid-cols-[minmax(0,240px)_minmax(0,1fr)] lg:items-stretch"

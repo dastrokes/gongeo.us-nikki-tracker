@@ -237,7 +237,8 @@
       "help_translate": "Ayuda a traducir"
     },
     "search": {
-      "placeholder": "Buscar por nombre",
+      "placeholder": "Buscar por nombre o detalles",
+      "helper": "Busca por nombres, alias y habilidades, o describe lo que buscas.",
       "for_query": "para \"{query}\""
     },
     "social": {

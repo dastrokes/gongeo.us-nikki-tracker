@@ -225,7 +225,12 @@
                         />
                         <NuxtImg
                           v-else
-                          :src="getImageSrc(item.type, item.id)"
+                          :src="
+                            getImageSrc(
+                              item.type === 'makeup' ? 'item' : item.type,
+                              item.id
+                            )
+                          "
                           :alt="item.name"
                           preset="tallSm"
                           sizes="50px"
@@ -2118,7 +2123,9 @@
         ? 'common.banners'
         : result.type === 'outfit'
           ? 'common.outfits'
-          : 'common.items'
+          : result.type === 'makeup'
+            ? 'common.makeups'
+            : 'common.items'
     )
   const getAutocompleteEntityMetaLabel = (result: SearchResult) => {
     const alias = getAutocompleteDisplayAlias(result)

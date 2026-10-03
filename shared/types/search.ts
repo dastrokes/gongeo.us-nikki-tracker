@@ -1,6 +1,6 @@
 export interface SearchResult {
   id: string
-  type: 'banner' | 'outfit' | 'item'
+  type: 'banner' | 'outfit' | 'item' | 'makeup'
   name: string
   searchAliases?: string[]
   searchAbilityAliases?: string[]
@@ -15,6 +15,7 @@ export interface SearchIndex {
   banners: Map<string, SearchResult>
   outfits: Map<string, SearchResult>
   items: Map<string, SearchResult>
+  makeups: Map<string, SearchResult>
 }
 
 export interface SearchOptions {
@@ -33,7 +34,7 @@ export interface SearchAutocompleteTerm {
 }
 
 export interface SearchCategory {
-  type: 'banner' | 'outfit' | 'item'
+  type: 'banner' | 'outfit' | 'item' | 'makeup'
   label: string
   results: SearchResult[]
 }

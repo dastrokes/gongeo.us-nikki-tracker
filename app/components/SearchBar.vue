@@ -244,7 +244,11 @@
                           loading="lazy"
                         />
                       </template>
-                      <template v-else-if="item.type === 'item'">
+                      <template
+                        v-else-if="
+                          item.type === 'item' || item.type === 'makeup'
+                        "
+                      >
                         <NuxtImg
                           :src="getImageSrc('item', item.id)"
                           preset="tallSm"
@@ -438,7 +442,9 @@
         ? 'common.banners'
         : result.type === 'outfit'
           ? 'common.outfits'
-          : 'common.items'
+          : result.type === 'makeup'
+            ? 'common.makeups'
+            : 'common.items'
     )
   const autocompleteOptions = computed<GlobalSearchAutocompleteOption[]>(() =>
     autocompleteGroupOrder.value.flatMap((group) =>

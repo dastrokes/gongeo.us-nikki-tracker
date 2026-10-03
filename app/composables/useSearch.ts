@@ -11,6 +11,7 @@ export const useSearch = () => {
 
   const searchIndex = ref<SearchIndex>({
     items: new Map(),
+    makeups: new Map(),
     outfits: new Map(),
     banners: new Map(),
   })
@@ -122,6 +123,7 @@ export const useSearch = () => {
         const banners = new Map<string, SearchResult>()
         const outfits = new Map<string, SearchResult>()
         const items = new Map<string, SearchResult>()
+        const makeups = new Map<string, SearchResult>()
 
         // Index banners
         Object.entries(BANNER_DATA)
@@ -189,13 +191,32 @@ export const useSearch = () => {
           }
         }
 
-        searchIndex.value = { banners, outfits, items }
+        // Individual makeup names use item localization; full sets duplicate outfit names.
+        for (const makeupId of getMakeupSlugIds()) {
+          if (getItemEntitySlugType(makeupId) !== 'makeup') continue
+          const name = getLocalizedItemName(makeupId)
+
+          if (name.en) {
+            makeups.set(
+              makeupId,
+              createSearchResult({
+                id: makeupId,
+                type: 'makeup',
+                name: name[locale.value] || name.en,
+                route: localePath(getMakeupDetailPath(makeupId)),
+              })
+            )
+          }
+        }
+
+        searchIndex.value = { banners, outfits, items, makeups }
 
         // Create Fuse instance with all searchable items
         const allSearchableItems = [
           ...Array.from(banners.values()),
           ...Array.from(outfits.values()),
           ...Array.from(items.values()),
+          ...Array.from(makeups.values()),
         ]
 
         const Fuse = fuseConstructor.value
@@ -244,9 +265,9 @@ export const useSearch = () => {
       .map(toSearchResult)
       .filter(
         (result) =>
-          result.type !== 'item' ||
+          (result.type !== 'item' && result.type !== 'makeup') ||
           isCatalogEntryAvailableInScope(
-            'item',
+            result.type,
             Number(result.id),
             activeRegionScope.value
           )
@@ -268,6 +289,9 @@ export const useSearch = () => {
     const bannerResults = searchResults
       .filter((r) => r.type === 'banner')
       .slice(0, 5)
+    const makeupResults = searchResults
+      .filter((r) => r.type === 'makeup')
+      .slice(0, 10)
 
     const categories: SearchCategory[] = []
 
@@ -295,6 +319,14 @@ export const useSearch = () => {
       })
     }
 
+    if (makeupResults.length > 0) {
+      categories.push({
+        type: 'makeup',
+        label: t('common.makeups'),
+        results: makeupResults,
+      })
+    }
+
     return categories
   }
 
@@ -302,6 +334,7 @@ export const useSearch = () => {
     searchIndex.value.items.clear()
     searchIndex.value.outfits.clear()
     searchIndex.value.banners.clear()
+    searchIndex.value.makeups.clear()
     fuseInstance.value = null
     isIndexBuilt.value = false
   }

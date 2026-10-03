@@ -968,7 +968,9 @@
   const showYouTubeModal = ref(false)
   const showBilibiliModal = ref(false)
 
-  const maintenanceCheckTime = useNow({ interval: 30_000 })
+  const maintenanceCheckTime = useNow({
+    scheduler: (callback) => useIntervalFn(callback, 30_000),
+  })
   const isMaintenance = computed(() =>
     isImportPageMaintenance(maintenanceCheckTime.value.getTime())
   )

@@ -1040,6 +1040,10 @@
     },
     "community_insights": {
       "toggle": "コミュニティティアリストを表示",
+      "community_label": "みんなの評価",
+      "personal_label": "自分の評価",
+      "return_to_personal": "自分のティアリストに戻る",
+      "title": "コミュニティティアリスト",
       "error": "コミュニティスナップショットのロードに失敗しました。",
       "empty": "コミュニティ データはまだありません。",
       "rank_position": "コミュニティランク #{rank}",

@@ -1040,6 +1040,10 @@
     },
     "community_insights": {
       "toggle": "Mostrar lista de niveles de la comunidad",
+      "community_label": "Comunidad",
+      "personal_label": "Mi lista",
+      "return_to_personal": "Volver a mi lista de niveles",
+      "title": "Lista de niveles de la comunidad",
       "error": "No se pudo cargar la instantánea de la comunidad.",
       "empty": "Aún no hay datos de la comunidad.",
       "rank_position": "Clasificación de la comunidad #{rank}",

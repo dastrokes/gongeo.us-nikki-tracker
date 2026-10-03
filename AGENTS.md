@@ -15,7 +15,8 @@ Agent-facing entry point for `gongeo.us-nikki-tracker`. Keep this file limited t
 
 - Run `npm run lint` after meaningful TypeScript, Vue, or API changes.
 - Run `npm run build` only when the user explicitly requests it.
-- Add lasting tests for meaningful regression coverage; remove task-only checks after targeted verification.
+- Do not add persistent test files (including a `tests/` folder) or test scripts in `package.json` unless the user explicitly requests them.
+- Temporary tests are allowed for verification; prefer keeping them outside the repository. Remove temporary tests and undo task-only test scripts or configuration after verification or before finishing the task.
 - Do not manually edit `.nuxt`, `.output`, `dist`, or other generated output.
 - Do not rewrite large SQL or data assets unless the task requires it.
 

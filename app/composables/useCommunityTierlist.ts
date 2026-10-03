@@ -53,12 +53,6 @@ export type CommunityAggregateModeSnapshot = {
   entries: CommunityAggregateEntry[]
 }
 
-export type CommunityAggregateJson = {
-  schema_version: number
-  generated_at: string
-  modes: Partial<Record<TierMode, CommunityAggregateModeSnapshot>>
-}
-
 export type CommunityRankedPreviewEntry = {
   entryId: string
   rank: number
@@ -75,9 +69,25 @@ export type CommunityModePreview = {
   hasEntries: boolean
 }
 
-const STORAGE_BUCKET = 'gongeous'
-const STORAGE_OBJECT_PATH = 'tierlist.json'
-const CACHE_TTL_MS = 5 * 60 * 1000
+type CommunityPublication = {
+  generated_at: string
+  source_captured_at: string
+}
+
+type CommunityModeCache = {
+  snapshot: CommunityAggregateModeSnapshot | null
+  publication: CommunityPublication | null
+  fetchedAt: number | null
+  retryAfter: number | null
+  status: 'idle' | 'pending' | 'success' | 'error'
+  error: string | null
+}
+
+const COMMUNITY_SNAPSHOT_TTL_MS = 24 * 60 * 60 * 1000
+const COMMUNITY_RETRY_COOLDOWN_MS = 60 * 1000
+
+// Requests run only in the browser; callers opening the same view share work.
+const aggregateRequests = new Map<TierMode, Promise<void>>()
 
 const isRecord = (value: unknown): value is Record<string, unknown> =>
   typeof value === 'object' && value !== null && !Array.isArray(value)
@@ -353,31 +363,6 @@ const normalizeMode = (value: unknown): CommunityAggregateModeSnapshot => {
   }
 }
 
-const normalizeAggregateJson = (
-  value: unknown
-): CommunityAggregateJson | null => {
-  if (!isRecord(value)) return null
-
-  const generatedAt =
-    typeof value.generated_at === 'string' ? value.generated_at : ''
-  const modesSource = isRecord(value.modes) ? value.modes : {}
-
-  const modes: Partial<Record<TierMode, CommunityAggregateModeSnapshot>> = {
-    banners: normalizeMode(modesSource.banners),
-    outfits: normalizeMode(modesSource.outfits),
-    items: normalizeMode(modesSource.items),
-    makeups: normalizeMode(modesSource.makeups),
-    momo: normalizeMode(modesSource.momo),
-    props: normalizeMode(modesSource.props),
-  }
-
-  return {
-    schema_version: Math.max(1, Math.floor(toNumber(value.schema_version, 1))),
-    generated_at: generatedAt,
-    modes,
-  }
-}
-
 export const resolveCommunityScope = (
   scopeType: unknown,
   scopeFilters: unknown
@@ -631,64 +616,109 @@ export const resolveCommunityScopeFromTierlistFilters = (
   return null
 }
 
-export const useCommunityTierlist = () => {
-  const config = useRuntimeConfig()
-  const aggregateData = useState<CommunityAggregateJson | null>(
-    'community-tierlist-aggregate:data',
-    () => null
+export const useCommunityTierlist = (activeMode: Ref<TierMode>) => {
+  const cache = useState<Partial<Record<TierMode, CommunityModeCache>>>(
+    'community-tierlist-aggregate:data-api',
+    () => ({})
   )
-  const aggregateStatus = useState<'idle' | 'pending' | 'success' | 'error'>(
-    'community-tierlist-aggregate:status',
-    () => 'idle'
+  const aggregateStatus = computed(
+    () => cache.value[activeMode.value]?.status ?? 'idle'
   )
-  const aggregateError = useState<string | null>(
-    'community-tierlist-aggregate:error',
-    () => null
+  const aggregateError = computed(
+    () => cache.value[activeMode.value]?.error ?? null
   )
-  const lastFetchedAt = useState<number>(
-    'community-tierlist-aggregate:fetched-at',
-    () => 0
+  const publication = computed(
+    () => cache.value[activeMode.value]?.publication ?? null
   )
+  const entryIndexes = new WeakMap<
+    CommunityAggregateModeSnapshot,
+    Map<string, CommunityAggregateEntry>
+  >()
 
-  const fetchAggregateJson = async (force = false): Promise<void> => {
+  const fetchAggregateJson = async (): Promise<void> => {
     if (!import.meta.client) return
-    if (aggregateStatus.value === 'pending') return
+    const mode = activeMode.value
+    const pending = aggregateRequests.get(mode)
+    if (pending) return pending
 
-    const hasFreshCache =
-      !force &&
-      aggregateData.value !== null &&
-      Date.now() - lastFetchedAt.value < CACHE_TTL_MS
-    if (hasFreshCache) return
+    const previous = cache.value[mode]
+    const now = Date.now()
+    const age = previous?.fetchedAt == null ? null : now - previous.fetchedAt
+    if (
+      previous?.snapshot &&
+      age !== null &&
+      age >= 0 &&
+      age < COMMUNITY_SNAPSHOT_TTL_MS
+    ) {
+      return
+    }
+    if (previous?.retryAfter != null && now < previous.retryAfter) return
 
-    try {
-      aggregateStatus.value = 'pending'
-      aggregateError.value = null
-
-      const requestUrl = `${config.public.supabaseUrl}/storage/v1/object/public/${STORAGE_BUCKET}/${STORAGE_OBJECT_PATH}`
-      const payload = await $fetch<unknown>(requestUrl, {
-        method: 'GET',
-      })
-      const normalized = normalizeAggregateJson(payload)
-      if (!normalized) {
-        throw new Error('Invalid community aggregate JSON payload')
+    cache.value[mode] = {
+      snapshot: previous?.snapshot ?? null,
+      publication: previous?.publication ?? null,
+      fetchedAt: previous?.fetchedAt ?? null,
+      retryAfter: null,
+      status: 'pending',
+      error: null,
+    }
+    const request = (async () => {
+      try {
+        const response = await $fetch<unknown>(
+          getDataApiUrl(`/tierlists/${mode}`),
+          { retry: 0, timeout: 15000 }
+        )
+        if (
+          !isRecord(response) ||
+          response.schema_version !== 2 ||
+          response.mode !== mode ||
+          typeof response.generated_at !== 'string' ||
+          !Number.isFinite(Date.parse(response.generated_at)) ||
+          typeof response.source_captured_at !== 'string' ||
+          !Number.isFinite(Date.parse(response.source_captured_at)) ||
+          !isRecord(response.payload) ||
+          !Number.isSafeInteger(response.payload.total_submissions) ||
+          (response.payload.total_submissions as number) < 0 ||
+          !Array.isArray(response.payload.entries)
+        )
+          throw new Error('Invalid community snapshot')
+        const snapshot = normalizeMode(response.payload)
+        if (snapshot.entries.length !== response.payload.entries.length)
+          throw new Error('Invalid community entries')
+        cache.value[mode] = {
+          snapshot,
+          publication: {
+            generated_at: response.generated_at,
+            source_captured_at: response.source_captured_at,
+          },
+          fetchedAt: Date.now(),
+          retryAfter: null,
+          status: 'success',
+          error: null,
+        }
+      } catch {
+        cache.value[mode] = {
+          snapshot: previous?.snapshot ?? null,
+          publication: previous?.publication ?? null,
+          fetchedAt: previous?.fetchedAt ?? null,
+          retryAfter: Date.now() + COMMUNITY_RETRY_COOLDOWN_MS,
+          status: 'error',
+          error: 'tierlist.community_insights.error',
+        }
       }
-
-      aggregateData.value = normalized
-      aggregateStatus.value = 'success'
-      lastFetchedAt.value = Date.now()
-    } catch (error) {
-      aggregateStatus.value = 'error'
-      aggregateError.value =
-        error instanceof Error
-          ? error.message
-          : 'Failed to load community aggregate data'
+    })()
+    aggregateRequests.set(mode, request)
+    try {
+      await request
+    } finally {
+      aggregateRequests.delete(mode)
     }
   }
 
   const getModeSnapshot = (
     mode: TierMode
   ): CommunityAggregateModeSnapshot | null => {
-    return aggregateData.value?.modes?.[mode] ?? null
+    return cache.value[mode]?.snapshot ?? null
   }
 
   const getEntrySnapshot = (
@@ -696,9 +726,15 @@ export const useCommunityTierlist = () => {
     entryId: string
   ): CommunityAggregateEntry | null => {
     if (!modeSnapshot) return null
-    return (
-      modeSnapshot.entries.find((entry) => entry.entry_id === entryId) ?? null
-    )
+    let index = entryIndexes.get(modeSnapshot)
+    if (!index) {
+      index = new Map()
+      for (const entry of modeSnapshot.entries) {
+        if (!index.has(entry.entry_id)) index.set(entry.entry_id, entry)
+      }
+      entryIndexes.set(modeSnapshot, index)
+    }
+    return index.get(entryId) ?? null
   }
 
   const getHigherThanPercent = (
@@ -717,9 +753,9 @@ export const useCommunityTierlist = () => {
   }
 
   return {
-    aggregateData: readonly(aggregateData),
-    aggregateStatus: readonly(aggregateStatus),
-    aggregateError: readonly(aggregateError),
+    aggregateStatus,
+    aggregateError,
+    publication,
     fetchAggregateJson,
     getModeSnapshot,
     getEntrySnapshot,

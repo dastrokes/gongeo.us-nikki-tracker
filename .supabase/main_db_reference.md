@@ -1,24 +1,20 @@
 # Main DB Reference (`fimzdbqulflilnnopibz`)
 
-Condensed tracker-side schema contract for LLM/agent context. Executable global-stat aggregation SQL is owned by the backup workflow repository.
+Condensed tracker-side schema contract for LLM/agent context. Executable global-stat and tier-list aggregation SQL is owned by the backup workflow repository.
 
 Canonical source for expanded query notes:
 
 - `C:\Users\dastrokes\Dev\git\gongeo.us-data-processor\docs\database-query-reference.md`
 - `C:\Users\dastrokes\Dev\git\gongeo.us-db-backup\sql\supabase\global-banner-stats.sql`
 - `C:\Users\dastrokes\Dev\git\gongeo.us-db-backup\sql\supabase\generate-percentile-data.sql`
+- `C:\Users\dastrokes\Dev\git\gongeo.us-db-backup\sql\supabase\generate-tierlist-data.sql`
 
 ## Functions
 
-- `public.generate_global_banner_json_for_banner(...)`
-- `public.generate_global_core_json()`
 - `public.generate_percentile_data()`
 - `public.generate_tierlist_data()`
-- `public.refresh_global_banner_stats(...)`
-- `public.refresh_global_banner_stats_all()`
-- `public.refresh_global_core_stats()`
 
-Generator helpers may exist behind these refresh functions, but are not app or cron entrypoints.
+Global-stat generators and refresh functions are installed by the backup workflow in its disposable PostgreSQL database. Their `user_global_stats` scratch table is created there when absent and is not required in source Supabase. Published global stats are served from D1.
 
 ## Tables
 
@@ -45,12 +41,6 @@ Generator helpers may exist behind these refresh functions, but are not app or c
 - Same column set as `public.user_banner_stats`
 - PK: `(uid, region, banner_id)`
 
-### `public.user_global_stats`
-
-- `banner_id integer` (PK, check `banner_id >= 0`)
-- `payload jsonb`
-- `updated_at timestamptz`
-
 ### `public.global_banner_config`
 
 - `banner_id integer` (PK part)
@@ -61,7 +51,7 @@ Generator helpers may exist behind these refresh functions, but are not app or c
 
 ### `public.user_tierlists`
 
-- `scope_type text` (allowed: `banners|outfits|items|momo`)
+- `scope_type text` (allowed: `banners|outfits|items|momo|props`)
 - `scope_filters jsonb` (default `{}`)
 - `voter_fingerprint text`
 - `tiers_json jsonb`
@@ -109,7 +99,6 @@ Generator helpers may exist behind these refresh functions, but are not app or c
 
 ## Explicit Indexes in Reference Schema
 
-- `idx_user_global_stats_updated_at` on `public.user_global_stats(updated_at DESC)`
 - `idx_feedback_suggestions_status_created` on `(status, created_at DESC)`
 - `idx_feedback_suggestions_entity_status` on `(entity_type, entity_id, status, created_at DESC)`
 - `idx_feedback_suggestions_changed_fields` GIN on `changed_fields`

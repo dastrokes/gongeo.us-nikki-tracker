@@ -6,9 +6,11 @@
       content-class="p-2 sm:p-4"
     >
       <div class="flex flex-col gap-2">
-        <div class="flex items-start justify-between gap-2 sm:items-center">
+        <div
+          class="contents sm:flex sm:items-center sm:justify-between sm:gap-2"
+        >
           <div
-            class="flex w-full min-w-0 flex-col gap-2 sm:w-auto sm:flex-row sm:flex-wrap sm:items-center"
+            class="flex w-full min-w-0 flex-wrap items-center gap-2 sm:w-auto"
           >
             <n-select
               :value="mode"
@@ -118,7 +120,7 @@
           </div>
 
           <div
-            class="flex shrink-0 items-center gap-2 self-start sm:self-center"
+            class="order-1 flex items-center gap-2 border-t border-gray-200/70 pt-2 sm:order-none sm:shrink-0 sm:border-0 sm:pt-0 dark:border-gray-700/70"
           >
             <n-tooltip
               v-if="showCommunityInsightsAction"
@@ -127,24 +129,65 @@
               <template #trigger>
                 <n-button
                   size="small"
-                  text
-                  circle
-                  class="text-gray-500"
-                  :aria-label="t('tierlist.community_insights.toggle')"
+                  type="primary"
+                  secondary
                   @click="showCommunityInsights = !showCommunityInsights"
                 >
                   <template #icon>
-                    <n-icon
-                      size="20"
-                      :depth="showCommunityInsightPanel ? 1 : 3"
-                    >
-                      <Users />
+                    <n-icon size="18">
+                      <User v-if="showCommunityInsightPanel" />
+                      <Users v-else />
                     </n-icon>
                   </template>
+                  {{
+                    t(
+                      showCommunityInsightPanel
+                        ? 'tierlist.community_insights.personal_label'
+                        : 'tierlist.community_insights.community_label'
+                    )
+                  }}
                 </n-button>
               </template>
-              {{ t('tierlist.community_insights.toggle') }}
+              {{
+                t(
+                  showCommunityInsightPanel
+                    ? 'tierlist.community_insights.return_to_personal'
+                    : 'tierlist.community_insights.toggle'
+                )
+              }}
             </n-tooltip>
+
+            <div
+              v-if="showCommunitySubmitAction"
+              class="flex items-center"
+            >
+              <n-tooltip
+                :width="220"
+                trigger="hover"
+              >
+                <template #trigger>
+                  <n-button
+                    type="primary"
+                    size="small"
+                    class="relative overflow-hidden"
+                    :class="
+                      shouldHighlightCommunitySubmitButton
+                        ? `after:animate-button-shimmer after:absolute after:inset-y-0 after:-left-full after:w-[60%] after:bg-linear-to-r after:from-transparent after:via-white/15 after:to-transparent after:content-[''] motion-reduce:after:animate-none`
+                        : ''
+                    "
+                    :loading="submittingCommunity"
+                    :disabled="!canSubmitCommunity"
+                    @click="submitCommunityTierlist"
+                  >
+                    <template #icon>
+                      <n-icon><PaperPlane /></n-icon>
+                    </template>
+                    {{ t('common.submit') }}
+                  </n-button>
+                </template>
+                {{ communitySubmitTooltipText }}
+              </n-tooltip>
+            </div>
 
             <n-popover
               trigger="click"
@@ -158,7 +201,7 @@
                       size="small"
                       text
                       circle
-                      class="text-gray-500"
+                      class="ml-auto shrink-0 text-gray-500 sm:ml-0"
                       :aria-label="t('common.export')"
                     >
                       <template #icon>
@@ -208,38 +251,6 @@
                 </n-button>
               </div>
             </n-popover>
-
-            <div
-              v-if="showCommunitySubmitAction"
-              class="flex items-center"
-            >
-              <n-tooltip
-                :width="220"
-                trigger="hover"
-              >
-                <template #trigger>
-                  <n-button
-                    type="primary"
-                    size="small"
-                    class="relative overflow-hidden"
-                    :class="
-                      shouldHighlightCommunitySubmitButton
-                        ? `after:animate-button-shimmer after:absolute after:inset-y-0 after:-left-full after:w-[60%] after:bg-linear-to-r after:from-transparent after:via-white/15 after:to-transparent after:content-[''] motion-reduce:after:animate-none`
-                        : ''
-                    "
-                    :loading="submittingCommunity"
-                    :disabled="!canSubmitCommunity"
-                    @click="submitCommunityTierlist"
-                  >
-                    <template #icon>
-                      <n-icon><Users /></n-icon>
-                    </template>
-                    {{ t('common.submit') }}
-                  </n-button>
-                </template>
-                {{ communitySubmitTooltipText }}
-              </n-tooltip>
-            </div>
           </div>
         </div>
 
@@ -540,22 +551,43 @@
       content-class="p-2 sm:p-4"
     >
       <div class="space-y-2">
+        <div class="flex flex-wrap items-center justify-between gap-2 pb-1">
+          <h2 class="flex items-center gap-2 text-sm font-semibold">
+            <n-icon class="text-rose-500 dark:text-rose-400">
+              <Users />
+            </n-icon>
+            {{ t('tierlist.community_insights.title') }}
+          </h2>
+          <div
+            v-if="communityEffectiveDate"
+            class="text-xs text-gray-500 dark:text-gray-400"
+          >
+            {{ t('global.stats.data_as_of') }}:
+            <n-time
+              :time="communityEffectiveDate"
+              type="date"
+            />
+          </div>
+        </div>
         <div
           v-if="communityAggregateStatus === 'error'"
           class="text-xs text-red-500"
         >
           {{
-            communityAggregateError || t('tierlist.community_insights.error')
+            t(communityAggregateError || 'tierlist.community_insights.error')
           }}
         </div>
         <div
-          v-else-if="!hasCommunityPreviewEntries"
+          v-if="
+            communityAggregateStatus !== 'error' &&
+            (!communityAggregateModeSnapshot || !hasCommunityPreviewEntries)
+          "
           class="text-xs text-gray-500 dark:text-gray-400"
         >
           {{ t('tierlist.community_insights.empty') }}
         </div>
         <div
-          v-else
+          v-if="communityAggregateModeSnapshot && hasCommunityPreviewEntries"
           class="space-y-2"
         >
           <div class="space-y-1">
@@ -1088,10 +1120,12 @@
     ExternalLinkAlt,
     ListAlt,
     PaintBrush,
+    PaperPlane,
     Paw,
     Star,
     Sync,
     Tshirt,
+    User,
     Users,
     CheckCircle,
     Adjust,
@@ -3209,11 +3243,12 @@
   const {
     aggregateStatus: communityAggregateStatus,
     aggregateError: communityAggregateError,
+    publication: communityPublication,
     fetchAggregateJson,
     getModeSnapshot,
     getEntrySnapshot: getCommunityEntrySnapshot,
     getHigherThanPercent,
-  } = useCommunityTierlist()
+  } = useCommunityTierlist(mode)
 
   const showCommunityInsights = ref(false)
   const isCommunityModeEnabled = computed(
@@ -3236,8 +3271,9 @@
   )
   const communityBoardLoading = computed(
     () =>
-      communityAggregateStatus.value === 'idle' ||
-      communityAggregateStatus.value === 'pending'
+      !getModeSnapshot(mode.value) &&
+      (communityAggregateStatus.value === 'idle' ||
+        communityAggregateStatus.value === 'pending')
   )
   const loading = computed(() =>
     showCommunityInsightPanel.value
@@ -3245,14 +3281,35 @@
       : boardLoading.value
   )
 
-  watch(showCommunityInsightPanel, (shouldShow) => {
-    if (!shouldShow) return
+  const communityRequestMode = computed(() =>
+    showCommunityInsightPanel.value &&
+    requestStatus.value === 'success' &&
+    !error.value
+      ? mode.value
+      : null
+  )
+
+  watch(communityRequestMode, (requestMode) => {
+    if (!requestMode) return
     communityPoolPage.value = 1
     void fetchAggregateJson()
   })
 
   const communityAggregateModeSnapshot = computed(() =>
     getModeSnapshot(mode.value)
+  )
+  const communityEffectiveDate = computed(() => {
+    const capturedAt = communityPublication.value?.source_captured_at
+    if (!capturedAt) return null
+    const date = new Date(capturedAt)
+    return Number.isFinite(date.getTime()) ? date : null
+  })
+  const refreshCommunityOnFocus = () => {
+    if (communityRequestMode.value) void fetchAggregateJson()
+  }
+  onMounted(() => window.addEventListener('focus', refreshCommunityOnFocus))
+  onBeforeUnmount(() =>
+    window.removeEventListener('focus', refreshCommunityOnFocus)
   )
 
   const createEmptyCommunityTierCounts = (): CommunityTierCounts => ({

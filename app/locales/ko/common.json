@@ -1040,6 +1040,10 @@
     },
     "community_insights": {
       "toggle": "커뮤니티 티어 목록 표시",
+      "community_label": "커뮤니티",
+      "personal_label": "내 티어표",
+      "return_to_personal": "내 티어표로 돌아가기",
+      "title": "커뮤니티 티어표",
       "error": "커뮤니티 스냅샷을 로드하지 못했습니다.",
       "empty": "아직 커뮤니티 데이터가 없습니다.",
       "rank_position": "커뮤니티 순위 #{rank}",

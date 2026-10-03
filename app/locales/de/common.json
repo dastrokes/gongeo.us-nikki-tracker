@@ -1040,6 +1040,10 @@
     },
     "community_insights": {
       "toggle": "Community-Rangliste anzeigen",
+      "community_label": "Community",
+      "personal_label": "Meine Rangliste",
+      "return_to_personal": "Zur eigenen Rangliste zurückkehren",
+      "title": "Community-Rangliste",
       "error": "Community-Schnappschuss konnte nicht geladen werden.",
       "empty": "Noch keine Community-Daten.",
       "rank_position": "Community-Rang #{rank}",

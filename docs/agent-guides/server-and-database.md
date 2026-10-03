@@ -5,12 +5,12 @@ Read this guide for server endpoints, caching, locale resolution, Supabase, SQL,
 ## Project boundaries
 
 - Main app project `fimzdbqulflilnnopibz`: authentication, users, raw banner stats, installed aggregation objects, tier lists, feedback suggestions/votes, and feedback workflow state.
-- Cloudflare D1 database `gongeous`: authoritative published global-stat snapshots plus item, outfit, makeup, Momo, reviewed attribute, listing-filter, and content-revision data.
-- Hono Worker `data.gongeo.us`: public global stats, catalog details, facets, attribute matches, and Pinecone-backed item search.
-- Workflow repository `gongeo.us-db-backup`: canonical global-stat aggregation SQL, scheduled snapshot generation, validation, and D1 publication.
+- Cloudflare D1 database `gongeous`: authoritative published global-stat and community tier-list snapshots plus item, outfit, makeup, Momo, reviewed attribute, listing-filter, and content-revision data.
+- Hono Worker `data.gongeo.us`: public global stats, community tier lists, catalog details, facets, attribute matches, and Pinecone-backed item search.
+- Workflow repository `gongeo.us-db-backup`: canonical global-stat and tier-list aggregation SQL, scheduled snapshot generation, validation, and D1 publication.
 - Main-project environment variables: `SUPABASE_DATABASE_URL`, `SUPABASE_PUBLISHABLE_KEY`, `SUPABASE_SECRET_KEY`.
 - Main DB reference: `.supabase/main_db_reference.md`.
-- Tracker-owned main DB SQL notes stay in `.supabase/`. Global-stat aggregation definitions live in `gongeo.us-db-backup/sql/supabase/`.
+- Tracker-owned main DB SQL notes stay in `.supabase/`. Global-stat and tier-list aggregation definitions live in `gongeo.us-db-backup/sql/supabase/`.
 - D1 query/schema behavior belongs in the sibling data API and data processor projects. Keep tracker reference markdown condensed.
 - Reference files are non-executable maps. Verify risky behavior against code, schemas, or APIs.
 

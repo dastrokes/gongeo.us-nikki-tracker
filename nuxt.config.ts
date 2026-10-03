@@ -452,14 +452,13 @@ export default defineNuxtConfig({
   },
 
   sentry: {
-    sourceMapsUploadOptions: {
-      org: 'dastrokes',
-      project: 'gongeous',
-      enabled: false,
+    org: 'dastrokes',
+    project: 'gongeous',
+    sourcemaps: {
+      disable: true,
     },
 
     telemetry: false,
-    autoInjectServerSentry: 'top-level-import',
     enabled: process.env.NODE_ENV === 'production',
   },
 

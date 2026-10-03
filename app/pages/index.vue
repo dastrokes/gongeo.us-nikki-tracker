@@ -318,17 +318,17 @@
             :to="'/eurekas'"
           >
             <div
-              class="relative flex h-full w-full items-center justify-center overflow-hidden rounded-xl border border-black/5 bg-slate-50/70 ring-1 ring-white/60 transition-all duration-300 ring-inset group-hover:-translate-y-0.5 group-hover:border-rose-200/70 group-hover:bg-white/80 group-hover:shadow-[0_8px_20px_rgba(244,63,94,0.12)] motion-reduce:transform-none dark:border-white/8 dark:bg-slate-950/30 dark:ring-white/4 dark:group-hover:border-rose-300/20 dark:group-hover:bg-slate-900/45"
+              class="relative flex h-full w-full items-center justify-center overflow-hidden rounded-xl border border-black/5 bg-slate-50/70 ring-1 ring-white/60 transition-all duration-300 ring-inset group-hover:border-rose-200/70 group-hover:bg-white/80 group-hover:shadow-[0_8px_20px_rgba(244,63,94,0.12)] motion-safe:group-hover:-translate-y-0.5 motion-reduce:transform-none dark:border-white/8 dark:bg-slate-950/30 dark:ring-white/4 dark:group-hover:border-rose-300/20 dark:group-hover:bg-slate-900/45"
             >
               <div
                 v-if="shouldRenderFeatureAssets"
                 aria-hidden="true"
-                class="absolute inset-x-2 top-2 bottom-11 flex items-center justify-center gap-1.5 transition-transform duration-300 group-hover:scale-[1.03] motion-reduce:transform-none"
+                class="absolute inset-x-2 top-2 bottom-11 flex origin-center transform-gpu items-center justify-center gap-1.5 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] [will-change:transform] [backface-visibility:hidden] motion-safe:group-hover:scale-[1.03] motion-reduce:transform-none"
               >
                 <div
                   v-for="(variant, index) in eurekaPreviewVariants"
                   :key="`eureka-preview-${index}`"
-                  class="flex size-14 items-center justify-center overflow-hidden rounded-lg border border-gray-200 bg-gray-50 shadow-xs dark:border-gray-700 dark:bg-gray-900"
+                  class="flex size-14 items-center justify-center overflow-hidden rounded-lg bg-white/90 ring-1 ring-black/5 dark:bg-slate-900/90 dark:ring-white/10"
                 >
                   <n-icon
                     size="32"
@@ -370,12 +370,12 @@
             :to="'/lookbook'"
           >
             <div
-              class="relative flex h-full w-full items-center justify-center overflow-hidden rounded-xl border border-black/5 bg-slate-50/70 ring-1 ring-white/60 transition-all duration-300 ring-inset group-hover:-translate-y-0.5 group-hover:border-rose-200/70 group-hover:bg-white/80 group-hover:shadow-[0_8px_20px_rgba(244,63,94,0.12)] motion-reduce:transform-none dark:border-white/8 dark:bg-slate-950/30 dark:ring-white/4 dark:group-hover:border-rose-300/20 dark:group-hover:bg-slate-900/45"
+              class="relative flex h-full w-full items-center justify-center overflow-hidden rounded-xl border border-black/5 bg-slate-50/70 ring-1 ring-white/60 transition-all duration-300 ring-inset group-hover:border-rose-200/70 group-hover:bg-white/80 group-hover:shadow-[0_8px_20px_rgba(244,63,94,0.12)] motion-safe:group-hover:-translate-y-0.5 motion-reduce:transform-none dark:border-white/8 dark:bg-slate-950/30 dark:ring-white/4 dark:group-hover:border-rose-300/20 dark:group-hover:bg-slate-900/45"
             >
               <div
                 v-if="shouldRenderFeatureAssets"
                 aria-hidden="true"
-                class="absolute inset-x-2 top-2 bottom-11 flex flex-col items-center justify-center gap-2"
+                class="absolute inset-x-2 top-2 bottom-11 flex origin-center transform-gpu flex-col items-center justify-center gap-2 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] [will-change:transform] [backface-visibility:hidden] motion-safe:group-hover:scale-[1.03] motion-reduce:transform-none"
               >
                 <div
                   class="flex h-6 w-[82%] items-center rounded-lg bg-white/90 px-2.5 shadow-xs ring-1 ring-black/5 dark:bg-slate-900/90 dark:ring-white/10"
@@ -440,16 +440,16 @@
             :to="'/create'"
           >
             <div
-              class="relative flex h-full w-full flex-col items-center justify-center overflow-hidden rounded-xl border border-black/5 bg-slate-50/70 ring-1 ring-white/60 transition-all duration-300 ring-inset group-hover:-translate-y-0.5 group-hover:border-rose-200/70 group-hover:bg-white/80 group-hover:shadow-[0_8px_20px_rgba(244,63,94,0.12)] motion-reduce:transform-none dark:border-white/8 dark:bg-slate-950/30 dark:ring-white/4 dark:group-hover:border-rose-300/20 dark:group-hover:bg-slate-900/45"
+              class="relative flex h-full w-full flex-col items-center justify-center overflow-hidden rounded-xl border border-black/5 bg-slate-50/70 ring-1 ring-white/60 transition-all duration-300 ring-inset group-hover:border-rose-200/70 group-hover:bg-white/80 group-hover:shadow-[0_8px_20px_rgba(244,63,94,0.12)] motion-safe:group-hover:-translate-y-0.5 motion-reduce:transform-none dark:border-white/8 dark:bg-slate-950/30 dark:ring-white/4 dark:group-hover:border-rose-300/20 dark:group-hover:bg-slate-900/45"
             >
               <!-- Decorative outfit card preview -->
               <div
                 v-if="shouldRenderFeatureAssets"
                 aria-hidden="true"
-                class="flex min-h-0 w-full flex-1 items-center justify-center p-2 transition-transform duration-300 group-hover:scale-[1.03] motion-reduce:transform-none"
+                class="flex min-h-0 w-full flex-1 origin-center transform-gpu items-center justify-center p-2 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] [will-change:transform] [backface-visibility:hidden] motion-safe:group-hover:scale-[1.03] motion-reduce:transform-none"
               >
                 <div
-                  class="flex aspect-4/5 h-full max-h-30 shrink-0 flex-col gap-1.5 rounded-lg border border-slate-200/80 bg-white/95 p-1.5 shadow-xs dark:border-slate-700 dark:bg-slate-900"
+                  class="flex aspect-4/5 h-full max-h-32 shrink-0 flex-col gap-1.5"
                 >
                   <div class="flex shrink-0 items-center gap-1">
                     <n-icon
@@ -468,7 +468,12 @@
                       v-for="index in 9"
                       :key="`creation-preview-card-${index}`"
                       class="flex flex-col items-center justify-center gap-1 rounded-[3px]"
-                      :class="creationPreviewCardClasses[(index - 1) % 3]"
+                      :class="
+                        creationPreviewCardClasses[
+                          (index - 1 + Math.floor((index - 1) / 3)) %
+                            creationPreviewCardClasses.length
+                        ]
+                      "
                     >
                       <n-icon size="12"><Tshirt /></n-icon>
                       <span
@@ -483,7 +488,23 @@
                 aria-hidden="true"
                 class="flex min-h-0 w-full flex-1 items-center justify-center p-2"
               >
-                <n-skeleton class="aspect-4/5 h-full max-h-30 rounded-lg" />
+                <div
+                  class="flex aspect-4/5 h-full max-h-32 shrink-0 flex-col gap-1.5"
+                >
+                  <div class="flex shrink-0 items-center gap-1">
+                    <n-skeleton class="size-2.5 rounded-xs" />
+                    <n-skeleton class="h-1 min-w-0 flex-1 rounded-full" />
+                  </div>
+                  <div
+                    class="grid min-h-0 flex-1 grid-cols-3 grid-rows-3 gap-1"
+                  >
+                    <n-skeleton
+                      v-for="index in 9"
+                      :key="`creation-preview-skeleton-${index}`"
+                      class="h-full w-full rounded-[3px]"
+                    />
+                  </div>
+                </div>
               </div>
 
               <div class="z-10 w-full shrink-0 px-2 pb-2">
@@ -506,14 +527,18 @@
             :to="'/random'"
           >
             <div
-              class="relative flex h-full w-full items-center justify-center overflow-hidden rounded-xl border border-black/5 bg-slate-50/70 ring-1 ring-white/60 transition-all duration-300 ring-inset group-hover:-translate-y-0.5 group-hover:border-rose-200/70 group-hover:bg-white/80 group-hover:shadow-[0_8px_20px_rgba(244,63,94,0.12)] motion-reduce:transform-none dark:border-white/8 dark:bg-slate-950/30 dark:ring-white/4 dark:group-hover:border-rose-300/20 dark:group-hover:bg-slate-900/45"
+              class="relative flex h-full w-full items-center justify-center overflow-hidden rounded-xl border border-black/5 bg-slate-50/70 ring-1 ring-white/60 transition-all duration-300 ring-inset group-hover:border-rose-200/70 group-hover:bg-white/80 group-hover:shadow-[0_8px_20px_rgba(244,63,94,0.12)] motion-safe:group-hover:-translate-y-0.5 motion-reduce:transform-none dark:border-white/8 dark:bg-slate-950/30 dark:ring-white/4 dark:group-hover:border-rose-300/20 dark:group-hover:bg-slate-900/45"
             >
               <!-- GachaponMachineSvg bg -->
               <div
                 v-if="shouldRenderFeatureAssets"
-                class="absolute inset-x-2 top-2 bottom-11 flex items-center justify-center transition-transform duration-300 group-hover:scale-[1.03] motion-reduce:transform-none"
+                class="absolute inset-x-2 top-2 bottom-11 flex origin-center transform-gpu items-center justify-center transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] [will-change:transform] [backface-visibility:hidden] motion-safe:group-hover:scale-[1.03] motion-reduce:transform-none"
               >
-                <LazyGachaponMachineSvg class="h-30 w-24 drop-shadow-sm" />
+                <LazyGachaponMachineSvg
+                  variant="compact"
+                  class="h-30 w-24 shrink-0 drop-shadow-sm"
+                  aria-hidden="true"
+                />
               </div>
               <div
                 v-else
@@ -540,13 +565,15 @@
             :to="'/tierlist'"
           >
             <div
-              class="relative flex h-full w-full items-center justify-center overflow-hidden rounded-xl border border-black/5 bg-slate-50/70 ring-1 ring-white/60 transition-all duration-300 ring-inset group-hover:-translate-y-0.5 group-hover:border-rose-200/70 group-hover:bg-white/80 group-hover:shadow-[0_8px_20px_rgba(244,63,94,0.12)] motion-reduce:transform-none dark:border-white/8 dark:bg-slate-950/30 dark:ring-white/4 dark:group-hover:border-rose-300/20 dark:group-hover:bg-slate-900/45"
+              class="relative flex h-full w-full items-center justify-center overflow-hidden rounded-xl border border-black/5 bg-slate-50/70 ring-1 ring-white/60 transition-all duration-300 ring-inset group-hover:border-rose-200/70 group-hover:bg-white/80 group-hover:shadow-[0_8px_20px_rgba(244,63,94,0.12)] motion-safe:group-hover:-translate-y-0.5 motion-reduce:transform-none dark:border-white/8 dark:bg-slate-950/30 dark:ring-white/4 dark:group-hover:border-rose-300/20 dark:group-hover:bg-slate-900/45"
             >
               <div
                 v-if="shouldRenderFeatureAssets"
                 class="absolute inset-x-2 top-2 bottom-11 flex items-center justify-center rounded-md backdrop-blur-[1px]"
               >
-                <div class="flex flex-col gap-1">
+                <div
+                  class="flex origin-center transform-gpu flex-col gap-1 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] [will-change:transform] [backface-visibility:hidden] motion-safe:group-hover:scale-[1.03] motion-reduce:transform-none"
+                >
                   <div
                     v-for="(row, rowIndex) in tierPreviewRows"
                     :key="`tier-preview-row-${rowIndex}`"
@@ -601,11 +628,11 @@
             :to="'/quiz'"
           >
             <div
-              class="relative flex h-full w-full items-center justify-center overflow-hidden rounded-xl border border-black/5 bg-slate-50/70 ring-1 ring-white/60 transition-all duration-300 ring-inset group-hover:-translate-y-0.5 group-hover:border-rose-200/70 group-hover:bg-white/80 group-hover:shadow-[0_8px_20px_rgba(244,63,94,0.12)] motion-reduce:transform-none dark:border-white/8 dark:bg-slate-950/30 dark:ring-white/4 dark:group-hover:border-rose-300/20 dark:group-hover:bg-slate-900/45"
+              class="relative flex h-full w-full items-center justify-center overflow-hidden rounded-xl border border-black/5 bg-slate-50/70 ring-1 ring-white/60 transition-all duration-300 ring-inset group-hover:border-rose-200/70 group-hover:bg-white/80 group-hover:shadow-[0_8px_20px_rgba(244,63,94,0.12)] motion-safe:group-hover:-translate-y-0.5 motion-reduce:transform-none dark:border-white/8 dark:bg-slate-950/30 dark:ring-white/4 dark:group-hover:border-rose-300/20 dark:group-hover:bg-slate-900/45"
             >
               <div
                 v-if="shouldRenderFeatureAssets"
-                class="absolute inset-x-0 top-0 bottom-3 flex items-center justify-center overflow-hidden transition-transform duration-300 group-hover:scale-[1.03] motion-reduce:transform-none"
+                class="absolute inset-x-0 top-0 bottom-3 flex origin-center transform-gpu items-center justify-center overflow-hidden transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] [will-change:transform] [backface-visibility:hidden] motion-safe:group-hover:scale-[1.03] motion-reduce:transform-none"
               >
                 <div class="aspect-2/3 h-[calc(100%+10px)] shrink-0 p-1">
                   <LazyNuxtImg

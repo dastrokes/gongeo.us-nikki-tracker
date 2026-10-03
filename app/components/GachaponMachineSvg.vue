@@ -1,14 +1,19 @@
 <template>
   <svg
     class="whim-o-matic-svg"
-    :class="{ 'is-rolling': rolling, 'is-revealed': revealed }"
+    :class="{
+      'is-rolling': rolling,
+      'is-revealed': revealed,
+      'is-compact': variant === 'compact',
+    }"
     viewBox="0 0 512 640"
     role="img"
+    shape-rendering="geometricPrecision"
     xmlns="http://www.w3.org/2000/svg"
   >
     <defs>
       <linearGradient
-        id="somRedGradient"
+        :id="svgIds.redGradient"
         x1="150"
         y1="50"
         x2="375"
@@ -30,7 +35,7 @@
       </linearGradient>
 
       <linearGradient
-        id="somGoldGradient"
+        :id="svgIds.goldGradient"
         x1="120"
         y1="55"
         x2="380"
@@ -52,7 +57,7 @@
       </linearGradient>
 
       <linearGradient
-        id="somGlassGradient"
+        :id="svgIds.glassGradient"
         x1="160"
         y1="82"
         x2="350"
@@ -77,7 +82,7 @@
       </linearGradient>
 
       <linearGradient
-        id="somWindowGradient"
+        :id="svgIds.windowGradient"
         x1="214"
         y1="430"
         x2="300"
@@ -95,7 +100,7 @@
       </linearGradient>
 
       <filter
-        id="somShadow"
+        :id="svgIds.shadow"
         x="-18%"
         y="-10%"
         width="136%"
@@ -111,7 +116,7 @@
         />
       </filter>
 
-      <clipPath id="windowClip">
+      <clipPath :id="svgIds.windowClip">
         <rect
           x="211"
           y="410"
@@ -121,7 +126,7 @@
         />
       </clipPath>
 
-      <clipPath id="globeClip">
+      <clipPath :id="svgIds.globeClip">
         <path
           d="M 172 68 C 142 94 128 145 132 190 C 136 245 178 285 188 346 L 324 346 C 334 285 376 245 380 190 C 384 145 370 94 340 68 Z"
         />
@@ -130,16 +135,16 @@
 
     <g
       class="machine"
-      filter="url(#somShadow)"
+      :filter="variant === 'compact' ? undefined : `url(#${svgIds.shadow})`"
     >
       <!-- Base Shadow -->
       <ellipse
         cx="256"
         cy="612"
-        rx="150"
-        ry="12"
-        fill="#4D2232"
-        opacity="0.42"
+        :rx="variant === 'compact' ? 122 : 150"
+        :ry="variant === 'compact' ? 8 : 12"
+        :fill="variant === 'compact' ? '#7D3748' : '#4D2232'"
+        :opacity="variant === 'compact' ? 0.14 : 0.42"
       />
 
       <!-- Lever (Behind the base) -->
@@ -168,7 +173,7 @@
           y1="356"
           x2="117"
           y2="347"
-          stroke="url(#somGoldGradient)"
+          :stroke="`url(#${svgIds.goldGradient})`"
           stroke-width="12"
           stroke-linecap="round"
         />
@@ -176,7 +181,7 @@
           cx="152"
           cy="432"
           r="26"
-          fill="url(#somGoldGradient)"
+          :fill="`url(#${svgIds.goldGradient})`"
         />
         <circle
           cx="152"
@@ -200,9 +205,10 @@
       <!-- Main Base Trapezoid -->
       <path
         d="M 162 350 L 350 350 L 396 590 Q 398 600 386 600 L 126 600 Q 114 600 116 590 Z"
-        fill="url(#somRedGradient)"
+        :fill="`url(#${svgIds.redGradient})`"
       />
       <path
+        class="base-highlight"
         d="M 162 350 L 350 350 L 356 378 L 156 378 Z"
         fill="#F06A78"
         opacity="0.38"
@@ -210,7 +216,7 @@
       <!-- Base Bottom Gold Trim -->
       <path
         d="M 122 560 L 390 560 L 392 569 L 120 569 Z"
-        fill="url(#somGoldGradient)"
+        :fill="`url(#${svgIds.goldGradient})`"
       />
 
       <!-- Front Window -->
@@ -222,7 +228,7 @@
       <!-- Inner Dark Hole -->
       <path
         d="M 211 503 L 211 433 C 211 416 225 407 242 407 L 270 407 C 287 407 301 416 301 433 L 301 503 Z"
-        fill="url(#somWindowGradient)"
+        :fill="`url(#${svgIds.windowGradient})`"
       />
       <!-- Yellow Tray Shadow -->
       <rect
@@ -241,11 +247,11 @@
         width="120"
         height="18"
         rx="9"
-        fill="url(#somGoldGradient)"
+        :fill="`url(#${svgIds.goldGradient})`"
       />
 
       <!-- Prize Capsule -->
-      <g clip-path="url(#windowClip)">
+      <g :clip-path="`url(#${svgIds.windowClip})`">
         <g class="prize-capsule capsule">
           <g class="prize-capsule-rotator">
             <circle
@@ -274,7 +280,7 @@
       <!-- Glass Globe Background -->
       <path
         d="M 172 68 C 142 94 128 145 132 190 C 136 245 178 285 188 346 L 324 346 C 334 285 376 245 380 190 C 384 145 370 94 340 68 Z"
-        fill="url(#somGlassGradient)"
+        :fill="`url(#${svgIds.glassGradient})`"
         stroke="#D7D0D6"
         stroke-width="4"
         stroke-opacity="0.88"
@@ -288,11 +294,10 @@
         height="12"
         rx="4"
         fill="#D8CBC6"
-        data-v-03d33d03=""
-      ></rect>
+      />
 
       <!-- Globe contents (clipped) -->
-      <g clip-path="url(#globeClip)">
+      <g :clip-path="`url(#${svgIds.globeClip})`">
         <!-- Crescent Moon (NOT animated) -->
         <path
           d="M 259.4 104 A 44.6 44.6 0 1 1 211.2 176 A 46.1 46.1 0 0 0 259.4 104 Z"
@@ -305,7 +310,7 @@
             <path
               d="M 214 347 C 258 337 310 340 290 329 C 272 319 213 327 224 314 C 238 302 301 306 292 296"
               fill="none"
-              stroke="url(#somGoldGradient)"
+              :stroke="`url(#${svgIds.goldGradient})`"
               stroke-width="11"
               stroke-linecap="round"
               stroke-linejoin="round"
@@ -431,9 +436,10 @@
               width="160"
               height="20"
               rx="9"
-              fill="url(#somGoldGradient)"
+              :fill="`url(#${svgIds.goldGradient})`"
             />
             <rect
+              class="holder-highlight"
               x="176"
               y="304"
               width="160"
@@ -459,13 +465,13 @@
       <path
         d="M 240 20 A 16 16 0 0 1 272 20"
         fill="none"
-        stroke="url(#somGoldGradient)"
+        :stroke="`url(#${svgIds.goldGradient})`"
         stroke-width="11"
         stroke-linecap="round"
       />
       <path
         d="M 176 60 A 80 40 0 0 1 336 60 Z"
-        fill="url(#somRedGradient)"
+        :fill="`url(#${svgIds.redGradient})`"
       />
       <rect
         x="166"
@@ -473,7 +479,7 @@
         width="180"
         height="16"
         rx="8"
-        fill="url(#somGoldGradient)"
+        :fill="`url(#${svgIds.goldGradient})`"
       />
     </g>
   </svg>
@@ -484,20 +490,44 @@
     defineProps<{
       rolling?: boolean
       revealed?: boolean
+      variant?: 'default' | 'compact'
     }>(),
     {
       rolling: false,
       revealed: false,
+      variant: 'default',
     }
   )
+
+  const svgId = `gachapon-${useId().replace(/:/g, '')}`
+  const svgIds = {
+    redGradient: `${svgId}-red`,
+    goldGradient: `${svgId}-gold`,
+    glassGradient: `${svgId}-glass`,
+    windowGradient: `${svgId}-window`,
+    shadow: `${svgId}-shadow`,
+    windowClip: `${svgId}-window-clip`,
+    globeClip: `${svgId}-globe-clip`,
+  }
 </script>
 
 <style scoped>
   .whim-o-matic-svg {
     display: block;
+    overflow: visible;
+  }
+
+  .whim-o-matic-svg:where(:not(.is-compact)) {
     width: 100%;
     height: auto;
-    overflow: visible;
+  }
+
+  .is-compact .base-highlight {
+    opacity: 0.16;
+  }
+
+  .is-compact .holder-highlight {
+    opacity: 0.18;
   }
 
   .lucky-gachapon-machine {

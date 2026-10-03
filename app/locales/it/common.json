@@ -1040,6 +1040,10 @@
     },
     "community_insights": {
       "toggle": "Mostra l'elenco dei livelli della comunità",
+      "community_label": "Community",
+      "personal_label": "La mia lista",
+      "return_to_personal": "Torna alla tua tier list",
+      "title": "Tier list della community",
       "error": "Impossibile caricare l'istantanea della comunità.",
       "empty": "Nessun dato della comunità ancora.",
       "rank_position": "Grado comunitario #{rank}",

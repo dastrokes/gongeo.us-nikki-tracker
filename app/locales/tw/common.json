@@ -1040,6 +1040,10 @@
     },
     "community_insights": {
       "toggle": "顯示社群排行榜",
+      "community_label": "社群排行",
+      "personal_label": "我的排行",
+      "return_to_personal": "返回我的排行榜",
+      "title": "社群排行榜",
       "error": "載入社群快照失敗。",
       "empty": "目前沒有社群資料。",
       "rank_position": "社群排名 #{rank}",

@@ -1040,6 +1040,10 @@
     },
     "community_insights": {
       "toggle": "Show community tier list",
+      "community_label": "Community",
+      "personal_label": "My tier list",
+      "return_to_personal": "Return to your tier list",
+      "title": "Community tier list",
       "error": "Failed to load community snapshot.",
       "empty": "No community data yet.",
       "rank_position": "Community rank #{rank}",

@@ -1040,6 +1040,10 @@
     },
     "community_insights": {
       "toggle": "Mostrar lista de níveis da comunidade",
+      "community_label": "Comunidade",
+      "personal_label": "Meu ranking",
+      "return_to_personal": "Voltar ao meu ranking",
+      "title": "Ranking da comunidade",
       "error": "Falha ao carregar o instantâneo da comunidade.",
       "empty": "Ainda não há dados da comunidade.",
       "rank_position": "Classificação da comunidade #{rank}",

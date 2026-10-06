@@ -150,13 +150,13 @@
       "timeline": "Erkunde eine interaktive Zeitleiste von Infinity Nikki Resonanzbannern, wesentlichen Updates, Veröffentlichungszeitraum und Wiederholungen, um den Eventverlauf auf einen Blick zu verfolgen.",
       "tierlist": "Erstelle und teile eine Infinity Nikki Rangliste für Banner, Outfits und Stücke mit Drag-and-Drop Bewertung, Filtern und einfachem Bildexport.",
       "creation_hub": "Erstelle stilvolle Infinity Nikki Outfit-Karten und persönliche Banner-Ranglisten mit responsiven Werkzeugen und Bildexport.",
-      "outfits": "Durchsuche alle Infinity Nikki Outfits mit Filtern nach Qualität, Evolution, Verschönerung, Stil-Tags und Statuswerten. Schau dir die kompletten Outfit-Komponenten an und entdecke jedes Outfit.",
-      "makeups": "Durchsuche alle Infinity Nikki Make-ups, einschließlich voller Make-ups und einzelner Make-up-Stücke, mit Filtern nach Slot, Qualität, Stil, Version und Herkunft.",
+      "outfits": "Durchstöbere alle Infinity Nikki Outfits mit Filtern nach Qualität, Evolution, Verschönerung, Stil-Tags und Statuswerten. Schau dir die kompletten Outfit-Komponenten an und entdecke jedes Outfit.",
+      "makeups": "Durchstöbere alle Infinity Nikki Make-ups, einschließlich voller Make-ups und einzelner Make-up-Stücke, mit Filtern nach Slot, Qualität, Stil, Version und Herkunft.",
       "outfit_detail": "Schau dir detaillierte Informationen über das Outfit {name} an, einschließlich Qualität, Outfit-Stücken, Evolution und Verschönerung, Make-ups, Statuswerten und verwandten Resonanz-Bannern.",
-      "items": "Durchsuche alle Infinity Nikki Stücke mit Filtern nach Slot, Qualität, Status-Boni und verwandten Outfits oder Bannern. Finde, vergleiche und verfolge jedes Stück ganz leicht.",
-      "props": "Durchsuche und verfolge Dekorationen in Infinity Nikki mit Filtern nach Qualität, Version und Herkunft sowie Artwork und Varianten.",
+      "items": "Durchstöbere alle Infinity Nikki Stücke mit Filtern nach Slot, Qualität, Status-Boni und verwandten Outfits oder Bannern. Finde, vergleiche und verfolge jedes Stück ganz leicht.",
+      "props": "Durchstöbere und verfolge Dekorationen in Infinity Nikki mit Filtern nach Qualität, Version und Herkunft sowie Artwork und Varianten.",
       "lookbook": "Schau dir die Vorschau eines Infinity Nikki Farb-Lookbook-Codes als teilbare Stücklisten-Karte mit Icons und Kompendium-Links an.",
-      "momo": "Durchsuche alle Momos Mäntel in Infinity Nikki mit Filtern nach Qualität, Version und Herkunft und sieh dir Stück-Kunstwerke in einem eigenen Kompendium an.",
+      "momo": "Durchstöbere alle Momos Mäntel in Infinity Nikki mit Filtern nach Qualität, Version und Herkunft und sieh dir Stück-Kunstwerke in einem eigenen Kompendium an.",
       "momo_detail": "Schau dir detaillierte Informationen über {name} an, einschließlich Qualität, Herkunft, Beschreibung, Vorschau und Stück-Artwork.",
       "item_detail": "Schau dir detaillierte Informationen über das Stück {name} an, einschließlich Qualität, Evolution und Verschönerung, Statuswerten und verwandter Outfits und Bannern.",
       "search": "Entdecke die einzigartigen Suchmöglichkeiten von Infinity Nikki via Wunder-Suche. Finde Stücke und Outfits mit natürlicher Sprache, Stil-Tags und semantischen Attributen.",
@@ -238,7 +238,7 @@
     },
     "search": {
       "placeholder": "Nach Namen oder Details suchen",
-      "helper": "Suche nach Namen, Aliasnamen und Fähigkeiten oder beschreibe, was du suchst.",
+      "helper": "Suche nach Namen, Aliassen und Fähigkeiten oder beschreibe, wonach du suchst.",
       "for_query": "für \"{query}\""
     },
     "social": {
@@ -306,7 +306,7 @@
       "import_title": "Deine Garderobe hinzufügen",
       "import_description": "Importiere deine Garderobe aus dem Whim-Log oder beginne mit den Sammlungen unten.",
       "tracking_title": "Aus dem Kompendium verfolgen",
-      "tracking_description": "Markiere deinen Besitz beim Durchsuchen des Kompendiums. Besitzfilter funktionieren anschließend in allen Sammlungstools.",
+      "tracking_description": "Markiere deinen Besitz beim Durchstöbern des Kompendiums. Besitzfilter funktionieren anschließend in allen Sammlungstools.",
       "finish_setup": "Einrichtung abschließen"
     },
     "import_success": "{imported} von {found} Tracker-Garderobeneinträgen importiert.",
@@ -725,7 +725,7 @@
   },
   "banner": {
     "all_banners": "Alle Banner",
-    "browse": "Banner ansehen",
+    "browse": "Banner durchstöbern",
     "version": "Version",
     "reruns": "Wiederholungen",
     "luck": {
@@ -753,7 +753,7 @@
     "title": "Wunschliste",
     "filter": "Wunschliste ({count})",
     "add": "Zur Wunschliste hinzufügen",
-    "remove": "Von der Wunschliste entfernen",
+    "remove": "Von Wunschliste entfernen",
     "empty": "Deine Wunschliste ist leer. Tippe auf ein Herz, um ein Banner hinzuzufügen.",
     "no_matches": "Keine Banner auf deiner Wunschliste passen zu diesen Filtern.",
     "error": "Auf deine Wunschliste konnte nicht zugegriffen werden. Bitte versuche es erneut."
@@ -849,7 +849,7 @@
     "title": "Haftungsausschluss und Datenschutzerklärung",
     "project": {
       "title": "Was gongeo.us bietet",
-      "content": "gongeo.us ist ein von Fans erstellter Begleiter für Infinity Nikki. Die Webseite hilft Stylist:innen dabei, ihren Resonanzverlauf zu speichern und auszuwerten, ihren Garderoben- und Heureka-Besitz zu verfolgen und aktuelle Spieldaten zu durchsuchen.",
+      "content": "gongeo.us ist ein von Fans erstellter Begleiter für Infinity Nikki. Die Webseite hilft Stylist:innen dabei, ihren Resonanzverlauf zu speichern und auszuwerten, ihren Garderoben- und Heureka-Besitz zu verfolgen und aktuelle Spieldaten zu durchstöbern.",
       "features": "Sie können auch Banner- und Community-Statistiken ansehen, die Stück- und Outfit-Kompendien durchsuchen, Zeitleisten aufrufen, Ranglisten erstellen, Lookbook-Vorschauen anzeigen und Bilder zum Teilen erstellen. Die wichtigsten persönlichen Werkzeuge funktionieren lokal und ohne Konto."
     },
     "infinityNikkiAssets": {
@@ -1210,7 +1210,7 @@
   },
   "feedback": {
     "queue_title": "Feedback-Prüfung",
-    "page_description": "Durchsuche strukturierte Tag-Korrekturen, stimme über existierende Vorschläge ab und hilf dabei, das Kompendium ordentlich zu halten.",
+    "page_description": "Durchstöbere strukturierte Tag-Korrekturen, stimme über existierende Vorschläge ab und hilf dabei, das Kompendium ordentlich zu halten.",
     "quick_review_empty": "Du bist auf dem neusten Stand der aktuellen Warteschlange.",
     "list_empty": "Kein Feedback entspricht diesen Filtern.",
     "vote_queue_remaining": "Noch {count} übrig",
@@ -1237,7 +1237,7 @@
     "status_applied": "Angewendet",
     "load_failed": "Feedback-Warteschlange konnte nicht geladen werden.",
     "vote_failed": "Fehler beim Aktualisieren deiner Abstimmung.",
-    "view_queue": "Feedback-Warteschlange durchsuchen",
+    "view_queue": "Feedback-Warteschlange durchstöbern",
     "suggest_action": "Korrektur vorschlagen",
     "current_tags": "Tags",
     "more_tags": "Mehr Tags",

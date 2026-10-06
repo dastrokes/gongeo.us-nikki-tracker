@@ -50,7 +50,8 @@
   const localePath = useLocalePath()
   const userStore = useUserStore()
   const pullStore = usePullStore()
-  const { clearData, loadData, loadWardrobe } = useIndexedDB()
+  const { clearData, loadData, loadWardrobe, loadBannerWishlist } =
+    useIndexedDB()
   const { user, signOut } = useAuth()
   const { uploadData, syncData, clearCloudData } = useDataSync()
   const { resetToDefaults } = useTrackerSettings()
@@ -90,6 +91,7 @@
   type ProfileUploadDataState = {
     hasResonanceData: boolean
     hasWardrobeData: boolean
+    hasWishlistData: boolean
   }
 
   const hasResonanceBackupData = (data: {
@@ -114,7 +116,7 @@
     )
 
   const hasProfileBackupData = (state: ProfileUploadDataState): boolean =>
-    state.hasResonanceData || state.hasWardrobeData
+    state.hasResonanceData || state.hasWardrobeData || state.hasWishlistData
 
   const getProfileUploadWarningKeys = (state: ProfileUploadDataState) => {
     const warnings: string[] = []
@@ -153,11 +155,14 @@
 
   const getActiveProfileUploadDataState =
     async (): Promise<ProfileUploadDataState> => {
-      const data = await loadData(activeSlot.value)
-      const wardrobe = await loadWardrobe(activeSlot.value)
+      const slot = activeSlot.value
+      const data = await loadData(slot)
+      const wardrobe = await loadWardrobe(slot)
+      const bannerWishlist = await loadBannerWishlist(slot)
       return {
         hasResonanceData: hasResonanceBackupData(data),
         hasWardrobeData: hasWardrobeBackupData(wardrobe),
+        hasWishlistData: bannerWishlist !== null,
       }
     }
 

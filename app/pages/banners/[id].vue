@@ -7,14 +7,18 @@
     >
       <div>
         <div class="flex flex-col gap-2">
-          <div class="flex flex-col justify-between gap-3 sm:flex-row">
+          <div class="flex flex-col justify-between gap-2 sm:flex-row">
             <!-- Banner Navigation -->
-            <div class="flex items-center justify-start gap-2">
+            <div
+              class="flex min-w-0 items-center justify-start gap-2 sm:flex-1"
+            >
               <n-tooltip trigger="hover">
                 <template #trigger>
                   <n-button
                     size="small"
                     text
+                    class="shrink-0"
+                    :aria-label="t('navigation.banner')"
                     @click="
                       navigateTo(`${localePath('/banners')}#${banner.bannerId}`)
                     "
@@ -32,6 +36,8 @@
                 v-if="prevBanner"
                 size="small"
                 text
+                class="shrink-0"
+                :aria-label="t('common.previous')"
                 @click="
                   navigateTo(
                     localePath(getBannerDetailPath(prevBanner.bannerId))
@@ -45,7 +51,7 @@
 
               <n-gradient-text
                 :size="18"
-                class="m-0 font-medium wrap-break-word"
+                class="m-0 min-w-0 font-medium wrap-break-word whitespace-normal!"
                 :type="banner.bannerType === 2 ? 'warning' : 'info'"
               >
                 {{ t(`banner.${banner.bannerId}.name`) }}
@@ -56,6 +62,8 @@
                 v-if="nextBanner"
                 size="small"
                 text
+                class="shrink-0"
+                :aria-label="t('common.next')"
                 @click="
                   navigateTo(
                     localePath(getBannerDetailPath(nextBanner.bannerId))
@@ -69,13 +77,15 @@
             </div>
 
             <!-- Controls -->
-            <div class="flex justify-end gap-4">
+            <div class="flex flex-wrap items-center justify-end gap-1">
+              <BannerWishButton :banner-id="banner.bannerId" />
               <!-- Edit Button -->
               <n-tooltip trigger="hover">
                 <template #trigger>
                   <n-button
                     text
                     size="small"
+                    :aria-label="t('tracker.manual_log.open_editor')"
                     :type="showCollectionEditor ? 'primary' : 'default'"
                     @click="showCollectionEditor = true"
                   >
@@ -93,6 +103,13 @@
                   <n-button
                     text
                     size="small"
+                    :aria-label="
+                      t(
+                        showItems
+                          ? 'tracker.banner.settings.outfit_display'
+                          : 'tracker.banner.settings.item_display'
+                      )
+                    "
                     @click="showItems = !showItems"
                   >
                     <template #icon>
@@ -112,6 +129,17 @@
             </div>
           </div>
 
+          <n-alert
+            v-if="wishlistError"
+            type="error"
+            :title="t('wishlist.error')"
+          >
+            <n-button
+              size="small"
+              @click="initWishlist({ force: true })"
+              >{{ t('common.retry') }}</n-button
+            >
+          </n-alert>
           <div class="grid grid-cols-1 gap-4 sm:grid-cols-[1fr_3fr]">
             <div class="space-y-2">
               <div
@@ -671,6 +699,7 @@
   const { initFromIndexedDB } = usePullStoreData()
   const showCollectionEditor = ref(false)
   const showItems = ref(true)
+  const { error: wishlistError, init: initWishlist } = useBannerWishlist()
 
   // Get banner ID from route
   const {

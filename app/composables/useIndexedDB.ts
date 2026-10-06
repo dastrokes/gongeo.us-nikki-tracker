@@ -1,10 +1,11 @@
 const DB_NAME = 'gongeousDB'
-const DB_VERSION = 5
+const DB_VERSION = 6
 const PULLS_STORE = 'pullsByBanner'
 const EDITS_STORE = 'editsByBanner'
 const EVO_STORE = 'evoByBanner'
 const PEARPAL_STORE = 'pearpalByBanner'
 const WARDROBE_STORE = 'wardrobeByProfile'
+const WISHLIST_STORE = 'bannerWishlistByProfile'
 
 const { runWithRecovery } = createIndexedDBConnection({
   dbName: DB_NAME,
@@ -16,6 +17,7 @@ const { runWithRecovery } = createIndexedDBConnection({
     EVO_STORE,
     PEARPAL_STORE,
     WARDROBE_STORE,
+    WISHLIST_STORE,
   ],
   retryIntervalMs: 1000,
   maxRetries: 3,
@@ -39,6 +41,10 @@ const { runWithRecovery } = createIndexedDBConnection({
 
       if (!db.objectStoreNames.contains(WARDROBE_STORE)) {
         db.createObjectStore(WARDROBE_STORE)
+      }
+
+      if (!db.objectStoreNames.contains(WISHLIST_STORE)) {
+        db.createObjectStore(WISHLIST_STORE)
       }
     },
   },
@@ -163,6 +169,7 @@ export function useIndexedDB() {
       const evoKey = resolveSlotKey(EVO_STORE, slot)
       const pearpalKey = resolveSlotKey(PEARPAL_STORE, slot)
       const wardrobeKey = resolveSlotKey(WARDROBE_STORE, slot)
+      const wishlistKey = resolveSlotKey(WISHLIST_STORE, slot)
 
       await runQueuedIndexedDBOperation(() =>
         runWithRecovery('clearData', async (db) => {
@@ -171,6 +178,7 @@ export function useIndexedDB() {
           await db.delete(EVO_STORE, evoKey)
           await db.delete(PEARPAL_STORE, pearpalKey)
           await db.delete(WARDROBE_STORE, wardrobeKey)
+          await db.delete(WISHLIST_STORE, wishlistKey)
         })
       )
 
@@ -179,6 +187,7 @@ export function useIndexedDB() {
         editsData.value = {}
         evoData.value = {}
         await useWardrobe().init({ force: true })
+        await useBannerWishlist().init({ force: true })
       }
     } catch (error) {
       console.error('Failed to clear data:', error)
@@ -225,6 +234,7 @@ export function useIndexedDB() {
       const evoKey = resolveSlotKey(EVO_STORE, slot)
       const pearpalKey = resolveSlotKey(PEARPAL_STORE, slot)
       const wardrobeKey = resolveSlotKey(WARDROBE_STORE, slot)
+      const wishlistKey = resolveSlotKey(WISHLIST_STORE, slot)
 
       await runQueuedIndexedDBOperation(() =>
         runWithRecovery('clearSlotData', async (db) => {
@@ -233,6 +243,7 @@ export function useIndexedDB() {
           await db.delete(EVO_STORE, evoKey)
           await db.delete(PEARPAL_STORE, pearpalKey)
           await db.delete(WARDROBE_STORE, wardrobeKey)
+          await db.delete(WISHLIST_STORE, wishlistKey)
         })
       )
 
@@ -241,6 +252,7 @@ export function useIndexedDB() {
         editsData.value = {}
         evoData.value = {}
         await useWardrobe().init({ force: true })
+        await useBannerWishlist().init({ force: true })
       }
     } catch (error) {
       console.error('Failed to clear slot data:', error)
@@ -283,6 +295,46 @@ export function useIndexedDB() {
     }
   }
 
+  const loadBannerWishlist = async (
+    slotOverride?: number
+  ): Promise<BannerWishlistData | null> => {
+    try {
+      const slot = resolveSlot(slotOverride)
+      const wishlistKey = resolveSlotKey(WISHLIST_STORE, slot)
+
+      const result = await runQueuedIndexedDBOperation(() =>
+        runWithRecovery('loadBannerWishlist', async (db) => {
+          return db.get(WISHLIST_STORE, wishlistKey)
+        })
+      )
+
+      return result === undefined ? null : normalizeBannerWishlist(result)
+    } catch (error) {
+      console.error('Failed to load banner wish list data:', error)
+      throw error
+    }
+  }
+
+  const saveBannerWishlist = async (
+    data: BannerWishlistData,
+    slotOverride?: number
+  ) => {
+    try {
+      const slot = resolveSlot(slotOverride)
+      const wishlistKey = resolveSlotKey(WISHLIST_STORE, slot)
+      const cleanData = normalizeBannerWishlist(data)
+
+      await runQueuedIndexedDBOperation(() =>
+        runWithRecovery('saveBannerWishlist', async (db) => {
+          await db.put(WISHLIST_STORE, cleanData, wishlistKey)
+        })
+      )
+    } catch (error) {
+      console.error('Failed to save banner wish list data:', error)
+      throw error
+    }
+  }
+
   return {
     pullsData,
     editsData,
@@ -297,5 +349,7 @@ export function useIndexedDB() {
     savePearpalData,
     loadWardrobe,
     saveWardrobe,
+    loadBannerWishlist,
+    saveBannerWishlist,
   }
 }

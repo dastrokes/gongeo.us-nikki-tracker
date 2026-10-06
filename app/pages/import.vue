@@ -1404,8 +1404,16 @@
       const hasEvo = 'evo' in jsonData
       const hasPearpal = 'pearpal' in jsonData
       const hasWardrobe = 'wardrobe' in jsonData
+      const hasWishlist = 'bannerWishlist' in jsonData
 
-      if (hasPulls || hasEdits || hasEvo || hasPearpal || hasWardrobe) {
+      if (
+        hasPulls ||
+        hasEdits ||
+        hasEvo ||
+        hasPearpal ||
+        hasWardrobe ||
+        hasWishlist
+      ) {
         // Structured format: { pulls, edits, evo, pearpal, wardrobe }
         if (hasPulls && typeof jsonData.pulls !== 'object') {
           throw new Error('Invalid JSON format')

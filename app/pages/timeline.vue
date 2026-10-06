@@ -1,76 +1,105 @@
 <template>
-  <div class="mx-auto max-w-7xl space-y-2 sm:space-y-4">
+  <div
+    class="mx-auto max-w-7xl space-y-2 sm:space-y-4"
+    :style="{ '--timeline-toolbar-height': `${timelineToolbarHeight}px` }"
+  >
     <n-card
       size="small"
       class="rounded-xl"
       content-class="p-2 sm:p-4"
     >
+      <BannerWishlistToolbar
+        ref="timelineToolbarRef"
+        v-model:value="wishlistOnly"
+        class="mb-3"
+      >
+        <n-tooltip :show-arrow="false">
+          <template #trigger>
+            <n-button
+              size="small"
+              secondary
+              :aria-label="t('banner.browse')"
+              @click="
+                navigateTo(
+                  localePath({
+                    path: '/banners',
+                    query: wishlistOnly ? { wishlist: '1' } : {},
+                  })
+                )
+              "
+            >
+              <template #icon>
+                <n-icon size="16"><ListUl /></n-icon>
+              </template>
+              {{ t('banner.browse') }}
+            </n-button>
+          </template>
+          {{ t('banner.browse') }}
+        </n-tooltip>
+        <template #filters>
+          <div class="flex flex-wrap items-center gap-2 sm:justify-end">
+            <n-select
+              v-model:value="timelineSortOrder"
+              size="small"
+              class="w-40 shrink-0"
+              :options="timelineSortOptions"
+              :show-checkmark="false"
+              :consistent-menu-width="false"
+              :aria-label="t('timeline.sort.label')"
+            />
+            <div class="w-40 shrink-0">
+              <CompendiumQualityFilter
+                v-model:value="timelineQualityFilter"
+                :quality-options="[5, 4]"
+              />
+            </div>
+          </div>
+        </template>
+      </BannerWishlistToolbar>
       <n-card size="small">
+        <n-empty
+          v-if="wishlistOnly && wishlistReady && timelineBanners.length === 0"
+          class="py-12"
+        >
+          <template #icon
+            ><n-icon><HeartRegular /></n-icon
+          ></template>
+          <template #default>
+            <p class="text-sm font-medium text-slate-700 dark:text-slate-200">
+              {{ t(wishCount ? 'wishlist.no_matches' : 'wishlist.empty') }}
+            </p>
+          </template>
+          <template #extra>
+            <n-button
+              size="small"
+              secondary
+              type="primary"
+              @click="resetTimelineWishlistFilters"
+              >{{ t(wishCount ? 'common.clear' : 'banner.browse') }}</n-button
+            >
+          </template>
+        </n-empty>
         <n-collapse-transition
+          v-else
           mode="out-in"
           appear
         >
           <div
             v-if="showTimelineChart"
             key="chart"
-            class="relative h-[calc(100vh-116px)] min-h-125 rounded-xl sm:h-[calc(100vh-148px)]"
+            class="relative rounded-xl"
+            :class="
+              wishlistOnly && timelineBanners.length < 6
+                ? 'h-64 sm:h-80'
+                : 'h-[calc(100vh-116px-var(--timeline-toolbar-height)-12px)] min-h-125 sm:h-[calc(100vh-148px-var(--timeline-toolbar-height)-12px)]'
+            "
           >
-            <div
-              class="absolute top-2 left-2 z-10 flex max-w-[calc(100%-3rem)] items-start gap-2"
-            >
-              <n-select
-                v-model:value="timelineSortOrder"
-                size="small"
-                class="w-40 shrink-0"
-                :options="timelineSortOptions"
-                :show-checkmark="false"
-                :consistent-menu-width="false"
-                :aria-label="t('timeline.sort.label')"
-              />
-              <div class="min-w-0 overflow-x-auto">
-                <n-button-group class="min-w-max">
-                  <n-button
-                    size="small"
-                    :type="
-                      timelineQualityFilter === null ? 'primary' : 'default'
-                    "
-                    class="min-w-10"
-                    @click="timelineQualityFilter = null"
-                  >
-                    {{ t('common.all') }}
-                  </n-button>
-                  <n-button
-                    v-bind="timelineQualityButtonThemes.star5"
-                    size="small"
-                    @click="timelineQualityFilter = 5"
-                  >
-                    <span class="flex items-center gap-1">
-                      5
-                      <n-icon>
-                        <Star />
-                      </n-icon>
-                    </span>
-                  </n-button>
-                  <n-button
-                    v-bind="timelineQualityButtonThemes.star4"
-                    size="small"
-                    @click="timelineQualityFilter = 4"
-                  >
-                    <span class="flex items-center gap-1">
-                      4
-                      <n-icon>
-                        <Star />
-                      </n-icon>
-                    </span>
-                  </n-button>
-                </n-button-group>
-              </div>
-            </div>
             <VChart
               id="bannerTimelineChart"
               ref="timelineChartRef"
               class="h-full w-full"
               :option="timelineChartOption"
+              manual-update
               autoresize
               @datazoom="handleDataZoom"
               @finished="handleTimelineChartFinished"
@@ -106,11 +135,16 @@
           <div
             v-else
             key="skeleton"
-            class="h-[calc(100vh-116px)] min-h-125 rounded-xl sm:h-[calc(100vh-148px)]"
+            class="rounded-xl"
+            :class="
+              wishlistOnly && timelineBanners.length < 6
+                ? 'h-64 sm:h-80'
+                : 'h-[calc(100vh-116px-var(--timeline-toolbar-height)-12px)] min-h-125 sm:h-[calc(100vh-148px-var(--timeline-toolbar-height)-12px)]'
+            "
           >
             <div class="relative h-full w-full overflow-hidden rounded-lg">
               <div
-                class="absolute inset-x-0 top-2 bottom-12 pr-6 sm:bottom-14 sm:pr-8"
+                class="absolute inset-x-0 top-4 bottom-12 pr-6 sm:bottom-14 sm:pr-8"
               >
                 <div class="relative h-full w-full">
                   <div
@@ -135,7 +169,7 @@
               </div>
 
               <div
-                class="absolute top-2 right-1 bottom-12 w-4 rounded-full bg-black/10 sm:bottom-14 dark:bg-white/15"
+                class="absolute top-4 right-1 bottom-12 w-4 rounded-full bg-black/10 sm:bottom-14 dark:bg-white/15"
               >
                 <div
                   class="absolute top-0 left-1/2 h-2.5 w-5 -translate-x-1/2 rounded-sm border border-black/10 bg-white/80 dark:border-white/20 dark:bg-slate-200/70"
@@ -153,9 +187,10 @@
 </template>
 
 <script setup lang="ts">
-  import { SearchMinus, SearchPlus, Star } from '@vicons/fa'
+  import type { ComponentPublicInstance } from 'vue'
+  import { HeartRegular, ListUl, SearchMinus, SearchPlus } from '@vicons/fa'
   import type { CustomSeriesRenderItemReturn } from 'echarts'
-  import type { ECElementEvent } from 'echarts/core'
+  import type { ECElementEvent, ECharts } from 'echarts/core'
   import type { SelectOption } from 'naive-ui'
   import { breakpointsTailwind } from '@vueuse/core'
   import { BANNER_DATA } from '~~/data/banners'
@@ -237,6 +272,7 @@
 
   interface TimelineChartRef {
     dispatchAction: (payload: Record<string, unknown>) => void
+    chart?: ECharts
   }
 
   interface DataZoomEventPayload {
@@ -279,14 +315,41 @@
   const { isDark } = useTheme()
   const palette = usePalette()
   const themeVars = useThemeVars()
+  const route = useRoute()
+  const router = useRouter()
+  const wishlistOnly = computed({
+    get: () => route.query.wishlist === '1',
+    set: (enabled: boolean) => {
+      void router.replace({
+        query: { ...route.query, wishlist: enabled ? '1' : undefined },
+        hash: route.hash,
+      })
+    },
+  })
+  const {
+    savedBannerIds,
+    count: wishCount,
+    isSaved,
+    ready: wishlistReady,
+  } = useBannerWishlist()
   const breakpoints = useBreakpoints(breakpointsTailwind)
   const isMobile = breakpoints.smaller('sm')
+  const timelineToolbarRef = ref<ComponentPublicInstance | null>(null)
+  const { height: timelineToolbarHeight } = useElementSize(timelineToolbarRef, {
+    width: 0,
+    height: 28,
+  })
   const timelineChartRef = ref<TimelineChartRef | null>(null)
   const timelineHoveredBannerId = ref<number | null>(null)
   const showTimelineChart = ref(false)
-  const timelineChartAnimationEnabled = ref(true)
+  // Finishing an animation must not trigger another chart option update.
+  let timelineChartAnimationEnabled = true
   const timelineSortOrder = ref<TimelineSortOrder>('newest')
   const timelineQualityFilter = ref<TimelineQualityFilter>(null)
+  const resetTimelineWishlistFilters = () => {
+    timelineQualityFilter.value = null
+    if (!wishCount.value) navigateTo(localePath('/banners'))
+  }
 
   interface TimelineSkeletonBar {
     key: string
@@ -377,7 +440,7 @@
   })
 
   const disableTimelineChartAnimation = () => {
-    timelineChartAnimationEnabled.value = false
+    timelineChartAnimationEnabled = false
   }
 
   const handleTimelineChartFinished = () => {
@@ -389,19 +452,22 @@
       return
     }
 
-    timelineChartAnimationEnabled.value = true
+    timelineChartAnimationEnabled = true
   })
 
-  watch(timelineQualityFilter, (nextQuality, previousQuality) => {
-    if (nextQuality === previousQuality) {
-      return
+  watch(
+    [
+      timelineQualityFilter,
+      wishlistOnly,
+      () => Array.from(savedBannerIds.value).join(','),
+    ],
+    () => {
+      clearTimelineHoveredRow()
+      timelineChartAnimationEnabled = true
+      xZoomWindow.value = createDefaultZoomWindow()
+      yZoomWindow.value = createDefaultZoomWindow()
     }
-
-    clearTimelineHoveredRow()
-    timelineChartAnimationEnabled.value = true
-    xZoomWindow.value = createDefaultZoomWindow()
-    yZoomWindow.value = createDefaultZoomWindow()
-  })
+  )
 
   const isTimelineBanner = (
     banner: Banner
@@ -452,13 +518,17 @@
     () => `box-shadow: ${themeVars.value.boxShadow2}; border-radius: 8px;`
   )
 
-  const axisLabelDateFormatter = computed(
-    () =>
-      new Intl.DateTimeFormat(timelineLocale.value, {
-        month: isMobile.value ? 'numeric' : 'short',
-        year: '2-digit',
-      })
-  )
+  const axisLabelDateFormatter = computed(() => {
+    const showDay =
+      wishlistOnly.value &&
+      timelineRange.value.max - timelineRange.value.min < 180 * DAY_IN_MS
+
+    return new Intl.DateTimeFormat(timelineLocale.value, {
+      month: isMobile.value ? 'numeric' : 'short',
+      day: showDay ? 'numeric' : undefined,
+      year: showDay ? undefined : '2-digit',
+    })
+  })
 
   const timelineZoomFillerColor = computed(() =>
     isDark.value ? '#9db2db3a' : '#5d7bc01f'
@@ -476,14 +546,10 @@
     shadowColor: isDark.value ? 'rgba(0, 0, 0, 0.4)' : 'rgba(15, 23, 42, 0.16)',
   }))
 
-  const timelineQualityButtonThemes = computed(() => ({
-    star5: getQualityButtonTheme(5, timelineQualityFilter.value === 5),
-    star4: getQualityButtonTheme(4, timelineQualityFilter.value === 4),
-  }))
-
   const timelineBanners = computed(() =>
     Object.values(BANNER_DATA)
       .filter(isTimelineBanner)
+      .filter((banner) => !wishlistOnly.value || isSaved(banner.bannerId))
       .filter((banner) => {
         if (timelineQualityFilter.value === 5) return banner.bannerType === 2
         if (timelineQualityFilter.value === 4) return banner.bannerType === 3
@@ -816,10 +882,15 @@
     }
   }
 
+  // Reuse the banner wish button's Font Awesome Heart shape in the tooltip.
+  const TIMELINE_WISH_HEART_PATH =
+    'M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z'
+
   const renderTimelineItem = (
     params: TimelineRenderParams,
     api: TimelineRenderApi,
-    hoveredBannerId: number | null
+    hoveredBannerId: number | null,
+    savedBannerIds: Set<number>
   ): CustomSeriesRenderItemReturn => {
     if (!params.coordSys) return null
 
@@ -829,7 +900,10 @@
 
     const row = timelineSeriesData.value[params.dataIndex]?.row
     const availableBarHeight = Math.max(2, rowHeight - 2)
-    const preferredBarHeight = rowHeight * (isMobile.value ? 0.66 : 0.74)
+    const preferredBarHeight = Math.min(
+      rowHeight * (isMobile.value ? 0.66 : 0.74),
+      isMobile.value ? 36 : 48
+    )
     const minBarHeight = isMobile.value ? 5 : 7
     const barHeight = Math.min(
       availableBarHeight,
@@ -854,6 +928,15 @@
     const canRenderMarker = markerHeight >= minMarkerRenderHeight
     const isHoveredRow =
       row?.bannerId !== undefined && hoveredBannerId === row.bannerId
+    const isSavedRow = !!row && savedBannerIds.has(row.bannerId)
+    const wishAccentHeight = Math.max(2, barHeight - 4)
+    const barShape = {
+      x: 0,
+      y: -barHeight / 2,
+      width,
+      height: barHeight,
+      r: barRadius,
+    }
 
     return {
       type: 'group',
@@ -871,23 +954,14 @@
           transition: ['shape', 'style'] as ['shape', 'style'],
           enterFrom: {
             shape: {
-              x: 0,
-              y: -barHeight / 2,
+              ...barShape,
               width: 0,
-              height: barHeight,
-              r: barRadius,
             },
             style: {
               opacity: 0.35,
             },
           },
-          shape: {
-            x: 0,
-            y: -barHeight / 2,
-            width,
-            height: barHeight,
-            r: barRadius,
-          },
+          shape: barShape,
           style: {
             fill: getBannerTypeColor(api.value(3)),
             stroke: isHoveredRow
@@ -937,22 +1011,64 @@
                   transition: ['shape'] as ['shape'],
                   enterFrom: {
                     shape: {
-                      x: 0,
-                      y: -barHeight / 2,
+                      ...barShape,
                       width: 0,
-                      height: barHeight,
-                      r: barRadius,
                     },
                   },
-                  shape: {
-                    x: 0,
-                    y: -barHeight / 2,
-                    width,
-                    height: barHeight,
-                    r: barRadius,
-                  },
+                  shape: barShape,
                 },
                 silent: true,
+              },
+            ]
+          : []),
+        ...(isSavedRow
+          ? [
+              {
+                type: 'rect' as const,
+                name: 'wish-accent',
+                z2: 10,
+                silent: true,
+                transition: ['shape', 'style'] as ['shape', 'style'],
+                enterFrom: {
+                  style: { opacity: 0 },
+                },
+                // Reveal the accent within the growing bar, including its delay.
+                clipPath: {
+                  type: 'rect' as const,
+                  transition: ['shape'] as ['shape'],
+                  enterFrom: {
+                    shape: { ...barShape, width: 0 },
+                  },
+                  shape: barShape,
+                },
+                shape: canRenderMarker
+                  ? {
+                      x: 0.75,
+                      y: -barHeight / 2 + 0.75,
+                      width: Math.min(markerWidth, width) - 1.5,
+                      height: barHeight - 1.5,
+                      r: barRadius - 0.75,
+                    }
+                  : {
+                      x: Math.min(2, width / 4),
+                      y: -wishAccentHeight / 2,
+                      width: Math.min(3, width / 3),
+                      height: wishAccentHeight,
+                      r: 2,
+                    },
+                style: canRenderMarker
+                  ? {
+                      fill: 'transparent',
+                      stroke: themeVars.value.primaryColor,
+                      lineWidth: 1.5,
+                      opacity: 1,
+                    }
+                  : {
+                      fill: themeVars.value.primaryColor,
+                      stroke: 'transparent',
+                      lineWidth: 0,
+                      opacity: 1,
+                    },
               },
             ]
           : []),
@@ -962,7 +1078,8 @@
 
   const timelineChartOption = computed(() => {
     const hoveredBannerId = timelineHoveredBannerId.value
-    const shouldAnimate = timelineChartAnimationEnabled.value
+    const shouldAnimate = timelineChartAnimationEnabled
+    const savedIds = savedBannerIds.value
 
     return {
       animation: shouldAnimate,
@@ -1024,6 +1141,14 @@
           const statusHtml = statusText
             ? `<div style="${metaStyle}">${statusText}</div>`
             : ''
+          const wishIndicatorHtml = savedIds.has(row.bannerId)
+            ? `<svg width="12" height="12" viewBox="0 0 512 512" fill="currentColor" role="img" aria-label="${t('wishlist.title')}" style="flex-shrink:0;margin-top:6px;color:${
+                themeVars.value.primaryColor
+              };">
+                <title>${t('wishlist.title')}</title>
+                <path d="${TIMELINE_WISH_HEART_PATH}" />
+              </svg>`
+            : ''
           const runsHtml = banner.runs
             .map((run) => {
               const isHoveredRun = run.key === row.rowId
@@ -1064,8 +1189,9 @@
 
           return `
           <div style="${containerStyle}">
-            <div style="${titleStyle}">
-              ${banner.bannerName}
+            <div style="${titleStyle}display:flex;align-items:flex-start;gap:6px;">
+              <span style="flex:1;min-width:0;">${banner.bannerName}</span>
+              ${wishIndicatorHtml}
             </div>
             ${statusHtml}
             <div style="${runsStyle}">
@@ -1089,7 +1215,7 @@
         extraCssText: chartTooltipExtraCssText.value,
       },
       grid: {
-        top: 46,
+        top: 16,
         left: 10,
         right: 40,
         bottom: 60,
@@ -1111,6 +1237,7 @@
         axisLabel: {
           margin: 10,
           hideOverlap: true,
+          color: isDark.value ? '#CBD5E1' : '#475569',
           formatter: (value: number) =>
             axisLabelDateFormatter.value.format(new Date(value)),
         },
@@ -1201,7 +1328,7 @@
           type: 'custom',
           clip: true,
           renderItem: (params: TimelineRenderParams, api: TimelineRenderApi) =>
-            renderTimelineItem(params, api, hoveredBannerId),
+            renderTimelineItem(params, api, hoveredBannerId, savedIds),
           encode: {
             x: [0, 1],
             y: 2,
@@ -1450,6 +1577,25 @@
       createDefaultZoomWindow()
     )
   }
+
+  watch(
+    timelineChartOption,
+    (option) => {
+      const chart = timelineChartRef.value?.chart
+      if (!chart) return
+
+      // Measure the updated container before animating the new rows.
+      const container = chart.getDom()
+      if (
+        Math.round(chart.getWidth()) !== container.clientWidth ||
+        Math.round(chart.getHeight()) !== container.clientHeight
+      ) {
+        chart.resize({ animation: { duration: 0 }, silent: true })
+      }
+      chart.setOption(option)
+    },
+    { flush: 'post' }
+  )
 
   useSeoMeta({
     title: () =>

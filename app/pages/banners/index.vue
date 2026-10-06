@@ -2,160 +2,127 @@
   <div class="mx-auto max-w-7xl space-y-2 sm:space-y-4">
     <n-card
       size="small"
-      class="rounded-xl p-0 sm:p-2"
+      class="rounded-xl"
       content-class="p-2 sm:p-4"
     >
-      <div
-        class="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between sm:gap-4"
+      <BannerWishlistToolbar
+        v-model:value="wishlistOnly"
+        class="mb-2 sm:mb-3"
       >
-        <div
-          class="order-2 min-w-0 sm:order-1 sm:flex-1"
-          @focusin="revealBannerRail"
-          @pointerenter="revealBannerRail"
-          @touchstart.passive="revealBannerRail"
+        <n-tooltip :show-arrow="false">
+          <template #trigger>
+            <n-button
+              size="small"
+              secondary
+              :aria-label="t('navigation.timeline')"
+              @click="goToTimeline"
+            >
+              <template #icon>
+                <n-icon size="16"><AlignRight /></n-icon>
+              </template>
+              {{ t('navigation.timeline') }}
+            </n-button>
+          </template>
+          {{ t('navigation.timeline') }}
+        </n-tooltip>
+        <n-tooltip
+          :disabled="!isTierlistDisabled"
+          trigger="hover"
         >
-          <n-scrollbar
-            x-scrollable
-            class="pb-2"
-          >
-            <div class="flex min-w-max flex-row gap-2 pb-2">
-              <template
-                v-for="banner in displayedRailBanners"
-                :key="banner.bannerId"
+          <template #trigger>
+            <div class="shrink-0">
+              <n-button
+                size="small"
+                type="primary"
+                :disabled="isTierlistDisabled"
+                :aria-label="t('navigation.tierlist')"
+                @click="goToTierlist"
               >
-                <div
-                  v-if="banner.bannerId === firstRerunBannerId"
-                  aria-hidden="true"
-                  class="mx-1 h-12 w-px shrink-0 self-center rounded-full bg-gray-300/70 dark:bg-gray-600/70"
-                ></div>
-                <div
-                  class="shrink-0 cursor-pointer transition-opacity hover:opacity-80"
-                >
-                  <n-tooltip trigger="hover">
-                    <template #trigger>
+                <template #icon>
+                  <n-icon size="16"><SortAmountDown /></n-icon>
+                </template>
+                {{ t('navigation.tierlist') }}
+              </n-button>
+            </div>
+          </template>
+          {{ t('tierlist.over_limit.description', { max: TIER_ENTRY_LIMIT }) }}
+        </n-tooltip>
+        <template #filters>
+          <div class="flex flex-wrap items-center gap-2 sm:justify-end">
+            <div class="w-40 shrink-0">
+              <CompendiumQualityFilter
+                v-model:value="qualityFilter"
+                :quality-options="[5, 4]"
+                :unavailable-qualities="bannerUnavailableQualities"
+              />
+            </div>
+            <n-select
+              v-model:value="versionFilter"
+              :options="versionOptions"
+              :render-label="renderVersionOptionLabel"
+              size="small"
+              class="min-w-40 flex-1 sm:w-48 sm:flex-none"
+              clearable
+              filterable
+              :show-checkmark="false"
+              :placeholder="t('compendium.filter_version')"
+            />
+          </div>
+        </template>
+      </BannerWishlistToolbar>
+      <div
+        class="min-w-0"
+        @focusin="revealBannerRail"
+        @pointerenter="revealBannerRail"
+        @touchstart.passive="revealBannerRail"
+      >
+        <n-scrollbar
+          x-scrollable
+          class="pb-2"
+        >
+          <div class="flex min-w-max flex-row gap-2 pb-2">
+            <template
+              v-for="(banner, bannerIndex) in displayedRailBanners"
+              :key="banner.bannerId"
+            >
+              <div
+                v-if="banner.bannerId === firstRerunBannerId"
+                aria-hidden="true"
+                class="mx-1 h-12 w-px shrink-0 self-center rounded-full bg-gray-300/70 dark:bg-gray-600/70"
+              ></div>
+              <div
+                class="shrink-0 cursor-pointer transition-opacity hover:opacity-80"
+              >
+                <n-tooltip trigger="hover">
+                  <template #trigger>
+                    <a
+                      :href="`#${banner.bannerId}`"
+                      class="block rounded-lg focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-500"
+                      @click.prevent="handleBannerClick(banner.bannerId)"
+                    >
                       <NuxtImg
                         :src="getImageSrc('bannerThumb', banner.bannerId)"
                         :alt="$t(`banner.${banner.bannerId}.name`)"
                         class="h-16 w-32 rounded-lg object-cover"
                         preset="bannerThumb"
                         fit="cover"
-                        loading="lazy"
+                        :loading="
+                          getListingImageLoading(
+                            bannerIndex,
+                            BANNER_RAIL_INITIAL_IMAGE_COUNT
+                          )
+                        "
                         fetchpriority="low"
                         sizes="200px"
-                        @click="handleBannerClick(banner.bannerId)"
                       />
-                    </template>
-                    <span>{{ t(`banner.${banner.bannerId}.name`) }}</span>
-                  </n-tooltip>
-                </div>
-              </template>
-            </div>
-          </n-scrollbar>
-        </div>
-
-        <div class="order-1 flex flex-col gap-2 sm:order-2 sm:items-end">
-          <div class="flex items-start justify-end gap-2">
-            <n-button
-              size="small"
-              secondary
-              @click="navigateTo(localePath('/timeline'))"
-            >
-              <template #icon>
-                <n-icon size="16">
-                  <AlignRight />
-                </n-icon>
-              </template>
-              {{ t('navigation.timeline') }}
-            </n-button>
-
-            <n-tooltip
-              :disabled="!isTierlistDisabled"
-              trigger="hover"
-            >
-              <template #trigger>
-                <div class="shrink-0">
-                  <n-button
-                    size="small"
-                    type="primary"
-                    :disabled="isTierlistDisabled"
-                    @click="goToTierlist"
-                  >
-                    <template #icon>
-                      <n-icon size="16">
-                        <SortAmountDown />
-                      </n-icon>
-                    </template>
-                    {{ t('navigation.tierlist') }}
-                  </n-button>
-                </div>
-              </template>
-              {{
-                t('tierlist.over_limit.description', {
-                  max: TIER_ENTRY_LIMIT,
-                })
-              }}
-            </n-tooltip>
-          </div>
-
-          <div class="flex items-start justify-end gap-2">
-            <div class="min-w-0 overflow-x-auto pb-1">
-              <div class="flex min-w-max items-center justify-end gap-2">
-                <n-button-group class="min-w-max">
-                  <n-button
-                    size="small"
-                    :type="qualityFilter === null ? 'primary' : 'default'"
-                    class="min-w-10"
-                    @click="qualityFilter = null"
-                  >
-                    {{ t('common.all') }}
-                  </n-button>
-                  <n-button
-                    v-bind="qualityButtonThemes.star5"
-                    :class="{
-                      'opacity-45': bannerUnavailableQualities.includes(5),
-                    }"
-                    size="small"
-                    @click="qualityFilter = 5"
-                  >
-                    <span class="flex items-center gap-1">
-                      5
-                      <n-icon>
-                        <Star />
-                      </n-icon>
-                    </span>
-                  </n-button>
-                  <n-button
-                    v-bind="qualityButtonThemes.star4"
-                    :class="{
-                      'opacity-45': bannerUnavailableQualities.includes(4),
-                    }"
-                    size="small"
-                    @click="qualityFilter = 4"
-                  >
-                    <span class="flex items-center gap-1">
-                      4
-                      <n-icon>
-                        <Star />
-                      </n-icon>
-                    </span>
-                  </n-button>
-                </n-button-group>
-
-                <n-select
-                  v-model:value="versionFilter"
-                  :options="versionOptions"
-                  :render-label="renderVersionOptionLabel"
-                  size="small"
-                  class="w-48 min-w-0"
-                  clearable
-                  filterable
-                  :show-checkmark="false"
-                  :placeholder="t('compendium.filter_version')"
-                />
+                    </a>
+                  </template>
+                  <span>{{ t(`banner.${banner.bannerId}.name`) }}</span>
+                </n-tooltip>
               </div>
-            </div>
+            </template>
           </div>
-        </div>
+        </n-scrollbar>
       </div>
     </n-card>
 
@@ -164,7 +131,39 @@
       class="rounded-xl p-0 sm:p-2"
       content-class="p-2 sm:p-4"
     >
+      <div
+        v-if="wishlistOnly && !wishlistReady && !wishlistError"
+        class="p-6 text-center text-sm text-slate-500"
+        role="status"
+      >
+        {{ t('common.loading') }}
+      </div>
+      <n-empty
+        v-else-if="
+          wishlistOnly && wishlistReady && filteredBanners.length === 0
+        "
+        class="py-8"
+      >
+        <template #icon
+          ><n-icon><HeartRegular /></n-icon
+        ></template>
+        <template #default>
+          <p class="text-sm font-medium text-slate-700 dark:text-slate-200">
+            {{ t(wishCount ? 'wishlist.no_matches' : 'wishlist.empty') }}
+          </p>
+        </template>
+        <template #extra>
+          <n-button
+            size="small"
+            secondary
+            type="primary"
+            @click="resetWishlistFilters"
+            >{{ t(wishCount ? 'common.clear' : 'banner.browse') }}</n-button
+          >
+        </template>
+      </n-empty>
       <n-timeline
+        v-else
         :icon-size="16"
         size="large"
       >
@@ -209,26 +208,27 @@
               </n-button>
             </template>
             <template #header>
-              <div>
+              <div class="flex items-start justify-between gap-3">
                 <NuxtLinkLocale
                   no-prefetch
                   :to="getBannerDetailPath(banner.bannerId)"
-                  class="inline w-fit transition-opacity hover:opacity-95"
+                  class="min-w-0 flex-1 transition-opacity hover:opacity-95"
                 >
                   <n-gradient-text
                     :size="18"
-                    class="m-0 font-medium wrap-break-word"
+                    class="m-0 font-medium wrap-break-word whitespace-normal!"
                     :type="banner.bannerType === 2 ? 'warning' : 'info'"
                   >
                     {{ $t(`banner.${banner.bannerId}.name`) }}
                   </n-gradient-text>
                 </NuxtLinkLocale>
+                <BannerWishButton :banner-id="banner.bannerId" />
               </div>
             </template>
             <template #default>
               <div
                 aria-hidden="true"
-                class="pointer-events-none absolute top-5 bottom-0 left-[7px] z-1 w-0.5 rounded-full bg-linear-to-b"
+                class="pointer-events-none absolute top-5 bottom-0 left-1.75 z-1 w-0.5 rounded-full bg-linear-to-b"
                 :class="
                   banner.bannerType === 2
                     ? 'from-amber-400/70 to-amber-400/20'
@@ -439,6 +439,7 @@
   import {
     Gift,
     Star,
+    HeartRegular,
     ExternalLinkAlt,
     CalendarDay,
     SortAmountDown,
@@ -459,6 +460,21 @@
   const route = useRoute()
   const router = useRouter()
   const { getImageSrc } = imageProvider()
+  const wishlistOnly = ref(route.query.wishlist === '1')
+  const {
+    count: wishCount,
+    isSaved,
+    ready: wishlistReady,
+    error: wishlistError,
+  } = useBannerWishlist()
+  const resetWishlistFilters = () => {
+    if (!wishCount.value) {
+      wishlistOnly.value = false
+      return
+    }
+    qualityFilter.value = null
+    versionFilter.value = null
+  }
 
   const routeSeoFilter = computed(() =>
     getSeoListRouteFilter(route.path, 'banners')
@@ -543,11 +559,6 @@
     twitterDescription: () => description.value,
   })
 
-  const qualityButtonThemes = computed(() => ({
-    star5: getQualityButtonTheme(5, qualityFilter.value === 5),
-    star4: getQualityButtonTheme(4, qualityFilter.value === 4),
-  }))
-
   // Sort banners by ID descending (newest first)
   const sortedBanners = computed(() => {
     return [...Object.values(BANNER_DATA)].sort(
@@ -579,6 +590,7 @@
         !sortedBanners.value.some(
           (banner) =>
             matchesBannerQuality(banner, quality) &&
+            (!wishlistOnly.value || isSaved(banner.bannerId)) &&
             (!versionFilter.value ||
               matchesBannerVersion(banner, versionFilter.value))
         )
@@ -588,6 +600,8 @@
   // Filtered banners based on active filters
   const filteredBanners = computed(() => {
     let banners = sortedBanners.value
+    if (wishlistOnly.value)
+      banners = banners.filter((banner) => isSaved(banner.bannerId))
 
     // Filter by banner quality
     banners = banners.filter((banner) => {
@@ -669,6 +683,7 @@
   const buildListingQuery = (
     primaryFilter: BannerListingPrimaryFilter = null
   ) => ({
+    ...(wishlistOnly.value && { wishlist: '1' }),
     ...(primaryFilter !== 'version' &&
       versionFilter.value && { version: versionFilter.value }),
   })
@@ -677,6 +692,7 @@
     const quality = resolveTierlistBannerQuality()
     return {
       mode: 'banners',
+      ...(wishlistOnly.value && { wishlist: '1' }),
       ...(quality !== null && { quality }),
       ...(versionFilter.value && { version: versionFilter.value }),
     }
@@ -691,6 +707,14 @@
       })
     )
   }
+
+  const goToTimeline = () =>
+    navigateTo(
+      localePath({
+        path: '/timeline',
+        query: wishlistOnly.value ? { wishlist: '1' } : {},
+      })
+    )
 
   const syncListingRoute = () => {
     const listingPath = currentListingPath.value
@@ -713,16 +737,19 @@
   )
 
   watch(
-    () => [qualityFilter.value, versionFilter.value],
+    () => filteredBanners.value.map((banner) => banner.bannerId).join(','),
     () => {
       isBannerRailExpanded.value = false
       reset()
-      syncListingRoute()
-      if (import.meta.client) {
-        window.scrollTo({ top: 0, behavior: 'smooth' })
-      }
     }
   )
+
+  watch([qualityFilter, versionFilter, wishlistOnly], () => {
+    syncListingRoute()
+    if (import.meta.client) {
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    }
+  })
 
   onMounted(() => {
     syncListingRoute()
@@ -733,6 +760,13 @@
       qualityFilter.value = quality
     }
   })
+
+  watch(
+    () => route.query.wishlist,
+    (value) => {
+      wishlistOnly.value = value === '1'
+    }
+  )
 
   watch([routeVersionFilter, () => route.query.version], () => {
     const nextVersion = resolveRouteVersionFilter()

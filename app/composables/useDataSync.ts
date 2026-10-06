@@ -6,6 +6,7 @@ interface SyncData {
   evo: Record<number, EvoRecord[]>
   pearpal: Record<number, PearpalTrackerItem[]>
   wardrobe?: WardrobeData
+  bannerWishlist?: BannerWishlistData
   profile?: {
     label: string
   }
@@ -17,6 +18,7 @@ interface MergedSyncData {
   evo: Record<number, EvoRecord[]>
   pearpal: Record<number, PearpalTrackerItem[]>
   wardrobe: WardrobeData
+  bannerWishlist?: BannerWishlistData
   profile?: {
     label: string
   }
@@ -35,6 +37,10 @@ const mergeCloudData = (
   evo: mergeEvoData(localData.evo, remoteData?.evo, mode),
   pearpal: mergePearpalData(localData.pearpal, remoteData?.pearpal),
   wardrobe: mergeSyncWardrobe(remoteData?.wardrobe),
+  bannerWishlist:
+    remoteData?.bannerWishlist === undefined
+      ? localData.bannerWishlist
+      : normalizeBannerWishlist(remoteData.bannerWishlist),
   profile: localData.profile ?? remoteData?.profile,
 })
 
@@ -55,13 +61,22 @@ const hasWardrobeBackupData = (wardrobe: WardrobeData | undefined): boolean =>
   )
 
 const hasSyncData = (data: SyncData): boolean =>
-  hasResonanceBackupData(data) || hasWardrobeBackupData(data.wardrobe)
+  hasResonanceBackupData(data) ||
+  hasWardrobeBackupData(data.wardrobe) ||
+  data.bannerWishlist !== undefined
 
 export const useDataSync = () => {
   const supabase = useSupabaseClient()
   const { user } = useAuth()
-  const { saveData, loadData, savePearpalData, loadWardrobe, saveWardrobe } =
-    useIndexedDB()
+  const {
+    saveData,
+    loadData,
+    savePearpalData,
+    loadWardrobe,
+    saveWardrobe,
+    loadBannerWishlist,
+    saveBannerWishlist,
+  } = useIndexedDB()
   const { activeSlot, addProfile, renameProfile, slots, setLastSync } =
     useProfileSlots()
   const { initFromData } = usePullStoreData()
@@ -122,15 +137,17 @@ export const useDataSync = () => {
 
     try {
       // Get current data from IndexedDB
-      const rawData = await loadData(slotOverride ?? activeSlot.value)
       const slot = slotOverride ?? activeSlot.value
+      const rawData = await loadData(slot)
       const wardrobe = await loadWardrobe(slot)
+      const bannerWishlist = await loadBannerWishlist(slot)
       const localSyncData: SyncData = {
         pulls: rawData.pulls,
         edits: rawData.edits,
         evo: rawData.evo,
         pearpal: rawData.pearpal,
         wardrobe,
+        ...(bannerWishlist ? { bannerWishlist } : {}),
         profile: buildProfileMeta(slot),
       }
       const filePath = getUserDataPath(user.value.id, slot)
@@ -265,20 +282,19 @@ export const useDataSync = () => {
 
     try {
       // Download remote data
-      const { success, data: remoteData } = await downloadData(
-        slotOverride ?? activeSlot.value
-      )
+      const resolvedSlot = slotOverride ?? activeSlot.value
+      const { success, data: remoteData } = await downloadData(resolvedSlot)
 
       if (!success || !remoteData) {
         return { success: false }
       }
 
-      const resolvedSlot = slotOverride ?? activeSlot.value
       applyProfileMeta(remoteData.profile, resolvedSlot)
 
       // Merge local and remote data
       const localData = await loadData(resolvedSlot)
       const localWardrobe = await loadWardrobe(resolvedSlot)
+      const localWishlist = await loadBannerWishlist(resolvedSlot)
 
       const mergedData = mergeCloudData(
         {
@@ -287,6 +303,7 @@ export const useDataSync = () => {
           evo: localData.evo,
           pearpal: localData.pearpal,
           wardrobe: localWardrobe,
+          ...(localWishlist ? { bannerWishlist: localWishlist } : {}),
           profile: buildProfileMeta(resolvedSlot),
         },
         remoteData,
@@ -301,16 +318,22 @@ export const useDataSync = () => {
       )
       await savePearpalData(mergedData.pearpal, resolvedSlot)
       await saveWardrobe(mergedData.wardrobe, resolvedSlot)
+      if (mergedData.bannerWishlist !== undefined) {
+        await saveBannerWishlist(mergedData.bannerWishlist, resolvedSlot)
+      }
       if (resolvedSlot === activeSlot.value) {
         await useWardrobe().init({ force: true })
+        await useBannerWishlist().init({ force: true })
       }
 
-      await initFromData({
-        pulls: mergedData.pulls,
-        edits: mergedData.edits,
-        evo: mergedData.evo,
-        pearpal: mergedData.pearpal,
-      })
+      if (resolvedSlot === activeSlot.value) {
+        await initFromData({
+          pulls: mergedData.pulls,
+          edits: mergedData.edits,
+          evo: mergedData.evo,
+          pearpal: mergedData.pearpal,
+        })
+      }
 
       setLastSync(resolvedSlot, new Date().toISOString())
       return { success: true }

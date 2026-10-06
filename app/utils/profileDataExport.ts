@@ -4,6 +4,7 @@ type ProfileDataExportPayload = {
   evo: Record<string, EvoRecord[]>
   pearpal: Record<string, PearpalTrackerItem[]>
   wardrobe: WardrobeData
+  bannerWishlist?: BannerWishlistData
   profile?: {
     label: string
   }
@@ -22,6 +23,7 @@ export const createProfileDataExportPayload = ({
   evo,
   pearpal,
   wardrobe,
+  bannerWishlist,
   profile,
 }: {
   pulls: Record<number, PullRecord[]>
@@ -29,6 +31,7 @@ export const createProfileDataExportPayload = ({
   evo: Record<number, EvoRecord[]>
   pearpal: Record<number, PearpalTrackerItem[]>
   wardrobe: WardrobeData
+  bannerWishlist?: BannerWishlistData | null
   profile?: {
     label: string
   }
@@ -49,7 +52,8 @@ export const createProfileDataExportPayload = ({
     Object.keys(filteredEdits).length === 0 &&
     Object.keys(filteredEvo).length === 0 &&
     Object.keys(filteredPearpal).length === 0 &&
-    !hasWardrobeData
+    !hasWardrobeData &&
+    !bannerWishlist
   ) {
     return null
   }
@@ -60,6 +64,9 @@ export const createProfileDataExportPayload = ({
     evo: filteredEvo,
     pearpal: filteredPearpal,
     wardrobe,
+    ...(bannerWishlist
+      ? { bannerWishlist: normalizeBannerWishlist(bannerWishlist) }
+      : {}),
     ...(profile ? { profile } : {}),
   }
 }

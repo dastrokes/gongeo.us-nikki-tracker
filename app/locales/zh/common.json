@@ -724,6 +724,8 @@
     }
   },
   "banner": {
+    "all_banners": "所有卡池",
+    "browse": "浏览卡池",
     "version": "版本",
     "reruns": "复刻",
     "luck": {
@@ -746,6 +748,15 @@
     },
     "deep_echoes": "深海回响",
     "not_found": "卡池未找到"
+  },
+  "wishlist": {
+    "title": "心愿单",
+    "filter": "心愿单 ({count})",
+    "add": "加入心愿单",
+    "remove": "移出心愿单",
+    "empty": "心愿单是空的。点击爱心添加卡池。",
+    "no_matches": "心愿单中没有符合这些筛选条件的卡池。",
+    "error": "无法访问心愿单，请重试。"
   },
   "global": {
     "stats": {

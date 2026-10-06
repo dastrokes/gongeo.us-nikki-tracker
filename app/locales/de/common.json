@@ -724,6 +724,8 @@
     }
   },
   "banner": {
+    "all_banners": "Alle Banner",
+    "browse": "Banner ansehen",
     "version": "Version",
     "reruns": "Wiederholungen",
     "luck": {
@@ -746,6 +748,15 @@
     },
     "deep_echoes": "Echos aus der Tiefe",
     "not_found": "Banner nicht gefunden"
+  },
+  "wishlist": {
+    "title": "Wunschliste",
+    "filter": "Wunschliste ({count})",
+    "add": "Zur Wunschliste hinzufügen",
+    "remove": "Von der Wunschliste entfernen",
+    "empty": "Deine Wunschliste ist leer. Tippe auf ein Herz, um ein Banner hinzuzufügen.",
+    "no_matches": "Keine Banner auf deiner Wunschliste passen zu diesen Filtern.",
+    "error": "Auf deine Wunschliste konnte nicht zugegriffen werden. Bitte versuche es erneut."
   },
   "global": {
     "stats": {

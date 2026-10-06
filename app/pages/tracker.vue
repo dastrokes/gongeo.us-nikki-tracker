@@ -1007,7 +1007,7 @@
   const localePath = useLocalePath()
   const { getImageSrc } = imageProvider()
   const { initFromIndexedDB } = usePullStoreData()
-  const { loadData } = useIndexedDB()
+  const { loadData, loadWardrobe, loadBannerWishlist } = useIndexedDB()
   const { activeSlot, slots } = useProfileSlots()
 
   const loading = ref(true)
@@ -1355,16 +1355,17 @@
     showPopover.value = false
 
     try {
+      const slot = activeSlot.value
       const {
         pulls: rawPullData,
         edits: rawEditData,
         evo: evoData,
         pearpal: rawPearpalData,
-      } = await loadData()
-      const { loadWardrobe } = useIndexedDB()
-      const wardrobe = await loadWardrobe()
+      } = await loadData(slot)
+      const wardrobe = await loadWardrobe(slot)
+      const bannerWishlist = await loadBannerWishlist(slot)
 
-      const slotIndex = activeSlot.value - 1
+      const slotIndex = slot - 1
       const slotData = slots.value[slotIndex]
       const trimmedLabel = slotData?.label?.trim()
       const profile =
@@ -1375,6 +1376,7 @@
         evo: evoData,
         pearpal: rawPearpalData,
         wardrobe,
+        bannerWishlist,
         profile,
       })
 
@@ -1389,7 +1391,7 @@
 
       // Create a link element and trigger download
       const link = document.createElement('a')
-      link.download = getProfileDataExportFileName(activeSlot.value)
+      link.download = getProfileDataExportFileName(slot)
       link.href = URL.createObjectURL(blob)
       link.click()
 

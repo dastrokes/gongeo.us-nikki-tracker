@@ -23,6 +23,22 @@
               @update:value="handleTierModeChange"
             />
 
+            <n-button
+              v-if="mode === 'banners'"
+              size="small"
+              :type="wishlistOnly ? 'primary' : 'default'"
+              :aria-pressed="wishlistOnly"
+              @click="wishlistOnly = !wishlistOnly"
+            >
+              <template #icon>
+                <n-icon>
+                  <Heart v-if="wishlistOnly" />
+                  <HeartRegular v-else />
+                </n-icon>
+              </template>
+              {{ t('wishlist.title') }}
+            </n-button>
+
             <n-select
               v-if="supportsWardrobeFilter"
               v-model:value="wardrobeFilter"
@@ -1118,6 +1134,8 @@
     CalendarAlt,
     Download,
     ExternalLinkAlt,
+    Heart,
+    HeartRegular,
     ListAlt,
     PaintBrush,
     PaperPlane,
@@ -1239,6 +1257,13 @@
   const message = useMessage()
   const { getImageSrc } = imageProvider()
   const { loadTierlist, saveTierlist, deleteTierlist } = useTierIndexedDB()
+  const { activeSlot } = useProfileSlots()
+  const {
+    savedBannerIds,
+    ready: wishlistReady,
+    error: wishlistError,
+    init: initWishlist,
+  } = useBannerWishlist()
   const {
     voterFingerprint,
     isFingerprintInitialized,
@@ -1533,6 +1558,9 @@
 
   const initialMode = resolveMode(route.query.mode?.toString() ?? null)
   const mode = ref<TierMode>(initialMode)
+  const wishlistOnly = ref(
+    initialMode === 'banners' && route.query.wishlist === '1'
+  )
   const variationFilter = ref<CatalogVariationFilter>(
     supportsTierModeVariationFilter(initialMode)
       ? resolveVariationFilter(
@@ -1797,6 +1825,7 @@
     }
 
     wardrobeFilter.value = resolveWardrobeFilter(wardrobeFilter.value, nextMode)
+    if (nextMode !== 'banners') wishlistOnly.value = false
 
     mode.value = nextMode
     obtainFilter.value = resolveObtain(obtainFilter.value)
@@ -1808,7 +1837,11 @@
 
   const hasFilters = computed(() => {
     if (mode.value === 'banners') {
-      return bannerQualityFilter.value !== null || versionFilter.value !== null
+      return (
+        wishlistOnly.value ||
+        bannerQualityFilter.value !== null ||
+        versionFilter.value !== null
+      )
     }
 
     return (
@@ -2020,6 +2053,8 @@
     if (mode.value === 'banners') {
       return Object.values(BANNER_DATA).some((banner) => {
         if (banner.bannerType === 1) return false
+        if (wishlistOnly.value && !savedBannerIds.value.has(banner.bannerId))
+          return false
         const quality = banner.bannerType === 3 ? 4 : 5
         const version = banner.runs[0]?.version
         return filter === 'quality'
@@ -2410,6 +2445,10 @@
     }
 
     if (mode.value === 'banners') {
+      if (wishlistOnly.value) {
+        query.wishlist = '1'
+      }
+
       if (bannerQualityFilter.value !== null) {
         query.quality = bannerQualityFilter.value
       }
@@ -2520,8 +2559,16 @@
   }
 
   watch(
+    () => route.query.wishlist,
+    (value) => {
+      wishlistOnly.value = mode.value === 'banners' && value === '1'
+    }
+  )
+
+  watch(
     [
       mode,
+      wishlistOnly,
       qualityFilter,
       itemTypeFilter,
       itemCategoryFilter,
@@ -2571,8 +2618,15 @@
   }
 
   const loadBannerEntries = async (): Promise<TierDataPayload> => {
+    if (wishlistOnly.value) {
+      await initWishlist()
+      if (wishlistError.value) throw wishlistError.value
+    }
+
     let banners = Object.values(BANNER_DATA).filter(
-      (banner) => banner.bannerType !== 1
+      (banner) =>
+        banner.bannerType !== 1 &&
+        (!wishlistOnly.value || savedBannerIds.value.has(banner.bannerId))
     )
 
     if (bannerQualityFilter.value !== null) {
@@ -2871,8 +2925,11 @@
     const wardrobeVersion = isWardrobeFiltered.value
       ? wardrobeMutationVersion.value
       : 'all'
+    const wishlistVersion = wishlistOnly.value
+      ? `:wishlist${activeSlot.value}:${wishlistReady.value}:${[...savedBannerIds.value].sort((a, b) => a - b).join(',')}`
+      : ''
 
-    return `tier-data:${locale.value}:${serialized}:region${activeRegionScope.value}:wardrobe${wardrobeVersion}:limit${TIER_ENTRY_LIMIT}`
+    return `tier-data:${locale.value}:${serialized}:region${activeRegionScope.value}:wardrobe${wardrobeVersion}${wishlistVersion}:limit${TIER_ENTRY_LIMIT}`
   })
 
   const {
@@ -3131,6 +3188,7 @@
       !isOverLimit.value &&
       (requestStatus.value === 'idle' ||
         requestStatus.value === 'pending' ||
+        (wishlistOnly.value && !wishlistReady.value) ||
         !hasHydratedBoard.value ||
         hydratingBoard.value)
   )
@@ -3505,17 +3563,19 @@
   }
 
   const communityScope = computed(() =>
-    resolveCommunityScopeFromTierlistFilters({
-      mode: mode.value,
-      bannerQualityFilter: bannerQualityFilter.value,
-      qualityFilter: qualityFilter.value,
-      itemTypeFilter: itemTypeFilter.value,
-      versionFilter: versionFilter.value,
-      styleFilter: styleFilter.value,
-      labelFilter: effectiveLabelFilter.value,
-      obtainFilter: obtainFilter.value,
-      sourceDetailFilter: sourceDetailFilter.value,
-    })
+    wishlistOnly.value
+      ? null
+      : resolveCommunityScopeFromTierlistFilters({
+          mode: mode.value,
+          bannerQualityFilter: bannerQualityFilter.value,
+          qualityFilter: qualityFilter.value,
+          itemTypeFilter: itemTypeFilter.value,
+          versionFilter: versionFilter.value,
+          styleFilter: styleFilter.value,
+          labelFilter: effectiveLabelFilter.value,
+          obtainFilter: obtainFilter.value,
+          sourceDetailFilter: sourceDetailFilter.value,
+        })
   )
 
   const isCommunityScopeEligible = computed(() => communityScope.value !== null)
@@ -3645,7 +3705,8 @@
       .map(([key, value]) => `${key}=${value}`)
       .join('&')
 
-    return `${TIERLIST_STORAGE_PREFIX}:${serialized}`
+    const profileScope = wishlistOnly.value ? `:slot${activeSlot.value}` : ''
+    return `${TIERLIST_STORAGE_PREFIX}:${serialized}${profileScope}`
   })
 
   const saveBoard = async (options: { markModified?: boolean } = {}) => {
@@ -4119,6 +4180,7 @@
   }
 
   const clearFilters = () => {
+    wishlistOnly.value = false
     qualityFilter.value = null
     updateItemTypeFilter(null)
     itemCategoryFilter.value = null
@@ -4167,13 +4229,21 @@
     )
 
     watch(
-      [entries, requestStatus, isOverLimit, error, tierlistStorageKey],
+      [
+        entries,
+        requestStatus,
+        isOverLimit,
+        error,
+        tierlistStorageKey,
+        wishlistReady,
+      ],
       () => {
         if (
           requestStatus.value === 'idle' ||
           requestStatus.value === 'pending' ||
           isOverLimit.value ||
-          error.value
+          error.value ||
+          (wishlistOnly.value && !wishlistReady.value)
         )
           return
         void hydrateBoard()

@@ -213,6 +213,17 @@
                 </n-button>
               </template>
             </div>
+            <NuxtLinkLocale
+              v-if="slot.exists && activeSlot === index + 1"
+              :to="{ path: '/banners', query: { wishlist: '1' } }"
+              class="mt-3 flex items-center justify-between gap-2 border-t border-slate-200 pt-3 text-sm font-medium text-rose-600 focus-visible:outline-2 focus-visible:outline-offset-2 dark:border-slate-700 dark:text-rose-300"
+            >
+              <span class="inline-flex items-center gap-2"
+                ><n-icon><HeartRegular /></n-icon
+                >{{ t('wishlist.filter', { count: wishCount }) }}</span
+              >
+              <n-icon><ChevronRight /></n-icon>
+            </NuxtLinkLocale>
           </n-card>
         </div>
 
@@ -288,6 +299,8 @@
 <script setup lang="ts">
   import { NAlert, NInput } from 'naive-ui'
   import {
+    ChevronRight,
+    HeartRegular,
     CheckCircle,
     Cloud,
     Clock,
@@ -311,7 +324,9 @@
   const userStore = useUserStore()
   const pullStore = usePullStore()
   const { resetToDefaults } = useTrackerSettings()
-  const { clearSlotData, loadData, loadWardrobe } = useIndexedDB()
+  const { clearSlotData, loadData, loadWardrobe, loadBannerWishlist } =
+    useIndexedDB()
+  const { count: wishCount, data: wishlistData } = useBannerWishlist()
   const { user, initialized } = useAuth()
   const { uploadData, syncData, clearCloudData, getRemoteSlotsWithData } =
     useDataSync()
@@ -440,6 +455,7 @@
   type ProfileUploadDataState = {
     hasResonanceData: boolean
     hasWardrobeData: boolean
+    hasWishlistData: boolean
   }
 
   const hasResonanceBackupData = (data: {
@@ -464,7 +480,7 @@
     )
 
   const hasProfileBackupData = (state: ProfileUploadDataState): boolean =>
-    state.hasResonanceData || state.hasWardrobeData
+    state.hasResonanceData || state.hasWardrobeData || state.hasWishlistData
 
   const getProfileUploadWarningKeys = (state: ProfileUploadDataState) => {
     const warnings: string[] = []
@@ -506,9 +522,11 @@
   ): Promise<ProfileUploadDataState> => {
     const data = await loadData(slot)
     const wardrobe = await loadWardrobe(slot)
+    const bannerWishlist = await loadBannerWishlist(slot)
     return {
       hasResonanceData: hasResonanceBackupData(data),
       hasWardrobeData: hasWardrobeBackupData(wardrobe),
+      hasWishlistData: bannerWishlist !== null,
     }
   }
 
@@ -989,6 +1007,8 @@
       )
     }
   }
+
+  watch(wishlistData, refreshLocalStatus)
 
   watch(
     [user, initialized],

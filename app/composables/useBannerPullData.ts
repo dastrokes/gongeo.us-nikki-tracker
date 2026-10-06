@@ -14,6 +14,7 @@ export const useBannerPullData = () => {
           evo?: Record<number, EvoRecord[]>
           pearpal?: Record<number, PearpalTrackerItem[]>
           wardrobe?: WardrobeData
+          bannerWishlist?: BannerWishlistData
         }
   ) => {
     const {
@@ -23,13 +24,20 @@ export const useBannerPullData = () => {
       mergeEditData,
       savePearpalData,
       saveWardrobe,
+      saveBannerWishlist,
     } = useIndexedDB()
+    const { activeSlot } = useProfileSlots()
+    const slot = activeSlot.value
+    const importedWishlist =
+      'bannerWishlist' in jsonData
+        ? normalizeBannerWishlist(jsonData.bannerWishlist)
+        : undefined
     const {
       pulls: existingPullData,
       edits: existingEditData,
       evo: existingEvoData,
       pearpal: existingPearpalData,
-    } = await loadData()
+    } = await loadData(slot)
 
     // Handle the new export format that can include pulls, edits, evo, and pearpal
     let pullsData: Record<number, PullRecord[]>
@@ -42,7 +50,8 @@ export const useBannerPullData = () => {
       'edits' in jsonData ||
       'evo' in jsonData ||
       'pearpal' in jsonData ||
-      'wardrobe' in jsonData
+      'wardrobe' in jsonData ||
+      'bannerWishlist' in jsonData
     ) {
       // New format: { pulls: {...}, edits: {...}, evo: {...}, pearpal: {...}, wardrobe: {...} }
       pullsData =
@@ -67,8 +76,13 @@ export const useBannerPullData = () => {
     const mergedPearpalData = { ...existingPearpalData, ...pearpalData }
 
     // Save all data, including pearpal if present
-    await saveData(mergedPullsData, mergedEditsData, mergedEvoData)
-    await savePearpalData(mergedPearpalData)
+    await saveData(mergedPullsData, mergedEditsData, mergedEvoData, slot)
+    await savePearpalData(mergedPearpalData, slot)
+    if (importedWishlist !== undefined) {
+      await saveBannerWishlist(importedWishlist, slot)
+      if (slot === activeSlot.value)
+        await useBannerWishlist().init({ force: true })
+    }
 
     if (
       'wardrobe' in jsonData &&
@@ -77,7 +91,8 @@ export const useBannerPullData = () => {
       await saveWardrobe(
         normalizeWardrobeData(
           (jsonData as { wardrobe?: WardrobeData }).wardrobe
-        )
+        ),
+        slot
       )
       await useWardrobe().init({ force: true })
     }

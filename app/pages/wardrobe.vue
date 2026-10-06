@@ -1648,7 +1648,7 @@
   } = useWardrobeSettings()
 
   const catalogIndex = useCatalogIndex()
-  const { loadData, loadWardrobe } = useIndexedDB()
+  const { loadData, loadWardrobe, loadBannerWishlist } = useIndexedDB()
   const { processJsonImport } = useBannerPullData()
   const { getImageSrc } = imageProvider()
   const breakpoints = useBreakpoints(breakpointsTailwind)
@@ -2881,14 +2881,16 @@
     message.info(t('wardrobe.export.in_progress'))
 
     try {
+      const slot = activeSlot.value
       const {
         pulls: rawPullData,
         edits: rawEditData,
         evo: evoData,
         pearpal: rawPearpalData,
-      } = await loadData(activeSlot.value)
-      const wardrobe = await loadWardrobe(activeSlot.value)
-      const slotIndex = activeSlot.value - 1
+      } = await loadData(slot)
+      const wardrobe = await loadWardrobe(slot)
+      const bannerWishlist = await loadBannerWishlist(slot)
+      const slotIndex = slot - 1
       const slotData = slots.value[slotIndex]
       const trimmedLabel = slotData?.label?.trim()
       const profile =
@@ -2899,6 +2901,7 @@
         evo: evoData,
         pearpal: rawPearpalData,
         wardrobe,
+        bannerWishlist,
         profile,
       })
 
@@ -2911,7 +2914,7 @@
         type: 'application/json',
       })
       const link = document.createElement('a')
-      link.download = getProfileDataExportFileName(activeSlot.value)
+      link.download = getProfileDataExportFileName(slot)
       link.href = URL.createObjectURL(blob)
       link.click()
       URL.revokeObjectURL(link.href)

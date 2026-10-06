@@ -724,6 +724,8 @@
     }
   },
   "banner": {
+    "all_banners": "Tutti i banner",
+    "browse": "Sfoglia i banner",
     "version": "Versione",
     "reruns": "Repliche",
     "luck": {
@@ -746,6 +748,15 @@
     },
     "deep_echoes": "Echi profondi",
     "not_found": "Banner non trovato"
+  },
+  "wishlist": {
+    "title": "Lista dei desideri",
+    "filter": "Lista dei desideri ({count})",
+    "add": "Aggiungi alla lista dei desideri",
+    "remove": "Rimuovi dalla lista dei desideri",
+    "empty": "La tua lista dei desideri è vuota. Tocca un cuore per aggiungere un banner.",
+    "no_matches": "Nessun banner nella tua lista dei desideri corrisponde a questi filtri.",
+    "error": "Impossibile accedere alla tua lista dei desideri. Riprova."
   },
   "global": {
     "stats": {

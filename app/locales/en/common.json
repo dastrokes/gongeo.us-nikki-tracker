@@ -724,6 +724,8 @@
     }
   },
   "banner": {
+    "all_banners": "All banners",
+    "browse": "Browse banners",
     "version": "Version",
     "reruns": "Reruns",
     "luck": {
@@ -746,6 +748,15 @@
     },
     "deep_echoes": "Deep Echoes",
     "not_found": "Banner not found"
+  },
+  "wishlist": {
+    "title": "Wish list",
+    "filter": "Wish list ({count})",
+    "add": "Add to wish list",
+    "remove": "Remove from wish list",
+    "empty": "Your wish list is empty. Tap a heart to add a banner.",
+    "no_matches": "No banners in your wish list match these filters.",
+    "error": "Could not access your wish list. Please try again."
   },
   "global": {
     "stats": {

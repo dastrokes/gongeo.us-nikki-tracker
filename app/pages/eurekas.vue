@@ -474,7 +474,7 @@
   const { activeSlot, slots, getSlotLabel } = useProfileSlots()
   const catalog = useEurekaCatalog()
   const wardrobe = useWardrobe()
-  const { loadData, loadWardrobe } = useIndexedDB()
+  const { loadData, loadWardrobe, loadBannerWishlist } = useIndexedDB()
   const { processJsonImport } = useBannerPullData()
 
   const editMode = ref(false)
@@ -780,14 +780,16 @@
     message.info(t('wardrobe.export.in_progress'))
 
     try {
+      const slot = activeSlot.value
       const {
         pulls: rawPullData,
         edits: rawEditData,
         evo: evoData,
         pearpal: rawPearpalData,
-      } = await loadData(activeSlot.value)
-      const wardrobeData = await loadWardrobe(activeSlot.value)
-      const slotData = slots.value[activeSlot.value - 1]
+      } = await loadData(slot)
+      const wardrobeData = await loadWardrobe(slot)
+      const bannerWishlist = await loadBannerWishlist(slot)
+      const slotData = slots.value[slot - 1]
       const trimmedLabel = slotData?.label?.trim()
       const profile =
         slotData?.exists && trimmedLabel ? { label: trimmedLabel } : undefined
@@ -797,6 +799,7 @@
         evo: evoData,
         pearpal: rawPearpalData,
         wardrobe: wardrobeData,
+        bannerWishlist,
         profile,
       })
 
@@ -809,7 +812,7 @@
         type: 'application/json',
       })
       const link = document.createElement('a')
-      link.download = getProfileDataExportFileName(activeSlot.value)
+      link.download = getProfileDataExportFileName(slot)
       link.href = URL.createObjectURL(blob)
       link.click()
       URL.revokeObjectURL(link.href)

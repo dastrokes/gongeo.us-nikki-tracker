@@ -162,7 +162,7 @@ Use radius as a hierarchy, not a single universal value:
 - Labels and current values must remain legible without relying on placeholder text.
 - Disabled controls need a visible disabled treatment while preserving readable labels.
 - Selected filters must use more than a pastel fill alone.
-- Desktop filters may be dense; on small screens, preserve touch targets and move secondary filters into a drawer.
+- Desktop filters may be dense; on small screens, keep primary filters visible and move secondary filters into a drawer.
 
 ### Tags, Badges, and Status
 
@@ -193,7 +193,7 @@ Use radius as a hierarchy, not a single universal value:
 
 - Preserve the primary task before secondary controls as space decreases.
 - Reflow multi-column panels without horizontal page scrolling.
-- Keep interactive targets at least 44×44px on touch layouts unless an equivalent larger target surrounds the visible control.
+- Keep control sizing consistent with the existing component styles.
 - Catalog density may decrease at small breakpoints, but names, rarity, and ownership status must remain available.
 - Test at 200% browser zoom and narrow mobile widths for reflow, clipping, and sticky-header overlap.
 

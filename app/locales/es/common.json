@@ -724,6 +724,8 @@
     }
   },
   "banner": {
+    "all_banners": "Todos los banners",
+    "browse": "Ver banners",
     "version": "Versión",
     "reruns": "Reapariciones",
     "luck": {
@@ -746,6 +748,15 @@
     },
     "deep_echoes": "Ecos profundos",
     "not_found": "Banner no encontrado"
+  },
+  "wishlist": {
+    "title": "Lista de deseos",
+    "filter": "Lista de deseos ({count})",
+    "add": "Añadir a la lista de deseos",
+    "remove": "Quitar de la lista de deseos",
+    "empty": "Tu lista de deseos está vacía. Toca un corazón para añadir un banner.",
+    "no_matches": "Ningún banner de tu lista de deseos coincide con estos filtros.",
+    "error": "No se pudo acceder a tu lista de deseos. Inténtalo de nuevo."
   },
   "global": {
     "stats": {

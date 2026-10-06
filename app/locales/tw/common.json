@@ -724,6 +724,8 @@
     }
   },
   "banner": {
+    "all_banners": "所有卡池",
+    "browse": "瀏覽卡池",
     "version": "版本",
     "reruns": "復刻",
     "luck": {
@@ -746,6 +748,15 @@
     },
     "deep_echoes": "深海迴響",
     "not_found": "卡池未找到"
+  },
+  "wishlist": {
+    "title": "願望清單",
+    "filter": "願望清單 ({count})",
+    "add": "加入願望清單",
+    "remove": "移出願望清單",
+    "empty": "願望清單是空的。點擊愛心加入卡池。",
+    "no_matches": "願望清單中沒有符合這些篩選條件的卡池。",
+    "error": "無法存取願望清單，請再試一次。"
   },
   "global": {
     "stats": {

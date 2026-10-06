@@ -724,6 +724,8 @@
     }
   },
   "banner": {
+    "all_banners": "Toutes les bannières",
+    "browse": "Voir les bannières",
     "version": "Version",
     "reruns": "Rééditions",
     "luck": {
@@ -746,6 +748,15 @@
     },
     "deep_echoes": "Échos profonds",
     "not_found": "Bannière introuvable"
+  },
+  "wishlist": {
+    "title": "Liste de souhaits",
+    "filter": "Liste de souhaits ({count})",
+    "add": "Ajouter à la liste de souhaits",
+    "remove": "Retirer de la liste de souhaits",
+    "empty": "Votre liste de souhaits est vide. Touchez un cœur pour ajouter une bannière.",
+    "no_matches": "Aucune bannière de votre liste de souhaits ne correspond à ces filtres.",
+    "error": "Impossible d’accéder à votre liste de souhaits. Veuillez réessayer."
   },
   "global": {
     "stats": {

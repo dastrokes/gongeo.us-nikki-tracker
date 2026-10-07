@@ -404,6 +404,9 @@ export default defineNuxtConfig({
 
   nitro: {
     preset: 'netlify',
+    externals: {
+      inline: ['nuxt/internal/'],
+    },
     future: {
       nativeSWR: true,
     },

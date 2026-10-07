@@ -483,9 +483,10 @@
     },
     "waistline": {
       "basque_waist": "巴斯克腰线",
-      "empire_waist": "高腰线",
+      "empire_waist": "帝政腰线",
       "natural_waist": "自然腰线",
       "no_waist": "无腰线",
+      "raised_waist": "高腰线",
       "wrap_waist": "裹身腰线"
     },
     "category": {

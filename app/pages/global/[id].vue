@@ -1,6 +1,6 @@
 <template>
   <div class="mx-auto max-w-7xl space-y-2 sm:space-y-4">
-    <template v-if="status === 'pending'">
+    <template v-if="banner && (status === 'idle' || status === 'pending')">
       <n-card
         size="small"
         class="rounded-xl"
@@ -598,6 +598,7 @@
         : Promise.resolve(null),
     {
       default: () => null,
+      server: false,
       watch: [bannerId],
     }
   )

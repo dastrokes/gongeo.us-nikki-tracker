@@ -20,6 +20,12 @@ Read this guide for server endpoints, caching, locale resolution, Supabase, SQL,
 - Put pure logic used by both runtimes in `shared/`; do not import a client composable into a server handler for its validation helpers or constants.
 - When adding a dependency to server-loaded code, inspect its import chain and explicitly import frontend helpers where they are used. Frontend auto-import declarations and a passing type check do not prove a dependency exists in Nitro at runtime.
 
+## Public data API requests
+
+- Keep public data API reads in the browser (`useAsyncData` with `server: false`, a client guard, or a browser event) unless production server access has been verified. Upstream access rules can reject SSR requests even when browser requests and local development succeed.
+- When direct visits or refreshes fail but client-side navigation works, inspect the serialized SSR error and compare server and browser requests. Distinguish an upstream API failure from a challenge blocking the page itself.
+- Deferred `useAsyncData` requests start with `status === 'idle'` during SSR and hydration. Show the loading state for both `idle` and `pending` on valid resources, while preserving the not-found state for invalid routes.
+
 ## Supabase clients
 
 - App/client code uses `useSupabaseClient` from `app/composables/useSupabaseClient.ts`.

@@ -1,5 +1,8 @@
 <template>
-  <div class="mx-auto max-w-7xl space-y-2 sm:space-y-4">
+  <div
+    ref="pageRef"
+    class="mx-auto max-w-7xl space-y-2 sm:space-y-4"
+  >
     <!-- Loading State -->
     <template v-if="loading">
       <n-card
@@ -37,22 +40,22 @@
       >
         <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
           <!-- Pulls per Banner Chart Skeleton -->
-          <n-card
+          <StatsChartPanel
             size="small"
             class="col-span-1 md:col-span-3"
+            :title="t('global.charts.pulls_per_banner')"
+            loading
+            height-class="h-[var(--pulls-per-banner-height)] sm:h-80"
+            :style="{ '--pulls-per-banner-height': pullsPerBannerChartHeight }"
           >
-            <div class="mb-4 flex items-center justify-center">
+            <template #controls>
               <n-skeleton
-                height="24px"
-                width="160px"
+                height="32px"
+                width="180px"
               />
-              <n-skeleton
-                height="24px"
-                width="24px"
-              />
-            </div>
-            <n-skeleton height="280px" />
-          </n-card>
+            </template>
+            <n-skeleton height="100%" />
+          </StatsChartPanel>
         </div>
       </n-card>
       <n-card
@@ -62,23 +65,19 @@
       >
         <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
           <!-- Distribution Charts Skeleton -->
-          <n-card
-            v-for="i in 3"
-            :key="i"
-            size="small"
+          <StatsChartPanel
+            v-for="title in [
+              'global.charts.five_star_distribution',
+              'global.charts.four_star_type2_distribution',
+              'global.charts.four_star_type3_distribution',
+            ]"
+            :key="title"
+            :title="t(title)"
+            loading
+            height-class="h-56"
           >
-            <div class="mb-4 flex items-center justify-between">
-              <n-skeleton
-                height="24px"
-                width="160px"
-              />
-              <n-skeleton
-                height="24px"
-                width="24px"
-              />
-            </div>
-            <n-skeleton height="160px" />
-          </n-card>
+            <n-skeleton height="100%" />
+          </StatsChartPanel>
         </div>
       </n-card>
       <n-card
@@ -86,27 +85,30 @@
         class="rounded-xl"
         content-class="p-2 sm:p-4"
       >
-        <n-card size="small">
-          <div class="mb-4 flex items-center justify-between gap-2">
+        <StatsChartPanel
+          :title="t('global.charts.first_item_distribution')"
+          loading
+          height-class="h-[var(--item-distribution-height)] sm:h-[280px]"
+          :style="{
+            '--item-distribution-height': firstItemDistributionChartHeight,
+          }"
+        >
+          <template #title-actions>
             <n-skeleton
-              height="24px"
-              width="160px"
+              v-for="i in 2"
+              :key="i"
+              height="16px"
+              width="16px"
             />
-            <div class="flex items-center gap-2">
-              <n-skeleton
-                height="24px"
-                width="160px"
-              />
-              <n-skeleton
-                height="24px"
-                width="24px"
-              />
-            </div>
-          </div>
-          <n-skeleton
-            :height="`calc(${firstItemDistributionChartHeight} - 40px)`"
-          />
-        </n-card>
+          </template>
+          <template #controls>
+            <n-skeleton
+              height="32px"
+              class="min-w-0 flex-1 @3xl:max-w-56"
+            />
+          </template>
+          <n-skeleton height="100%" />
+        </StatsChartPanel>
       </n-card>
     </template>
 
@@ -234,20 +236,16 @@
         content-class="p-2 sm:p-4"
       >
         <!-- Pulls per Banner Chart -->
-        <n-card
-          size="small"
-          class="transition-all duration-300"
-          :class="{ 'col-span-1 sm:col-span-3': true }"
+        <StatsChartPanel
+          v-show="!maximizedChart || maximizedChart === 'pullsPerBanner'"
+          :maximized="maximizedChart === 'pullsPerBanner'"
+          :title="t('global.charts.pulls_per_banner')"
+          height-class="h-[var(--pulls-per-banner-height)] sm:h-80"
+          :style="{ '--pulls-per-banner-height': pullsPerBannerChartHeight }"
+          @toggle="toggleMaximize('pullsPerBanner')"
         >
-          <div
-            class="transition-all duration-300"
-            :class="{
-              'h-[calc(100vh-116px)] sm:h-[calc(100vh-148px)]':
-                maximizedChart === 'pullsPerBanner',
-              'h-80': maximizedChart !== 'pullsPerBanner',
-            }"
-          >
-            <div class="absolute top-2 right-12 z-10 flex items-center gap-2">
+          <template #controls>
+            <div class="flex min-w-0 flex-wrap items-center gap-2">
               <n-switch
                 v-model:value="showAllBanners"
                 @update:value="updatePullsPerBannerChart"
@@ -293,7 +291,9 @@
                 >
                   <span class="flex items-center gap-1">
                     5
-                    <n-icon><Star /></n-icon>
+                    <n-icon>
+                      <Star />
+                    </n-icon>
                   </span>
                 </n-button>
                 <n-button
@@ -304,39 +304,20 @@
                 >
                   <span class="flex items-center gap-1">
                     4
-                    <n-icon><Star /></n-icon>
+                    <n-icon>
+                      <Star />
+                    </n-icon>
                   </span>
                 </n-button>
               </n-button-group>
             </div>
-            <n-button
-              size="tiny"
-              text
-              class="absolute top-4 right-4 z-10"
-              :type="
-                maximizedChart === 'pullsPerBanner' ? 'primary' : 'default'
-              "
-              @click="toggleMaximize('pullsPerBanner')"
-            >
-              <template #icon>
-                <n-icon :depth="3">
-                  <component
-                    :is="
-                      maximizedChart === 'pullsPerBanner'
-                        ? CompressAlt
-                        : ExpandAlt
-                    "
-                  />
-                </n-icon>
-              </template>
-            </n-button>
-            <StatsChart
-              id="pullsPerBannerChart"
-              ref="pullsPerBannerChart"
-              :option="pullsPerBannerChartOption"
-            />
-          </div>
-        </n-card>
+          </template>
+          <StatsChart
+            id="pullsPerBannerChart"
+            :compact-tooltip="isMobile"
+            :option="pullsPerBannerChartOption"
+          />
+        </StatsChartPanel>
       </n-card>
 
       <n-card
@@ -352,134 +333,49 @@
         :class="{ 'mt-0 mb-0': Boolean(maximizedChart) }"
       >
         <!-- 5★ Distribution Chart -->
-        <n-card
+        <StatsChartPanel
           v-show="!maximizedChart || maximizedChart === 'fiveStar'"
-          size="small"
-          class="transition-all duration-300"
-          :class="{
-            'col-span-1 sm:col-span-3': maximizedChart === 'fiveStar',
-          }"
+          :maximized="maximizedChart === 'fiveStar'"
+          :title="t('global.charts.five_star_distribution')"
+          height-class="h-56"
+          :class="{ 'md:col-span-3': maximizedChart === 'fiveStar' }"
+          @toggle="toggleMaximize('fiveStar')"
         >
-          <div
-            class="transition-all duration-300"
-            :class="{
-              'h-[calc(100vh-116px)] sm:h-[calc(100vh-148px)]':
-                maximizedChart === 'fiveStar',
-              'h-50': maximizedChart !== 'fiveStar',
-            }"
-          >
-            <n-button
-              size="tiny"
-              text
-              class="absolute top-4 right-4 z-10"
-              :type="maximizedChart === 'fiveStar' ? 'primary' : 'default'"
-              @click="toggleMaximize('fiveStar')"
-            >
-              <template #icon>
-                <n-icon :depth="3">
-                  <component
-                    :is="
-                      maximizedChart === 'fiveStar' ? CompressAlt : ExpandAlt
-                    "
-                  />
-                </n-icon>
-              </template>
-            </n-button>
-            <StatsChart
-              id="fiveStarDistributionChart"
-              ref="fiveStarDistributionChart"
-              :option="fiveStarDistributionChartOption"
-            />
-          </div>
-        </n-card>
+          <StatsChart
+            id="fiveStarDistributionChart"
+            :option="fiveStarDistributionChartOption"
+          />
+        </StatsChartPanel>
 
         <!-- 4★ Distribution Type 2 Chart -->
-        <n-card
+        <StatsChartPanel
           v-show="!maximizedChart || maximizedChart === 'fourStarType2'"
-          size="small"
-          class="transition-all duration-300"
-          :class="{
-            'col-span-1 sm:col-span-3': maximizedChart === 'fourStarType2',
-          }"
+          :maximized="maximizedChart === 'fourStarType2'"
+          :title="t('global.charts.four_star_type2_distribution')"
+          height-class="h-56"
+          :class="{ 'md:col-span-3': maximizedChart === 'fourStarType2' }"
+          @toggle="toggleMaximize('fourStarType2')"
         >
-          <div
-            class="transition-all duration-300"
-            :class="{
-              'h-[calc(100vh-116px)] sm:h-[calc(100vh-148px)]':
-                maximizedChart === 'fourStarType2',
-              'h-50': maximizedChart !== 'fourStarType2',
-            }"
-          >
-            <n-button
-              size="tiny"
-              text
-              class="absolute top-4 right-4 z-10"
-              :type="maximizedChart === 'fourStarType2' ? 'primary' : 'default'"
-              @click="toggleMaximize('fourStarType2')"
-            >
-              <template #icon>
-                <n-icon :depth="3">
-                  <component
-                    :is="
-                      maximizedChart === 'fourStarType2'
-                        ? CompressAlt
-                        : ExpandAlt
-                    "
-                  />
-                </n-icon>
-              </template>
-            </n-button>
-            <StatsChart
-              id="fourStarType2Chart"
-              ref="fourStarType2Chart"
-              :option="fourStarType2ChartOption"
-            />
-          </div>
-        </n-card>
+          <StatsChart
+            id="fourStarType2Chart"
+            :option="fourStarType2ChartOption"
+          />
+        </StatsChartPanel>
 
         <!-- 4★ Distribution Type 3 Chart -->
-        <n-card
+        <StatsChartPanel
           v-show="!maximizedChart || maximizedChart === 'fourStarType3'"
-          size="small"
-          class="transition-all duration-300"
-          :class="{
-            'col-span-1 sm:col-span-3': maximizedChart === 'fourStarType3',
-          }"
+          :maximized="maximizedChart === 'fourStarType3'"
+          :title="t('global.charts.four_star_type3_distribution')"
+          height-class="h-56"
+          :class="{ 'md:col-span-3': maximizedChart === 'fourStarType3' }"
+          @toggle="toggleMaximize('fourStarType3')"
         >
-          <div
-            class="transition-all duration-300"
-            :class="{
-              'h-[calc(100vh-116px)] sm:h-[calc(100vh-148px)]':
-                maximizedChart === 'fourStarType3',
-              'h-50': maximizedChart !== 'fourStarType3',
-            }"
-          >
-            <n-button
-              size="tiny"
-              text
-              class="absolute top-4 right-4 z-10"
-              :type="maximizedChart === 'fourStarType3' ? 'primary' : 'default'"
-              @click="toggleMaximize('fourStarType3')"
-            >
-              <template #icon>
-                <n-icon :depth="3">
-                  <component
-                    :is="
-                      maximizedChart === 'fourStarType3'
-                        ? CompressAlt
-                        : ExpandAlt
-                    "
-                  />
-                </n-icon>
-              </template>
-            </n-button>
-            <StatsChart
-              id="fourStarType3Chart"
-              ref="fourStarType3Chart"
-              :option="fourStarType3ChartOption"
-            />
-          </div>
-        </n-card>
+          <StatsChart
+            id="fourStarType3Chart"
+            :option="fourStarType3ChartOption"
+          />
+        </StatsChartPanel>
       </n-card>
 
       <n-card
@@ -490,23 +386,17 @@
         content-class="p-2 sm:p-4"
       >
         <!-- First Item Distribution Chart -->
-        <n-card
-          size="small"
-          class="transition-all duration-300"
-          :class="{ 'col-span-1 sm:col-span-3': true }"
+        <StatsChartPanel
+          v-show="!maximizedChart || maximizedChart === 'firstItemDistribution'"
+          :maximized="maximizedChart === 'firstItemDistribution'"
+          :title="t('global.charts.first_item_distribution')"
+          height-class="h-[var(--item-distribution-height)] sm:h-[280px]"
+          :style="{
+            '--item-distribution-height': firstItemDistributionChartHeight,
+          }"
+          @toggle="toggleMaximize('firstItemDistribution')"
         >
-          <div
-            class="transition-all duration-300"
-            :class="{
-              'h-[calc(100vh-116px)] sm:h-[calc(100vh-148px)]':
-                maximizedChart === 'firstItemDistribution',
-            }"
-            :style="
-              maximizedChart === 'firstItemDistribution'
-                ? undefined
-                : { height: firstItemDistributionChartHeight }
-            "
-          >
+          <template #title-actions>
             <n-tooltip
               v-if="showTooltip"
               :width="200"
@@ -515,7 +405,7 @@
                 <n-button
                   size="tiny"
                   text
-                  class="absolute top-4 left-10 z-10"
+                  class="shrink-0"
                 >
                   <template #icon>
                     <n-icon :depth="3">
@@ -531,7 +421,7 @@
                 <n-button
                   size="tiny"
                   text
-                  class="absolute top-4 left-4 z-10"
+                  class="shrink-0"
                   @click="goToSelectedBannerStats"
                 >
                   <template #icon>
@@ -543,12 +433,14 @@
               </template>
               {{ t('global.banner_stats.title') }}
             </n-tooltip>
+          </template>
+          <template #controls>
             <n-tree-select
               v-model:value="selectedOutfit"
               v-model:expanded-keys="expandedKeys"
               :consistent-menu-width="false"
               :options="firstItemTreeOptions"
-              class="absolute top-2 right-12 z-10 w-40"
+              class="min-w-0 flex-1 @3xl:max-w-56"
               size="small"
               :indent="16"
               :override-default-node-click-behavior="override"
@@ -557,37 +449,13 @@
               @update:show="handleDropdownShow"
               @update:value="updateFirstItemChart"
             />
-
-            <n-button
-              size="tiny"
-              text
-              class="absolute top-4 right-4 z-10"
-              :type="
-                maximizedChart === 'firstItemDistribution'
-                  ? 'primary'
-                  : 'default'
-              "
-              @click="toggleMaximize('firstItemDistribution')"
-            >
-              <template #icon>
-                <n-icon :depth="3">
-                  <component
-                    :is="
-                      maximizedChart === 'firstItemDistribution'
-                        ? CompressAlt
-                        : ExpandAlt
-                    "
-                  />
-                </n-icon>
-              </template>
-            </n-button>
-            <StatsChart
-              id="firstItemDistributionChart"
-              ref="firstItemDistributionChart"
-              :option="firstItemDistributionChartOption"
-            />
-          </div>
-        </n-card>
+          </template>
+          <StatsChart
+            id="firstItemDistributionChart"
+            preload-images
+            :option="firstItemDistributionChartOption"
+          />
+        </StatsChartPanel>
       </n-card>
     </div>
   </div>
@@ -600,8 +468,6 @@
   import { LATEST_BANNER_ID } from '~~/data/config'
   import OUTFIT_DATA, { type OutfitKey } from '~~/data/outfits'
   import {
-    ExpandAlt,
-    CompressAlt,
     ExclamationCircle,
     CalendarDay,
     CalendarAlt,
@@ -655,12 +521,6 @@
   const { getImageSrc } = imageProvider()
   const nuxtImg = useImage()
 
-  // Helper to check if current locale uses CJK characters
-  const isCJKLocale = computed(() => {
-    const cjkLocales = ['zh', 'tw', 'ja', 'ko']
-    return cjkLocales.includes(locale.value)
-  })
-
   useSeoMeta({
     title: () =>
       `${t('navigation.global')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
@@ -679,7 +539,7 @@
     })
 
     watch(
-      [data, () => isMobile.value, () => isDark.value],
+      [data, () => isMobile.value, () => isDark.value, locale],
       () => {
         if (data.value && import.meta.client) {
           initializeCharts()
@@ -752,6 +612,7 @@
 
   const firstItemDistributionChartOption = ref({})
   const pullsPerBannerChartOption = ref({})
+  const pullsPerBannerChartHeight = ref('320px')
   const fiveStarDistributionChartOption = ref({})
   const fourStarType2ChartOption = ref({})
   const fourStarType3ChartOption = ref({})
@@ -762,7 +623,8 @@
       : '280px'
   )
 
-  const maximizedChart = ref<string | null>(null)
+  const pageRef = ref<HTMLElement | null>(null)
+  const { maximizedChart, toggleMaximize } = useStatsChartMaximize(pageRef)
   const selectedOutfit = ref<string | null>(null)
   const storedSelectedScopeValue = useState<string | null>(
     'global-banner-selected-scope',
@@ -1054,10 +916,6 @@
     }
   }
 
-  const toggleMaximize = (chartId: string | null) => {
-    maximizedChart.value = maximizedChart.value === chartId ? null : chartId
-  }
-
   const goToSelectedBannerStats = () => {
     if (!bannerStatsPath.value) return
     const outfitDetails = getSelectedOutfitDetails()
@@ -1128,18 +986,14 @@
 
     const textStyle = getChartTextStyle()
 
+    pullsPerBannerChartHeight.value = getMobileBannerChartHeight(
+      bannerLabels.length,
+      120,
+      28
+    )
     pullsPerBannerChartOption.value = {
       textStyle: textStyle,
-      title: {
-        text: t('global.charts.pulls_per_banner'),
-        left: 'center',
-        top: isMobile.value ? 35 : 0,
-        textStyle: {
-          ...textStyle,
-          fontSize: 16,
-          fontWeight: 'bold',
-        },
-      },
+
       tooltip: {
         trigger: 'axis',
         confine: true,
@@ -1173,7 +1027,7 @@
                   <img
                     src="${imageUrl}"
                     alt="${banner?.bannerId ? t(`banner.${banner.bannerId}.name`) : ''}"
-                    style="width: 200px; height: 100px; object-fit: cover; border-radius: 4px; margin-top: 8px;"
+                    style="width: ${isMobile.value ? 120 : 200}px; height: ${isMobile.value ? 60 : 100}px; object-fit: cover; border-radius: 4px; margin-top: 8px;"
                   />
                 </div>
               `
@@ -1187,58 +1041,91 @@
       },
       legend: {
         textStyle: {
+          ...textStyle,
+          fontFamily: "'Segoe UI Symbol', 'Apple Symbols', sans-serif",
+          fontSize: 12,
           color: isDark.value ? palette.textDark : palette.textLight,
         },
         inactiveColor: isDark.value ? palette.textLight : palette.textDark,
         icon: 'roundRect',
+        itemGap: 16,
         data: ['★★★★★', '★★★★', '★★★'],
-        top: isMobile.value ? 60 : 40,
+        top: 0,
       },
       grid: {
-        top: isMobile.value ? 120 : 80,
-        bottom: 0,
-        left: isMobile.value ? '0%' : '5%',
-        right: 0,
+        top: 40,
+        bottom: 8,
+        left: 8,
+        right: 8,
+        outerBoundsMode: 'same',
+        outerBoundsContain: 'axisLabel',
       },
-      xAxis: {
-        type: 'category',
-        data: bannerLabels,
-        splitLine: {
-          show: false,
-        },
-        axisLabel: {
-          margin: 12,
-          rotate:
-            isMobile.value && !isCJKLocale.value ? 90 : isMobile.value ? 0 : 30,
-          formatter: (value: string) => {
-            // For CJK languages in vertical mode, split characters with newlines
-            if (isMobile.value && isCJKLocale.value) {
-              return value.split('').join('\n')
-            }
-            return value
+      xAxis: isMobile.value
+        ? {
+            type: 'value',
+            show: false,
+            axisLine: { show: false },
+            axisTick: { show: false },
+            splitLine: { show: false },
+          }
+        : {
+            type: 'category',
+            data: bannerLabels,
+            splitLine: {
+              show: false,
+            },
+            axisLabel: {
+              fontSize: 12,
+              width: 160,
+              overflow: 'truncate',
+              hideOverlap: true,
+              margin: 12,
+              rotate: 30,
+              ...textStyle,
+            },
+            axisLine: {
+              show: false,
+            },
+            axisTick: { show: false },
           },
-          ...textStyle,
-        },
-        axisLine: {
-          lineStyle: {
-            color: isDark.value ? palette.textLight : palette.textDark,
+      yAxis: isMobile.value
+        ? {
+            type: 'category',
+            data: bannerLabels,
+            inverse: true,
+            axisLabel: {
+              ...textStyle,
+              fontSize: 12,
+              width: 100,
+              height: 26,
+              lineHeight: 13,
+              overflow: 'truncate',
+              ellipsis: '…',
+              interval: 0,
+              formatter: createBannerChartLabelFormatter(
+                100,
+                textStyle.fontFamily
+              ),
+            },
+            axisLine: { show: false },
+            axisTick: { show: false },
+          }
+        : {
+            type: 'value',
+            show: false,
+            splitLine: {
+              show: false,
+            },
+            axisLabel: {
+              show: false,
+            },
           },
-        },
-      },
-      yAxis: {
-        type: 'value',
-        splitLine: {
-          show: false,
-        },
-        axisLabel: {
-          show: false,
-        },
-      },
       series: [
         {
           name: '★★★★★',
           type: 'bar',
           stack: 'total',
+          barMaxWidth: isMobile.value ? 16 : undefined,
           data: data5Star,
           itemStyle: {
             color: getQualityColor(5) + 'CC',
@@ -1249,6 +1136,7 @@
           name: '★★★★',
           type: 'bar',
           stack: 'total',
+          barMaxWidth: isMobile.value ? 16 : undefined,
           data: data4Star,
           itemStyle: {
             color: getQualityColor(4) + 'CC',
@@ -1259,6 +1147,7 @@
           name: '★★★',
           type: 'bar',
           stack: 'total',
+          barMaxWidth: isMobile.value ? 16 : undefined,
           data: data3Star,
           itemStyle: {
             color: getQualityColor(3) + 'CC',
@@ -1322,21 +1211,7 @@
 
     const chartOption = {
       textStyle: textStyle,
-      title: {
-        text:
-          chartType === 'fiveStar'
-            ? t('global.charts.five_star_distribution')
-            : chartType === 'fourStarType2'
-              ? t('global.charts.four_star_type2_distribution')
-              : t('global.charts.four_star_type3_distribution'),
-        left: 'left',
-        top: 0,
-        textStyle: {
-          ...textStyle,
-          fontSize: 16,
-          fontWeight: 'bold',
-        },
-      },
+
       tooltip: {
         trigger: 'axis',
         confine: true,
@@ -1371,20 +1246,21 @@
         extraCssText: chartTooltipExtraCssText.value,
       },
       grid: {
-        top: 35,
-        bottom: 0,
-        left: 0,
-        right: 0,
+        top: 8,
+        bottom: 24,
+        left: 8,
+        right: 8,
+        outerBoundsMode: 'same',
+        outerBoundsContain: 'axisLabel',
       },
       xAxis: {
         type: 'category',
         data: labels,
         axisLine: {
-          lineStyle: {
-            color: isDark.value ? palette.textLight : palette.textDark,
-          },
+          show: false,
         },
-        axisLabel: textStyle,
+        axisTick: { show: false },
+        axisLabel: { ...textStyle, fontSize: 12, hideOverlap: true },
       },
       yAxis: [
         {
@@ -1588,16 +1464,7 @@
     firstItemDistributionChartOption.value = {
       animationDuration: 500,
       textStyle: textStyle,
-      title: {
-        text: t('global.charts.first_item_distribution'),
-        left: 'center',
-        top: isMobile.value ? 35 : 0,
-        textStyle: {
-          ...textStyle,
-          fontSize: 16,
-          fontWeight: 'bold',
-        },
-      },
+
       tooltip: {
         trigger: 'axis',
         confine: true,
@@ -1632,7 +1499,7 @@
         left: isMobile.value ? 8 : 0,
         right: isMobile.value ? 12 : 0,
         bottom: isMobile.value ? 0 : 12,
-        top: 64,
+        top: 0,
         outerBoundsMode: 'same',
         outerBoundsContain: 'axisLabel',
       },

@@ -126,7 +126,11 @@
               @click="wardrobeSettingsOpen = true"
             >
               <template #icon>
-                <n-icon size="16"><Cog /></n-icon>
+                <n-icon
+                  :depth="3"
+                  size="16"
+                  ><Cog
+                /></n-icon>
               </template>
             </n-button>
           </div>

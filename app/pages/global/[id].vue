@@ -1,5 +1,8 @@
 <template>
-  <div class="mx-auto max-w-7xl space-y-2 sm:space-y-4">
+  <div
+    ref="pageRef"
+    class="mx-auto max-w-7xl space-y-2 sm:space-y-4"
+  >
     <template v-if="banner && (status === 'idle' || status === 'pending')">
       <n-card
         size="small"
@@ -80,8 +83,12 @@
         class="rounded-xl"
         content-class="p-2 sm:p-4"
       >
-        <n-card size="small">
+        <n-card
+          size="small"
+          content-class="p-3 sm:p-4"
+        >
           <div
+            class="flex flex-col gap-3"
             :class="
               i === 1
                 ? 'h-80'
@@ -96,17 +103,39 @@
                 : undefined
             "
           >
-            <div class="mb-4 flex items-center justify-between gap-4">
+            <div
+              class="grid items-center gap-2 lg:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)]"
+              :class="
+                i === 2 ? 'grid-cols-[auto_minmax(0,1fr)]' : 'grid-cols-1'
+              "
+            >
               <n-skeleton
                 height="24px"
-                width="180px"
+                width="220px"
+                class="mx-auto max-w-full lg:col-start-2"
+                :class="{ 'col-span-2 row-start-1 lg:col-span-1': i === 2 }"
               />
               <n-skeleton
-                height="24px"
-                width="160px"
+                v-if="i === 2"
+                height="16px"
+                width="16px"
+                class="col-start-1 row-start-2 lg:row-start-1"
               />
+              <div
+                class="flex items-center justify-end gap-2 lg:col-start-3"
+                :class="{ 'col-start-2 row-start-2 lg:row-start-1': i === 2 }"
+              >
+                <n-skeleton
+                  height="32px"
+                  class="min-w-0 flex-1 lg:max-w-56"
+                />
+                <n-skeleton
+                  height="16px"
+                  width="16px"
+                />
+              </div>
             </div>
-            <n-skeleton height="calc(100% - 40px)" />
+            <n-skeleton class="min-h-0 flex-1" />
           </div>
         </n-card>
       </n-card>
@@ -406,23 +435,40 @@
           <n-card
             size="small"
             class="transition-all duration-300"
+            content-class="p-3 sm:p-4"
           >
             <div :class="chartHeightClass('pullDistribution')">
-              <n-select
-                v-if="pullDistributionOptions.length > 1"
-                v-model:value="selectedPullDistributionValue"
-                :consistent-menu-width="false"
-                :options="pullDistributionOptions"
-                :show-checkmark="false"
-                size="small"
-                class="absolute top-2 right-12 z-10 w-40"
-              />
-              <ChartMaximizeButton
-                chart-id="pullDistribution"
-                :active-chart="maximizedChart ?? undefined"
-                @toggle="toggleMaximize"
-              />
-              <StatsChart :option="pullDistributionChartOption" />
+              <div
+                class="grid grid-cols-1 items-center gap-2 lg:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)]"
+              >
+                <h2
+                  class="min-w-0 text-center text-base leading-6 font-semibold lg:col-start-2"
+                >
+                  {{ selectedPullDistributionOption?.title }}
+                </h2>
+                <div
+                  class="flex min-w-0 items-center justify-end gap-2 lg:col-start-3"
+                >
+                  <n-select
+                    v-if="pullDistributionOptions.length > 1"
+                    v-model:value="selectedPullDistributionValue"
+                    :consistent-menu-width="false"
+                    :options="pullDistributionOptions"
+                    :show-checkmark="false"
+                    :aria-label="selectedPullDistributionOption?.title"
+                    size="small"
+                    class="min-w-0 flex-1 lg:max-w-56"
+                  />
+                  <ChartMaximizeButton
+                    chart-id="pullDistribution"
+                    :active-chart="maximizedChart ?? undefined"
+                    @toggle="toggleMaximize"
+                  />
+                </div>
+              </div>
+              <div class="min-h-0 flex-1">
+                <StatsChart :option="pullDistributionChartOption" />
+              </div>
             </div>
           </n-card>
         </n-card>
@@ -438,44 +484,62 @@
           <n-card
             size="small"
             class="transition-all duration-300"
+            content-class="p-3 sm:p-4"
           >
             <div
               :class="chartHeightClass('itemDistribution')"
               :style="chartHeightStyle('itemDistribution')"
             >
               <div
-                v-if="
-                  itemLuckFactor &&
-                  selectedItemDistributionOption?.type === 'first'
-                "
-                class="absolute top-2 left-2 z-10"
+                class="grid grid-cols-[auto_minmax(0,1fr)] items-center gap-2 lg:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)]"
               >
-                <DiceAnimation
-                  :percentile="itemLuckFactor.percentile"
-                  :title="t('global.banner_stats.item_luck')"
-                  summary=""
-                  :description="t('global.banner_stats.item_luck_tooltip')"
-                  :item-ids="itemLuckItemIds"
+                <h2
+                  class="col-span-2 row-start-1 min-w-0 text-center text-base leading-6 font-semibold lg:col-span-1 lg:col-start-2"
+                >
+                  {{ selectedItemDistributionOption?.title }}
+                </h2>
+                <div
+                  class="col-start-1 row-start-2 flex min-w-0 items-center justify-start gap-2 lg:row-start-1"
+                >
+                  <DiceAnimation
+                    v-if="
+                      itemLuckFactor &&
+                      selectedItemDistributionOption?.type === 'first'
+                    "
+                    class="shrink-0"
+                    :percentile="itemLuckFactor.percentile"
+                    :title="t('global.banner_stats.item_luck')"
+                    summary=""
+                    :description="t('global.banner_stats.item_luck_tooltip')"
+                    :item-ids="itemLuckItemIds"
+                  />
+                </div>
+                <div
+                  class="col-start-2 row-start-2 flex min-w-0 items-center justify-end gap-2 lg:col-start-3 lg:row-start-1"
+                >
+                  <n-select
+                    v-if="itemDistributionOptions.length > 1"
+                    v-model:value="selectedItemDistributionValue"
+                    :consistent-menu-width="false"
+                    :options="itemDistributionOptions"
+                    :show-checkmark="false"
+                    :aria-label="selectedItemDistributionOption?.title"
+                    size="small"
+                    class="min-w-0 flex-1 lg:max-w-56"
+                  />
+                  <ChartMaximizeButton
+                    chart-id="itemDistribution"
+                    :active-chart="maximizedChart ?? undefined"
+                    @toggle="toggleMaximize"
+                  />
+                </div>
+              </div>
+              <div class="min-h-0 flex-1">
+                <StatsChart
+                  :option="itemDistributionChartOption"
+                  preload-images
                 />
               </div>
-              <n-select
-                v-if="itemDistributionOptions.length > 1"
-                v-model:value="selectedItemDistributionValue"
-                :consistent-menu-width="false"
-                :options="itemDistributionOptions"
-                :show-checkmark="false"
-                size="small"
-                class="absolute top-2 right-12 z-10 w-40"
-              />
-              <ChartMaximizeButton
-                chart-id="itemDistribution"
-                :active-chart="maximizedChart ?? undefined"
-                @toggle="toggleMaximize"
-              />
-              <StatsChart
-                :option="itemDistributionChartOption"
-                preload-images
-              />
             </div>
           </n-card>
         </n-card>
@@ -561,7 +625,8 @@
           {
             size: 'tiny',
             text: true,
-            class: 'absolute top-4 right-4 z-10',
+            class: 'shrink-0',
+            'aria-pressed': props.activeChart === props.chartId,
             type: props.activeChart === props.chartId ? 'primary' : 'default',
             onClick: () => emit('toggle', props.chartId),
           },
@@ -585,6 +650,7 @@
   })
 
   const route = useRoute()
+  const pageRef = ref<HTMLElement | null>(null)
   const requestEvent = useRequestEvent()
   const { t } = useI18n()
   const localePath = useLocalePath()
@@ -1111,18 +1177,9 @@
     color: isDark.value ? palette.textDark : palette.textLight,
   })
 
-  const selectedItemDistributionCount = computed(() => {
-    const selectedOption = selectedItemDistributionOption.value
-    if (!selectedOption?.scopeKey) return 0
-
-    const scopeStats = statsData.value?.scopes[selectedOption.scopeKey]
-    const distribution =
-      selectedOption.type === 'fifth'
-        ? scopeStats?.fifthItemDistribution
-        : scopeStats?.firstItemDistribution
-
-    return distribution?.length ?? 0
-  })
+  const selectedItemDistributionCount = computed(
+    () => selectedItemDistribution.value.length
+  )
   const itemDistributionChartHeight = computed(
     () => `${Math.max(320, selectedItemDistributionCount.value * 48 + 96)}px`
   )
@@ -1136,7 +1193,7 @@
   })
 
   const chartHeightClass = (chartId: ChartId) => ({
-    'relative transition-all duration-300': true,
+    'relative flex flex-col gap-3': true,
     'h-[calc(100vh-156px)] sm:h-[calc(100vh-172px)]':
       maximizedChart.value === chartId,
     'h-80': maximizedChart.value !== chartId && chartId === 'pullDistribution',
@@ -1152,15 +1209,36 @@
     maximizedChart.value = maximizedChart.value === chartId ? null : chartId
   }
 
-  watch(maximizedChart, (activeChart) => {
+  let scrollBeforeMaximize = 0
+  let scrollOverflowBeforeMaximize = ''
+  let maximizedScrollElement: HTMLElement | null = null
+  watch(maximizedChart, async (activeChart, previousChart) => {
     if (!import.meta.client) return
 
-    document.body.style.overflow = activeChart ? 'hidden' : ''
+    const scrollElement = pageRef.value?.closest<HTMLElement>(
+      '.app-layout-native-scrollbar'
+    )
+    if (!scrollElement) return
+    if (activeChart && !previousChart) {
+      scrollBeforeMaximize = scrollElement.scrollTop
+      scrollOverflowBeforeMaximize = scrollElement.style.overflow
+      maximizedScrollElement = scrollElement
+    }
+    scrollElement.style.overflow = activeChart
+      ? 'hidden'
+      : scrollOverflowBeforeMaximize
+    await nextTick()
+    if (maximizedChart.value !== activeChart) return
+    scrollElement.scrollTo({
+      top: activeChart ? 0 : scrollBeforeMaximize,
+      behavior: 'instant',
+    })
+    if (!activeChart) maximizedScrollElement = null
   })
 
   onBeforeUnmount(() => {
-    if (!import.meta.client) return
-    document.body.style.overflow = ''
+    if (maximizedScrollElement)
+      maximizedScrollElement.style.overflow = scrollOverflowBeforeMaximize
   })
 
   const formatPercent = (value?: number) => {
@@ -1202,6 +1280,12 @@
 
     return statsData.value?.scopes[selectedOption.scopeKey] ?? null
   })
+  const selectedItemDistribution = computed(
+    () =>
+      (selectedItemDistributionOption.value?.type === 'fifth'
+        ? selectedItemScopeStats.value?.fifthItemDistribution
+        : selectedItemScopeStats.value?.firstItemDistribution) ?? []
+  )
   const userFirstItemsForSelectedScope = computed(() => {
     const scopeStats = selectedItemScopeStats.value
     const currentPulls = userBannerPulls.value
@@ -1269,27 +1353,88 @@
     )
   })
 
-  const createHistogramChartOption = (
+  type PullDistributionBin = {
+    start: number
+    end: number
+    count: number
+  }
+
+  const createPullDistributionBins = (
     histogram: GlobalBannerHistogram | undefined,
-    title: string,
+    mobile: boolean
+  ) => {
+    const entries = Object.entries(histogram ?? {})
+      .map(([key, count]) => [Number(key), count] as const)
+      .filter(
+        ([key, count]) =>
+          Number.isInteger(key) &&
+          key >= 0 &&
+          Number.isFinite(count) &&
+          count > 0
+      )
+      .sort(([left], [right]) => left - right)
+    const firstEntry = entries[0]
+    const lastEntry = entries[entries.length - 1]
+    if (!firstEntry || !lastEntry) return { bins: [], binSize: 1, total: 0 }
+
+    const total = entries.reduce((sum, [, count]) => sum + count, 0)
+    const span = lastEntry[0] - firstEntry[0] + 1
+    const binSize = mobile && span > 24 ? Math.ceil(span / 24 / 5) * 5 : 1
+    if (binSize === 1) {
+      return {
+        bins: entries.map(([pulls, count]) => ({
+          start: pulls,
+          end: pulls,
+          count,
+        })),
+        binSize,
+        total,
+      }
+    }
+
+    const counts = new Map<number, number>()
+    for (const [pulls, count] of entries) {
+      const start =
+        pulls === 0 ? 0 : Math.floor((pulls - 1) / binSize) * binSize + 1
+      counts.set(start, (counts.get(start) ?? 0) + count)
+    }
+    const bins: PullDistributionBin[] = []
+    const zeroCount = counts.get(0)
+    if (zeroCount) bins.push({ start: 0, end: 0, count: zeroCount })
+    const firstStart =
+      firstEntry[0] === 0
+        ? 1
+        : Math.floor((firstEntry[0] - 1) / binSize) * binSize + 1
+    const lastStart = Math.floor((lastEntry[0] - 1) / binSize) * binSize + 1
+    for (let start = firstStart; start <= lastStart; start += binSize) {
+      bins.push({
+        start,
+        end: start + binSize - 1,
+        count: counts.get(start) ?? 0,
+      })
+    }
+    return { bins, binSize, total }
+  }
+
+  const pullDistributionData = computed(() => {
+    const selected = selectedPullDistributionOption.value
+    const histogram =
+      selected?.type === 'completion' && selected.scopeKey
+        ? statsData.value?.scopes[selected.scopeKey]?.completionPullDistribution
+        : statsData.value?.overallPullDistribution
+    return createPullDistributionBins(histogram, isMobile.value)
+  })
+
+  const createHistogramChartOption = (
     color: string,
     userPullValue?: number | null,
     quality: number = 5
   ) => {
-    const entries = Object.entries(histogram ?? {})
-      .map(([key, count]) => [Number.parseInt(key, 10), count] as const)
-      .filter(([key, count]) => Number.isFinite(key) && count > 0)
-      .sort(([left], [right]) => left - right)
+    const { bins, binSize, total } = pullDistributionData.value
+    const firstBin = bins[0]
+    const lastBin = bins[bins.length - 1]
+    if (!firstBin || !lastBin) return {}
 
-    if (entries.length === 0) return {}
-
-    const firstEntry = entries[0]
-    const lastEntry = entries[entries.length - 1]
-    if (!firstEntry || !lastEntry) return {}
-
-    const total = entries.reduce((sum, [, count]) => sum + count, 0)
-    const minPull = Math.max(0, firstEntry[0])
-    const maxPull = Math.max(minPull + 1, lastEntry[0])
     const textStyle = getChartTextStyle()
     const hasUserMarker =
       typeof userPullValue === 'number' &&
@@ -1305,36 +1450,26 @@
 
     return {
       textStyle,
-      title: {
-        text: title,
-        left: 'center',
-        top: isMobile.value ? 35 : 0,
-        textStyle: {
-          ...textStyle,
-          fontSize: 16,
-          fontWeight: 'bold',
-        },
-      },
       tooltip: {
         trigger: 'axis',
         confine: true,
         formatter: (
           params: {
-            axisValue: string | number
-            value: number | [number, number]
+            data: PullDistributionBin
           }[]
         ) => {
-          const barData = params[0]
-          if (!barData) return ''
-          const [pulls, count] = Array.isArray(barData.value)
-            ? barData.value
-            : [Number(barData.axisValue), barData.value]
+          const bin = params[0]?.data
+          if (!bin) return ''
+          const pulls =
+            bin.start === bin.end ? bin.start : `${bin.start}–${bin.end}`
 
           const isUserData =
-            typeof userPullValue === 'number' && pulls === userPullValue
+            typeof userPullValue === 'number' &&
+            userPullValue >= bin.start &&
+            userPullValue <= bin.end
           const userDataHtml = isUserData
             ? `<div style="margin-top: 4px; color: ${accentColor}; font-weight: bold;">
-                ★ ${t('default.your_data')}
+                ★ ${t('default.your_data')}: ${userPullValue}
               </div>`
             : ''
 
@@ -1342,8 +1477,8 @@
             <div style="font-weight: bold; margin-bottom: 4px;">
               ${t('common.charts.number_of_pulls')}: ${pulls}
             </div>
-            <div>${t('common.charts.occurrences')}: <strong>${count}</strong></div>
-            <div>${t('common.charts.percentage')}: <strong>${((count / total) * 100).toFixed(2)}%</strong></div>
+            <div>${t('common.charts.occurrences')}: <strong>${bin.count}</strong></div>
+            <div>${t('common.charts.percentage')}: <strong>${((bin.count / total) * 100).toFixed(2)}%</strong></div>
             ${userDataHtml}
           `
         },
@@ -1355,42 +1490,50 @@
         extraCssText: chartTooltipExtraCssText.value,
       },
       grid: {
-        top: 58,
+        top: 8,
         bottom: 24,
-        left: 36,
-        right: 24,
+        left: 8,
+        right: 8,
         outerBoundsMode: 'same',
         outerBoundsContain: 'axisLabel',
       },
       xAxis: {
         type: 'value',
-        min: minPull,
-        max: maxPull,
-        minInterval: 1,
+        min: firstBin.start - 0.5,
+        max: lastBin.end + 0.5,
+        minInterval: binSize,
+        splitNumber: isMobile.value ? 4 : 8,
         axisLine: { show: false },
         axisTick: { show: false },
         splitLine: { show: false },
         axisLabel: {
           ...textStyle,
+          fontSize: 12,
           hideOverlap: true,
-          interval: 'auto',
+          showMinLabel: false,
+          showMaxLabel: false,
         },
       },
       yAxis: {
         type: 'value',
+        show: false,
         min: 0,
         splitLine: { show: false },
-        axisLabel: { show: false },
-        axisLine: { show: false },
-        axisTick: { show: false },
       },
       series: [
         {
           type: 'bar',
-          data: entries.map(([pulls, count]) => ({
-            value: [pulls, count],
+          barMaxWidth: isMobile.value ? 26 : 16,
+          data: bins.map((bin) => ({
+            ...bin,
+            value: [(bin.start + bin.end) / 2, bin.count],
             itemStyle: {
-              color: pulls === userPullValue ? accentColor : color,
+              color:
+                typeof userPullValue === 'number' &&
+                userPullValue >= bin.start &&
+                userPullValue <= bin.end
+                  ? accentColor
+                  : color,
               borderRadius: [4, 4, 0, 0],
             },
           })),
@@ -1398,12 +1541,7 @@
             ? {
                 symbol: 'none',
                 silent: true,
-                label: {
-                  show: true,
-                  color: accentColor,
-                  fontWeight: 'bold',
-                  formatter: `${t('default.your_data')}: ${userPullValue}`,
-                },
+                label: { show: false },
                 lineStyle: {
                   color: accentColor,
                   type: 'dashed',
@@ -1418,8 +1556,7 @@
   }
 
   const createItemDistributionChartOption = (
-    distribution: GlobalBannerItemDistribution | undefined,
-    title: string
+    distribution: GlobalBannerItemDistribution | undefined
   ) => {
     const entries = [...(distribution ?? [])].sort(
       (left, right) => right.users - left.users
@@ -1483,16 +1620,6 @@
     return {
       animationDuration: 500,
       textStyle,
-      title: {
-        text: title,
-        left: 'center',
-        top: isMobile.value ? 35 : 0,
-        textStyle: {
-          ...textStyle,
-          fontSize: 16,
-          fontWeight: 'bold',
-        },
-      },
       tooltip: {
         trigger: 'axis',
         confine: true,
@@ -1530,7 +1657,7 @@
         left: isMobile.value ? 8 : 0,
         right: isMobile.value ? 12 : 0,
         bottom: isMobile.value ? 0 : 12,
-        top: 64,
+        top: 0,
         outerBoundsMode: 'same',
         outerBoundsContain: 'axisLabel',
       },
@@ -1608,8 +1735,6 @@
         : undefined
 
       return createHistogramChartOption(
-        scopeStats?.completionPullDistribution,
-        selectedOption.title,
         getQualityColor(scopeStats?.quality ?? 5) + 'CC',
         userPullMarkerValue.value,
         scopeStats?.quality ?? 5
@@ -1618,8 +1743,6 @@
 
     const q = banner.value?.bannerType === 2 ? 5 : 4
     return createHistogramChartOption(
-      statsData.value?.overallPullDistribution,
-      selectedOption.title,
       getQualityColor(q) + 'CC',
       userPullMarkerValue.value,
       q
@@ -1637,21 +1760,7 @@
   })
 
   const itemDistributionChartOption = computed(() => {
-    const selectedOption = selectedItemDistributionOption.value
-    if (!selectedOption?.scopeKey) return {}
-
-    const scopeStats = statsData.value?.scopes[selectedOption.scopeKey]
-    if (selectedOption.type === 'fifth') {
-      return createItemDistributionChartOption(
-        scopeStats?.fifthItemDistribution,
-        selectedOption.title
-      )
-    }
-
-    return createItemDistributionChartOption(
-      scopeStats?.firstItemDistribution,
-      selectedOption.title
-    )
+    return createItemDistributionChartOption(selectedItemDistribution.value)
   })
 
   useSeoMeta({

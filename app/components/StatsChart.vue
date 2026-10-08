@@ -17,11 +17,13 @@
 
 <script setup lang="ts">
   import type VChartComponent from 'vue-echarts'
+  import type { TooltipComponentOption } from 'echarts/components'
   import { usePreferredReducedMotion, useResizeObserver } from '@vueuse/core'
 
   const props = defineProps<{
     option: ECOption
     preloadImages?: boolean
+    compactTooltip?: boolean
   }>()
   const chartRef = shallowRef<InstanceType<typeof VChartComponent> | null>(null)
   const containerRef = ref<HTMLElement | null>(null)
@@ -118,6 +120,7 @@
       () => props.option,
       reducedMotion,
       () => props.preloadImages,
+      () => props.compactTooltip,
     ],
     async ([chart, source]) => {
       const currentRevision = ++revision
@@ -131,6 +134,15 @@
       }
 
       const option = { ...source }
+      if (props.compactTooltip) {
+        const prepareTooltip = (tooltip: TooltipComponentOption) => ({
+          ...tooltip,
+          extraCssText: `${tooltip.extraCssText ?? ''}; max-width: min(240px, calc(100vw - 48px)); white-space: normal; overflow-wrap: anywhere;`,
+        })
+        option.tooltip = Array.isArray(source.tooltip)
+          ? source.tooltip.map(prepareTooltip)
+          : prepareTooltip(source.tooltip ?? {})
+      }
       if (props.preloadImages) {
         const [xAxis, yAxis] = await Promise.all([
           prepareAxis(source.xAxis),

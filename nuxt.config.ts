@@ -297,6 +297,7 @@ export default defineNuxtConfig({
       'GridComponent',
       'TitleComponent',
       'DataZoomComponent',
+      'MarkLineComponent',
     ],
   },
 

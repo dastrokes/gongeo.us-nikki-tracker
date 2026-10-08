@@ -72,7 +72,7 @@
           "
         >
           <n-icon
-            :depth="getLuckDice(props.percentile) === i ? 2 : 5"
+            :depth="getLuckDice(props.percentile) === i ? 3 : 5"
             class="rotate-45"
             :component="diceComponents[i - 1]"
           />

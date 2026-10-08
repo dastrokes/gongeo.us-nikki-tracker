@@ -77,20 +77,26 @@
             </div>
 
             <!-- Controls -->
-            <div class="flex flex-wrap items-center justify-end gap-1">
-              <BannerWishButton :banner-id="banner.bannerId" />
+            <div
+              class="flex min-h-8 shrink-0 flex-wrap items-center justify-end gap-1"
+            >
               <!-- Edit Button -->
               <n-tooltip trigger="hover">
                 <template #trigger>
                   <n-button
                     text
                     size="small"
+                    class="w-8 shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-500"
                     :aria-label="t('tracker.manual_log.open_editor')"
                     :type="showCollectionEditor ? 'primary' : 'default'"
                     @click="showCollectionEditor = true"
                   >
                     <template #icon>
-                      <n-icon :depth="3"><Edit /></n-icon>
+                      <n-icon
+                        :size="18"
+                        :depth="3"
+                        ><Edit
+                      /></n-icon>
                     </template>
                   </n-button>
                 </template>
@@ -103,6 +109,7 @@
                   <n-button
                     text
                     size="small"
+                    class="shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-500"
                     :aria-label="
                       t(
                         showItems
@@ -113,7 +120,10 @@
                     @click="showItems = !showItems"
                   >
                     <template #icon>
-                      <n-icon :depth="3">
+                      <n-icon
+                        :size="18"
+                        :depth="3"
+                      >
                         <Th v-if="!showItems" />
                         <ThLarge v-else />
                       </n-icon>
@@ -122,10 +132,12 @@
                 </template>
                 {{
                   showItems
-                    ? $t('tracker.banner.settings.outfit_display')
-                    : $t('tracker.banner.settings.item_display')
+                    ? t('tracker.banner.settings.outfit_display')
+                    : t('tracker.banner.settings.item_display')
                 }}
               </n-tooltip>
+
+              <BannerWishButton :banner-id="banner.bannerId" />
             </div>
           </div>
 

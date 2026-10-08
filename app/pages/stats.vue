@@ -1,5 +1,8 @@
 <template>
-  <div class="mx-auto max-w-7xl space-y-2 sm:space-y-4">
+  <div
+    ref="pageRef"
+    class="mx-auto max-w-7xl space-y-2 sm:space-y-4"
+  >
     <!-- Loading State -->
     <template v-if="loading">
       <n-card
@@ -31,20 +34,32 @@
         size="small"
         class="rounded-xl"
         content-class="p-2 sm:p-4"
-        ><n-card size="small"> <n-skeleton height="320px" /></n-card>
+      >
+        <StatsChartPanel
+          :title="t('stats.charts.pull_timeline')"
+          loading
+        >
+          <n-skeleton height="100%" />
+        </StatsChartPanel>
       </n-card>
       <n-card
         size="small"
         class="rounded-xl"
         content-class="p-2 sm:p-4 grid grid-cols-1 md:grid-cols-3 gap-4"
       >
-        <n-card
-          v-for="i in 3"
-          :key="i"
-          size="small"
+        <StatsChartPanel
+          v-for="title in [
+            'stats.charts.five_star_distribution',
+            'global.charts.four_star_type2_distribution',
+            'global.charts.four_star_type3_distribution',
+          ]"
+          :key="title"
+          :title="t(title)"
+          loading
+          height-class="h-56"
         >
-          <n-skeleton height="200px" />
-        </n-card>
+          <n-skeleton height="100%" />
+        </StatsChartPanel>
       </n-card>
     </template>
 
@@ -88,11 +103,12 @@
         class="rounded-xl opacity-40"
         content-class="p-2 sm:p-4"
       >
-        <n-card size="small">
-          <div class="h-80">
-            <StatsChart :option="mockPullActivityChartOption" />
-          </div>
-        </n-card>
+        <StatsChartPanel
+          :maximizable="false"
+          :title="t('stats.charts.pull_timeline')"
+        >
+          <StatsChart :option="mockPullActivityChartOption" />
+        </StatsChartPanel>
       </n-card>
     </div>
 
@@ -349,38 +365,17 @@
         :class="{ 'mt-0 mb-0': Boolean(maximizedChart) }"
         content-class="p-2 sm:p-4"
       >
-        <n-card
-          size="small"
-          class="transition-[height] duration-300"
+        <StatsChartPanel
+          v-show="!maximizedChart || maximizedChart === 'timeline'"
+          :maximized="maximizedChart === 'timeline'"
+          :title="t('stats.charts.pull_timeline')"
+          @toggle="toggleMaximize('timeline')"
         >
-          <div
-            class="transition-[height] duration-300"
-            :class="{
-              'h-[calc(100vh-116px)] sm:h-[calc(100vh-148px)]':
-                maximizedChart === 'timeline',
-              'h-80': maximizedChart !== 'timeline',
-            }"
-          >
-            <n-button
-              size="tiny"
-              text
-              class="absolute top-4 right-4 z-10"
-              :type="maximizedChart === 'timeline' ? 'primary' : 'default'"
-              @click="toggleMaximize('timeline')"
-            >
-              <template #icon>
-                <n-icon :depth="3">
-                  <component
-                    :is="
-                      maximizedChart === 'timeline' ? CompressAlt : ExpandAlt
-                    "
-                  />
-                </n-icon>
-              </template>
-            </n-button>
-            <StatsChart :option="pullActivityChartOption" />
-          </div>
-        </n-card>
+          <StatsChart
+            :option="pullActivityChartOption"
+            :compact-tooltip="isMobile"
+          />
+        </StatsChartPanel>
       </n-card>
       <!-- ── Section E: Distribution Charts ── -->
       <n-card
@@ -396,116 +391,40 @@
         content-class="p-2 sm:p-4 grid grid-cols-1 md:grid-cols-3 gap-4"
       >
         <!-- 5★ Distribution -->
-        <n-card
+        <StatsChartPanel
           v-show="!maximizedChart || maximizedChart === 'fiveStar'"
-          size="small"
-          class="transition-[height] duration-300"
-          :class="{ 'col-span-1 sm:col-span-3': maximizedChart === 'fiveStar' }"
+          :maximized="maximizedChart === 'fiveStar'"
+          :title="t('stats.charts.five_star_distribution')"
+          height-class="h-56"
+          :class="{ 'md:col-span-3': maximizedChart === 'fiveStar' }"
+          @toggle="toggleMaximize('fiveStar')"
         >
-          <div
-            class="transition-[height] duration-300"
-            :class="{
-              'h-[calc(100vh-116px)] sm:h-[calc(100vh-148px)]':
-                maximizedChart === 'fiveStar',
-              'h-50': maximizedChart !== 'fiveStar',
-            }"
-          >
-            <n-button
-              size="tiny"
-              text
-              class="absolute top-4 right-4 z-10"
-              :type="maximizedChart === 'fiveStar' ? 'primary' : 'default'"
-              @click="toggleMaximize('fiveStar')"
-            >
-              <template #icon>
-                <n-icon :depth="3">
-                  <component
-                    :is="
-                      maximizedChart === 'fiveStar' ? CompressAlt : ExpandAlt
-                    "
-                  />
-                </n-icon>
-              </template>
-            </n-button>
-            <StatsChart :option="fiveStarDistChartOption" />
-          </div>
-        </n-card>
+          <StatsChart :option="fiveStarDistChartOption" />
+        </StatsChartPanel>
 
         <!-- 4★ Distribution (5★ Banner) -->
-        <n-card
+        <StatsChartPanel
           v-show="!maximizedChart || maximizedChart === 'fourStar'"
-          size="small"
-          class="transition-[height] duration-300"
-          :class="{ 'col-span-1 sm:col-span-3': maximizedChart === 'fourStar' }"
+          :maximized="maximizedChart === 'fourStar'"
+          :title="t('global.charts.four_star_type2_distribution')"
+          height-class="h-56"
+          :class="{ 'md:col-span-3': maximizedChart === 'fourStar' }"
+          @toggle="toggleMaximize('fourStar')"
         >
-          <div
-            class="transition-[height] duration-300"
-            :class="{
-              'h-[calc(100vh-116px)] sm:h-[calc(100vh-148px)]':
-                maximizedChart === 'fourStar',
-              'h-50': maximizedChart !== 'fourStar',
-            }"
-          >
-            <n-button
-              size="tiny"
-              text
-              class="absolute top-4 right-4 z-10"
-              :type="maximizedChart === 'fourStar' ? 'primary' : 'default'"
-              @click="toggleMaximize('fourStar')"
-            >
-              <template #icon>
-                <n-icon :depth="3">
-                  <component
-                    :is="
-                      maximizedChart === 'fourStar' ? CompressAlt : ExpandAlt
-                    "
-                  />
-                </n-icon>
-              </template>
-            </n-button>
-            <StatsChart :option="fourStarDistChartOption" />
-          </div>
-        </n-card>
+          <StatsChart :option="fourStarDistChartOption" />
+        </StatsChartPanel>
 
         <!-- 4★ Distribution (4★ Banner) -->
-        <n-card
+        <StatsChartPanel
           v-show="!maximizedChart || maximizedChart === 'fourStarType3'"
-          size="small"
-          class="transition-[height] duration-300"
-          :class="{
-            'col-span-1 sm:col-span-3': maximizedChart === 'fourStarType3',
-          }"
+          :maximized="maximizedChart === 'fourStarType3'"
+          :title="t('global.charts.four_star_type3_distribution')"
+          height-class="h-56"
+          :class="{ 'md:col-span-3': maximizedChart === 'fourStarType3' }"
+          @toggle="toggleMaximize('fourStarType3')"
         >
-          <div
-            class="transition-[height] duration-300"
-            :class="{
-              'h-[calc(100vh-116px)] sm:h-[calc(100vh-148px)]':
-                maximizedChart === 'fourStarType3',
-              'h-50': maximizedChart !== 'fourStarType3',
-            }"
-          >
-            <n-button
-              size="tiny"
-              text
-              class="absolute top-4 right-4 z-10"
-              :type="maximizedChart === 'fourStarType3' ? 'primary' : 'default'"
-              @click="toggleMaximize('fourStarType3')"
-            >
-              <template #icon>
-                <n-icon :depth="3">
-                  <component
-                    :is="
-                      maximizedChart === 'fourStarType3'
-                        ? CompressAlt
-                        : ExpandAlt
-                    "
-                  />
-                </n-icon>
-              </template>
-            </n-button>
-            <StatsChart :option="fourStarType3DistChartOption" />
-          </div>
-        </n-card>
+          <StatsChart :option="fourStarType3DistChartOption" />
+        </StatsChartPanel>
       </n-card>
 
       <div
@@ -524,42 +443,19 @@
             :class="{ 'mt-0 mb-0 xl:col-span-2': Boolean(maximizedChart) }"
             content-class="p-2 sm:p-4"
           >
-            <n-card
-              size="small"
-              class="transition-[height] duration-300"
+            <StatsChartPanel
+              v-show="!maximizedChart || maximizedChart === 'luckPerBanner'"
+              :maximized="maximizedChart === 'luckPerBanner'"
+              :title="t('stats.charts.luck_per_banner')"
+              height-class="h-[var(--luck-chart-height)] sm:h-80"
+              :style="{ '--luck-chart-height': luckPerBannerChartHeight }"
+              @toggle="toggleMaximize('luckPerBanner')"
             >
-              <div
-                class="transition-[height] duration-300"
-                :class="{
-                  'h-[calc(100vh-116px)] sm:h-[calc(100vh-148px)]':
-                    maximizedChart === 'luckPerBanner',
-                  'h-80': maximizedChart !== 'luckPerBanner',
-                }"
-              >
-                <n-button
-                  size="tiny"
-                  text
-                  class="absolute top-4 right-4 z-10"
-                  :type="
-                    maximizedChart === 'luckPerBanner' ? 'primary' : 'default'
-                  "
-                  @click="toggleMaximize('luckPerBanner')"
-                >
-                  <template #icon>
-                    <n-icon :depth="3">
-                      <component
-                        :is="
-                          maximizedChart === 'luckPerBanner'
-                            ? CompressAlt
-                            : ExpandAlt
-                        "
-                      />
-                    </n-icon>
-                  </template>
-                </n-button>
-                <StatsChart :option="luckPerBannerChartOption" />
-              </div>
-            </n-card>
+              <StatsChart
+                :option="luckPerBannerChartOption"
+                :compact-tooltip="isMobile"
+              />
+            </StatsChartPanel>
           </n-card>
 
           <!-- ── Section D: 4★ Luck Per Banner Chart ── -->
@@ -570,44 +466,21 @@
             :class="{ 'mt-0 mb-0 xl:col-span-2': Boolean(maximizedChart) }"
             content-class="p-2 sm:p-4"
           >
-            <n-card
-              size="small"
-              class="transition-[height] duration-300"
+            <StatsChartPanel
+              v-show="
+                !maximizedChart || maximizedChart === 'luckPerBannerType3'
+              "
+              :maximized="maximizedChart === 'luckPerBannerType3'"
+              :title="t('stats.charts.luck_per_banner_type3')"
+              height-class="h-[var(--luck-chart-height)] sm:h-80"
+              :style="{ '--luck-chart-height': luckPerBannerType3ChartHeight }"
+              @toggle="toggleMaximize('luckPerBannerType3')"
             >
-              <div
-                class="transition-[height] duration-300"
-                :class="{
-                  'h-[calc(100vh-116px)] sm:h-[calc(100vh-148px)]':
-                    maximizedChart === 'luckPerBannerType3',
-                  'h-80': maximizedChart !== 'luckPerBannerType3',
-                }"
-              >
-                <n-button
-                  size="tiny"
-                  text
-                  class="absolute top-4 right-4 z-10"
-                  :type="
-                    maximizedChart === 'luckPerBannerType3'
-                      ? 'primary'
-                      : 'default'
-                  "
-                  @click="toggleMaximize('luckPerBannerType3')"
-                >
-                  <template #icon>
-                    <n-icon :depth="3">
-                      <component
-                        :is="
-                          maximizedChart === 'luckPerBannerType3'
-                            ? CompressAlt
-                            : ExpandAlt
-                        "
-                      />
-                    </n-icon>
-                  </template>
-                </n-button>
-                <StatsChart :option="luckPerBannerType3ChartOption" />
-              </div>
-            </n-card>
+              <StatsChart
+                :option="luckPerBannerType3ChartOption"
+                :compact-tooltip="isMobile"
+              />
+            </StatsChartPanel>
           </n-card>
         </div>
       </div>
@@ -1223,13 +1096,7 @@
 
 <script setup lang="ts">
   import { breakpointsTailwind, usePreferredReducedMotion } from '@vueuse/core'
-  import {
-    ExpandAlt,
-    CompressAlt,
-    FileImageRegular,
-    Sync,
-    ExclamationCircle,
-  } from '@vicons/fa'
+  import { FileImageRegular, Sync, ExclamationCircle } from '@vicons/fa'
   import { BANNER_DATA } from '~~/data/banners'
   import {
     getBannerAvg5StarValueForLuckPercentile,
@@ -1253,12 +1120,6 @@
   const numberAnimationDuration = computed(() =>
     reducedMotion.value === 'reduce' ? 0 : 2000
   )
-
-  // Helper to check if current locale uses CJK characters
-  const isCJKLocale = computed(() => {
-    const cjkLocales = ['zh', 'tw', 'ja', 'ko']
-    return cjkLocales.includes(locale.value)
-  })
 
   const generatedDateLabel = ref('')
   const localDataSource = useDataSource()
@@ -1399,6 +1260,7 @@
     [
       () => isDark.value,
       () => isMobile.value,
+      locale,
       hasData,
       bannerLuckRanking,
       bannerLuckRankingType3,
@@ -1442,26 +1304,19 @@
     color: isDark.value ? palette.textDark : palette.textLight,
   })
 
-  const maximizedChart = ref<string | null>(null)
-  const toggleMaximize = (chartId: string | null) => {
-    maximizedChart.value = maximizedChart.value === chartId ? null : chartId
-  }
-
-  watch(maximizedChart, (activeChart) => {
-    if (!import.meta.client) return
-
-    document.body.style.overflow = activeChart ? 'hidden' : ''
-  })
-
-  onBeforeUnmount(() => {
-    if (!import.meta.client) return
-    document.body.style.overflow = ''
-  })
+  const pageRef = ref<HTMLElement | null>(null)
+  const { maximizedChart, toggleMaximize } = useStatsChartMaximize(pageRef)
 
   // Chart options
   const pullActivityChartOption = ref({})
   const luckPerBannerChartOption = ref({})
   const luckPerBannerType3ChartOption = ref({})
+  const luckPerBannerChartHeight = computed(() =>
+    getMobileBannerChartHeight(bannerLuckRanking.value.length)
+  )
+  const luckPerBannerType3ChartHeight = computed(() =>
+    getMobileBannerChartHeight(bannerLuckRankingType3.value.length)
+  )
   const fiveStarDistChartOption = ref({})
   const fourStarDistChartOption = ref({})
   const fourStarType3DistChartOption = ref({})
@@ -1537,43 +1392,49 @@
 
     mockPullActivityChartOption.value = {
       textStyle,
-      title: {
-        text: t('stats.charts.pull_timeline'),
-        left: 'center',
-        top: 0,
-        textStyle: { ...textStyle, fontSize: 16, fontWeight: 'bold' },
+
+      grid: {
+        top: 8,
+        bottom: 8,
+        left: 8,
+        right: 8,
+        outerBoundsMode: 'same',
+        outerBoundsContain: 'axisLabel',
       },
-      grid: { top: 40, bottom: 0, left: 40, right: 50 },
       xAxis: {
         type: 'category',
         data: mockBannerLabels,
         axisLine: {
-          lineStyle: {
-            color: isDark.value ? palette.textLight : palette.textDark,
-          },
+          show: false,
         },
+        axisTick: { show: false },
         axisLabel: {
           ...textStyle,
-          rotate: isMobile.value ? 90 : 30,
+          fontSize: 12,
+          width: isMobile.value ? 52 : 160,
+          height: isMobile.value ? 32 : undefined,
+          lineHeight: 16,
+          overflow: 'truncate',
+          ellipsis: '…',
+          hideOverlap: true,
+          rotate: isMobile.value ? 0 : 30,
+          formatter: isMobile.value
+            ? createBannerChartLabelFormatter(52, textStyle.fontFamily)
+            : undefined,
         },
       },
       yAxis: [
         {
           type: 'value',
           splitLine: { show: false },
-          axisLabel: textStyle,
+          axisLabel: { ...textStyle, fontSize: 12, hideOverlap: true },
         },
         {
           type: 'value',
           position: 'right',
           splitLine: { show: false },
-          axisLabel: textStyle,
-          axisLine: {
-            show: true,
-            lineStyle: {
-              color: isDark.value ? palette.textLight : palette.textDark,
-            },
-          },
+          axisLabel: { ...textStyle, fontSize: 12, hideOverlap: true },
+          axisLine: { show: false },
         },
       ],
       series: [
@@ -1719,12 +1580,7 @@
 
     luckPerBannerChartOption.value = {
       textStyle,
-      title: {
-        text: t('stats.charts.luck_per_banner'),
-        left: 'center',
-        top: isMobile.value ? 10 : 0,
-        textStyle: { ...textStyle, fontSize: 16, fontWeight: 'bold' },
-      },
+
       tooltip: {
         trigger: 'axis',
         confine: true,
@@ -1738,7 +1594,7 @@
             : ''
           const imageUrl = getBannerThumbChartImage(entry.bannerId)
           const imgHtml = imageUrl
-            ? `<img src="${imageUrl}" alt="${name}" style="width: 200px; height: 100px; object-fit: cover; border-radius: 4px; margin-top: 8px;" />`
+            ? `<img src="${imageUrl}" alt="${name}" style="width: ${isMobile.value ? 120 : 200}px; height: ${isMobile.value ? 60 : 100}px; object-fit: cover; border-radius: 4px; margin-top: 8px;" />`
             : ''
 
           const isLucky = entry.percentile >= 50
@@ -1768,28 +1624,40 @@
         extraCssText: chartTooltipExtraCssText.value,
       },
       grid: {
-        top: isMobile.value ? 40 : 30,
-        bottom: 0,
-        left: isMobile.value ? 100 : 140,
-        right: 30,
+        top: 8,
+        bottom: isMobile.value ? 8 : 24,
+        left: 8,
+        right: 8,
+        outerBoundsMode: 'same',
+        outerBoundsContain: 'axisLabel',
       },
       xAxis: {
         type: 'value',
+        show: !isMobile.value,
         splitLine: { show: false },
-        axisLabel: textStyle,
+        axisLabel: { ...textStyle, fontSize: 12, hideOverlap: true },
+        axisLine: { show: false },
+        axisTick: { show: false },
       },
       yAxis: {
         type: 'category',
         data: bannerLabels,
         axisLine: {
-          lineStyle: {
-            color: isDark.value ? palette.textLight : palette.textDark,
-          },
+          show: false,
         },
+        axisTick: { show: false },
         axisLabel: {
           ...textStyle,
-          width: isMobile.value ? 90 : 130,
+          fontSize: 12,
+          width: isMobile.value ? 100 : 130,
+          height: isMobile.value ? 32 : undefined,
+          lineHeight: 16,
           overflow: 'truncate',
+          ellipsis: '…',
+          interval: isMobile.value ? 0 : 'auto',
+          formatter: isMobile.value
+            ? createBannerChartLabelFormatter(100, textStyle.fontFamily)
+            : undefined,
         },
       },
       series: [
@@ -1799,6 +1667,7 @@
             sorted.map((entry) => entry.avg5StarPulls),
             get5StarBannerLuckBarColor
           ),
+          barMaxWidth: isMobile.value ? 24 : undefined,
           markLine: {
             silent: true,
             symbol: 'none',
@@ -1807,9 +1676,10 @@
               type: 'dashed',
             },
             label: {
-              formatter: `Avg: ${avg.toFixed(1)}`,
+              formatter: t('stats.luck.avg_pulls', { count: avg.toFixed(1) }),
               ...textStyle,
-              fontSize: 11,
+              fontSize: 12,
+              position: 'insideEndTop',
             },
             data: [{ xAxis: avg }],
           },
@@ -1838,12 +1708,7 @@
 
     luckPerBannerType3ChartOption.value = {
       textStyle,
-      title: {
-        text: t('stats.charts.luck_per_banner_type3'),
-        left: 'center',
-        top: isMobile.value ? 10 : 0,
-        textStyle: { ...textStyle, fontSize: 16, fontWeight: 'bold' },
-      },
+
       tooltip: {
         trigger: 'axis',
         confine: true,
@@ -1857,7 +1722,7 @@
             : ''
           const imageUrl = getBannerThumbChartImage(entry.bannerId)
           const imgHtml = imageUrl
-            ? `<img src="${imageUrl}" alt="${name}" style="width: 200px; height: 100px; object-fit: cover; border-radius: 4px; margin-top: 8px;" />`
+            ? `<img src="${imageUrl}" alt="${name}" style="width: ${isMobile.value ? 120 : 200}px; height: ${isMobile.value ? 60 : 100}px; object-fit: cover; border-radius: 4px; margin-top: 8px;" />`
             : ''
 
           const isLucky = entry.percentile >= 50
@@ -1887,28 +1752,40 @@
         extraCssText: chartTooltipExtraCssText.value,
       },
       grid: {
-        top: isMobile.value ? 40 : 30,
-        bottom: 0,
-        left: isMobile.value ? 100 : 140,
-        right: 30,
+        top: 8,
+        bottom: isMobile.value ? 8 : 24,
+        left: 8,
+        right: 8,
+        outerBoundsMode: 'same',
+        outerBoundsContain: 'axisLabel',
       },
       xAxis: {
         type: 'value',
+        show: !isMobile.value,
         splitLine: { show: false },
-        axisLabel: textStyle,
+        axisLabel: { ...textStyle, fontSize: 12, hideOverlap: true },
+        axisLine: { show: false },
+        axisTick: { show: false },
       },
       yAxis: {
         type: 'category',
         data: bannerLabels,
         axisLine: {
-          lineStyle: {
-            color: isDark.value ? palette.textLight : palette.textDark,
-          },
+          show: false,
         },
+        axisTick: { show: false },
         axisLabel: {
           ...textStyle,
-          width: isMobile.value ? 90 : 130,
+          fontSize: 12,
+          width: isMobile.value ? 100 : 130,
+          height: isMobile.value ? 32 : undefined,
+          lineHeight: 16,
           overflow: 'truncate',
+          ellipsis: '…',
+          interval: isMobile.value ? 0 : 'auto',
+          formatter: isMobile.value
+            ? createBannerChartLabelFormatter(100, textStyle.fontFamily)
+            : undefined,
         },
       },
       series: [
@@ -1918,6 +1795,7 @@
             sorted.map((entry) => entry.avg4StarPulls),
             get4StarBannerLuckBarColor
           ),
+          barMaxWidth: isMobile.value ? 24 : undefined,
           markLine: {
             silent: true,
             symbol: 'none',
@@ -1926,9 +1804,10 @@
               type: 'dashed',
             },
             label: {
-              formatter: `Avg: ${avg.toFixed(1)}`,
+              formatter: t('stats.luck.avg_pulls', { count: avg.toFixed(1) }),
               ...textStyle,
-              fontSize: 11,
+              fontSize: 12,
+              position: 'insideEndTop',
             },
             data: [{ xAxis: avg }],
           },
@@ -1940,7 +1819,6 @@
   // ── Distribution Chart Helper ──
   const createDistributionChartOption = (
     chartData: Record<number, number>,
-    titleText: string,
     color: string
   ) => {
     const entries = Object.entries(chartData)
@@ -1963,12 +1841,7 @@
 
     return {
       textStyle,
-      title: {
-        text: titleText,
-        left: 'left',
-        top: 0,
-        textStyle: { ...textStyle, fontSize: 16, fontWeight: 'bold' },
-      },
+
       tooltip: {
         trigger: 'axis',
         confine: true,
@@ -1991,16 +1864,22 @@
         textStyle,
         extraCssText: chartTooltipExtraCssText.value,
       },
-      grid: { top: 35, bottom: 0, left: 0, right: 0 },
+      grid: {
+        top: 8,
+        bottom: 24,
+        left: 8,
+        right: 8,
+        outerBoundsMode: 'same',
+        outerBoundsContain: 'axisLabel',
+      },
       xAxis: {
         type: 'category',
         data: labels,
         axisLine: {
-          lineStyle: {
-            color: isDark.value ? palette.textLight : palette.textDark,
-          },
+          show: false,
         },
-        axisLabel: textStyle,
+        axisTick: { show: false },
+        axisLabel: { ...textStyle, fontSize: 12, hideOverlap: true },
       },
       yAxis: [
         {
@@ -2043,7 +1922,6 @@
     }
     fiveStarDistChartOption.value = createDistributionChartOption(
       data,
-      t('stats.charts.five_star_distribution'),
       getQualityColor(5) + 'CC'
     )
   }
@@ -2056,7 +1934,6 @@
     }
     fourStarDistChartOption.value = createDistributionChartOption(
       data,
-      t('global.charts.four_star_type2_distribution'),
       getQualityColor(4) + 'CC'
     )
   }
@@ -2069,7 +1946,6 @@
     }
     fourStarType3DistChartOption.value = createDistributionChartOption(
       data,
-      t('global.charts.four_star_type3_distribution'),
       getQualityColor(4) + 'CC'
     )
   }
@@ -2091,12 +1967,7 @@
 
     pullActivityChartOption.value = {
       textStyle,
-      title: {
-        text: t('stats.charts.pull_timeline'),
-        left: 'center',
-        top: 0,
-        textStyle: { ...textStyle, fontSize: 16, fontWeight: 'bold' },
-      },
+
       tooltip: {
         trigger: 'axis',
         confine: true,
@@ -2124,7 +1995,7 @@
               )
             : ''
           const imgHtml = imageUrl
-            ? `<img src="${imageUrl}" alt="${pulls.axisValue}" style="width: 200px; height: 100px; object-fit: cover; border-radius: 4px; margin-top: 8px;" />`
+            ? `<img src="${imageUrl}" alt="${pulls.axisValue}" style="width: ${isMobile.value ? 120 : 200}px; height: ${isMobile.value ? 60 : 100}px; object-fit: cover; border-radius: 4px; margin-top: 8px;" />`
             : ''
 
           return `
@@ -2145,46 +2016,49 @@
         textStyle,
         extraCssText: chartTooltipExtraCssText.value,
       },
-      grid: { top: 40, bottom: 0, left: 40, right: 50 },
+      grid: {
+        top: 8,
+        bottom: 8,
+        left: 8,
+        right: 8,
+        outerBoundsMode: 'same',
+        outerBoundsContain: 'axisLabel',
+      },
       xAxis: {
         type: 'category',
         data: bannerLabels,
         axisLine: {
-          lineStyle: {
-            color: isDark.value ? palette.textLight : palette.textDark,
-          },
+          show: false,
         },
+        axisTick: { show: false },
         axisLabel: {
           ...textStyle,
+          fontSize: 12,
+          width: isMobile.value ? 52 : 160,
+          height: isMobile.value ? 32 : undefined,
+          lineHeight: 16,
+          overflow: 'truncate',
+          ellipsis: '…',
+          hideOverlap: true,
           margin: 12,
-          rotate:
-            isMobile.value && !isCJKLocale.value ? 90 : isMobile.value ? 0 : 30,
-          formatter: (value: string) => {
-            // For CJK languages on mobile, split characters with newlines
-            if (isMobile.value && isCJKLocale.value) {
-              return value.split('').join('\n')
-            }
-            return value
-          },
+          rotate: isMobile.value ? 0 : 30,
+          formatter: isMobile.value
+            ? createBannerChartLabelFormatter(52, textStyle.fontFamily)
+            : undefined,
         },
       },
       yAxis: [
         {
           type: 'value',
           splitLine: { show: false },
-          axisLabel: textStyle,
+          axisLabel: { ...textStyle, fontSize: 12, hideOverlap: true },
         },
         {
           type: 'value',
           position: 'right',
           splitLine: { show: false },
-          axisLabel: textStyle,
-          axisLine: {
-            show: true,
-            lineStyle: {
-              color: isDark.value ? palette.textLight : palette.textDark,
-            },
-          },
+          axisLabel: { ...textStyle, fontSize: 12, hideOverlap: true },
+          axisLine: { show: false },
         },
       ],
       series: [

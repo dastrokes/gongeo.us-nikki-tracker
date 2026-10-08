@@ -1,11 +1,10 @@
 <template>
-  <n-tooltip :show-arrow="false">
+  <n-tooltip trigger="hover">
     <template #trigger>
       <n-button
         size="small"
-        quaternary
-        circle
-        class="shrink-0"
+        text
+        class="w-8 shrink-0 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-500"
         :type="saved ? 'primary' : 'default'"
         :disabled="!ready"
         :aria-busy="savingBannerId === bannerId"
@@ -19,7 +18,8 @@
             aria-hidden="true"
           >
             <n-icon
-              :size="16"
+              :size="18"
+              :depth="saved ? undefined : 3"
               :class="{ 'wish-heart-pop': celebrating }"
             >
               <Heart v-if="saved" />

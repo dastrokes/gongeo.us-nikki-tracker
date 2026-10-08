@@ -208,7 +208,7 @@
               </n-button>
             </template>
             <template #header>
-              <div class="flex items-start justify-between gap-3">
+              <div class="flex items-center justify-between gap-3">
                 <NuxtLinkLocale
                   no-prefetch
                   :to="getBannerDetailPath(banner.bannerId)"

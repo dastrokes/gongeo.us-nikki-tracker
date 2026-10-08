@@ -16,16 +16,16 @@
 </template>
 
 <script setup lang="ts">
-  import type { EChartsType } from 'echarts/core'
+  import type VChartComponent from 'vue-echarts'
   import { usePreferredReducedMotion, useResizeObserver } from '@vueuse/core'
 
   const props = defineProps<{
-    option: Record<string, unknown>
+    option: ECOption
     preloadImages?: boolean
   }>()
-  const chartRef = ref<{ chart?: EChartsType } | null>(null)
+  const chartRef = shallowRef<InstanceType<typeof VChartComponent> | null>(null)
   const containerRef = ref<HTMLElement | null>(null)
-  const preparedOption = shallowRef<Record<string, unknown>>()
+  const preparedOption = shallowRef<ECOption>()
   const ready = ref(false)
   const reducedMotion = usePreferredReducedMotion()
   const images = new Map<string, Promise<HTMLImageElement | undefined>>()
@@ -33,8 +33,8 @@
   let frame = 0
 
   const resizeChart = () => {
-    const chart = chartRef.value?.chart
-    if (!chart || chart.isDisposed()) return
+    const chart = chartRef.value
+    if (!chart?.chart || chart.isDisposed()) return
     const container = chart.getDom()
     const width = container.clientWidth
     const height = container.clientHeight
@@ -49,16 +49,16 @@
 
   useResizeObserver(containerRef, resizeChart)
 
-  const isRecord = (value: unknown): value is Record<string, unknown> =>
-    typeof value === 'object' && value !== null && !Array.isArray(value)
-
   const loadImage = (src: string) => {
     const cached = images.get(src)
     if (cached) return cached
 
     const pending = new Promise<HTMLImageElement | undefined>((resolve) => {
       const image = new Image()
+      let finished = false
       const finish = (loaded?: HTMLImageElement) => {
+        if (finished) return
+        finished = true
         clearTimeout(timeout)
         image.onload = null
         image.onerror = null
@@ -79,20 +79,26 @@
     return pending
   }
 
-  const prepareAxis = async (axis: unknown): Promise<unknown> => {
-    if (Array.isArray(axis)) return Promise.all(axis.map(prepareAxis))
-    if (!isRecord(axis) || !isRecord(axis.axisLabel)) return axis
-    const label = axis.axisLabel
-    if (!isRecord(label.rich)) return axis
+  const prepareAxis = async <T extends ECOption['xAxis'] | ECOption['yAxis']>(
+    axis: T
+  ): Promise<T> => {
+    if (Array.isArray(axis)) {
+      return (await Promise.all(axis.map(prepareAxis))) as T
+    }
+    const label = axis?.axisLabel
+    if (!label?.rich) return axis
 
     const rich = Object.fromEntries(
       await Promise.all(
         Object.entries(label.rich).map(async ([key, style]) => {
-          if (!isRecord(style) || !isRecord(style.backgroundColor)) {
+          const background = style.backgroundColor
+          if (
+            !background ||
+            typeof background !== 'object' ||
+            typeof background.image !== 'string'
+          ) {
             return [key, style]
           }
-          const background = style.backgroundColor
-          if (typeof background.image !== 'string') return [key, style]
           const image = await loadImage(background.image)
           return [
             key,
@@ -103,16 +109,22 @@
         })
       )
     )
-    return { ...axis, axisLabel: { ...label, rich } }
+    return { ...axis, axisLabel: { ...label, rich } } as T
   }
 
   watch(
-    [() => chartRef.value?.chart, () => props.option, reducedMotion],
+    [
+      () => chartRef.value?.chart,
+      () => props.option,
+      reducedMotion,
+      () => props.preloadImages,
+    ],
     async ([chart, source]) => {
       const currentRevision = ++revision
+      cancelAnimationFrame(frame)
       if (!chart || chart.isDisposed()) return
       if (Object.keys(source).length === 0) {
-        chart.clear()
+        chartRef.value?.clear()
         preparedOption.value = undefined
         ready.value = false
         return
@@ -131,18 +143,13 @@
 
       await nextTick()
       if (currentRevision !== revision || chart.isDisposed()) return
-      cancelAnimationFrame(frame)
       frame = requestAnimationFrame(() => {
         if (currentRevision !== revision || chart.isDisposed()) return
         resizeChart()
         preparedOption.value = {
           ...option,
-          animation: reducedMotion.value !== 'reduce',
-          animationDuration: 500,
-          animationDurationUpdate: 500,
-          animationEasing: 'cubicOut',
-          animationEasingUpdate: 'cubicInOut',
-          animationDelay: (index: number) => Math.min(index, 20) * 14,
+          animation:
+            reducedMotion.value !== 'reduce' && (option.animation ?? true),
         }
         ready.value = true
       })

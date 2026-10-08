@@ -1152,12 +1152,10 @@
     maximizedChart.value = maximizedChart.value === chartId ? null : chartId
   }
 
-  watch(maximizedChart, async (activeChart) => {
+  watch(maximizedChart, (activeChart) => {
     if (!import.meta.client) return
 
     document.body.style.overflow = activeChart ? 'hidden' : ''
-    await nextTick()
-    window.dispatchEvent(new Event('resize'))
   })
 
   onBeforeUnmount(() => {

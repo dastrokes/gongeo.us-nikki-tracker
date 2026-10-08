@@ -105,10 +105,7 @@
           v-if="globalStats"
           :style="{ height: communityFirstItemChartHeight }"
         >
-          <VChart
-            :option="communityFirstItemChartOption"
-            autoresize
-          />
+          <StatsChart :option="communityFirstItemChartOption" />
         </div>
         <div
           v-else-if="globalStatsStatus !== 'error'"
@@ -319,7 +316,7 @@
     color: isDark.value ? palette.textDark : palette.textLight,
   })
 
-  const communityFirstItemChartOption = computed(() => {
+  const communityFirstItemChartOption = computed<ECOption>(() => {
     const chartItems = communityFirstItemEntries.value
     if (chartItems.length === 0) return {}
 
@@ -363,7 +360,7 @@
         height: number
         width: number
         backgroundColor: { image: string }
-        align: string
+        align: 'center'
         shadowBlur?: number
         shadowColor?: string
         shadowOffsetY?: number
@@ -398,8 +395,11 @@
       tooltip: {
         trigger: 'axis',
         confine: true,
-        formatter: (params: ChartFormatterParam[]) => {
-          const itemId = params[0]?.data?.itemId
+        formatter: (params) => {
+          const chartParams = (
+            Array.isArray(params) ? params : [params]
+          ) as ChartFormatterParam[]
+          const itemId = chartParams[0]?.data?.itemId
           if (!itemId) return ''
 
           return `
@@ -411,10 +411,10 @@
                     ${t('common.slot')}: <strong>${t(`type.${getItemType(itemId)}`)}</strong>
                   </div>
                   <div>
-                    ${t('common.charts.occurrences')}: <strong>${params[0]?.data?.value ?? 0}</strong>
+                    ${t('common.charts.occurrences')}: <strong>${chartParams[0]?.data?.value ?? 0}</strong>
                   </div>
                   <div>
-                    ${t('common.charts.percentage')}: <strong>${params[0]?.data?.percentage ?? '0.00'}%</strong>
+                    ${t('common.charts.percentage')}: <strong>${chartParams[0]?.data?.percentage ?? '0.00'}%</strong>
                   </div>
                 </div>
               `

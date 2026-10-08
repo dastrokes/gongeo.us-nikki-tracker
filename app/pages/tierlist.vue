@@ -3575,6 +3575,7 @@
           labelFilter: effectiveLabelFilter.value,
           obtainFilter: obtainFilter.value,
           sourceDetailFilter: sourceDetailFilter.value,
+          variationFilter: variationFilter.value,
         })
   )
 

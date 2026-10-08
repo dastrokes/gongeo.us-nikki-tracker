@@ -1,7 +1,8 @@
 import {
   COMMUNITY_TIER_KEYS,
   resolveCommunityScope,
-} from '~/composables/useCommunityTierlist'
+  type CommunityScopeType,
+} from '../../shared/utils/communityTierlistScope'
 import { getEntitySlugIds } from '~/utils/entitySlugs'
 import { COMPENDIUM_TIER_ENTRY_LIMIT } from '~/utils/listingUtils'
 

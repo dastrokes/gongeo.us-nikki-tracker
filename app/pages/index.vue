@@ -12,7 +12,7 @@
           @click="handleHeroLogoClick"
         >
           <span
-            class="flex h-full w-full items-center justify-center rounded-2xl bg-white/75 p-2 shadow-[0_10px_26px_rgba(109,40,217,0.14)] ring-1 ring-purple-200/50 backdrop-blur-xs transition-all duration-300 group-hover:-translate-y-0.5 group-active:translate-y-0 group-active:scale-95 motion-reduce:transform-none dark:bg-slate-900/60 dark:shadow-[0_8px_22px_rgba(0,0,0,0.3)] dark:ring-purple-800/20"
+            class="flex h-full w-full items-center justify-center rounded-2xl bg-white/75 p-2 shadow-[0_10px_26px_rgba(109,40,217,0.14)] ring-1 ring-purple-200/50 backdrop-blur-xs transition-all duration-300 group-active:translate-y-0 group-active:scale-95 motion-safe:transform-gpu motion-safe:group-hover:-translate-y-0.5 motion-reduce:transform-none dark:bg-slate-900/60 dark:shadow-[0_8px_22px_rgba(0,0,0,0.3)] dark:ring-purple-800/20"
           >
             <NuxtImg
               src="images/logo.webp"
@@ -53,7 +53,7 @@
           @click="navigateTo(localePath('/tracker'))"
         >
           <span
-            class="after:animate-button-shimmer relative flex h-full w-full items-center justify-center gap-2 overflow-hidden rounded-full bg-rose-500 px-5 text-sm font-semibold text-white shadow-[0_8px_20px_rgba(244,63,94,0.20)] transition-all duration-300 group-hover:-translate-y-0.5 group-hover:bg-rose-400 group-hover:shadow-[0_12px_26px_rgba(244,63,94,0.25)] group-active:translate-y-0 group-active:bg-rose-600 after:absolute after:inset-y-0 after:-left-full after:w-[60%] after:bg-linear-to-r after:from-transparent after:via-white/18 after:to-transparent after:content-[''] motion-reduce:transform-none motion-reduce:after:animate-none"
+            class="after:animate-button-shimmer relative flex h-full w-full items-center justify-center gap-2 overflow-hidden rounded-full bg-rose-500 px-5 text-sm font-semibold text-white shadow-[0_8px_20px_rgba(244,63,94,0.20)] transition-all duration-300 group-hover:bg-rose-400 group-hover:shadow-[0_12px_26px_rgba(244,63,94,0.25)] group-active:translate-y-0 group-active:bg-rose-600 after:absolute after:inset-y-0 after:-left-full after:w-[60%] after:bg-linear-to-r after:from-transparent after:via-white/18 after:to-transparent after:content-[''] motion-safe:transform-gpu motion-safe:group-hover:-translate-y-0.5 motion-reduce:transform-none motion-reduce:after:animate-none"
           >
             <n-icon><Book /></n-icon>
             <span>{{ $t('default.your_data') }}</span>
@@ -65,7 +65,7 @@
           @click="navigateTo(localePath('/global'))"
         >
           <span
-            class="flex h-full w-full items-center justify-center gap-2 rounded-full border border-rose-300/50 bg-rose-50 px-5 text-sm font-semibold text-rose-600 shadow-[0_6px_16px_rgba(244,63,94,0.12)] transition-all duration-300 group-hover:-translate-y-0.5 group-hover:bg-rose-100 group-hover:shadow-[0_10px_22px_rgba(244,63,94,0.18)] group-active:translate-y-0 group-active:bg-rose-200 motion-reduce:transform-none dark:border-rose-300/15 dark:bg-rose-950/40 dark:text-rose-300 dark:group-hover:bg-rose-950/65"
+            class="flex h-full w-full items-center justify-center gap-2 rounded-full border border-rose-300/50 bg-rose-50 px-5 text-sm font-semibold text-rose-600 shadow-[0_6px_16px_rgba(244,63,94,0.12)] transition-all duration-300 group-hover:bg-rose-100 group-hover:shadow-[0_10px_22px_rgba(244,63,94,0.18)] group-active:translate-y-0 group-active:bg-rose-200 motion-safe:transform-gpu motion-safe:group-hover:-translate-y-0.5 motion-reduce:transform-none dark:border-rose-300/15 dark:bg-rose-950/40 dark:text-rose-300 dark:group-hover:bg-rose-950/65"
           >
             <n-icon><Globe /></n-icon>
             <span>{{ $t('navigation.global') }}</span>
@@ -239,7 +239,7 @@
               class="group block min-h-20 rounded-lg text-center focus-visible:ring-2 focus-visible:ring-rose-500/70 focus-visible:outline-hidden xl:flex-1"
             >
               <span
-                class="flex min-h-20 flex-col items-center justify-center gap-1.5 rounded-lg border border-black/5 bg-white/70 px-1 py-2 ring-1 ring-white/60 transition-all duration-300 ring-inset group-hover:-translate-y-0.5 group-hover:border-rose-200 group-hover:bg-white motion-reduce:transform-none sm:gap-2 sm:px-2 sm:py-3 xl:h-full dark:border-white/8 dark:bg-slate-950/25 dark:ring-white/4 dark:group-hover:border-rose-300/20 dark:group-hover:bg-slate-900/45"
+                class="flex min-h-20 flex-col items-center justify-center gap-1.5 rounded-lg border border-black/5 bg-white/70 px-1 py-2 ring-1 ring-white/60 transition-all duration-300 ring-inset group-hover:border-rose-200 group-hover:bg-white motion-safe:transform-gpu motion-safe:group-hover:-translate-y-0.5 motion-reduce:transform-none sm:gap-2 sm:px-2 sm:py-3 xl:h-full dark:border-white/8 dark:bg-slate-950/25 dark:ring-white/4 dark:group-hover:border-rose-300/20 dark:group-hover:bg-slate-900/45"
               >
                 <n-icon
                   :size="24"
@@ -318,7 +318,7 @@
             :to="'/eurekas'"
           >
             <div
-              class="relative flex h-full w-full items-center justify-center overflow-hidden rounded-xl border border-black/5 bg-slate-50/70 ring-1 ring-white/60 transition-all duration-300 ring-inset group-hover:border-rose-200/70 group-hover:bg-white/80 group-hover:shadow-[0_8px_20px_rgba(244,63,94,0.12)] motion-safe:group-hover:-translate-y-0.5 motion-reduce:transform-none dark:border-white/8 dark:bg-slate-950/30 dark:ring-white/4 dark:group-hover:border-rose-300/20 dark:group-hover:bg-slate-900/45"
+              class="relative flex h-full w-full items-center justify-center overflow-hidden rounded-xl border border-black/5 bg-slate-50/70 ring-1 ring-white/60 transition-all duration-300 ring-inset group-hover:border-rose-200/70 group-hover:bg-white/80 group-hover:shadow-[0_8px_20px_rgba(244,63,94,0.12)] motion-safe:transform-gpu motion-safe:group-hover:-translate-y-0.5 motion-reduce:transform-none dark:border-white/8 dark:bg-slate-950/30 dark:ring-white/4 dark:group-hover:border-rose-300/20 dark:group-hover:bg-slate-900/45"
             >
               <div
                 v-if="shouldRenderFeatureAssets"
@@ -370,7 +370,7 @@
             :to="'/lookbook'"
           >
             <div
-              class="relative flex h-full w-full items-center justify-center overflow-hidden rounded-xl border border-black/5 bg-slate-50/70 ring-1 ring-white/60 transition-all duration-300 ring-inset group-hover:border-rose-200/70 group-hover:bg-white/80 group-hover:shadow-[0_8px_20px_rgba(244,63,94,0.12)] motion-safe:group-hover:-translate-y-0.5 motion-reduce:transform-none dark:border-white/8 dark:bg-slate-950/30 dark:ring-white/4 dark:group-hover:border-rose-300/20 dark:group-hover:bg-slate-900/45"
+              class="relative flex h-full w-full items-center justify-center overflow-hidden rounded-xl border border-black/5 bg-slate-50/70 ring-1 ring-white/60 transition-all duration-300 ring-inset group-hover:border-rose-200/70 group-hover:bg-white/80 group-hover:shadow-[0_8px_20px_rgba(244,63,94,0.12)] motion-safe:transform-gpu motion-safe:group-hover:-translate-y-0.5 motion-reduce:transform-none dark:border-white/8 dark:bg-slate-950/30 dark:ring-white/4 dark:group-hover:border-rose-300/20 dark:group-hover:bg-slate-900/45"
             >
               <div
                 v-if="shouldRenderFeatureAssets"
@@ -440,7 +440,7 @@
             :to="'/create'"
           >
             <div
-              class="relative flex h-full w-full flex-col items-center justify-center overflow-hidden rounded-xl border border-black/5 bg-slate-50/70 ring-1 ring-white/60 transition-all duration-300 ring-inset group-hover:border-rose-200/70 group-hover:bg-white/80 group-hover:shadow-[0_8px_20px_rgba(244,63,94,0.12)] motion-safe:group-hover:-translate-y-0.5 motion-reduce:transform-none dark:border-white/8 dark:bg-slate-950/30 dark:ring-white/4 dark:group-hover:border-rose-300/20 dark:group-hover:bg-slate-900/45"
+              class="relative flex h-full w-full flex-col items-center justify-center overflow-hidden rounded-xl border border-black/5 bg-slate-50/70 ring-1 ring-white/60 transition-all duration-300 ring-inset group-hover:border-rose-200/70 group-hover:bg-white/80 group-hover:shadow-[0_8px_20px_rgba(244,63,94,0.12)] motion-safe:transform-gpu motion-safe:group-hover:-translate-y-0.5 motion-reduce:transform-none dark:border-white/8 dark:bg-slate-950/30 dark:ring-white/4 dark:group-hover:border-rose-300/20 dark:group-hover:bg-slate-900/45"
             >
               <!-- Decorative outfit card preview -->
               <div
@@ -527,7 +527,7 @@
             :to="'/random'"
           >
             <div
-              class="relative flex h-full w-full items-center justify-center overflow-hidden rounded-xl border border-black/5 bg-slate-50/70 ring-1 ring-white/60 transition-all duration-300 ring-inset group-hover:border-rose-200/70 group-hover:bg-white/80 group-hover:shadow-[0_8px_20px_rgba(244,63,94,0.12)] motion-safe:group-hover:-translate-y-0.5 motion-reduce:transform-none dark:border-white/8 dark:bg-slate-950/30 dark:ring-white/4 dark:group-hover:border-rose-300/20 dark:group-hover:bg-slate-900/45"
+              class="relative flex h-full w-full items-center justify-center overflow-hidden rounded-xl border border-black/5 bg-slate-50/70 ring-1 ring-white/60 transition-all duration-300 ring-inset group-hover:border-rose-200/70 group-hover:bg-white/80 group-hover:shadow-[0_8px_20px_rgba(244,63,94,0.12)] motion-safe:transform-gpu motion-safe:group-hover:-translate-y-0.5 motion-reduce:transform-none dark:border-white/8 dark:bg-slate-950/30 dark:ring-white/4 dark:group-hover:border-rose-300/20 dark:group-hover:bg-slate-900/45"
             >
               <!-- GachaponMachineSvg bg -->
               <div
@@ -565,7 +565,7 @@
             :to="'/tierlist'"
           >
             <div
-              class="relative flex h-full w-full items-center justify-center overflow-hidden rounded-xl border border-black/5 bg-slate-50/70 ring-1 ring-white/60 transition-all duration-300 ring-inset group-hover:border-rose-200/70 group-hover:bg-white/80 group-hover:shadow-[0_8px_20px_rgba(244,63,94,0.12)] motion-safe:group-hover:-translate-y-0.5 motion-reduce:transform-none dark:border-white/8 dark:bg-slate-950/30 dark:ring-white/4 dark:group-hover:border-rose-300/20 dark:group-hover:bg-slate-900/45"
+              class="relative flex h-full w-full items-center justify-center overflow-hidden rounded-xl border border-black/5 bg-slate-50/70 ring-1 ring-white/60 transition-all duration-300 ring-inset group-hover:border-rose-200/70 group-hover:bg-white/80 group-hover:shadow-[0_8px_20px_rgba(244,63,94,0.12)] motion-safe:transform-gpu motion-safe:group-hover:-translate-y-0.5 motion-reduce:transform-none dark:border-white/8 dark:bg-slate-950/30 dark:ring-white/4 dark:group-hover:border-rose-300/20 dark:group-hover:bg-slate-900/45"
             >
               <div
                 v-if="shouldRenderFeatureAssets"
@@ -628,7 +628,7 @@
             :to="'/quiz'"
           >
             <div
-              class="relative flex h-full w-full items-center justify-center overflow-hidden rounded-xl border border-black/5 bg-slate-50/70 ring-1 ring-white/60 transition-all duration-300 ring-inset group-hover:border-rose-200/70 group-hover:bg-white/80 group-hover:shadow-[0_8px_20px_rgba(244,63,94,0.12)] motion-safe:group-hover:-translate-y-0.5 motion-reduce:transform-none dark:border-white/8 dark:bg-slate-950/30 dark:ring-white/4 dark:group-hover:border-rose-300/20 dark:group-hover:bg-slate-900/45"
+              class="relative flex h-full w-full items-center justify-center overflow-hidden rounded-xl border border-black/5 bg-slate-50/70 ring-1 ring-white/60 transition-all duration-300 ring-inset group-hover:border-rose-200/70 group-hover:bg-white/80 group-hover:shadow-[0_8px_20px_rgba(244,63,94,0.12)] motion-safe:transform-gpu motion-safe:group-hover:-translate-y-0.5 motion-reduce:transform-none dark:border-white/8 dark:bg-slate-950/30 dark:ring-white/4 dark:group-hover:border-rose-300/20 dark:group-hover:bg-slate-900/45"
             >
               <div
                 v-if="shouldRenderFeatureAssets"

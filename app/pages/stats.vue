@@ -90,10 +90,7 @@
       >
         <n-card size="small">
           <div class="h-80">
-            <VChart
-              :option="mockPullActivityChartOption"
-              autoresize
-            />
+            <StatsChart :option="mockPullActivityChartOption" />
           </div>
         </n-card>
       </n-card>
@@ -123,13 +120,23 @@
               {{ $t('common.pulls') }}
             </div>
             <div class="mt-1 text-lg font-medium tabular-nums">
-              <span class="text-amber-500">{{
-                pulls5StarBanners.toLocaleString()
-              }}</span>
+              <span class="text-amber-500">
+                <n-number-animation
+                  :from="0"
+                  :to="pulls5StarBanners"
+                  :duration="numberAnimationDuration"
+                  show-separator
+                />
+              </span>
               <span class="mx-1 text-gray-400">/</span>
-              <span class="text-sky-500">{{
-                pulls4StarBanners.toLocaleString()
-              }}</span>
+              <span class="text-sky-500">
+                <n-number-animation
+                  :from="0"
+                  :to="pulls4StarBanners"
+                  :duration="numberAnimationDuration"
+                  show-separator
+                />
+              </span>
             </div>
           </n-card>
 
@@ -145,9 +152,23 @@
               {{ $t('common.banners') }}
             </div>
             <div class="mt-1 text-lg font-medium tabular-nums">
-              <span class="text-amber-500">{{ bannersPulled5Star }}</span>
+              <span class="text-amber-500">
+                <n-number-animation
+                  :from="0"
+                  :to="bannersPulled5Star"
+                  :duration="numberAnimationDuration"
+                  show-separator
+                />
+              </span>
               <span class="mx-1 text-gray-400">/</span>
-              <span class="text-sky-500">{{ bannersPulled4Star }}</span>
+              <span class="text-sky-500">
+                <n-number-animation
+                  :from="0"
+                  :to="bannersPulled4Star"
+                  :duration="numberAnimationDuration"
+                  show-separator
+                />
+              </span>
             </div>
           </n-card>
 
@@ -163,9 +184,23 @@
               {{ $t('common.outfits') }}
             </div>
             <div class="mt-1 text-lg font-medium tabular-nums">
-              <span class="text-amber-500">{{ outfitsObtained5Star }}</span>
+              <span class="text-amber-500">
+                <n-number-animation
+                  :from="0"
+                  :to="outfitsObtained5Star"
+                  :duration="numberAnimationDuration"
+                  show-separator
+                />
+              </span>
               <span class="mx-1 text-gray-400">/</span>
-              <span class="text-sky-500">{{ outfitsObtained4Star }}</span>
+              <span class="text-sky-500">
+                <n-number-animation
+                  :from="0"
+                  :to="outfitsObtained4Star"
+                  :duration="numberAnimationDuration"
+                  show-separator
+                />
+              </span>
             </div>
           </n-card>
 
@@ -185,7 +220,8 @@
                 <n-number-animation
                   :from="0"
                   :to="globalStats.total5StarItems"
-                  :duration="2000"
+                  :duration="numberAnimationDuration"
+                  show-separator
                 />
               </span>
               <span class="mx-1 text-gray-400">/</span>
@@ -196,7 +232,8 @@
                     globalStats.total4StarItems +
                     globalStats.total4StarOnlyItems
                   "
-                  :duration="2000"
+                  :duration="numberAnimationDuration"
+                  show-separator
                 />
               </span>
             </div>
@@ -341,10 +378,7 @@
                 </n-icon>
               </template>
             </n-button>
-            <VChart
-              :option="pullActivityChartOption"
-              autoresize
-            />
+            <StatsChart :option="pullActivityChartOption" />
           </div>
         </n-card>
       </n-card>
@@ -393,10 +427,7 @@
                 </n-icon>
               </template>
             </n-button>
-            <VChart
-              :option="fiveStarDistChartOption"
-              autoresize
-            />
+            <StatsChart :option="fiveStarDistChartOption" />
           </div>
         </n-card>
 
@@ -432,10 +463,7 @@
                 </n-icon>
               </template>
             </n-button>
-            <VChart
-              :option="fourStarDistChartOption"
-              autoresize
-            />
+            <StatsChart :option="fourStarDistChartOption" />
           </div>
         </n-card>
 
@@ -475,10 +503,7 @@
                 </n-icon>
               </template>
             </n-button>
-            <VChart
-              :option="fourStarType3DistChartOption"
-              autoresize
-            />
+            <StatsChart :option="fourStarType3DistChartOption" />
           </div>
         </n-card>
       </n-card>
@@ -532,10 +557,7 @@
                     </n-icon>
                   </template>
                 </n-button>
-                <VChart
-                  :option="luckPerBannerChartOption"
-                  autoresize
-                />
+                <StatsChart :option="luckPerBannerChartOption" />
               </div>
             </n-card>
           </n-card>
@@ -583,10 +605,7 @@
                     </n-icon>
                   </template>
                 </n-button>
-                <VChart
-                  :option="luckPerBannerType3ChartOption"
-                  autoresize
-                />
+                <StatsChart :option="luckPerBannerType3ChartOption" />
               </div>
             </n-card>
           </n-card>
@@ -1203,7 +1222,7 @@
 </template>
 
 <script setup lang="ts">
-  import { breakpointsTailwind } from '@vueuse/core'
+  import { breakpointsTailwind, usePreferredReducedMotion } from '@vueuse/core'
   import {
     ExpandAlt,
     CompressAlt,
@@ -1230,6 +1249,10 @@
   const themeVars = useThemeVars()
   const breakpoints = useBreakpoints(breakpointsTailwind)
   const isMobile = computed(() => !breakpoints.greater('sm').value)
+  const reducedMotion = usePreferredReducedMotion()
+  const numberAnimationDuration = computed(() =>
+    reducedMotion.value === 'reduce' ? 0 : 2000
+  )
 
   // Helper to check if current locale uses CJK characters
   const isCJKLocale = computed(() => {

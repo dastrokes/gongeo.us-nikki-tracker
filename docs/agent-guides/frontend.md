@@ -15,6 +15,11 @@ Read this guide for UI, page, component, catalog-listing, filter, or localizatio
 
 - Avoid unnecessary micro-components and premature abstraction. Keep simple implementation details inline unless extraction provides meaningful reuse, encapsulates substantial behavior, or establishes a clear component boundary.
 
+## Chart rendering
+
+- Check initial chart rendering after refresh and client navigation, including animations, responsive sizing, and image labels.
+- Prepare the required layout and assets before rendering, avoid redundant updates that interrupt animations, and honor reduced-motion preferences.
+
 ## Catalog behavior
 
 - Use `useCatalogListing` or `useStaticCatalogListing` for catalog listing pages.

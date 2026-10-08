@@ -81,6 +81,33 @@
           </n-card>
         </div>
       </n-card>
+      <n-card
+        size="small"
+        class="rounded-xl"
+        content-class="p-2 sm:p-4"
+      >
+        <n-card size="small">
+          <div class="mb-4 flex items-center justify-between gap-2">
+            <n-skeleton
+              height="24px"
+              width="160px"
+            />
+            <div class="flex items-center gap-2">
+              <n-skeleton
+                height="24px"
+                width="160px"
+              />
+              <n-skeleton
+                height="24px"
+                width="24px"
+              />
+            </div>
+          </div>
+          <n-skeleton
+            :height="`calc(${firstItemDistributionChartHeight} - 40px)`"
+          />
+        </n-card>
+      </n-card>
     </template>
 
     <div
@@ -303,11 +330,10 @@
                 </n-icon>
               </template>
             </n-button>
-            <VChart
+            <StatsChart
               id="pullsPerBannerChart"
               ref="pullsPerBannerChart"
               :option="pullsPerBannerChartOption"
-              autoresize
             />
           </div>
         </n-card>
@@ -359,11 +385,10 @@
                 </n-icon>
               </template>
             </n-button>
-            <VChart
+            <StatsChart
               id="fiveStarDistributionChart"
               ref="fiveStarDistributionChart"
               :option="fiveStarDistributionChartOption"
-              autoresize
             />
           </div>
         </n-card>
@@ -404,11 +429,10 @@
                 </n-icon>
               </template>
             </n-button>
-            <VChart
+            <StatsChart
               id="fourStarType2Chart"
               ref="fourStarType2Chart"
               :option="fourStarType2ChartOption"
-              autoresize
             />
           </div>
         </n-card>
@@ -449,11 +473,10 @@
                 </n-icon>
               </template>
             </n-button>
-            <VChart
+            <StatsChart
               id="fourStarType3Chart"
               ref="fourStarType3Chart"
               :option="fourStarType3ChartOption"
-              autoresize
             />
           </div>
         </n-card>
@@ -558,11 +581,10 @@
                 </n-icon>
               </template>
             </n-button>
-            <VChart
+            <StatsChart
               id="firstItemDistributionChart"
               ref="firstItemDistributionChart"
               :option="firstItemDistributionChartOption"
-              autoresize
             />
           </div>
         </n-card>
@@ -657,16 +679,19 @@
     })
 
     watch(
-      [data, firstItemData, () => isMobile.value, () => isDark.value],
-      async () => {
+      [data, () => isMobile.value, () => isDark.value],
+      () => {
         if (data.value && import.meta.client) {
-          loading.value = false
-          await new Promise((resolve) => requestAnimationFrame(resolve))
           initializeCharts()
+          loading.value = false
         }
       },
       { immediate: true }
     )
+
+    watch(firstItemData, (distribution) => {
+      if (distribution) createFirstItemDistributionChart(distribution)
+    })
   })
 
   const fetchGlobalData = () => getGlobalBootstrapStats(LATEST_BANNER_ID)

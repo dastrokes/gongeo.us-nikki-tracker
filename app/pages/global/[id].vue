@@ -6,6 +6,53 @@
         class="rounded-xl"
         content-class="p-2 sm:p-4"
       >
+        <div
+          class="flex flex-col gap-3 md:grid md:grid-cols-[minmax(0,1fr)_18rem] md:items-center lg:grid-cols-[minmax(0,1fr)_20rem_minmax(0,1fr)] xl:grid-cols-[minmax(0,1fr)_28rem_minmax(0,1fr)]"
+        >
+          <div class="flex items-center gap-2">
+            <n-skeleton class="h-12 w-24 rounded-md sm:h-14 sm:w-28" />
+            <div class="space-y-2">
+              <n-skeleton
+                height="20px"
+                width="180px"
+              />
+              <n-skeleton
+                height="16px"
+                width="100px"
+              />
+            </div>
+          </div>
+          <div
+            class="flex justify-end md:col-start-2 md:row-start-1 lg:col-start-3"
+          >
+            <n-skeleton
+              height="28px"
+              class="w-full md:w-72"
+            />
+          </div>
+          <div
+            class="md:col-span-2 md:row-start-2 lg:col-span-1 lg:col-start-2 lg:row-start-1"
+          >
+            <n-skeleton
+              height="12px"
+              class="rounded-full"
+            />
+            <div class="mt-1.5 grid grid-cols-4 gap-1">
+              <n-skeleton
+                v-for="i in 4"
+                :key="i"
+                height="36px"
+                class="rounded-md"
+              />
+            </div>
+          </div>
+        </div>
+      </n-card>
+      <n-card
+        size="small"
+        class="rounded-xl"
+        content-class="p-2 sm:p-4"
+      >
         <div class="grid grid-cols-2 gap-2 md:grid-cols-6">
           <n-card
             v-for="i in 6"
@@ -34,7 +81,33 @@
         content-class="p-2 sm:p-4"
       >
         <n-card size="small">
-          <n-skeleton height="280px" />
+          <div
+            :class="
+              i === 1
+                ? 'h-80'
+                : 'h-[var(--item-distribution-height)] sm:h-[280px]'
+            "
+            :style="
+              i === 2
+                ? {
+                    '--item-distribution-height':
+                      itemDistributionSkeletonHeight,
+                  }
+                : undefined
+            "
+          >
+            <div class="mb-4 flex items-center justify-between gap-4">
+              <n-skeleton
+                height="24px"
+                width="180px"
+              />
+              <n-skeleton
+                height="24px"
+                width="160px"
+              />
+            </div>
+            <n-skeleton height="calc(100% - 40px)" />
+          </div>
         </n-card>
       </n-card>
     </template>
@@ -349,10 +422,7 @@
                 :active-chart="maximizedChart ?? undefined"
                 @toggle="toggleMaximize"
               />
-              <VChart
-                :option="pullDistributionChartOption"
-                autoresize
-              />
+              <StatsChart :option="pullDistributionChartOption" />
             </div>
           </n-card>
         </n-card>
@@ -402,9 +472,9 @@
                 :active-chart="maximizedChart ?? undefined"
                 @toggle="toggleMaximize"
               />
-              <VChart
+              <StatsChart
                 :option="itemDistributionChartOption"
-                autoresize
+                preload-images
               />
             </div>
           </n-card>
@@ -1056,6 +1126,14 @@
   const itemDistributionChartHeight = computed(
     () => `${Math.max(320, selectedItemDistributionCount.value * 48 + 96)}px`
   )
+  const itemDistributionSkeletonHeight = computed(() => {
+    const outfitId =
+      banner.value?.outfit5StarId?.[0] ?? banner.value?.outfit4StarId?.[0]
+    const itemCount = outfitId
+      ? (getOutfitData(outfitId)?.items.length ?? 0)
+      : 0
+    return `${Math.max(320, itemCount * 48 + 96)}px`
+  })
 
   const chartHeightClass = (chartId: ChartId) => ({
     'relative transition-all duration-300': true,

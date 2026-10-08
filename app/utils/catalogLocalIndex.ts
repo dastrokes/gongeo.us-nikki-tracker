@@ -9,6 +9,7 @@ export type CatalogLocalOutfit = OutfitListEntry & {
 export type CatalogLocalMakeup = ItemListEntry & {
   catalogGroupIds?: number[]
   catalogGroupRootId?: number
+  variantType: VariantType
 }
 export type CatalogLocalMomo = MomoListEntry & {
   catalogGroupIds?: number[]
@@ -101,7 +102,7 @@ export const createCatalogLocalIndex = ({
 }: {
   items?: readonly CatalogLocalItem[] | null
   outfits?: readonly CatalogLocalOutfit[] | null
-  makeups?: readonly CatalogLocalMakeup[] | null
+  makeups?: readonly Omit<CatalogLocalMakeup, 'variantType'>[] | null
   momo?: readonly CatalogLocalMomo[] | null
   outfitItems: Record<string, number[]> | null | undefined
   makeupItems?: Record<string, number[]> | null | undefined
@@ -110,7 +111,13 @@ export const createCatalogLocalIndex = ({
 }): CatalogLocalIndex => {
   const itemRows = Array.from(items ?? [])
   const outfitRows = Array.from(outfits ?? [])
-  const makeupRows = Array.from(makeups ?? [])
+  const makeupRows: CatalogLocalMakeup[] = (makeups ?? []).map((makeup) => ({
+    ...makeup,
+    variantType:
+      makeup.type === 'fullMakeup'
+        ? getFullMakeupVariantType(makeupItems?.[makeup.id] ?? [])
+        : getItemVariantType(makeup.id, makeup.catalogGroupRootId),
+  }))
   const momoRows = Array.from(momo ?? [])
   const outfitItemsById = new Map<number, number[]>()
   const makeupItemsById = new Map<number, number[]>()

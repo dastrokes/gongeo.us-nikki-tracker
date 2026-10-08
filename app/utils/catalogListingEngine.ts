@@ -350,19 +350,10 @@ const matchesItemAttributeFilters = (
     attributeMatchingIdSet.has(itemId)
   )
 
-const getFullMakeupVariantType = (id: number): VariantType =>
-  String(id).endsWith('03') ? 'evo3' : 'base'
-
 const matchesMakeupVariationFilter = (
   makeup: CatalogLocalMakeup,
   filters: Record<string, unknown>
-) =>
-  matchesCatalogVariationFilter(
-    filters,
-    makeup.type === 'fullMakeup'
-      ? getFullMakeupVariantType(makeup.id)
-      : getItemVariantType(makeup.id)
-  )
+) => matchesCatalogVariationFilter(filters, makeup.variantType)
 
 const MAKEUP_TYPE_ORDER = new Map([
   ['fullMakeup', 0],

@@ -1,5 +1,5 @@
 /**
- * Shared utilities for outfit and item variant ID classification.
+ * Shared utilities for outfit, item, and full makeup variant ID classification.
  *
  * ## Outfit IDs
  * Outfits use 5-digit base IDs. Variant IDs are exactly 7 digits, where the
@@ -57,6 +57,17 @@ export function getOutfitVariantType(outfitId: string): VariantType {
 
 export function getItemPrefixForOutfitId(outfitId: string): string {
   return OUTFIT_VARIANT_TO_ITEM_PREFIX[getOutfitVariantType(outfitId)]
+}
+
+export function getFullMakeupVariantType(
+  componentIds: readonly number[]
+): VariantType {
+  // TbClothesSet.clothes carries the variant through its component item IDs.
+  for (const componentId of componentIds) {
+    const variantType = getItemVariantType(componentId)
+    if (variantType !== 'base') return variantType
+  }
+  return 'base'
 }
 
 const ITEM_PREFIX_MAP: Record<string, VariantType> = {

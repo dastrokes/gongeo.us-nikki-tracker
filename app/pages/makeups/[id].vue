@@ -666,19 +666,8 @@
     if (variantType === 'evo3') return 3
     return 4
   }
-  const getFullMakeupVariantType = (id: number): VariantType =>
-    id.toString().endsWith('03') ? 'evo3' : 'base'
-  const getMakeupVariationType = (variation: {
-    id: number
-    type: string
-  }): VariantType =>
-    variation.type === 'fullMakeup'
-      ? getFullMakeupVariantType(variation.id)
-      : getItemVariantType(variation.id)
-  const formatFullMakeupVariantLabel = (id: number) => {
-    const level = t(
-      `banner.outfit.level.${getVariantLevelKey(getFullMakeupVariantType(id))}`
-    )
+  const formatFullMakeupVariantLabel = (variantType: VariantType) => {
+    const level = t(`banner.outfit.level.${getVariantLevelKey(variantType)}`)
     const separator = ['ja', 'ko', 'tw', 'zh'].includes(locale.value)
       ? '·'
       : ': '
@@ -723,39 +712,27 @@
         const isFullMakeupVariation =
           isFullMakeup.value || parentFullMakeupIdSet.has(id)
         const type = isFullMakeupVariation ? 'fullMakeup' : makeup.value!.type
+        const variantType =
+          catalogIndex.index.value?.makeupById.get(id)?.variantType ?? 'base'
         const variation = {
           id,
           quality: makeup.value!.quality,
           type,
+          variantType,
         }
-
-        if (isFullMakeupVariation && !isFullMakeup.value) {
-          return {
-            ...variation,
-            label: formatFullMakeupVariantLabel(id),
-          }
-        }
-
-        if (isFullMakeupVariation) {
-          return {
-            ...variation,
-            label: t(
-              `banner.outfit.level.${getVariantLevelKey(getFullMakeupVariantType(id))}`
-            ),
-          }
-        }
-
-        const variantType = getItemVariantType(id)
 
         return {
           ...variation,
-          label: t(`banner.outfit.level.${getVariantLevelKey(variantType)}`),
+          label:
+            isFullMakeupVariation && !isFullMakeup.value
+              ? formatFullMakeupVariantLabel(variantType)
+              : t(`banner.outfit.level.${getVariantLevelKey(variantType)}`),
         }
       })
       .sort(
         (a, b) =>
-          getVariationDisplayRank(getMakeupVariationType(a)) -
-          getVariationDisplayRank(getMakeupVariationType(b))
+          getVariationDisplayRank(a.variantType) -
+          getVariationDisplayRank(b.variantType)
       )
   })
   const showVariationSection = computed(() =>

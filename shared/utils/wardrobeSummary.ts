@@ -11,6 +11,7 @@ type WardrobeSummaryCatalogIndex = {
   makeups: Array<{
     id: number
     type: string
+    variantType: VariantType
   }>
   momo: Array<{
     id: number
@@ -139,11 +140,6 @@ const isBaseSummaryItem = (item: { id: number; catalogGroupRootId?: number }) =>
 const isBaseSummaryOutfit = (outfit: { id: number }) =>
   getOutfitVariantType(String(outfit.id)) === 'base'
 
-const isBaseSummaryMakeup = (makeup: { id: number; type: string }) =>
-  makeup.type === 'fullMakeup'
-    ? !String(makeup.id).endsWith('03')
-    : getItemVariantType(makeup.id) === 'base'
-
 export const createWardrobeSummary = ({
   index,
   ownedItemIds,
@@ -168,7 +164,9 @@ export const createWardrobeSummary = ({
     isCatalogEntryAvailableInScope('item', item.id, normalizedRegionScope)
   )
   const makeups = (
-    scope === 'all' ? index.makeups : index.makeups.filter(isBaseSummaryMakeup)
+    scope === 'all'
+      ? index.makeups
+      : index.makeups.filter((makeup) => makeup.variantType === 'base')
   ).filter((makeup) =>
     isCatalogEntryAvailableInScope('makeup', makeup.id, normalizedRegionScope)
   )

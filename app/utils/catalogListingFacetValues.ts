@@ -91,10 +91,8 @@ export const hasCatalogVariationFacetValue = (
     const variant =
       entity === 'outfit'
         ? getOutfitVariantType(String(entry.id))
-        : entity === 'makeup' && (entry as ItemListEntry).type === 'fullMakeup'
-          ? String(entry.id).endsWith('03')
-            ? 'evo3'
-            : 'base'
+        : entity === 'makeup'
+          ? (entry as CatalogLocalMakeup).variantType
           : getItemVariantType(entry.id, rootId)
     return value === 'all'
       ? true

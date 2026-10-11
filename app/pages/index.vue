@@ -672,7 +672,7 @@
       ref="statsSectionRef"
       class="scroll-mt-16"
     >
-      <LandingCommunityStats
+      <LazyLandingCommunityStats
         v-if="shouldRenderStatsSection"
         :featured-current-banners="featuredCurrentBanners"
       />

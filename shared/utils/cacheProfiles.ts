@@ -19,8 +19,8 @@ const THEME_COOKIE = 'theme'
 const NO_STORE = 'no-store'
 const BROWSER_REVALIDATE = 'public, max-age=0, must-revalidate'
 const BROWSER_LONG = 'public, max-age=86400, stale-while-revalidate=604800'
-const CDN_LONG =
-  'public, s-maxage=2592000, stale-while-revalidate=604800, stale-if-error=86400'
+const CDN_HTML_LONG =
+  'public, durable, s-maxage=2592000, stale-while-revalidate=604800, stale-if-error=86400'
 const CDN_IMMUTABLE =
   'public, s-maxage=31536000, stale-while-revalidate=604800, stale-if-error=86400'
 const CDN_SITEMAP =
@@ -104,11 +104,11 @@ const sharedProfiles = {
 
 const pageProfiles = {
   rootNoStore: sharedProfiles.noStore,
-  prerenderedStatic: createProfile(BROWSER_REVALIDATE, CDN_LONG),
-  themeAware: createProfile(BROWSER_REVALIDATE, CDN_LONG, {
+  prerenderedStatic: createProfile(BROWSER_REVALIDATE, CDN_HTML_LONG),
+  themeAware: createProfile(BROWSER_REVALIDATE, CDN_HTML_LONG, {
     vary: THEME_VARY,
   }),
-  themeAwareQuery: createProfile(BROWSER_REVALIDATE, CDN_LONG, {
+  themeAwareQuery: createProfile(BROWSER_REVALIDATE, CDN_HTML_LONG, {
     vary: THEME_QUERY_VARY,
   }),
   i18nMessages: createProfile(BROWSER_LONG, CDN_IMMUTABLE, {

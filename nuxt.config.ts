@@ -11,6 +11,7 @@ import {
   SEO_MAKEUP_LIST_PATHS,
   SEO_MOMO_LIST_PATHS,
   SEO_OUTFIT_LIST_PATHS,
+  SEO_PROP_LIST_PATHS,
 } from './app/utils/seoListRouteDefinitions'
 import {
   i18nMessages,
@@ -162,6 +163,7 @@ export default defineNuxtConfig({
       addSeoListRoutes('/outfits', 'seo-outfits', SEO_OUTFIT_LIST_PATHS)
       addSeoListRoutes('/momo', 'seo-momo', SEO_MOMO_LIST_PATHS)
       addSeoListRoutes('/banners', 'seo-banners', SEO_BANNER_LIST_PATHS)
+      addSeoListRoutes('/props', 'seo-props', SEO_PROP_LIST_PATHS)
     },
   },
 
@@ -382,6 +384,7 @@ export default defineNuxtConfig({
             ...SEO_ITEM_LIST_PATHS,
             ...SEO_MAKEUP_LIST_PATHS,
             ...SEO_MOMO_LIST_PATHS,
+            ...SEO_PROP_LIST_PATHS,
           ],
           {
             headers: pageThemeQuery,

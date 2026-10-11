@@ -14,6 +14,10 @@ import {
 } from '../../shared/utils/obtainGroups'
 import { MOMO_SOURCE_GROUPS } from '../../shared/utils/momoSourceGroups'
 import {
+  PROP_SOURCES,
+  resolveObtainGroupKeyFromPropSource,
+} from '../../shared/utils/propSources'
+import {
   resolveSeoQuality,
   resolveSeoQualitySlug,
   fromSeoVersionSlug,
@@ -38,6 +42,7 @@ export const SEO_ITEM_QUALITY_VALUES = [5, 4, 3, 2] as const
 export const SEO_MAKEUP_QUALITY_VALUES = [5, 4, 3] as const
 export const SEO_OUTFIT_QUALITY_VALUES = [5, 4, 3] as const
 export const SEO_BANNER_QUALITY_VALUES = [5, 4] as const
+export const SEO_PROP_QUALITY_VALUES = [6, 5, 4, 3] as const
 
 export const SEO_ITEM_TYPE_ROUTES = standardItemTypes
   .filter((type): type is Exclude<ItemType, 'unknown'> => type !== 'unknown')
@@ -85,6 +90,7 @@ const SEO_ITEM_QUALITY_ROUTES = createQualityRoutes(SEO_ITEM_QUALITY_VALUES)
 const SEO_MAKEUP_QUALITY_ROUTES = createQualityRoutes(SEO_MAKEUP_QUALITY_VALUES)
 const SEO_OUTFIT_QUALITY_ROUTES = createQualityRoutes(SEO_OUTFIT_QUALITY_VALUES)
 const SEO_BANNER_QUALITY_ROUTES = createQualityRoutes(SEO_BANNER_QUALITY_VALUES)
+const SEO_PROP_QUALITY_ROUTES = createQualityRoutes(SEO_PROP_QUALITY_VALUES)
 
 export const SEO_ITEM_QUALITY_SLUGS = SEO_ITEM_QUALITY_ROUTES.map(
   (route) => route.slug
@@ -146,6 +152,9 @@ export const SEO_MAKEUP_SOURCE_SLUGS = OBTAIN_GROUPS.filter((group) =>
 
 export const SEO_MOMO_SOURCE_SLUGS = MOMO_SOURCE_GROUPS.map(
   (group) => group.key
+)
+export const SEO_PROP_SOURCE_SLUGS = PROP_SOURCES.map(
+  resolveObtainGroupKeyFromPropSource
 )
 
 const ITEM_SOURCE_BY_SEO_SLUG: ReadonlyMap<string, string> = new Map(
@@ -279,6 +288,24 @@ export const SEO_BANNER_LIST_PATHS = [
   ...SEO_BANNER_QUALITY_SLUGS.map((slug) => `/banners/quality/${slug}`),
   ...SEO_BANNER_VERSION_SLUGS.map((slug) => `/banners/version/${slug}`),
 ]
+
+export const SEO_PROP_LIST_PATHS = [
+  ...SEO_PROP_QUALITY_ROUTES.map((route) => `/props/quality/${route.slug}`),
+  ...SEO_VERSION_SLUGS.map((slug) => `/props/version/${slug}`),
+  ...SEO_PROP_SOURCE_SLUGS.map((slug) => `/props/source/${slug}`),
+]
+
+export const resolveSeoPropQualityFromSlug = (slug?: string | null) =>
+  SEO_PROP_QUALITY_ROUTES.find((route) => route.slug === slug)?.quality ?? null
+
+export const resolveSeoPropQualitySlug = (quality?: number | null) =>
+  SEO_PROP_QUALITY_ROUTES.find((route) => route.quality === quality)?.slug ??
+  null
+
+export const resolveSeoPropSourceFromSlug = (slug?: string | null) =>
+  slug && SEO_PROP_SOURCE_SLUGS.includes(slug) ? slug : null
+
+export const resolveSeoPropSourceSlug = resolveSeoPropSourceFromSlug
 
 export const resolveSeoItemTypeFromSlug = (slug?: string | null) => {
   if (!slug) return null
@@ -438,7 +465,9 @@ export const getSeoListRouteFilter = (
           ? resolveSeoMakeupQualityFromSlug(filter.slug)
           : section === 'outfits'
             ? resolveSeoOutfitQualityFromSlug(filter.slug)
-            : resolveSeoBannerQualityFromSlug(filter.slug)
+            : section === 'props'
+              ? resolveSeoPropQualityFromSlug(filter.slug)
+              : resolveSeoBannerQualityFromSlug(filter.slug)
 
     return value
       ? { ...filter, slug: resolveSeoQualitySlug(value) ?? filter.slug, value }
@@ -474,7 +503,9 @@ export const getSeoListRouteFilter = (
             ? resolveSeoOutfitSourceFromSlug(filter.slug)
             : section === 'momo'
               ? resolveSeoMomoSourceFromSlug(filter.slug)
-              : null
+              : section === 'props'
+                ? resolveSeoPropSourceFromSlug(filter.slug)
+                : null
     return value ? { ...filter, value } : null
   }
 

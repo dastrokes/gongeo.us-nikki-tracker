@@ -11,6 +11,7 @@ import {
   SEO_MAKEUP_LIST_PATHS,
   SEO_MOMO_LIST_PATHS,
   SEO_OUTFIT_LIST_PATHS,
+  SEO_PROP_LIST_PATHS,
 } from '../utils/seoListRouteDefinitions'
 import { getEntityDetailPath, type EntitySlugType } from '../utils/entitySlugs'
 
@@ -46,6 +47,7 @@ const SEO_LIST_PATHS = [
   ...SEO_MOMO_LIST_PATHS,
   ...SEO_OUTFIT_LIST_PATHS,
   ...SEO_BANNER_LIST_PATHS,
+  ...SEO_PROP_LIST_PATHS,
 ]
 const STATIC_SITEMAP_PATHS = [...BASE_PATHS, ...SEO_LIST_PATHS]
 

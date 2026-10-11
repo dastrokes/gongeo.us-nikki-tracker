@@ -251,13 +251,6 @@
   type OwnershipFilter = 'all' | 'owned' | 'missing'
   type BatchScope = 'selected' | 'page' | 'all'
   type CompendiumSection = 'outfits' | 'items' | 'momo' | 'makeups' | 'props'
-  const PROP_SOURCES = [
-    'resonance',
-    'starlit',
-    'store',
-    'event',
-    'home',
-  ] as const
   type IconSelectOption = SelectOption & { icon: Component }
   type PropListingEntry = PropCatalogEntry & {
     name: string
@@ -272,6 +265,24 @@
   const { getImageSrc } = imageProvider()
   const catalog = useCatalogIndex()
   const NuxtLinkLocaleComponent = resolveComponent('NuxtLinkLocale')
+  const routeSeoFilter = computed(() =>
+    getSeoListRouteFilter(route.path, 'props')
+  )
+  const routeQualityFilter = computed(() =>
+    routeSeoFilter.value?.kind === 'quality'
+      ? Number(routeSeoFilter.value.value)
+      : null
+  )
+  const routeVersionFilter = computed(() =>
+    routeSeoFilter.value?.kind === 'version'
+      ? String(routeSeoFilter.value.value)
+      : null
+  )
+  const routeSourceFilter = computed(() =>
+    routeSeoFilter.value?.kind === 'source'
+      ? String(routeSeoFilter.value.value)
+      : null
+  )
 
   const resolveNumberQuery = (value: unknown) => {
     const parsed = Number(Array.isArray(value) ? value[0] : value)
@@ -302,6 +313,12 @@
       ? resolveObtainGroupKeyFromPropSource(source as PropSource)
       : null
   }
+  const resolveRouteQualityFilter = () =>
+    routeQualityFilter.value ?? resolveNumberQuery(route.query.quality)
+  const resolveRouteVersionFilter = () =>
+    routeVersionFilter.value ?? resolveVersionQuery(route.query.version)
+  const resolveRouteSourceFilter = () =>
+    routeSourceFilter.value ?? resolveSourceQuery(route.query.source)
 
   const currentPage = ref(
     Math.max(1, resolveNumberQuery(route.query.page) || 1)
@@ -319,15 +336,9 @@
     isThumbnailView.value ? 'squareSm' : 'squareLg'
   )
   const searchQuery = ref(resolveStringQuery(route.query.search))
-  const versionFilter = ref<string | null>(
-    resolveVersionQuery(route.query.version)
-  )
-  const initialSource = resolveStringQuery(route.query.source)
-  const normalizedInitialSource = resolveSourceQuery(initialSource)
-  const sourceFilter = ref<string | null>(normalizedInitialSource)
-  const qualityFilter = ref<number | null>(
-    resolveNumberQuery(route.query.quality)
-  )
+  const versionFilter = ref<string | null>(resolveRouteVersionFilter())
+  const sourceFilter = ref<string | null>(resolveRouteSourceFilter())
+  const qualityFilter = ref<number | null>(resolveRouteQualityFilter())
   const ownershipFilter = ref<OwnershipFilter>(
     resolveEnumQuery(
       route.query.wardrobe,
@@ -708,27 +719,47 @@
   let applyingRouteQuery = false
 
   const syncRoute = () => {
+    const qualitySlug = resolveSeoPropQualitySlug(qualityFilter.value)
+    const versionSlug = resolveSeoVersionSlug(versionFilter.value)
+    const sourceSlug = resolveSeoPropSourceSlug(sourceFilter.value)
+    const primaryFilter = qualitySlug
+      ? 'quality'
+      : versionSlug
+        ? 'version'
+        : sourceSlug
+          ? 'source'
+          : null
+    const path = qualitySlug
+      ? `/props/quality/${qualitySlug}`
+      : versionSlug
+        ? `/props/version/${versionSlug}`
+        : sourceSlug
+          ? `/props/source/${sourceSlug}`
+          : '/props'
     const query = {
       ...(searchQuery.value.trim() && { search: searchQuery.value.trim() }),
-      ...(qualityFilter.value !== null && { quality: qualityFilter.value }),
-      ...(versionFilter.value && { version: versionFilter.value }),
-      ...(sourceFilter.value && { source: sourceFilter.value }),
+      ...(primaryFilter !== 'quality' &&
+        qualityFilter.value !== null && { quality: qualityFilter.value }),
+      ...(primaryFilter !== 'version' &&
+        versionFilter.value && { version: versionFilter.value }),
+      ...(primaryFilter !== 'source' &&
+        sourceFilter.value && { source: sourceFilter.value }),
       ...(ownershipFilter.value !== 'all' && {
         wardrobe: ownershipFilter.value,
       }),
       ...(currentPage.value > 1 && { page: currentPage.value }),
     }
-    router.replace({ path: localePath('/props'), query })
+    router.replace({ path: localePath(path), query })
   }
 
   const applyRouteQuery = () => {
     applyingRouteQuery = true
 
     const nextSearch = resolveStringQuery(route.query.search)
-    const nextQuality = resolveNumberQuery(route.query.quality)
-    const nextVersion = resolveVersionQuery(route.query.version)
+    const nextQuality = resolveRouteQualityFilter()
+    const nextVersion = resolveRouteVersionFilter()
     const rawSource = resolveStringQuery(route.query.source)
-    const nextSource = resolveSourceQuery(rawSource)
+    const nextSource = resolveRouteSourceFilter()
     const nextOwnership = resolveEnumQuery(
       route.query.wardrobe,
       ['all', 'owned', 'missing'] as const,
@@ -747,7 +778,9 @@
 
     void nextTick(() => {
       applyingRouteQuery = false
-      if (nextSource && nextSource !== rawSource) syncRoute()
+      if (!routeSourceFilter.value && nextSource && nextSource !== rawSource) {
+        syncRoute()
+      }
     })
   }
 
@@ -775,20 +808,53 @@
   )
 
   onMounted(() => {
-    if (normalizedInitialSource && normalizedInitialSource !== initialSource) {
-      syncRoute()
-    }
+    syncRoute()
     void loadCatalogProps()
     void initWardrobe()
   })
 
+  const activeListFilterLabel = computed(() => {
+    if (qualityFilter.value !== null) return `${qualityFilter.value}★`
+    if (versionFilter.value) {
+      if (isListingMissingFilterValue(versionFilter.value)) {
+        return t('compendium.missing_value')
+      }
+      const key = `version.${versionFilter.value}`
+      const translated = t(key)
+      return translated === key
+        ? versionFilter.value
+        : `${versionFilter.value} - ${translated}`
+    }
+    if (sourceFilter.value) {
+      if (isListingMissingFilterValue(sourceFilter.value)) {
+        return t('compendium.missing_value')
+      }
+      const source = resolvePropSourceFromObtainGroupKey(sourceFilter.value)
+      const key = source ? resolvePropSourceLabelKey(source) : null
+      const translated = key ? t(key) : sourceFilter.value
+      return translated === key ? sourceFilter.value : translated
+    }
+    return null
+  })
+  const pageTitle = computed(() => {
+    const title = activeListFilterLabel.value
+      ? `${t('common.props')} - ${activeListFilterLabel.value}`
+      : t('common.props')
+    return `${title} - ${t('meta.game_title')} - ${t('navigation.title')}`
+  })
+  const description = computed(() => {
+    const baseDescription = t('meta.description.props')
+    return activeListFilterLabel.value
+      ? `${activeListFilterLabel.value} - ${baseDescription}`
+      : baseDescription
+  })
+
   useSeoMeta({
-    title: () =>
-      `${t('common.props')} - ${t('meta.game_title')} - ${t('navigation.title')}`,
-    description: () => t('meta.description.props'),
-    ogTitle: () => t('common.props'),
-    ogDescription: () => t('meta.description.props'),
-    twitterTitle: () => t('common.props'),
-    twitterDescription: () => t('meta.description.props'),
+    title: () => pageTitle.value,
+    description: () => description.value,
+    ogTitle: () => pageTitle.value,
+    ogDescription: () => description.value,
+    twitterTitle: () => pageTitle.value,
+    twitterDescription: () => description.value,
   })
 </script>

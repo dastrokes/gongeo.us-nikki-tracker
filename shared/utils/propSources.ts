@@ -1,3 +1,11 @@
+export const PROP_SOURCES = [
+  'resonance',
+  'starlit',
+  'store',
+  'event',
+  'home',
+] as const satisfies readonly PropSource[]
+
 const PROP_SOURCE_GROUP_KEYS: Record<PropSource, string> = {
   event: 'event',
   home: 'home',

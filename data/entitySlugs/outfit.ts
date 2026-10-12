@@ -298,6 +298,8 @@ export const ENTITY_SLUG_DATA = [
   [10418, 'dream-s-voyage'],
   [10419, 'bouncy-spirit'],
   [10430, 'eternal-golden-dream'],
+  [10431, 'shadowplay-night'],
+  [10455, 'eternal-slumber-s-vigil'],
   [20002, 'wheat-and-sunlight'],
   [20021, 'carnival-ode'],
   [20023, 'childhood-moments'],
@@ -776,4 +778,8 @@ export const ENTITY_SLUG_DATA = [
   [1041702, 'kaleidoscopic-splendor-chromatic'],
   [1043001, 'eternal-golden-dream-faint-echoes'],
   [1043002, 'eternal-golden-dream-night-ruins'],
+  [1043101, 'shadowplay-night-patrol'],
+  [1043102, 'shadowplay-night-heart-s-guidance'],
+  [1045501, 'eternal-slumber-s-vigil-azure-guard'],
+  [1045502, 'eternal-slumber-s-vigil-radiant-light'],
 ] as const

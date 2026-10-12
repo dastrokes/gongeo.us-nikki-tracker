@@ -112,6 +112,7 @@
       "twine": "Ficelle",
       "velvet": "Velours",
       "water": "Eau",
+      "wax": "Cire",
       "wicker": "Osier",
       "wood": "Bois",
       "wool": "Laine"
@@ -402,6 +403,7 @@
       "boned": "Baleiné",
       "braided": "Tressé",
       "bristled": "À Poils",
+      "bucket": "Forme seau",
       "cable_knit": "Maille torsadée",
       "carved": "Sculpté",
       "circular": "Circulaire",

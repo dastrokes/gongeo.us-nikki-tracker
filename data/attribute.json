@@ -542,6 +542,11 @@
   {
     "field": "material",
     "itemType": null,
+    "value": "wax"
+  },
+  {
+    "field": "material",
+    "itemType": null,
     "value": "wicker"
   },
   {
@@ -1783,6 +1788,11 @@
     "field": "structure",
     "itemType": null,
     "value": "bristled"
+  },
+  {
+    "field": "structure",
+    "itemType": null,
+    "value": "bucket"
   },
   {
     "field": "structure",

@@ -112,6 +112,7 @@
       "twine": "Twine",
       "velvet": "Velvet",
       "water": "Water",
+      "wax": "Wax",
       "wicker": "Wicker",
       "wood": "Wood",
       "wool": "Wool"
@@ -402,6 +403,7 @@
       "boned": "Boned",
       "braided": "Braided",
       "bristled": "Bristled",
+      "bucket": "Bucket-Shaped",
       "cable_knit": "Cable Knit",
       "carved": "Carved",
       "circular": "Circular",

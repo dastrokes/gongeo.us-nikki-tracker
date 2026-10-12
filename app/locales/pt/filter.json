@@ -112,6 +112,7 @@
       "twine": "Barbante",
       "velvet": "Veludo",
       "water": "Água",
+      "wax": "Cera",
       "wicker": "Vime",
       "wood": "Madeira",
       "wool": "Lã"
@@ -402,6 +403,7 @@
       "boned": "Com barbatanas",
       "braided": "Trançado",
       "bristled": "Com Cerdas",
+      "bucket": "Formato de balde",
       "cable_knit": "Trança de Tricô",
       "carved": "Entalhado",
       "circular": "Circular",

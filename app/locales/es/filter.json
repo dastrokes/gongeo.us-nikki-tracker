@@ -112,6 +112,7 @@
       "twine": "Cordel",
       "velvet": "Terciopelo",
       "water": "Agua",
+      "wax": "Cera",
       "wicker": "Mimbre",
       "wood": "Madera",
       "wool": "Lana"
@@ -402,6 +403,7 @@
       "boned": "Armado",
       "braided": "Trenzado",
       "bristled": "Con Cerdas",
+      "bucket": "Forma de cubo",
       "cable_knit": "Punto de ochos",
       "carved": "Tallado",
       "circular": "Circular",

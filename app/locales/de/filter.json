@@ -112,6 +112,7 @@
       "twine": "Zwirn",
       "velvet": "Samt",
       "water": "Wasser",
+      "wax": "Wachs",
       "wicker": "Korbgeflecht",
       "wood": "Holz",
       "wool": "Wolle"
@@ -402,6 +403,7 @@
       "boned": "Mit Stäbchen",
       "braided": "Geflochten",
       "bristled": "Borstig",
+      "bucket": "Eimerform",
       "cable_knit": "Zopfmuster",
       "carved": "Geschnitzt",
       "circular": "Rund",

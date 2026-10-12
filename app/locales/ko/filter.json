@@ -112,6 +112,7 @@
       "twine": "노끈",
       "velvet": "벨벳",
       "water": "물",
+      "wax": "왁스",
       "wicker": "위커/등나무",
       "wood": "우드/나무",
       "wool": "울/양모"
@@ -402,6 +403,7 @@
       "boned": "보닝 있음",
       "braided": "땋은",
       "bristled": "솔모양",
+      "bucket": "버킷형",
       "cable_knit": "케이블 니트",
       "carved": "조각 느낌",
       "circular": "서큘러/원형",

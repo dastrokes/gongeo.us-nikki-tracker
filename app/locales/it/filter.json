@@ -112,6 +112,7 @@
       "twine": "Spago",
       "velvet": "Velluto",
       "water": "Acqua",
+      "wax": "Cera",
       "wicker": "Vimini",
       "wood": "Legno",
       "wool": "Lana"
@@ -402,6 +403,7 @@
       "boned": "Steccato",
       "braided": "Intrecciato",
       "bristled": "Setolato",
+      "bucket": "Forma a secchiello",
       "cable_knit": "A Trecce",
       "carved": "Intagliato",
       "circular": "Circolare",

@@ -27,7 +27,7 @@
     "@fingerprintjs/fingerprintjs": "5.2.0",
     "@netlify/functions": "6.0.2",
     "@nuxt/eslint": "1.17.0",
-    "@nuxt/fonts": "0.14.0",
+    "@nuxt/fonts": "1.0.1",
     "@nuxt/image": "2.1.0",
     "@nuxtjs/device": "4.0.0",
     "@nuxtjs/i18n": "10.6.0",
@@ -44,7 +44,7 @@
     "fuse.js": "7.5.0",
     "idb": "8.0.4",
     "naive-ui": "2.45.3",
-    "nuxt": "4.6.1",
+    "nuxt": "4.6.2",
     "nuxt-echarts": "1.1.0",
     "pinyin-pro": "3.29.4",
     "snappyjs": "0.7.0",
@@ -74,8 +74,5 @@
     "unplugin-auto-import": "21.1.0",
     "unplugin-vue-components": "32.1.0",
     "vue-eslint-parser": "10.4.1"
-  },
-  "overrides": {
-    "esbuild": "0.28.2"
   }
 }

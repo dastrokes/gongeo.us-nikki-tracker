@@ -261,7 +261,7 @@
               class="group relative mt-2 block aspect-2/3 w-full overflow-hidden rounded-lg bg-slate-100 bg-[url('/images/bg.webp')] bg-cover bg-center transition-colors duration-300 ease-out focus-visible:ring-2 focus-visible:ring-rose-500/80 focus-visible:outline-hidden focus-visible:ring-inset dark:bg-slate-800"
               :aria-label="column.preview.linkLabel"
             >
-              <LazyNuxtImg
+              <NuxtImg
                 v-if="column.preview.imageId"
                 :src="
                   getImageSrc(column.preview.imageType, column.preview.imageId)
@@ -635,7 +635,7 @@
                 class="absolute inset-x-0 top-0 bottom-3 flex origin-center transform-gpu items-center justify-center overflow-hidden transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)] [will-change:transform] [backface-visibility:hidden] motion-safe:group-hover:scale-[1.03] motion-reduce:transform-none"
               >
                 <div class="aspect-2/3 h-[calc(100%+10px)] shrink-0 p-1">
-                  <LazyNuxtImg
+                  <NuxtImg
                     :src="getImageSrc('outfit', featuredOutfitId)"
                     preset="tallSm"
                     sizes="100px"

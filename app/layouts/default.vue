@@ -144,7 +144,7 @@
         </div>
 
         <div class="ml-auto flex items-center gap-1.5 sm:gap-3">
-          <LazySearchBar />
+          <SearchBar />
 
           <div
             class="flex items-center gap-1.5 border-l border-slate-400/80 pl-1.5 sm:gap-3 sm:pl-3 dark:border-white/25"

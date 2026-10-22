@@ -214,7 +214,7 @@ export const useCatalogListing = async <
   }
 
   const refreshKey = computed(getKey)
-  const asyncData = await useAsyncData(
+  const asyncData = useAsyncData(
     () => `catalog-listing-${getQuery().entity}`,
     fetchListing,
     {
@@ -252,7 +252,7 @@ export const useCatalogListing = async <
   )
 
   return {
-    ...asyncData,
+    ...(await asyncData),
     data: currentData,
     pending: currentPending,
     fetchMatchingIds,

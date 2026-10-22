@@ -165,6 +165,7 @@
                 v-if="!slot.exists"
                 size="small"
                 circle
+                :disabled="profileBusy"
                 @click="handleCreateProfile(index + 1)"
               >
                 <n-icon>
@@ -176,7 +177,7 @@
                 <n-button
                   size="small"
                   circle
-                  :disabled="activeSlot === index + 1"
+                  :disabled="profileBusy || activeSlot === index + 1"
                   :aria-label="t('profile.switch')"
                   :title="t('profile.switch')"
                   @click="handleSwitchProfile(index + 1)"
@@ -203,6 +204,7 @@
                   circle
                   tertiary
                   type="error"
+                  :disabled="profileBusy"
                   :aria-label="t('common.profile.delete_profile')"
                   :title="t('common.profile.delete_profile')"
                   @click="confirmDeleteProfile(index + 1)"
@@ -334,6 +336,8 @@
   const {
     slots,
     activeSlot,
+    profileBusy,
+    withProfileLock,
     addProfile,
     deleteProfile,
     renameProfile,
@@ -958,29 +962,42 @@
 
   const confirmDeleteProfile = (slot: number) => {
     const profileLabel = getSlotLabel(slot)
-    dialog.warning({
+    const confirmation = dialog.warning({
       title: t('common.profile.delete_profile'),
       content: t('default.user_profile.profiles.delete_confirm.content', {
         profile: profileLabel,
       }),
       positiveText: t('common.confirm'),
       negativeText: t('common.cancel'),
+      maskClosable: false,
+      closeOnEsc: false,
+      closable: false,
       onPositiveClick: async () => {
-        if (user.value) {
-          const cloudDeleteResult = await clearCloudData(slot)
-          if (!cloudDeleteResult.success) {
-            message.error(t('default.user_profile.clear_cloud_error'))
-            return
-          }
-        }
+        if (profileBusy.value) return false
+        confirmation.loading = true
+        confirmation.negativeButtonProps = { disabled: true }
+        try {
+          return await withProfileLock(async () => {
+            if (user.value) {
+              const cloudDeleteResult = await clearCloudData(slot)
+              if (!cloudDeleteResult.success) {
+                message.error(t('default.user_profile.clear_cloud_error'))
+                return false
+              }
+            }
 
-        await clearSlotData(slot)
-        const wasActive = activeSlot.value === slot
-        if (deleteProfile(slot)) {
-          if (wasActive) {
-            await hydratePullStoreFromIndexedDB()
-          }
-          message.success(t('default.user_profile.profiles.deleted_success'))
+            await clearSlotData(slot)
+            const wasActive = activeSlot.value === slot
+            if (deleteProfile(slot)) {
+              if (wasActive) await hydratePullStoreFromIndexedDB()
+              message.success(
+                t('default.user_profile.profiles.deleted_success')
+              )
+            }
+          })()
+        } finally {
+          confirmation.loading = false
+          confirmation.negativeButtonProps = undefined
         }
       },
     })

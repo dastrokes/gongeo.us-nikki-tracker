@@ -140,7 +140,7 @@ export const useCatalogListingFacets = async ({
   }
 
   const refreshKey = computed(key)
-  const asyncData = await useAsyncData(
+  const asyncData = useAsyncData(
     () => `catalog-listing-facets-${query().entity}`,
     loadFacets,
     {
@@ -172,7 +172,7 @@ export const useCatalogListingFacets = async ({
   )
 
   return {
-    ...asyncData,
+    ...(await asyncData),
     entriesByFilter,
     ready: isCurrentDataReady,
   }

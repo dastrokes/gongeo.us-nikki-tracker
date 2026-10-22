@@ -180,7 +180,7 @@ export const useStaticCatalogListing = async <
 
   const refreshKey = computed(getKey)
 
-  const asyncData = await useAsyncData(
+  const asyncData = useAsyncData(
     () => `static-catalog-listing-${getQuery().entity}`,
     fetchListing,
     {
@@ -219,7 +219,7 @@ export const useStaticCatalogListing = async <
   )
 
   return {
-    ...asyncData,
+    ...(await asyncData),
     data: currentData,
     pending: currentPending,
     fetchMatchingIds,

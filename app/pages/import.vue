@@ -1050,6 +1050,7 @@
     progress,
   } = useBannerPullData()
   const wardrobe = useWardrobe()
+  const { activeSlot, withProfileLock } = useProfileSlots()
 
   // Function to determine region based on timezone
   const determineRegionFromTimezone = () => {
@@ -1384,7 +1385,7 @@
     }
   }
 
-  const handleJsonSubmit = async () => {
+  const handleJsonSubmit = withProfileLock(async () => {
     if (!jsonFile.value) {
       message.warning(t('import.messages.no_file_selected'))
       return
@@ -1444,10 +1445,11 @@
       console.error(e)
       message.error(t('import.messages.import_failed'))
     }
-  }
+  })
 
-  const handlePearpalSubmit = async () => {
+  const handlePearpalSubmit = withProfileLock(async () => {
     try {
+      const slot = activeSlot.value
       // Get region from user store
       const region = userStore.getRegion
 
@@ -1523,7 +1525,7 @@
               // Save raw Pearpal data per banner to IndexedDB
               const indexedDB = useIndexedDB()
               if (Object.keys(pearpalDataByBanner).length > 0) {
-                await indexedDB.savePearpalData(pearpalDataByBanner)
+                await indexedDB.savePearpalData(pearpalDataByBanner, slot)
               }
 
               processedBanners = processPearpalData(pearpalDataByBanner)
@@ -1675,7 +1677,7 @@
       console.error(e)
       message.error(t('import.messages.pearpal_tracker_failed'))
     }
-  }
+  })
 
   // Unified watcher for cookie input
   watchDebounced(

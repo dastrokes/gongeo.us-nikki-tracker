@@ -89,6 +89,11 @@ export const useProfileSlots = () => {
     createDefaultSlots()
   )
   const activeSlot = useState<number>('profile-active-slot', () => 1)
+  const pendingOperations = useState<number>(
+    'profile:pending-operations',
+    () => 0
+  )
+  const profileBusy = computed(() => pendingOperations.value > 0)
   const initialized = useState<boolean>(
     'profile-slots-initialized',
     () => false
@@ -133,6 +138,7 @@ export const useProfileSlots = () => {
   })
 
   const addProfile = (slot?: number): boolean => {
+    if (profileBusy.value) return false
     const targetIndex =
       slot && slot >= 2 && slot <= MAX_PROFILES
         ? slot - 1
@@ -200,10 +206,24 @@ export const useProfileSlots = () => {
   }
 
   const switchProfile = (slot: number): boolean => {
+    if (profileBusy.value) return false
     if (slot < 1 || slot > MAX_PROFILES) return false
     if (!slots.value[slot - 1]?.exists) return false
     activeSlot.value = slot
     return true
+  }
+
+  function withProfileLock<Args extends unknown[], Result>(
+    operation: (...args: Args) => Promise<Result>
+  ) {
+    return async (...args: Args): Promise<Result> => {
+      pendingOperations.value += 1
+      try {
+        return await operation(...args)
+      } finally {
+        pendingOperations.value -= 1
+      }
+    }
   }
 
   return {
@@ -217,5 +237,7 @@ export const useProfileSlots = () => {
     renameProfile,
     setLastSync,
     switchProfile,
+    profileBusy,
+    withProfileLock,
   }
 }

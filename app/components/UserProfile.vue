@@ -55,7 +55,7 @@
   const { user, signOut } = useAuth()
   const { uploadData, syncData, clearCloudData } = useDataSync()
   const { resetToDefaults } = useTrackerSettings()
-  const { slots, activeSlot, switchProfile } = useProfileSlots()
+  const { slots, activeSlot, switchProfile, profileBusy } = useProfileSlots()
   const { initFromData, initFromIndexedDB } = usePullStoreData()
 
   const DEFAULT_PROFILE_LABEL = 'Default'
@@ -190,7 +190,7 @@
         return {
           label: getSlotLabel(slotNumber),
           key: `profile-switch-${slotNumber}`,
-          disabled: activeSlot.value === slotNumber,
+          disabled: profileBusy.value || activeSlot.value === slotNumber,
         }
       })
       .filter((option): option is DropdownOption => option !== null)

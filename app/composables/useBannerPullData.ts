@@ -1,6 +1,7 @@
 import { BANNER_DATA } from '~~/data/banners'
 
 export const useBannerPullData = () => {
+  const { withProfileLock } = useProfileSlots()
   const isFetching = ref(false)
   const { progress, fetchPullHistory } = useBannerPullApi()
   const pullStore = usePullStore()
@@ -94,7 +95,7 @@ export const useBannerPullData = () => {
         ),
         slot
       )
-      await useWardrobe().init({ force: true })
+      if (slot === activeSlot.value) await useWardrobe().init({ force: true })
     }
   }
 
@@ -387,7 +388,7 @@ export const useBannerPullData = () => {
     isFetching,
     fetchBannerPullData,
     processBannerPullData,
-    processJsonImport,
+    processJsonImport: withProfileLock(processJsonImport),
     progress,
   }
 }

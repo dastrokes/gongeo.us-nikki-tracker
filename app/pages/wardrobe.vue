@@ -1619,7 +1619,7 @@
   const localePath = useLocalePath()
   const message = useMessage()
   const dialog = useDialog()
-  const { activeSlot, slots, getSlotLabel } = useProfileSlots()
+  const { activeSlot, slots, getSlotLabel, withProfileLock } = useProfileSlots()
   const wardrobeSummaryScope = ref<WardrobeSummaryScope>('base')
   const {
     ownedItemIds,
@@ -2633,6 +2633,7 @@
         onPositiveClick: () => resolve(true),
         onNegativeClick: () => resolve(false),
         onClose: () => resolve(false),
+        onAfterLeave: () => resolve(false),
       })
     })
 
@@ -2670,6 +2671,7 @@
         onPositiveClick: () => resolve(true),
         onNegativeClick: () => resolve(false),
         onClose: () => resolve(false),
+        onAfterLeave: () => resolve(false),
       })
     })
 
@@ -2759,10 +2761,10 @@
     }
   }
 
-  const handleTrackerImport = async () => {
+  const handleTrackerImport = withProfileLock(async () => {
     if (!canImportResonanceCollection.value) return
     await importTrackerWardrobeEntries()
-  }
+  })
 
   const openWhimLogWardrobeImport = () =>
     navigateTo({
@@ -2845,17 +2847,17 @@
     wardrobeSettingsOpen.value = false
   }
 
-  const handleMarkF2PBasics = async () => {
+  const handleMarkF2PBasics = withProfileLock(async () => {
     if (!canMarkF2PBasics.value) return
     await markF2PBasicWardrobeEntries()
-  }
+  })
 
   const openProfileFilePicker = () => {
     if (!canMutate.value || importingProfileFile.value) return
     profileFileInputRef.value?.click()
   }
 
-  const handleProfileFileSelected = async (event: Event) => {
+  const handleProfileFileSelected = withProfileLock(async (event: Event) => {
     const input = event.target as HTMLInputElement
     const file = input.files?.[0]
     input.value = ''
@@ -2877,7 +2879,7 @@
     } finally {
       importingProfileFile.value = false
     }
-  }
+  })
 
   const exportProfileJSON = async () => {
     if (exportingProfileJson.value) return

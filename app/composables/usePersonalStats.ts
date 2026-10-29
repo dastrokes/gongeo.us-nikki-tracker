@@ -150,9 +150,20 @@ export const usePersonalStats = () => {
     return entries.sort((a, b) => b.percentile - a.percentile)
   })
 
-  const luckiestBanner = computed(() => bannerLuckRanking.value[0] ?? null)
+  // Share-card highlights require at least one completed featured 5★ outfit.
+  const completedBannerLuckRanking = computed(() =>
+    bannerLuckRanking.value.filter((entry) =>
+      processedPulls.value[entry.bannerId]?.outfits.some(
+        (outfit) => outfit.quality === 5 && outfit.completion >= 1
+      )
+    )
+  )
+
+  const luckiestBanner = computed(
+    () => completedBannerLuckRanking.value[0] ?? null
+  )
   const unluckiestBanner = computed(() => {
-    const list = bannerLuckRanking.value
+    const list = completedBannerLuckRanking.value
     return list.length > 1 ? list[list.length - 1] : null
   })
 

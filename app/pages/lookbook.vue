@@ -462,17 +462,22 @@
                           @click.stop
                         >
                           <span
-                            class="flex items-center justify-center"
+                            class="relative grid h-3.5 w-3.5 place-items-center leading-none text-slate-700 before:absolute before:inset-px before:rounded-full before:bg-(--ownership-accent)"
                             :style="{
-                              color: getQualityColor(entry.quality),
+                              '--ownership-accent': `color-mix(in srgb, ${getQualityColor(entry.quality)} 25%, white)`,
                             }"
+                            role="img"
                             :aria-label="
                               getLookbookOwnershipMarker(
                                 getLookbookWardrobeStatus(entry)
                               ).label
                             "
                           >
-                            <n-icon :size="12">
+                            <n-icon
+                              :size="14"
+                              class="relative block"
+                              aria-hidden="true"
+                            >
                               <component
                                 :is="
                                   getLookbookOwnershipMarker(

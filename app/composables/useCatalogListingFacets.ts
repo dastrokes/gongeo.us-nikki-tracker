@@ -105,6 +105,10 @@ export const useCatalogListingFacets = async ({
                 : key !== filterKey)
           )
         )
+        // Omitting variations defaults to base, so explicitly include every variant.
+        if (filterKey === 'variations') {
+          filters.variations = 'all'
+        }
         const facetQuery: CatalogFacetQuery = {
           ...currentQuery,
           filters,

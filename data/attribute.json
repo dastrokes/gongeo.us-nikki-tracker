@@ -367,6 +367,11 @@
   {
     "field": "material",
     "itemType": null,
+    "value": "faux_fur"
+  },
+  {
+    "field": "material",
+    "itemType": null,
     "value": "felt"
   },
   {
@@ -488,6 +493,11 @@
     "field": "material",
     "itemType": null,
     "value": "satin"
+  },
+  {
+    "field": "material",
+    "itemType": null,
+    "value": "shearling"
   },
   {
     "field": "material",
@@ -802,6 +812,11 @@
   {
     "field": "ornament",
     "itemType": null,
+    "value": "crown"
+  },
+  {
+    "field": "ornament",
+    "itemType": null,
     "value": "cube"
   },
   {
@@ -867,6 +882,11 @@
   {
     "field": "ornament",
     "itemType": null,
+    "value": "fleur_de_lis"
+  },
+  {
+    "field": "ornament",
+    "itemType": null,
     "value": "flower"
   },
   {
@@ -903,6 +923,11 @@
     "field": "ornament",
     "itemType": null,
     "value": "gemstone"
+  },
+  {
+    "field": "ornament",
+    "itemType": null,
+    "value": "gingerbread_man"
   },
   {
     "field": "ornament",
@@ -978,6 +1003,11 @@
     "field": "ornament",
     "itemType": null,
     "value": "light_bulb"
+  },
+  {
+    "field": "ornament",
+    "itemType": null,
+    "value": "lion_head"
   },
   {
     "field": "ornament",
@@ -1117,6 +1147,11 @@
   {
     "field": "ornament",
     "itemType": null,
+    "value": "scarf"
+  },
+  {
+    "field": "ornament",
+    "itemType": null,
     "value": "screw"
   },
   {
@@ -1222,6 +1257,11 @@
   {
     "field": "ornament",
     "itemType": null,
+    "value": "unicorn"
+  },
+  {
+    "field": "ornament",
+    "itemType": null,
     "value": "veil"
   },
   {
@@ -1293,6 +1333,11 @@
     "field": "pattern",
     "itemType": null,
     "value": "argyle"
+  },
+  {
+    "field": "pattern",
+    "itemType": null,
+    "value": "baroque"
   },
   {
     "field": "pattern",
@@ -1473,6 +1518,11 @@
     "field": "pattern",
     "itemType": null,
     "value": "plaid"
+  },
+  {
+    "field": "pattern",
+    "itemType": null,
+    "value": "planet"
   },
   {
     "field": "pattern",
@@ -1867,6 +1917,11 @@
   {
     "field": "structure",
     "itemType": null,
+    "value": "flared"
+  },
+  {
+    "field": "structure",
+    "itemType": null,
     "value": "floating"
   },
   {
@@ -2032,6 +2087,11 @@
   {
     "field": "structure",
     "itemType": null,
+    "value": "slouched"
+  },
+  {
+    "field": "structure",
+    "itemType": null,
     "value": "spherical"
   },
   {
@@ -2158,6 +2218,11 @@
     "field": "waistline",
     "itemType": null,
     "value": "basque_waist"
+  },
+  {
+    "field": "waistline",
+    "itemType": null,
+    "value": "dropped_waist"
   },
   {
     "field": "waistline",
@@ -2792,6 +2857,11 @@
   {
     "field": "category",
     "itemType": "outerwear",
+    "value": "table"
+  },
+  {
+    "field": "category",
+    "itemType": "outerwear",
     "value": "vest"
   },
   {
@@ -3392,6 +3462,11 @@
   {
     "field": "subcategory",
     "itemType": "gloves",
+    "value": "boxing_gloves"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "gloves",
     "value": "fingerless_gloves"
   },
   {
@@ -3523,6 +3598,11 @@
     "field": "subcategory",
     "itemType": "hairAccessories",
     "value": "hair_comb"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "hairAccessories",
+    "value": "hair_tie"
   },
   {
     "field": "subcategory",
@@ -3872,7 +3952,17 @@
   {
     "field": "subcategory",
     "itemType": "headwear",
+    "value": "papakha"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "headwear",
     "value": "peaked_cap"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "headwear",
+    "value": "santa_hat"
   },
   {
     "field": "subcategory",

@@ -1,6 +1,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
+import prettier from 'prettier'
 import { loadItemSearchRegistry } from '../data/item-search/registry.mjs'
 
 const __filename = fileURLToPath(import.meta.url)
@@ -270,7 +271,16 @@ export const buildImageSearchExport = (registry = loadRegistry()) => ({
   taxonomy: registry.taxonomy,
 })
 
-export const writeGeneratedAssets = (registry = loadRegistry()) => {
+export const formatAndWriteTs = async (filePath, source) => {
+  const config = await prettier.resolveConfig(filePath)
+  const formatted = await prettier.format(source, {
+    ...(config ?? {}),
+    filepath: filePath,
+  })
+  fs.writeFileSync(filePath, formatted, 'utf8')
+}
+
+export const writeGeneratedAssets = async (registry = loadRegistry()) => {
   fs.mkdirSync(path.dirname(trackerExportPath), { recursive: true })
 
   fs.writeFileSync(
@@ -278,15 +288,13 @@ export const writeGeneratedAssets = (registry = loadRegistry()) => {
     `${JSON.stringify(buildAttributeEntries(registry), null, 2)}\n`,
     'utf8'
   )
-  fs.writeFileSync(
+  await formatAndWriteTs(
     taxonomyModulePath,
-    buildTaxonomyModuleSource(registry),
-    'utf8'
+    buildTaxonomyModuleSource(registry)
   )
-  fs.writeFileSync(
+  await formatAndWriteTs(
     registryModulePath,
-    buildRegistryModuleSource(registry),
-    'utf8'
+    buildRegistryModuleSource(registry)
   )
   fs.writeFileSync(
     trackerExportPath,
@@ -313,6 +321,6 @@ const isDirectRun = () => {
 }
 
 if (isDirectRun()) {
-  const result = writeGeneratedAssets()
+  const result = await writeGeneratedAssets()
   console.log(JSON.stringify(result, null, 2))
 }

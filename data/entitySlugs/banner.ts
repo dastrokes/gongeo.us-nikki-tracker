@@ -80,4 +80,5 @@ export const ENTITY_SLUG_DATA = [
   [77, 'a-story-dedicated-to-children'],
   [78, 'the-unfading-wanderer'],
   [79, 'till-the-night-ends'],
+  [80, 'snowfall-softly-sung'],
 ] as const

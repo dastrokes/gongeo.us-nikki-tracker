@@ -6,5 +6,5 @@ import {
 
 export { buildFilterTemplate, generateFilters, writeGeneratedAssets }
 
-writeGeneratedAssets()
+await writeGeneratedAssets()
 console.log('Done')

@@ -109,6 +109,7 @@
       "sunglasses": "eyewear"
     },
     "gloves": {
+      "boxing_gloves": "gloves",
       "fingerless_gloves": "gloves",
       "gauntlets": "gloves",
       "mittens": "gloves",
@@ -140,6 +141,7 @@
       "coronet": "crown",
       "flower": "hair_ornament",
       "hair_comb": "hair_ornament",
+      "hair_tie": "hair_ornament",
       "hairclip": "hair_ornament",
       "hairpin": "hair_ornament",
       "head_chain": "headpiece",
@@ -213,7 +215,9 @@
       "mini_hat": "hat",
       "mushroom_hat": "hat",
       "newsboy_cap": "hat",
+      "papakha": "hat",
       "peaked_cap": "hat",
+      "santa_hat": "hat",
       "sunglasses": "eyewear",
       "tiara": "crown",
       "top_hat": "hat",

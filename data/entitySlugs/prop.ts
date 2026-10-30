@@ -114,6 +114,13 @@ export const ENTITY_SLUG_DATA = [
   [1280010130, 'feathers-and-bloom'],
   [1280010131, 'unbroken-voyage'],
   [1280010132, 'symphony-fountain'],
+  [1280010133, 'waverider-swing-boat'],
+  [1280010134, 'snug-surprise-stocking'],
+  [1280010135, 'snowlit-shop-window'],
+  [1280010136, 'starlight-wishing-tree'],
+  [1280010137, 'wishful-sweetness'],
+  [1280010138, 'wishful-sweetness-radiance'],
+  [1280010143, 'dreams-in-mira-building'],
   [1280030001, 'flower-lantern'],
   [1280040001, 'luminous-bloom'],
 ] as const

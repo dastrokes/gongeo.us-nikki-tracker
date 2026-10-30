@@ -8,6 +8,7 @@ import {
   buildImageSearchExport,
   buildRegistryModuleSource,
   buildTaxonomyModuleSource,
+  formatAndWriteTs,
 } from './item-search-registry-lib.mjs'
 
 const __filename = fileURLToPath(import.meta.url)
@@ -99,15 +100,6 @@ const writeSourceJson = async (filePath, value) => {
     ...(config ?? {}),
     filepath: filePath,
     parser: 'json',
-  })
-  fs.writeFileSync(filePath, formatted, 'utf8')
-}
-
-const formatAndWriteTs = async (filePath, source) => {
-  const config = await prettier.resolveConfig(filePath)
-  const formatted = await prettier.format(source, {
-    ...(config ?? {}),
-    filepath: filePath,
   })
   fs.writeFileSync(filePath, formatted, 'utf8')
 }

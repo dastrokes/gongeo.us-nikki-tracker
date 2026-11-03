@@ -14,5 +14,11 @@ export const getDataApiUrl = (path: string) => {
   const requestBaseUrl = normalizedPath.startsWith('/_internal/')
     ? baseUrl.replace(/\/v1$/, '')
     : baseUrl
+
+  if (import.meta.dev && /^https?:\/\//.test(requestBaseUrl)) {
+    const upstreamUrl = new URL(requestBaseUrl)
+    return `/_dev/data-api${upstreamUrl.pathname.replace(/\/+$/, '')}${normalizedPath}`
+  }
+
   return `${requestBaseUrl}${normalizedPath}`
 }

@@ -77,6 +77,9 @@ const BANNER_FOCAL_POINTS: Record<number, number> = {
   75: 0.49,
   76: 0.64,
   77: 0.47,
+  78: 0.55,
+  79: 0.6,
+  80: 0.5,
 }
 
 export const getBannerFocalPointStyle = (bannerId: number) => {

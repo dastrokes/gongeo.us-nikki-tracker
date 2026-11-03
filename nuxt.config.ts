@@ -24,6 +24,10 @@ import {
 import { getImageProvider } from './app/utils/imageProvider'
 
 const siteUrl = process.env.NUXT_PUBLIC_SITE_URL || 'https://gongeo.us'
+const dataApiBaseUrl = process.env.NUXT_PUBLIC_DATA_API_BASE_URL || ''
+const useDataApiDevProxy =
+  process.env.NODE_ENV === 'development' && /^https?:\/\//.test(dataApiBaseUrl)
+const dataApiUpstream = useDataApiDevProxy ? new URL(dataApiBaseUrl) : null
 const catalogRevision = (() => {
   try {
     return createHash('sha256')
@@ -182,7 +186,7 @@ export default defineNuxtConfig({
     public: {
       supabaseUrl: process.env.SUPABASE_DATABASE_URL,
       supabasePublishableKey: process.env.SUPABASE_PUBLISHABLE_KEY,
-      dataApiBaseUrl: process.env.NUXT_PUBLIC_DATA_API_BASE_URL || '',
+      dataApiBaseUrl,
       gongeousApiKey: process.env.GONGEOUS_API_KEY,
       siteUrl,
       catalogRevision,
@@ -304,6 +308,13 @@ export default defineNuxtConfig({
   },
 
   routeRules: {
+    ...(dataApiUpstream
+      ? {
+          '/_dev/data-api/**': {
+            proxy: `${dataApiUpstream.origin}/**`,
+          },
+        }
+      : {}),
     ...(() => {
       const localePrefixes = i18nLocales
         .filter((locale) => locale.code !== defaultLocale)

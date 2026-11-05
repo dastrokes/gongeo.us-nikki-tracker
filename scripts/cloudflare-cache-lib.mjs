@@ -1,6 +1,88 @@
 import { normalizeCacheTags } from './netlify-cache-lib.mjs'
 
 const MAX_PURGE_TAGS = 100
+const MAX_PURGE_PREFIXES = 100
+const CLOUDFLARE_API_BASE_URL = 'https://api.cloudflare.com/client/v4'
+const ZONE_PURGE_HOSTS = new Set([
+  'gongeo.us',
+  'www.gongeo.us',
+  'cdn.gongeo.us',
+])
+
+// Zone cache prefixes use Cloudflare's `host/path` form: no scheme, query or fragment.
+export const normalizeCloudflarePurgePrefix = (value) => {
+  const raw = String(value ?? '').trim()
+  const prefix = raw.replace(/^https?:\/\//i, '')
+  const host = prefix.split('/', 1)[0]?.toLowerCase() ?? ''
+
+  if (!prefix || /[?#\s]/.test(prefix)) {
+    throw new Error(`Invalid Cloudflare purge prefix: ${raw}`)
+  }
+  if (!ZONE_PURGE_HOSTS.has(host)) {
+    throw new Error(
+      `Cloudflare purge prefix must start with ${[...ZONE_PURGE_HOSTS].join(', ')}: ${raw}`
+    )
+  }
+
+  return `${host}${prefix.slice(host.length)}`
+}
+
+export async function purgeCloudflareZonePrefixes({
+  prefixes,
+  zoneId = process.env.CLOUDFLARE_ZONE_ID,
+  token = process.env.CLOUDFLARE_ZONE_PURGE_TOKEN,
+  fetchFn = globalThis.fetch,
+  batchSize = MAX_PURGE_PREFIXES,
+} = {}) {
+  const zone = String(zoneId ?? '').trim()
+  const purgeToken = String(token ?? '').trim()
+
+  if (!zone) {
+    throw new Error(
+      'CLOUDFLARE_ZONE_ID is required to purge Cloudflare zone cache'
+    )
+  }
+  if (!purgeToken) {
+    throw new Error(
+      'CLOUDFLARE_ZONE_PURGE_TOKEN is required to purge Cloudflare zone cache'
+    )
+  }
+  if (typeof fetchFn !== 'function') {
+    throw new Error('fetch is required to purge Cloudflare zone cache')
+  }
+
+  const normalized = [
+    ...new Set((prefixes ?? []).map(normalizeCloudflarePurgePrefix)),
+  ]
+  if (normalized.length === 0) {
+    throw new Error('At least one Cloudflare zone purge prefix is required')
+  }
+
+  const batches = []
+  for (let index = 0; index < normalized.length; index += batchSize) {
+    const batch = normalized.slice(index, index + batchSize)
+    const response = await fetchFn(
+      `${CLOUDFLARE_API_BASE_URL}/zones/${encodeURIComponent(zone)}/purge_cache`,
+      {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${purgeToken}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ prefixes: batch }),
+      }
+    )
+    const text = await response.text().catch(() => '')
+    if (!response.ok) {
+      throw new Error(
+        `Cloudflare zone cache purge failed with ${response.status}: ${text}`
+      )
+    }
+    batches.push({ status: response.status, body: text, prefixes: batch })
+  }
+
+  return { prefixes: normalized, batches }
+}
 const CLOUDFLARE_CACHE_TAG_PATTERNS = [
   /^(?:item|outfit|makeup|momo)-details$/,
   /^(?:item|outfit|makeup|momo)-detail-[1-9]\d*$/,

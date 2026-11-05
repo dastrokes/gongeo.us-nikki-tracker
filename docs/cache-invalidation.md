@@ -55,6 +55,21 @@ Sitemap purge:
 npm run purge -- sitemap
 ```
 
+Replaced image purge:
+
+Cloudflare edge-caches cdn images, `/images/*` and `/.netlify/images*` for one
+year, so Netlify purges do not reach it. After replacing an image under the same
+name, purge its cdn path and the transformed variants. A prefix purge covers every
+query-string variant, and it needs `CLOUDFLARE_ZONE_ID` plus
+`CLOUDFLARE_ZONE_PURGE_TOKEN`. The Free plan allows 5 prefix purge requests per
+minute, with up to 100 prefixes per request.
+
+```powershell
+npm run purge -- --prefix=cdn.gongeo.us/images/outfits/10366.png --prefix=gongeo.us/.netlify/images
+```
+
+Browsers keep images for 30 days, so prefer a new file name for visible fixes.
+
 Single-banner stats purge:
 
 ```powershell

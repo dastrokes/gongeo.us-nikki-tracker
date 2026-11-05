@@ -350,14 +350,18 @@
                 class="opacity-80 transition-opacity duration-200 hover:opacity-100"
               >
                 <img
-                  src="https://www.netlify.com/img/global/badges/netlify-dark.svg"
+                  src="/images/badges/netlify-dark.svg"
                   alt="Deploys by Netlify"
+                  width="114"
+                  height="50"
                   class="h-9 w-auto dark:hidden"
                   loading="lazy"
                 />
                 <img
-                  src="https://www.netlify.com/img/global/badges/netlify-light.svg"
+                  src="/images/badges/netlify-light.svg"
                   alt="Deploys by Netlify"
+                  width="114"
+                  height="50"
                   class="hidden h-9 w-auto dark:block"
                   loading="lazy"
                 />
@@ -370,22 +374,26 @@
                 class="opacity-80 transition-opacity duration-200 hover:opacity-100"
               >
                 <img
-                  src="https://badges.crowdin.net/badge/dark/crowdin-on-light.png"
+                  src="/images/badges/crowdin-on-light.png"
                   srcset="
-                    https://badges.crowdin.net/badge/dark/crowdin-on-light.png    1x,
-                    https://badges.crowdin.net/badge/dark/crowdin-on-light@2x.png 2x
+                    /images/badges/crowdin-on-light.png    1x,
+                    /images/badges/crowdin-on-light@2x.png 2x
                   "
                   alt="Crowdin | Agile localization for tech companies"
+                  width="140"
+                  height="40"
                   class="h-9 w-auto dark:hidden"
                   loading="lazy"
                 />
                 <img
-                  src="https://badges.crowdin.net/badge/light/crowdin-on-dark.png"
+                  src="/images/badges/crowdin-on-dark.png"
                   srcset="
-                    https://badges.crowdin.net/badge/light/crowdin-on-dark.png    1x,
-                    https://badges.crowdin.net/badge/light/crowdin-on-dark@2x.png 2x
+                    /images/badges/crowdin-on-dark.png    1x,
+                    /images/badges/crowdin-on-dark@2x.png 2x
                   "
                   alt="Crowdin | Agile localization for tech companies"
+                  width="140"
+                  height="40"
                   class="hidden h-9 w-auto dark:block"
                   loading="lazy"
                 />

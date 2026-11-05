@@ -1898,7 +1898,10 @@
     ['bangs.wispy_bangs', 'category.hair.twin_tails'],
   ]
 
-  const exampleIndex = ref(0)
+  // Picked during SSR and carried in the payload so hydration keeps the same example.
+  const exampleIndex = useState('whim-search-placeholder-example', () =>
+    Math.floor(Math.random() * PLACEHOLDER_EXAMPLES.length)
+  )
   const currentExample = computed(() => {
     const isCJK = ['zh', 'tw', 'ja', 'ko'].includes(locale.value)
     return (PLACEHOLDER_EXAMPLES[exampleIndex.value] ?? [])
@@ -1966,10 +1969,6 @@
     luckyResult.value = null
     showOwnedSearchEmpty.value = false
   }
-
-  onMounted(() => {
-    exampleIndex.value = Math.floor(Math.random() * PLACEHOLDER_EXAMPLES.length)
-  })
 
   onUnmounted(() => {
     cancelActiveSearch()

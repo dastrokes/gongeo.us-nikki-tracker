@@ -177,7 +177,22 @@ export default defineNuxtConfig({
   },
 
   robots: {
-    disallow: ['/error'],
+    groups: [
+      { userAgent: ['*'], disallow: ['/error'] },
+      // SEO-research crawlers; also blocked by a Cloudflare WAF rule.
+      {
+        userAgent: [
+          'AhrefsBot',
+          'AhrefsSiteAudit',
+          'SemrushBot',
+          'SemrushBot-BA',
+          'SemrushBot-SI',
+          'SiteAuditBot',
+          'SplitSignalBot',
+        ],
+        disallow: ['/'],
+      },
+    ],
   },
 
   runtimeConfig: {

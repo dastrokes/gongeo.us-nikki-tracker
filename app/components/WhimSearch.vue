@@ -1898,19 +1898,27 @@
     ['bangs.wispy_bangs', 'category.hair.twin_tails'],
   ]
 
-  // Picked during SSR and carried in the payload so hydration keeps the same example.
-  const exampleIndex = useState('whim-search-placeholder-example', () =>
-    Math.floor(Math.random() * PLACEHOLDER_EXAMPLES.length)
-  )
+  // The page HTML is CDN-cached, so an SSR pick would be frozen for every visitor.
+  // Render no placeholder until mount, then pick once: a single empty -> text change.
+  const exampleIndex = ref<number | null>(null)
   const currentExample = computed(() => {
+    if (exampleIndex.value === null) return ''
     const isCJK = ['zh', 'tw', 'ja', 'ko'].includes(locale.value)
     return (PLACEHOLDER_EXAMPLES[exampleIndex.value] ?? [])
       .map((path) => t(`filter.${path}`))
       .join(isCJK ? '' : ' ')
   })
   const searchPlaceholder = computed(() =>
-    t('search_page.placeholder', { example: currentExample.value })
+    currentExample.value
+      ? t('search_page.placeholder', { example: currentExample.value })
+      : ''
   )
+
+  onMounted(() => {
+    exampleIndex.value = Math.floor(
+      Math.random() * PLACEHOLDER_EXAMPLES.length
+    )
+  })
 
   let activeSearch: ActiveSearch | null = null
   let lastCompletedSearchKey: string | null = null

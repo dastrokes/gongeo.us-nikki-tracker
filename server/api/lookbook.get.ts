@@ -194,6 +194,7 @@ const fetchLookbookPayload = async (code: string) => {
     signal: AbortSignal.timeout(LOOKBOOK_REQUEST_TIMEOUT_MS),
     headers: {
       Accept: 'application/json',
+      'User-Agent': 'Gongeous (+https://gongeo.us)',
     },
   })
 

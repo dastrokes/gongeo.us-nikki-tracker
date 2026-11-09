@@ -215,17 +215,6 @@
                 </n-button>
               </template>
             </div>
-            <NuxtLinkLocale
-              v-if="slot.exists && activeSlot === index + 1"
-              :to="{ path: '/banners', query: { wishlist: '1' } }"
-              class="mt-3 flex items-center justify-between gap-2 border-t border-slate-200 pt-3 text-sm font-medium text-rose-600 focus-visible:outline-2 focus-visible:outline-offset-2 dark:border-slate-700 dark:text-rose-300"
-            >
-              <span class="inline-flex items-center gap-2"
-                ><n-icon><HeartRegular /></n-icon
-                >{{ t('wishlist.filter', { count: wishCount }) }}</span
-              >
-              <n-icon><ChevronRight /></n-icon>
-            </NuxtLinkLocale>
           </n-card>
         </div>
 
@@ -301,8 +290,6 @@
 <script setup lang="ts">
   import { NAlert, NInput } from 'naive-ui'
   import {
-    ChevronRight,
-    HeartRegular,
     CheckCircle,
     Cloud,
     Clock,
@@ -328,7 +315,7 @@
   const { resetToDefaults } = useTrackerSettings()
   const { clearSlotData, loadData, loadWardrobe, loadBannerWishlist } =
     useIndexedDB()
-  const { count: wishCount, data: wishlistData } = useBannerWishlist()
+  const { data: wishlistData } = useBannerWishlist()
   const { user, initialized } = useAuth()
   const { uploadData, syncData, clearCloudData, getRemoteSlotsWithData } =
     useDataSync()

@@ -1915,9 +1915,7 @@
   )
 
   onMounted(() => {
-    exampleIndex.value = Math.floor(
-      Math.random() * PLACEHOLDER_EXAMPLES.length
-    )
+    exampleIndex.value = Math.floor(Math.random() * PLACEHOLDER_EXAMPLES.length)
   })
 
   let activeSearch: ActiveSearch | null = null

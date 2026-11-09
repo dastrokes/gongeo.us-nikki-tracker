@@ -36,6 +36,30 @@ for = "/images/*"
   Netlify-CDN-Cache-Control = "public, durable, s-maxage=31536000, stale-while-revalidate=604800, stale-if-error=604800"
 
 [[headers]]
+for = "/favicon*"
+
+  [headers.values]
+  cache-control = "public, max-age=2592000, stale-while-revalidate=604800"
+  CDN-Cache-Control = "public, s-maxage=31536000, stale-while-revalidate=604800, stale-if-error=604800"
+  Netlify-CDN-Cache-Control = "public, durable, s-maxage=31536000, stale-while-revalidate=604800, stale-if-error=604800"
+
+[[headers]]
+for = "/apple-touch-icon*"
+
+  [headers.values]
+  cache-control = "public, max-age=2592000, stale-while-revalidate=604800"
+  CDN-Cache-Control = "public, s-maxage=31536000, stale-while-revalidate=604800, stale-if-error=604800"
+  Netlify-CDN-Cache-Control = "public, durable, s-maxage=31536000, stale-while-revalidate=604800, stale-if-error=604800"
+
+[[headers]]
+for = "/android-chrome-*"
+
+  [headers.values]
+  cache-control = "public, max-age=2592000, stale-while-revalidate=604800"
+  CDN-Cache-Control = "public, s-maxage=31536000, stale-while-revalidate=604800, stale-if-error=604800"
+  Netlify-CDN-Cache-Control = "public, durable, s-maxage=31536000, stale-while-revalidate=604800, stale-if-error=604800"
+
+[[headers]]
 for = "/catalog/*.*.json"
 
   [headers.values]

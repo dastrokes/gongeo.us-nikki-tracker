@@ -2,6 +2,7 @@
 
 export const ENTITY_SLUG_DATA = [
   [1160100001, 'momo-s-cloak-dream'],
+  [1160100003, 'momo-s-cloak-dance'],
   [1160100004, 'momo-s-cloak-bright-gold'],
   [1160100005, 'momo-s-cloak-leisure'],
   [1160100006, 'momo-s-cloak-starlit'],

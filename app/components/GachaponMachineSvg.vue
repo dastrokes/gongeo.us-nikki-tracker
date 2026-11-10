@@ -2,8 +2,7 @@
   <svg
     class="whim-o-matic-svg"
     :class="{
-      'is-rolling': rolling,
-      'is-revealed': revealed,
+      'is-pulling': pulling,
       'is-compact': variant === 'compact',
     }"
     viewBox="0 0 512 640"
@@ -116,16 +115,6 @@
         />
       </filter>
 
-      <clipPath :id="svgIds.windowClip">
-        <rect
-          x="211"
-          y="410"
-          width="90"
-          height="90"
-          rx="18"
-        />
-      </clipPath>
-
       <clipPath :id="svgIds.globeClip">
         <path
           d="M 172 68 C 142 94 128 145 132 190 C 136 245 178 285 188 346 L 324 346 C 334 285 376 245 380 190 C 384 145 370 94 340 68 Z"
@@ -148,7 +137,10 @@
       />
 
       <!-- Lever (Behind the base) -->
-      <g class="lever">
+      <g
+        class="lever"
+        @animationend.self="$emit('pulled')"
+      >
         <line
           x1="152"
           y1="432"
@@ -250,33 +242,6 @@
         :fill="`url(#${svgIds.goldGradient})`"
       />
 
-      <!-- Prize Capsule -->
-      <g :clip-path="`url(#${svgIds.windowClip})`">
-        <g class="prize-capsule capsule">
-          <g class="prize-capsule-rotator">
-            <circle
-              cx="256"
-              cy="432"
-              r="23"
-              fill="#F5C7CF"
-            />
-            <path
-              d="M 233 432 A 23 23 0 0 0 279 432 Z"
-              fill="#A9D66F"
-            />
-            <line
-              x1="233"
-              y1="432"
-              x2="279"
-              y2="432"
-              stroke="#FFFFFF"
-              stroke-width="2"
-              opacity="0.5"
-            />
-          </g>
-        </g>
-      </g>
-
       <!-- Glass Globe Background -->
       <path
         d="M 172 68 C 142 94 128 145 132 190 C 136 245 178 285 188 346 L 324 346 C 334 285 376 245 380 190 C 384 145 370 94 340 68 Z"
@@ -317,115 +282,29 @@
             />
           </g>
 
-          <!-- Capsules -->
-          <g class="capsules">
-            <!-- Back row -->
-            <g transform="translate(204 286)">
-              <g class="capsule capsule--1">
-                <circle
-                  r="22"
-                  fill="#F2C96C"
-                />
-                <path
-                  d="M -22 0 A 22 22 0 0 0 22 0 Z"
-                  fill="#F5C7CF"
-                />
-                <line
-                  x1="-22"
-                  y1="0"
-                  x2="22"
-                  y2="0"
-                  stroke="#FFFFFF"
-                  stroke-width="2"
-                  opacity="0.5"
-                />
-              </g>
-            </g>
-            <g transform="translate(256 280)">
-              <g class="capsule capsule--2">
-                <circle
-                  r="23"
-                  fill="#F5C7CF"
-                />
-                <path
-                  d="M -23 0 A 23 23 0 0 0 23 0 Z"
-                  fill="#A9D66F"
-                />
-                <line
-                  x1="-23"
-                  y1="0"
-                  x2="23"
-                  y2="0"
-                  stroke="#FFFFFF"
-                  stroke-width="2"
-                  opacity="0.5"
-                />
-              </g>
-            </g>
-            <g transform="translate(308 286)">
-              <g class="capsule capsule--3">
-                <circle
-                  r="22"
-                  fill="#F5C7CF"
-                />
-                <path
-                  d="M -22 0 A 22 22 0 0 0 22 0 Z"
-                  fill="#F2C96C"
-                />
-                <line
-                  x1="-22"
-                  y1="0"
-                  x2="22"
-                  y2="0"
-                  stroke="#FFFFFF"
-                  stroke-width="2"
-                  opacity="0.5"
-                />
-              </g>
-            </g>
-            <g transform="translate(230 302)">
-              <g class="capsule capsule--4">
-                <circle
-                  r="23"
-                  fill="#A9D66F"
-                />
-                <path
-                  d="M -23 0 A 23 23 0 0 0 23 0 Z"
-                  fill="#F2C96C"
-                />
-                <line
-                  x1="-23"
-                  y1="0"
-                  x2="23"
-                  y2="0"
-                  stroke="#FFFFFF"
-                  stroke-width="2"
-                  opacity="0.5"
-                />
-              </g>
-            </g>
-            <!-- Front row -->
-            <g transform="translate(282 302)">
-              <g class="capsule capsule--5">
-                <circle
-                  r="23"
-                  fill="#F2C96C"
-                />
-                <path
-                  d="M -23 0 A 23 23 0 0 0 23 0 Z"
-                  fill="#A9D66F"
-                />
-                <line
-                  x1="-23"
-                  y1="0"
-                  x2="23"
-                  y2="0"
-                  stroke="#FFFFFF"
-                  stroke-width="2"
-                  opacity="0.5"
-                />
-              </g>
-            </g>
+          <!-- Static capsules -->
+          <g
+            v-for="(capsule, index) in capsules"
+            :key="index"
+            :transform="`translate(${capsule.x} ${capsule.y})`"
+          >
+            <circle
+              :r="capsule.r"
+              :fill="capsule.top"
+            />
+            <path
+              :d="`M -${capsule.r} 0 A ${capsule.r} ${capsule.r} 0 0 0 ${capsule.r} 0 Z`"
+              :fill="capsule.bottom"
+            />
+            <line
+              :x1="-capsule.r"
+              y1="0"
+              :x2="capsule.r"
+              y2="0"
+              stroke="#FFFFFF"
+              stroke-width="2"
+              opacity="0.5"
+            />
           </g>
 
           <!-- Capsule Holder Front Lip -->
@@ -488,16 +367,24 @@
 <script setup lang="ts">
   withDefaults(
     defineProps<{
-      rolling?: boolean
-      revealed?: boolean
+      pulling?: boolean
       variant?: 'default' | 'compact'
     }>(),
     {
-      rolling: false,
-      revealed: false,
+      pulling: false,
       variant: 'default',
     }
   )
+
+  defineEmits<{ pulled: [] }>()
+
+  const capsules = [
+    { x: 204, y: 286, r: 22, top: '#F2C96C', bottom: '#F5C7CF' },
+    { x: 256, y: 280, r: 23, top: '#F5C7CF', bottom: '#A9D66F' },
+    { x: 308, y: 286, r: 22, top: '#F5C7CF', bottom: '#F2C96C' },
+    { x: 230, y: 302, r: 23, top: '#A9D66F', bottom: '#F2C96C' },
+    { x: 282, y: 302, r: 23, top: '#F2C96C', bottom: '#A9D66F' },
+  ]
 
   const svgId = `gachapon-${useId().replace(/:/g, '')}`
   const svgIds = {
@@ -506,7 +393,6 @@
     glassGradient: `${svgId}-glass`,
     windowGradient: `${svgId}-window`,
     shadow: `${svgId}-shadow`,
-    windowClip: `${svgId}-window-clip`,
     globeClip: `${svgId}-globe-clip`,
   }
 </script>
@@ -530,131 +416,28 @@
     opacity: 0.18;
   }
 
-  .lucky-gachapon-machine {
-    margin-inline: auto;
-    width: min(100%, 22rem);
-    aspect-ratio: 4 / 5;
-    filter: drop-shadow(0 1.2rem 1.1rem rgb(72 32 34 / 0.2));
-  }
-
-  .lucky-gachapon-machine--loading {
-    width: min(90%, 18rem);
-    filter: drop-shadow(0 1rem 1rem rgb(72 32 34 / 0.2));
-  }
-
-  .capsule {
-    transform-box: fill-box;
-    transform-origin: center;
-  }
-
-  .capsule--1 {
-    --capsule-spin: 90deg;
-  }
-
-  .capsule--2 {
-    --capsule-spin: -80deg;
-  }
-
-  .capsule--3 {
-    --capsule-spin: 100deg;
-  }
-
-  .capsule--4 {
-    --capsule-spin: -90deg;
-  }
-
-  .capsule--5 {
-    --capsule-spin: 80deg;
-  }
-
-  .prize-capsule {
-    opacity: 0;
-    transform: translateY(-54px);
-  }
-
-  .prize-capsule-rotator {
-    --capsule-spin: 360deg;
-    transform-box: fill-box;
-    transform-origin: center;
-  }
-
-  .is-revealed .prize-capsule {
-    opacity: 1;
-  }
-
-  .is-rolling .lever {
+  .is-pulling .lever {
     transform-origin: 152px 432px;
-    animation: lever-pull 2.5s ease-in-out forwards;
-  }
-
-  .is-rolling .capsules .capsule {
-    animation: capsule-spin 2.5s ease-in-out forwards;
-  }
-
-  .is-rolling .prize-capsule {
-    transform-origin: 256px 432px;
-    animation: prize-drop 2.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
-  }
-
-  .is-rolling .prize-capsule-rotator {
-    animation: capsule-spin 2.5s ease-in-out forwards;
+    animation: lever-pull 700ms ease-in-out both;
   }
 
   @keyframes lever-pull {
-    0% {
+    0%,
+    100% {
       transform: rotate(0deg);
     }
-    15% {
+    35%,
+    45% {
       transform: rotate(-35deg);
     }
-    25% {
-      transform: rotate(5deg);
-    }
-    35% {
-      transform: rotate(-2deg);
-    }
-    45%,
-    100% {
-      transform: rotate(0deg);
+    80% {
+      transform: rotate(3deg);
     }
   }
 
-  @keyframes capsule-spin {
-    0% {
-      transform: rotate(0deg);
-    }
-
-    100% {
-      transform: rotate(var(--capsule-spin, 360deg));
-    }
-  }
-
-  @keyframes prize-drop {
-    0%,
-    48% {
-      opacity: 0;
-      transform: translateY(-60px);
-    }
-
-    52% {
-      opacity: 1;
-      transform: translateY(-48px);
-      animation-timing-function: cubic-bezier(0.18, 0.02, 0.72, 0.24);
-    }
-
-    78% {
-      transform: translateY(45px);
-      animation-timing-function: cubic-bezier(0.18, 0.72, 0.28, 1);
-    }
-
-    90% {
-      transform: translateY(42px);
-      animation-timing-function: ease-out;
-    }
-
-    100% {
-      opacity: 1;
-      transform: translateY(45px);
+  @media (prefers-reduced-motion: reduce) {
+    .is-pulling .lever {
+      animation-duration: 1ms;
     }
   }
 </style>

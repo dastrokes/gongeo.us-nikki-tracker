@@ -1045,27 +1045,24 @@
           >
             <div
               class="lucky-reveal-card group relative aspect-2/3 w-full max-w-74 origin-[50%_44%] overflow-visible rounded-3xl shadow-md ring-1 shadow-rose-950/10 ring-black/5 will-change-[transform,opacity,box-shadow] dark:ring-white/10"
-              :class="{
-                'lucky-reveal-card--revealed': luckyRevealPhase === 'revealed',
-              }"
             >
               <div
                 class="lucky-reveal-surface absolute inset-0 overflow-hidden rounded-3xl bg-white dark:bg-slate-950"
-                :style="luckyRevealSurfaceStyle"
+                :style="luckyPullLoaderStyle"
               >
                 <div
                   v-if="
                     luckyRevealPhase === 'revealed' &&
                     Boolean(luckyDisplayResult)
                   "
-                  class="absolute inset-0 bg-slate-100 bg-[url('/images/bg.webp')] bg-cover bg-center"
+                  class="absolute inset-0 bg-slate-100 bg-[url('/images/bg.webp')] bg-cover bg-center transition-opacity duration-[650ms] motion-reduce:transition-none starting:opacity-0"
                 ></div>
                 <div
                   v-if="
                     luckyRevealPhase === 'revealed' &&
                     Boolean(luckyDisplayResult)
                   "
-                  class="absolute inset-0"
+                  class="absolute inset-0 transition-opacity duration-[650ms] motion-reduce:transition-none starting:opacity-0"
                   :style="getQualityOverlayStyle(luckyDisplayResult?.quality)"
                 ></div>
                 <NuxtImg
@@ -1075,25 +1072,29 @@
                   "
                   :src="getResultImageSrc(luckyDisplayResult) ?? ''"
                   :alt="luckyDisplayResult?.itemName"
-                  class="lucky-reveal-image absolute inset-0 z-10 h-full w-full transition-all duration-300"
+                  class="lucky-reveal-image absolute inset-0 z-10 h-full w-full transition-[opacity,scale] duration-[650ms] ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none starting:scale-88 starting:opacity-0"
                   :class="getResultImageClass(luckyDisplayResult)"
                   :preset="getResultImagePreset(luckyDisplayResult)"
                   sizes="200px"
                   fit="cover"
                   loading="eager"
                 />
-                <div
-                  v-else
-                  class="lucky-pull-loader absolute inset-0 flex flex-col items-center justify-center gap-3 bg-white/75 text-center text-rose-600 dark:bg-slate-950/75 dark:text-rose-200"
-                  :style="luckyPullLoaderStyle"
+                <Transition
+                  leave-active-class="transition-opacity duration-[650ms] ease-in-out motion-reduce:transition-none"
+                  leave-to-class="opacity-0"
                 >
-                  <GachaponMachineSvg
-                    class="lucky-gachapon-machine lucky-gachapon-machine--loading relative z-10"
-                    :rolling="isLuckyAnimating"
-                    :revealed="false"
-                    aria-hidden="true"
-                  />
-                </div>
+                  <div
+                    v-if="luckyRevealPhase === 'rolling'"
+                    class="lucky-pull-loader absolute inset-0 z-20 flex items-center justify-center"
+                  >
+                    <LuckyMachineReveal
+                      :key="luckyRollId"
+                      :images="luckyReelImages"
+                      :preview-ready="luckyPreviewReady"
+                      @settled="finishLuckyReveal"
+                    />
+                  </div>
+                </Transition>
                 <div
                   v-if="
                     luckyRevealPhase === 'revealed' &&
@@ -1225,6 +1226,7 @@
                     luckyRevealPhase === 'revealed' &&
                     Boolean(luckyDisplayResult)
                   "
+                  class="transition-opacity delay-75 duration-300 motion-reduce:transition-none starting:opacity-0"
                   :item-name="luckyDisplayResult?.itemName ?? ''"
                   :quality="luckyDisplayResult?.quality ?? null"
                   :item-type-label="luckyDisplayResult?.itemTypeLabel ?? ''"
@@ -1381,28 +1383,24 @@
             >
               <div
                 class="lucky-reveal-card group relative aspect-2/3 w-full max-w-[min(62vw,14.5rem)] origin-[50%_44%] overflow-visible rounded-3xl shadow-md ring-1 shadow-rose-950/10 ring-black/5 will-change-[transform,opacity,box-shadow] dark:ring-white/10"
-                :class="{
-                  'lucky-reveal-card--revealed':
-                    luckyRevealPhase === 'revealed',
-                }"
               >
                 <div
                   class="lucky-reveal-surface absolute inset-0 overflow-hidden rounded-3xl bg-white dark:bg-slate-950"
-                  :style="luckyRevealSurfaceStyle"
+                  :style="luckyPullLoaderStyle"
                 >
                   <div
                     v-if="
                       luckyRevealPhase === 'revealed' &&
                       Boolean(luckyDisplayResult)
                     "
-                    class="absolute inset-0 bg-slate-100 bg-[url('/images/bg.webp')] bg-cover bg-center"
+                    class="absolute inset-0 bg-slate-100 bg-[url('/images/bg.webp')] bg-cover bg-center transition-opacity duration-[650ms] motion-reduce:transition-none starting:opacity-0"
                   ></div>
                   <div
                     v-if="
                       luckyRevealPhase === 'revealed' &&
                       Boolean(luckyDisplayResult)
                     "
-                    class="absolute inset-0"
+                    class="absolute inset-0 transition-opacity duration-[650ms] motion-reduce:transition-none starting:opacity-0"
                     :style="getQualityOverlayStyle(luckyDisplayResult?.quality)"
                   ></div>
                   <NuxtImg
@@ -1412,25 +1410,29 @@
                     "
                     :src="getResultImageSrc(luckyDisplayResult) ?? ''"
                     :alt="luckyDisplayResult?.itemName"
-                    class="lucky-reveal-image absolute inset-0 z-10 h-full w-full transition-all duration-300"
+                    class="lucky-reveal-image absolute inset-0 z-10 h-full w-full transition-[opacity,scale] duration-[650ms] ease-[cubic-bezier(0.22,1,0.36,1)] motion-reduce:transition-none starting:scale-88 starting:opacity-0"
                     :class="getResultImageClass(luckyDisplayResult)"
                     :preset="getResultImagePreset(luckyDisplayResult)"
                     sizes="200px"
                     fit="cover"
                     loading="eager"
                   />
-                  <div
-                    v-else
-                    class="lucky-pull-loader absolute inset-0 flex flex-col items-center justify-center gap-3 bg-white/75 text-center text-rose-600 dark:bg-slate-950/75 dark:text-rose-200"
-                    :style="luckyPullLoaderStyle"
+                  <Transition
+                    leave-active-class="transition-opacity duration-[650ms] ease-in-out motion-reduce:transition-none"
+                    leave-to-class="opacity-0"
                   >
-                    <GachaponMachineSvg
-                      class="lucky-gachapon-machine lucky-gachapon-machine--loading relative z-10"
-                      :rolling="isLuckyAnimating"
-                      :revealed="false"
-                      aria-hidden="true"
-                    />
-                  </div>
+                    <div
+                      v-if="luckyRevealPhase === 'rolling'"
+                      class="lucky-pull-loader absolute inset-0 z-20 flex items-center justify-center"
+                    >
+                      <LuckyMachineReveal
+                        :key="luckyRollId"
+                        :images="luckyReelImages"
+                        :preview-ready="luckyPreviewReady"
+                        @settled="finishLuckyReveal"
+                      />
+                    </div>
+                  </Transition>
                   <div
                     v-if="
                       luckyRevealPhase === 'revealed' &&
@@ -1554,6 +1556,7 @@
                 v-if="
                   luckyRevealPhase === 'revealed' && Boolean(luckyDisplayResult)
                 "
+                class="transition-opacity delay-75 duration-300 motion-reduce:transition-none starting:opacity-0"
                 :item-name="luckyDisplayResult?.itemName ?? ''"
                 :quality="luckyDisplayResult?.quality ?? null"
                 :item-type-label="luckyDisplayResult?.itemTypeLabel ?? ''"
@@ -1778,13 +1781,11 @@
   const { isDark } = useTheme()
   const { fetchItemById } = useSupabaseItems()
   const { getImageSrc } = imageProvider()
+  const nuxtImage = useImage()
   const isDev = import.meta.dev
   const breakpoints = useBreakpoints(breakpointsTailwind)
   const isDesktopDetails = breakpoints.greaterOrEqual('xl')
   const mode = computed<SearchRouteMode>(() => props.routeMode)
-  const luckyRevealSurfaceStyle = computed(() => ({
-    background: isDark.value ? 'rgb(15 23 42)' : 'rgb(255 255 255)',
-  }))
   const luckyPullLoaderStyle = computed(() => ({
     background: isDark.value
       ? 'radial-gradient(circle at 50% 28%, rgb(251 191 36 / 0.12), transparent 34%), radial-gradient(circle at 50% 72%, rgb(244 114 182 / 0.1), transparent 42%), linear-gradient(135deg, rgb(15 23 42), rgb(30 41 59))'
@@ -1879,8 +1880,7 @@
     'handhelds',
   ]
   const LUCKY_VISUAL_TYPES = new Set(LUCKY_DISCOVERY_TYPES)
-  const LUCKY_ROLL_DURATION_MS = 2500
-  const LUCKY_PRIZE_HOLD_MS = 520
+  const LUCKY_REEL_LENGTH = 12
 
   // Rotating placeholder examples built from existing filter locale keys.
   const PLACEHOLDER_EXAMPLES: string[][] = [
@@ -1920,8 +1920,7 @@
 
   let activeSearch: ActiveSearch | null = null
   let lastCompletedSearchKey: string | null = null
-  let luckyRollStartedAt = 0
-  let luckyRollId = 0
+  const luckyRollId = ref(0)
   let similarSearchRunId = 0
   let shouldPreserveResultsOnEmptyRoute = false
 
@@ -1930,11 +1929,6 @@
     activeSearch.controller.abort()
     activeSearch = null
   }
-
-  const wait = (durationMs: number) =>
-    new Promise<void>((resolve) => {
-      setTimeout(resolve, durationMs)
-    })
 
   const preloadImage = (imageSrc: string | null) => {
     if (!import.meta.client || !imageSrc) return Promise.resolve()
@@ -1945,12 +1939,23 @@
       const finish = () => {
         if (isSettled) return
         isSettled = true
+        clearTimeout(timeout)
+        image.onload = null
+        image.onerror = null
         resolve()
       }
+      const timeout = setTimeout(finish, 1500)
 
       image.onload = finish
       image.onerror = finish
-      image.src = imageSrc
+      const preview = nuxtImage.getSizes(imageSrc, {
+        preset: 'tallLg',
+        sizes: '200px',
+        modifiers: { fit: 'cover' },
+      })
+      if (preview.sizes) image.sizes = preview.sizes
+      image.srcset = preview.srcset
+      image.src = preview.src ?? imageSrc
 
       if (image.complete) {
         finish()
@@ -1968,16 +1973,20 @@
 
   const resetLuckyState = () => {
     blurActiveElement()
-    luckyRollId += 1
+    luckyRollId.value += 1
     showLuckyModal.value = false
     isLuckyAnimating.value = false
+    luckyLoading.value = false
     luckyRevealPhase.value = 'idle'
     luckyResult.value = null
+    luckyReelImages.value = []
+    luckyPreviewReady.value = false
     showOwnedSearchEmpty.value = false
   }
 
   onUnmounted(() => {
     cancelActiveSearch()
+    luckyRollId.value += 1
   })
 
   const initialCatalogFilters = normalizeCatalogSearchFilters(route.query)
@@ -2016,6 +2025,8 @@
   const isLuckyAnimating = ref(false)
   const luckyRevealPhase = ref<LuckyRevealPhase>('idle')
   const luckyResult = ref<SearchHit | null>(null)
+  const luckyReelImages = ref<string[]>([])
+  const luckyPreviewReady = ref(false)
   const error = ref('')
   const showOwnedSearchEmpty = ref(false)
   const showFeedbackModal = ref(false)
@@ -3444,7 +3455,19 @@
     }
   }
 
-  const fetchLuckyRandomHit = async () => {
+  const sampleLuckyCandidates = <T,>(items: T[]) => {
+    const pool = [...items]
+    const sample: T[] = []
+    while (pool.length && sample.length < LUCKY_REEL_LENGTH) {
+      const index = Math.floor(Math.random() * pool.length)
+      const item = pool[index]
+      if (item !== undefined) sample.push(item)
+      pool.splice(index, 1)
+    }
+    return sample
+  }
+
+  const fetchLuckyRandomCandidates = async () => {
     await catalogIndex.load(['items'])
 
     const filters = getCurrentCatalogFilters(null)
@@ -3452,24 +3475,17 @@
       catalogIndex.index.value?.items.filter((item) =>
         matchesRandomCatalogFilters(item, filters)
       ) ?? []
-    if (items.length === 0) return null
-
-    const randomItem = items[Math.floor(Math.random() * items.length)]
-    return randomItem ? toCatalogSearchHit(randomItem) : null
+    return sampleLuckyCandidates(items).map(toCatalogSearchHit)
   }
 
-  const fetchOwnedRandomHit = async () => {
+  const fetchOwnedRandomCandidates = async () => {
     const itemIds = await ownedSearchCandidates.getRandomCandidateIds(
       getCurrentCatalogFilters(null)
     )
-    if (itemIds.length === 0) return null
-
-    const randomId = itemIds[Math.floor(Math.random() * itemIds.length)]
-    if (randomId === undefined) return null
-
-    const item = catalogIndex.index.value?.itemById.get(randomId)
-
-    return item ? toCatalogSearchHit(item) : null
+    return sampleLuckyCandidates(itemIds).flatMap((id) => {
+      const item = catalogIndex.index.value?.itemById.get(id)
+      return item ? [toCatalogSearchHit(item)] : []
+    })
   }
 
   const pickLuckySearchHit = (hits: SearchHit[]) => {
@@ -3478,9 +3494,10 @@
   }
 
   const beginLuckyRoll = () => {
-    luckyRollId += 1
-    luckyRollStartedAt = Date.now()
+    luckyRollId.value += 1
     luckyResult.value = null
+    luckyReelImages.value = []
+    luckyPreviewReady.value = false
     luckyRevealPhase.value = 'rolling'
     isLuckyAnimating.value = true
     showLuckyModal.value = true
@@ -3493,25 +3510,48 @@
     }
     hasSearched.value = true
     error.value = ''
-    return luckyRollId
+    return luckyRollId.value
   }
 
-  const revealLuckyHit = async (hit: SearchHit, rollId: number) => {
+  const prepareLuckyReel = (hit: SearchHit, candidates: SearchHit[]) => {
     luckyResult.value = hit
-    const remainingRollMs = Math.max(
-      0,
-      LUCKY_ROLL_DURATION_MS - (Date.now() - luckyRollStartedAt)
+    const resultImage = luckyDisplayResult.value?.imageSrc
+    const rollId = luckyRollId.value
+    void preloadImage(resultImage ?? null).then(() => {
+      if (rollId === luckyRollId.value) luckyPreviewReady.value = true
+    })
+    if (!resultImage) {
+      luckyRevealPhase.value = 'revealed'
+      isLuckyAnimating.value = false
+      return
+    }
+
+    const resultIcon =
+      hit.itemId !== null ? getImageSrc('itemIcon', hit.itemId) : resultImage
+    const images = sampleLuckyCandidates(
+      candidates.filter((candidate) => candidate.id !== hit.id)
     )
+      .map((candidate) =>
+        candidate.itemId !== null
+          ? getImageSrc('itemIcon', candidate.itemId)
+          : null
+      )
+      .filter((src): src is string => Boolean(src))
+    // A narrow filter can match a single piece; keep the reel in that scope.
+    const pool = images.length ? images : [resultIcon]
+    luckyReelImages.value = [
+      ...Array.from(
+        { length: LUCKY_REEL_LENGTH - 1 },
+        (_, index) => pool[index % pool.length]!
+      ),
+      resultIcon,
+    ]
+  }
 
-    await Promise.all([
-      wait(remainingRollMs + LUCKY_PRIZE_HOLD_MS),
-      preloadImage(luckyDisplayResult.value?.imageSrc ?? null),
-    ])
-
-    if (rollId !== luckyRollId) return
-
+  const finishLuckyReveal = () => {
     luckyRevealPhase.value = 'revealed'
     isLuckyAnimating.value = false
+    luckyLoading.value = false
   }
 
   const closeLuckyModal = () => {
@@ -3657,14 +3697,16 @@
       const queryHits = normalizedQuery
         ? await fetchLuckySearchHits(normalizedQuery)
         : []
-      const luckyHit = normalizedQuery
-        ? (pickLuckySearchHit(queryHits) ??
-          (isOwnedSearchMode.value
-            ? await fetchOwnedRandomHit()
-            : await fetchLuckyRandomHit()))
-        : isOwnedSearchMode.value
-          ? await fetchOwnedRandomHit()
-          : await fetchLuckyRandomHit()
+      let luckyHit = normalizedQuery ? pickLuckySearchHit(queryHits) : null
+      let candidates = queryHits
+      if (!luckyHit) {
+        candidates = isOwnedSearchMode.value
+          ? await fetchOwnedRandomCandidates()
+          : await fetchLuckyRandomCandidates()
+        luckyHit = candidates[0] ?? null
+      }
+
+      if (rollId !== luckyRollId.value) return
 
       if (!luckyHit) {
         showLuckyModal.value = false
@@ -3679,14 +3721,20 @@
         return
       }
 
-      await revealLuckyHit(luckyHit, rollId)
+      prepareLuckyReel(luckyHit, candidates)
     } catch {
+      if (rollId && rollId !== luckyRollId.value) return
       showLuckyModal.value = false
       isLuckyAnimating.value = false
       luckyRevealPhase.value = 'idle'
       error.value = t('lookbook.try_again_later')
     } finally {
-      luckyLoading.value = false
+      if (
+        !rollId ||
+        (rollId === luckyRollId.value && !isLuckyAnimating.value)
+      ) {
+        luckyLoading.value = false
+      }
     }
   }
 

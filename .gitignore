@@ -56,4 +56,5 @@ Desktop.ini
 .agents/
 .claude/
 .codex/
+.playwright-cli/
 /skills-lock.json

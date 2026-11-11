@@ -618,6 +618,7 @@
   })
 
   const LOOKBOOK_CODE_PATTERN = /^[A-Za-z0-9]{11}#$/
+  const SKIN_TONE_CLOTH_TYPE = 86
   const skeletonSectionCounts = [4, 8, 5] as const
 
   const { locale, t } = useI18n()
@@ -1053,8 +1054,16 @@
       )
 
       decodedCode.value = response.code
-      wearingClothes.value = response.wearingClothes
-      dyeItems.value = response.dyeItems
+      const previewItems = response.wearingClothes.filter(
+        (id) => Math.floor(id / 10000) % 100 !== SKIN_TONE_CLOTH_TYPE
+      )
+      const previewItemIds = new Set(previewItems)
+      wearingClothes.value = previewItems
+      dyeItems.value = response.dyeItems.flatMap((item) => {
+        if (!previewItemIds.has(item.itemId)) return []
+        const dyes = item.dyes.filter((dye) => 'color' in dye)
+        return dyes.length ? [{ ...item, dyes }] : []
+      })
       lookbookInput.value = decodedCode.value
 
       if (options.syncRoute ?? true) {

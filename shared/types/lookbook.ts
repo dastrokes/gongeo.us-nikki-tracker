@@ -6,14 +6,16 @@ export interface LookbookDyeSwatch {
   color: string
 }
 
-export interface LookbookDyeItem {
+export interface LookbookDyeItem<T = LookbookDyeSwatch> {
   itemId: number
   outfitId: number | null
-  dyes: LookbookDyeSwatch[]
+  dyes: T[]
 }
 
 export interface LookbookDecodeResponse {
   code: string
   wearingClothes: number[]
-  dyeItems: LookbookDyeItem[]
+  dyeItems: LookbookDyeItem<
+    LookbookDyeSwatch | { source: Record<string, unknown> }
+  >[]
 }

@@ -1185,7 +1185,7 @@
   },
   "lookbook": {
     "description": "Visualiza un código de Atlas estelar de Infinity Nikki como una tarjeta compartible de artículos.",
-    "api_credit": "API de decodificación proporcionada amablemente por",
+    "decoder_credit": "Agradecimientos especiales a",
     "input_placeholder": "Código o URL",
     "preview": "Vista previa",
     "paste": "Pegar",
@@ -1198,6 +1198,7 @@
     "item_list_copied": "Lista de objetos copiada al portapapeles",
     "item_list_copy_failed": "No se pudo copiar la lista de objetos.",
     "invalid_code": "Código inválido.",
+    "rate_limited": "Demasiadas solicitudes de vista previa. Espera un minuto y vuelve a intentarlo.",
     "try_again_later": "Algo salió mal. Inténtalo de nuevo más tarde.",
     "not_found": "Lookbook no encontrado",
     "card_title": "Atlas estelar",

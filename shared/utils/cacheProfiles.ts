@@ -2,7 +2,6 @@ import { getGameVersion } from './gameVersion'
 
 export const GAME_VERSION_HEADER = 'X-Game-Version'
 export const CACHE_TAGS = {
-  lookbook: 'lookbook',
   sitemap: 'sitemap',
 } as const
 
@@ -27,8 +26,6 @@ const CDN_SITEMAP =
   'public, s-maxage=86400, stale-while-revalidate=3600, stale-if-error=3600'
 const CDN_API_LONG =
   'public, durable, s-maxage=2592000, stale-while-revalidate=604800, stale-if-error=86400'
-const CDN_SEARCH =
-  'public, durable, s-maxage=86400, stale-while-revalidate=86400, stale-if-error=3600'
 const THEME_VARY = `cookie=${THEME_COOKIE}`
 const THEME_QUERY_VARY = `${THEME_VARY},query`
 
@@ -123,10 +120,6 @@ const pageProfiles = {
 
 const apiProfiles = {
   catalog: createProfile(BROWSER_REVALIDATE, CDN_API_LONG, {
-    includeVersion: true,
-  }),
-  lookbook: createProfile(NO_STORE, CDN_SEARCH, {
-    cacheIds: [CACHE_TAGS.lookbook],
     includeVersion: true,
   }),
   noStore: sharedProfiles.noStore,

@@ -1185,7 +1185,7 @@
   },
   "lookbook": {
     "description": "Preview an Infinity Nikki Color Lookbook code as a shareable item card.",
-    "api_credit": "Decode API kindly provided by",
+    "decoder_credit": "Special thanks to",
     "input_placeholder": "Code or URL",
     "preview": "Preview",
     "paste": "Paste",
@@ -1198,6 +1198,7 @@
     "item_list_copied": "Item list copied to clipboard",
     "item_list_copy_failed": "Failed to copy item list.",
     "invalid_code": "Invalid code.",
+    "rate_limited": "Too many preview requests. Please wait a minute and try again.",
     "try_again_later": "Something went wrong. Please try again later.",
     "not_found": "Lookbook not found",
     "card_title": "Color Lookbook",

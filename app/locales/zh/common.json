@@ -1185,7 +1185,7 @@
   },
   "lookbook": {
     "description": "将无限暖暖星绘图册搭配码预览为可分享的部件卡片。",
-    "api_credit": "解析 API 由以下网站友情提供",
+    "decoder_credit": "特别感谢",
     "input_placeholder": "搭配码或网址",
     "preview": "预览",
     "paste": "粘贴",
@@ -1198,6 +1198,7 @@
     "item_list_copied": "部件列表已复制到剪贴板",
     "item_list_copy_failed": "无法复制部件列表。",
     "invalid_code": "搭配码无效。",
+    "rate_limited": "搭配预览请求过于频繁，请等待一分钟后再试。",
     "try_again_later": "出了点问题，请稍后重试。",
     "not_found": "未找到搭配码",
     "card_title": "星绘图册",

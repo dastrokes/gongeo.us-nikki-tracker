@@ -1185,7 +1185,7 @@
   },
   "lookbook": {
     "description": "Prévisualisez un code Atlas stellaire Infinity Nikki sous forme de carte d'articles partageable.",
-    "api_credit": "API de décodage aimablement fournie par",
+    "decoder_credit": "Remerciements à",
     "input_placeholder": "Code ou URL",
     "preview": "Aperçu",
     "paste": "Coller",
@@ -1198,6 +1198,7 @@
     "item_list_copied": "Liste d’articles copiée dans le presse-papiers",
     "item_list_copy_failed": "Impossible de copier la liste d’articles.",
     "invalid_code": "Code invalide.",
+    "rate_limited": "Trop de demandes d’aperçu. Attendez une minute, puis réessayez.",
     "try_again_later": "Une erreur s’est produite. Veuillez réessayer plus tard.",
     "not_found": "Lookbook introuvable",
     "card_title": "Atlas stellaire",

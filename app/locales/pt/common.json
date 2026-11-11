@@ -1185,7 +1185,7 @@
   },
   "lookbook": {
     "description": "Visualize um código de Lookbook de cores de Infinity Nikki como um cartão de itens compartilhável.",
-    "api_credit": "API de decodificação gentilmente fornecida por",
+    "decoder_credit": "Agradecimentos especiais a",
     "input_placeholder": "Código ou URL",
     "preview": "Visualizar",
     "paste": "Colar",
@@ -1198,6 +1198,7 @@
     "item_list_copied": "Lista de itens copiada para a área de transferência",
     "item_list_copy_failed": "Não foi possível copiar a lista de itens.",
     "invalid_code": "Código inválido.",
+    "rate_limited": "Muitas solicitações de prévia. Aguarde um minuto e tente novamente.",
     "try_again_later": "Algo deu errado. Tente novamente mais tarde.",
     "not_found": "Lookbook não encontrado",
     "card_title": "Lookbook de cores",

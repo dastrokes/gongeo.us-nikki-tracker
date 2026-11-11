@@ -24,7 +24,7 @@
           <p
             class="flex shrink-0 flex-wrap items-center gap-1.5 text-xs leading-5 text-slate-500 lg:justify-end lg:pt-1 dark:text-slate-400"
           >
-            <span>{{ t('lookbook.api_credit') }}</span>
+            <span>{{ t('lookbook.decoder_credit') }}</span>
             <a
               href="https://nikki.ranaxro.com/"
               target="_blank"
@@ -184,7 +184,7 @@
     </n-card>
 
     <n-card
-      v-if="error"
+      v-if="errorType"
       size="small"
       class="mx-auto w-full max-w-lg rounded-xl"
       content-class="p-4 sm:p-6"
@@ -197,13 +197,7 @@
             ? t('lookbook.not_found')
             : t('common.error')
         "
-        :description="
-          errorType === 'code_not_found'
-            ? t('error.404')
-            : errorType === 'upstream_unavailable'
-              ? t('lookbook.try_again_later')
-              : t('lookbook.invalid_code')
-        "
+        :description="t(errorDescriptions[errorType])"
       >
         <template #icon>
           <div class="flex justify-center">
@@ -656,10 +650,13 @@
     lookbookSettings.value
   )
   const showItemListDialog = ref(false)
-  const error = ref('')
-  const errorType = ref<'code_not_found' | 'upstream_unavailable' | 'generic'>(
-    'generic'
-  )
+  const errorDescriptions = {
+    code_not_found: 'error.404',
+    invalid_code: 'lookbook.invalid_code',
+    rate_limited: 'lookbook.rate_limited',
+    upstream_unavailable: 'lookbook.try_again_later',
+  } as const
+  const errorType = ref<keyof typeof errorDescriptions | null>(null)
   const shareCardRef = ref<HTMLElement | null>(null)
 
   const catalogLoading = computed(() => catalogIndex.status.value === 'loading')
@@ -706,7 +703,7 @@
     () =>
       Boolean(routeCode.value) &&
       routeCode.value !== decodedCode.value &&
-      !error.value
+      !errorType.value
   )
   const isLookbookLoading = computed(
     () =>
@@ -1043,17 +1040,17 @@
     if (!code || loading.value) return
 
     loading.value = true
-    error.value = ''
-    errorType.value = 'generic'
+    errorType.value = null
 
     try {
       await Promise.all([
         catalogIndex.load(['items', 'outfitItems', 'makeups']),
         catalogIndex.loadItemDyes().catch(() => undefined),
       ])
-      const response = await $fetch<LookbookDecodeResponse>('/api/lookbook', {
-        query: { code },
-      })
+      const response = await $fetch<LookbookDecodeResponse>(
+        getDataApiUrl('/lookbook'),
+        { query: { code }, retry: 0 }
+      )
 
       decodedCode.value = response.code
       wearingClothes.value = response.wearingClothes
@@ -1064,23 +1061,24 @@
         await syncRouteCode(decodedCode.value)
       }
     } catch (decodeError: unknown) {
-      console.error('Failed to decode lookbook:', decodeError)
-
-      const data =
-        decodeError && typeof decodeError === 'object' && 'data' in decodeError
-          ? (decodeError as { data?: { data?: { code?: string } } }).data
+      const failure =
+        decodeError && typeof decodeError === 'object'
+          ? (decodeError as {
+              data?: { data?: { code?: string } }
+              statusCode?: number
+            })
           : null
-      const errorCode = data?.data?.code ?? null
+      const errorCode = failure?.data?.data?.code
 
       if (errorCode === 'INVALID_LOOKBOOK_CODE') {
         errorType.value = 'code_not_found'
-      } else if (errorCode === 'UPSTREAM_UNAVAILABLE') {
-        errorType.value = 'upstream_unavailable'
+      } else if (errorCode === 'RATE_LIMITED' || failure?.statusCode === 429) {
+        errorType.value = 'rate_limited'
       } else {
-        errorType.value = 'generic'
+        console.error('Failed to decode lookbook:', decodeError)
+        errorType.value = 'upstream_unavailable'
       }
 
-      error.value = t('common.error')
       decodedCode.value = ''
       wearingClothes.value = []
       dyeItems.value = []
@@ -1092,7 +1090,7 @@
   const decodeCurrentInput = async () => {
     const code = normalizedInputCode.value
     if (!code) {
-      error.value = t('lookbook.invalid_code')
+      errorType.value = 'invalid_code'
       return
     }
 
@@ -1167,7 +1165,7 @@
       }
 
       lookbookInput.value = code
-      error.value = ''
+      errorType.value = null
     } catch {
       message.error(t('lookbook.paste_failed'))
     }
@@ -1214,7 +1212,7 @@
       })
     } else {
       lookbookInput.value = code
-      error.value = t('lookbook.invalid_code')
+      errorType.value = 'invalid_code'
     }
   })
 
@@ -1227,8 +1225,7 @@
         decodedCode.value = ''
         wearingClothes.value = []
         dyeItems.value = []
-        error.value = ''
-        errorType.value = 'generic'
+        errorType.value = null
         return
       }
 
@@ -1244,7 +1241,7 @@
         if (code === lookbookInput.value) return
 
         lookbookInput.value = code
-        error.value = t('lookbook.invalid_code')
+        errorType.value = 'invalid_code'
       }
     }
   )

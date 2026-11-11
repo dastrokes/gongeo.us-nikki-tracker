@@ -1185,7 +1185,7 @@
   },
   "lookbook": {
     "description": "Schau dir die Vorschau eines Infinity Nikki Farb-Lookbook-Codes als teilbare Stückkarte an.",
-    "api_credit": "Decode-API freundlicherweise bereitgestellt von",
+    "decoder_credit": "Besonderer Dank an",
     "input_placeholder": "Code oder URL",
     "preview": "Vorschau",
     "paste": "Einfügen",
@@ -1198,6 +1198,7 @@
     "item_list_copied": "Stückliste in die Zwischenablage kopiert",
     "item_list_copy_failed": "Stückliste konnte nicht kopiert werden.",
     "invalid_code": "Ungültiger Code.",
+    "rate_limited": "Zu viele Vorschauanfragen. Bitte warte eine Minute und versuche es erneut.",
     "try_again_later": "Etwas ist schiefgelaufen. Bitte versuche es später erneut.",
     "not_found": "Lookbook nicht gefunden",
     "card_title": "Farb-Lookbook",

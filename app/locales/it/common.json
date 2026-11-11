@@ -1185,7 +1185,7 @@
   },
   "lookbook": {
     "description": "Visualizza in anteprima un codice Lookbook a colori di Infinity Nikki come una scheda articoli condivisibile.",
-    "api_credit": "API di decodifica gentilmente fornita da",
+    "decoder_credit": "Un ringraziamento speciale a",
     "input_placeholder": "Codice o URL",
     "preview": "Anteprima",
     "paste": "Incolla",
@@ -1198,6 +1198,7 @@
     "item_list_copied": "Elenco oggetti copiato negli appunti",
     "item_list_copy_failed": "Impossibile copiare l’elenco degli oggetti.",
     "invalid_code": "Codice non valido.",
+    "rate_limited": "Troppe richieste di anteprima. Attendi un minuto e riprova.",
     "try_again_later": "Qualcosa è andato storto. Riprova più tardi.",
     "not_found": "Lookbook non trovato",
     "card_title": "Lookbook a colori",

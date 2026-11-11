@@ -1185,7 +1185,7 @@
   },
   "lookbook": {
     "description": "Infinity Nikki の星彩の画集コードを、共有可能なアイテムカードとしてプレビューします。",
-    "api_credit": "デコードAPI提供",
+    "decoder_credit": "スペシャルサンクス",
     "input_placeholder": "コードまたはURL",
     "preview": "プレビュー",
     "paste": "貼り付け",
@@ -1198,6 +1198,7 @@
     "item_list_copied": "アイテムリストをクリップボードにコピーしました",
     "item_list_copy_failed": "アイテムリストをコピーできませんでした。",
     "invalid_code": "無効なコードです。",
+    "rate_limited": "プレビューのリクエストが多すぎます。1分ほど待ってからもう一度お試しください。",
     "try_again_later": "問題が発生しました。後でもう一度お試しください。",
     "not_found": "ルックブックが見つかりません",
     "card_title": "星彩の画集",

@@ -1,10 +1,14 @@
-import { purgeCache, type Config } from '@netlify/functions'
+import { purgeCache } from '@netlify/cache'
+import type { Config } from '@netlify/functions'
 import { createClient } from '@supabase/supabase-js'
 
 export const config: Config = { schedule: '@hourly' }
 
-export default async () => {
-  console.info('Banner ranking refresh started')
+export default async (request: Request) => {
+  const payload = await request.json().catch(() => null)
+  console.log('Banner ranking refresh started', {
+    scheduled: Boolean(payload),
+  })
   const url = process.env.SUPABASE_DATABASE_URL
   const key = process.env.SUPABASE_SECRET_KEY
   if (!url || !key) {
@@ -25,7 +29,9 @@ export default async () => {
     throw new Error(`Banner ranking snapshot refresh failed: ${error.message}`)
   }
 
-  console.info('Banner ranking snapshot refreshed')
-  await purgeCache({ tags: ['banner-ranking-2x'], domain: 'gongeo.us' })
-  console.info('Netlify accepted banner-ranking-2x cache purge')
+  console.log('Banner ranking snapshot refreshed')
+  await purgeCache({ tags: ['banner-ranking-2x'] })
+  console.log('Netlify accepted banner-ranking-2x cache purge')
+
+  return new Response(null, { status: 204 })
 }

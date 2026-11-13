@@ -11,7 +11,7 @@ import type {
   BannerVoteReceipt,
 } from '~~/shared/types/vote'
 
-const PAIRING_CACHE_TTL = 5 * 60 * 1000
+const PAIRING_CACHE_TTL = 10 * 60 * 1000
 
 export const useBannerVote = (
   seasonId: BannerVoteSeasonId = CURRENT_BANNER_VOTE_SEASON

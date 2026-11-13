@@ -14,7 +14,7 @@
     key: (route) => route.path,
     validate: (route) => {
       const season = route.params.season ?? DEFAULT_BANNER_RANKING_SEASON
-      return isBannerVoteSeason(season) && isBannerRankingAvailable(season)
+      return isBannerVoteSeason(season)
     },
   })
   const {
@@ -29,7 +29,10 @@
   const isMobile = shallowRef(false)
   const { getRankings, snapshot, refreshFailed } = useBannerVote(seasonId)
   const { getPersonalRankings } = usePersonalVote(seasonId)
-  const { isPersonalMode, setMode } = useVotingMode(seasonId)
+  const { isPersonalMode: prefersPersonal, setMode } = useVotingMode(seasonId)
+  const isPersonalMode = computed(
+    () => !isBannerRankingAvailable(seasonId) || prefersPersonal.value
+  )
   const loading = shallowRef(true)
   const loadFailed = shallowRef(false)
   const rankings = shallowRef<BannerRanking[]>([])

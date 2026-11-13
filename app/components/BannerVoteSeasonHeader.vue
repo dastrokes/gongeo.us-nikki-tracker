@@ -34,7 +34,6 @@
     Object.values(BANNER_VOTE_SEASONS).map((entry) => ({
       value: entry.id,
       label: t(`version.${entry.version}`),
-      disabled: view === 'ranking' && !isBannerRankingAvailable(entry.id),
     }))
   )
   const changeSeason = (value: string) =>
@@ -80,7 +79,11 @@
           :key="page"
         >
           <BannerRankingUnavailable
-            v-if="page === 'ranking' && !isBannerRankingAvailable(season)"
+            v-if="
+              page === 'ranking' &&
+              !personal &&
+              !isBannerRankingAvailable(season)
+            "
             class="rounded-full px-2 py-2 font-medium sm:px-5"
             >{{ t('vote.navigationRanking') }}</BannerRankingUnavailable
           >
@@ -111,9 +114,11 @@
           :aria-label="t('vote.modeLabel')"
           @update:value="emit('update:personal', $event === 'personal')"
         >
-          <n-radio-button value="community">{{
-            t('vote.mode.community')
-          }}</n-radio-button>
+          <n-radio-button
+            value="community"
+            :disabled="view === 'ranking' && !isBannerRankingAvailable(season)"
+            >{{ t('vote.mode.community') }}</n-radio-button
+          >
           <n-radio-button value="personal">{{
             t('vote.mode.personal')
           }}</n-radio-button>

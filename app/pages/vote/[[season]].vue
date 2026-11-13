@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { CheckCircle } from '@vicons/fa'
+  import { CalendarDay, CheckCircle } from '@vicons/fa'
   import { isBannerVoteSeason } from '~~/shared/utils/bannerVoteSeasons'
 
   definePageMeta({
@@ -195,13 +195,13 @@
               type="button"
               :aria-pressed="selectedBanner === banner.id"
               :disabled="submitting || !!pendingVote"
-              class="group relative block w-full overflow-hidden rounded-xl transition-[transform,opacity,box-shadow] duration-300 ease-out focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-sky-500 disabled:cursor-wait motion-reduce:transform-none motion-reduce:transition-none"
+              class="group relative block w-full cursor-pointer overflow-hidden rounded-xl transition-[scale,opacity,box-shadow] duration-300 ease-out focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-sky-500 disabled:cursor-wait motion-reduce:transition-none"
               :class="
                 selectedBanner === banner.id
                   ? 'shadow-xl ring-4 ring-sky-500/80 dark:ring-sky-400/80'
                   : selectedBanner !== null
-                    ? 'scale-[0.96] opacity-60 ring-2 ring-transparent sm:scale-[0.95]'
-                    : 'ring-2 ring-transparent hover:scale-[1.01] hover:ring-slate-300 dark:hover:ring-slate-600'
+                    ? 'opacity-60 ring-2 ring-transparent motion-safe:scale-[0.96] motion-safe:sm:scale-[0.95]'
+                    : 'ring-2 ring-transparent enabled:hover:ring-slate-300 motion-safe:enabled:hover:scale-[1.01] dark:enabled:hover:ring-slate-600'
               "
               @click="selectBanner(banner.id)"
             >
@@ -212,8 +212,15 @@
                 fit="cover"
                 loading="eager"
                 sizes="300px sm:600px"
-                class="aspect-2/1 w-full object-cover transition-transform duration-300 motion-reduce:transform-none motion-reduce:transition-none"
-                :class="{ 'scale-105': selectedBanner === banner.id }"
+                class="aspect-2/1 w-full object-cover transition-transform duration-300 ease-out motion-reduce:transition-none"
+                :class="{
+                  'motion-safe:scale-105': selectedBanner === banner.id,
+                }"
+              />
+              <span
+                v-if="selectedBanner !== banner.id"
+                aria-hidden="true"
+                class="pointer-events-none absolute inset-0 transition-colors duration-300 ease-out group-enabled:group-hover:bg-black/5 motion-reduce:transition-none dark:group-enabled:group-hover:bg-white/5"
               />
               <span
                 v-if="selectedBanner === banner.id"
@@ -231,17 +238,31 @@
                 </span>
               </span>
             </button>
-            <NuxtLinkLocale
-              :to="getBannerDetailPath(banner.id)"
-              target="_blank"
-              :aria-label="
-                t('vote.bannerDetails', {
-                  banner: t(`banner.${banner.id}.name`),
-                })
-              "
-              class="mt-3 block text-center text-sm font-medium underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-rose-500"
-              >{{ t(`banner.${banner.id}.name`) }}</NuxtLinkLocale
-            >
+            <div class="mt-2 text-center sm:mt-3">
+              <NuxtLinkLocale
+                :to="getBannerDetailPath(banner.id)"
+                target="_blank"
+                :aria-label="
+                  t('vote.bannerDetails', {
+                    banner: t(`banner.${banner.id}.name`),
+                  })
+                "
+                class="inline-flex items-center gap-1 transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-rose-500"
+              >
+                <n-icon
+                  size="16"
+                  aria-hidden="true"
+                  class="shrink-0 text-gray-500 dark:text-gray-400"
+                >
+                  <CalendarDay />
+                </n-icon>
+                <n-text
+                  strong
+                  class="text-sm sm:text-base"
+                  >{{ t(`banner.${banner.id}.name`) }}</n-text
+                >
+              </NuxtLinkLocale>
+            </div>
           </div>
         </div>
         <div

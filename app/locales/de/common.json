@@ -895,29 +895,51 @@
     }
   },
   "vote": {
-    "description": "Hilf uns, die beliebtesten Banner von Version 1.x zu finden! Stimme für deine Lieblingsbanner in Kopf-an-Kopf Matchups ab.",
-    "howItWorks": "Wähle dein Lieblingsbanner und gebe deine Stimme ab, um zu helfen, die beliebtesten Banner zu bestimmen. Überspringe, wenn du dir nicht sicher bist. Du kannst alle 24 Stunden bis zu 50 Mal abstimmen.",
-    "abuseNotice": "Bitte missbrauche nicht das Abstimmungssystem. Ungewöhnliche Abstimmungsmuster werden erkannt und diese Stimmen können entfernt werden.",
+    "versus": "VS",
+    "navigation": "Banner-Abstimmung",
+    "navigationVote": "Abstimmen",
+    "navigationRanking": "Ranglisten",
+    "info": "Infos zur Abstimmung",
+    "submit": "Stimme abgeben",
+    "usePersonal": "Persönlichen Modus verwenden",
+    "bannerDetails": "Details zu {banner} ansehen (öffnet einen neuen Tab)",
+    "description": "Wähle deine Lieblingsbanner im direkten Duell.",
+    "abuseNotice": "Bitte stimme fair ab. Auffällige Abstimmungsmuster können überprüft und manipulierte Stimmen entfernt werden.",
+    "retry": "Erneut versuchen",
+    "modeLabel": "Abstimmungsmodus",
+    "unranked": "Ohne Platzierung",
+    "fingerprintUnavailable": "Die Browserprüfung ist nicht verfügbar. Versuche es erneut oder nutze den persönlichen Modus.",
+    "refreshFailed": "Die neueste Rangliste konnte nicht geladen werden. Der letzte verfügbare Stand wird angezeigt.",
+    "seasons": {
+      "title": "Banner-Rangliste für {season}",
+      "choose": "Ranglistensaison",
+      "upcoming": "Demnächst",
+      "open": "Community-Abstimmung offen",
+      "closed": "Community-Abstimmung beendet",
+      "paused": "Community-Abstimmung pausiert"
+    },
+    "event": {
+      "vote": "Jetzt abstimmen",
+      "results": "Endergebnisse ansehen"
+    },
     "success": "Stimme erfolgreich abgegeben!",
     "viewRankings": "Rangliste ansehen",
     "rankingsUnavailable": "Die Rangliste ist noch nicht verfügbar.",
     "mode": {
-      "personal": "Persönlicher Modus",
-      "community": "Community-Modus",
-      "personalDesc": "Deine Stimmen werden lokal gespeichert und machen deine persönliche Rangliste aus. Beeinflusst nicht die Community-Rankings.",
-      "communityDesc": "Deine Stimmen tragen zu der Community-Rangliste bei und bestimmen die beliebtesten Banner."
+      "personal": "Persönlich",
+      "community": "Community",
+      "personalDesc": "Deine Rangliste wird auf diesem Gerät gespeichert und hat keinen Einfluss auf die Community-Ergebnisse."
     },
     "errors": {
       "loadFailed": "Abstimmpaar konnte nicht geladen werden. Bitte versuche es erneut.",
       "submitFailed": "Abstimmung fehlgeschlagen. Bitte versuche es erneut.",
-      "rateLimit": "Zu viele Abstimmungen. Bitte warte, bevor du erneut abstimmst.",
+      "rateLimit": "Du hast in den letzten 24 Stunden 50 Mal abgestimmt. Versuche es später erneut.",
       "loadRankingsFailed": "Rangliste konnte nicht geladen werden. Bitte versuche es erneut.",
-      "votingClosed": "Community-Abstimmung ist beendet. Schau dir die endgültige Rangliste an oder wechsle zum persönlichen Modus um weiter abzustimmen."
+      "votingClosed": "Die Community-Abstimmung ist nicht verfügbar. Du kannst weiterhin den persönlichen Modus nutzen."
     },
     "rankings": {
       "title": "Banner-Rangliste",
-      "description": "Schau dir an, welche Banner von Version 1.x die beliebtesten sind, basierend auf Community-Abstimmungen.",
-      "votingPeriod": "Abstimmungszeitraum",
+      "description": "Sieh dir an, welche Banner bei der Community am beliebtesten sind.",
       "voteMore": "Abstimmen",
       "lastUpdated": "Zuletzt aktualisiert",
       "rank": "Rang",

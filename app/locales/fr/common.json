@@ -895,29 +895,51 @@
     }
   },
   "vote": {
-    "description": "Aidez-nous à déterminer les bannières les plus populaires de la version 1.x ! Votez pour vos bannières préférées lors d'affrontements en face-à-face.",
-    "howItWorks": "Choisissez votre bannière préférée et soumettez votre vote pour aider à classer les bannières les plus populaires. Sautez si vous n'êtes pas sûr. Vous pouvez voter jusqu'à 50 fois toutes les 24 heures.",
-    "abuseNotice": "S’il vous plaît, n’abusez pas du système de vote. Les modèles de vote inhabituels seront détectés et ces votes pourront être supprimés.",
+    "versus": "VS",
+    "navigation": "Vote des bannières",
+    "navigationVote": "Voter",
+    "navigationRanking": "Classements",
+    "info": "Informations sur le vote",
+    "submit": "Envoyer le vote",
+    "usePersonal": "Utiliser le mode personnel",
+    "bannerDetails": "Voir les détails de {banner} (s’ouvre dans un nouvel onglet)",
+    "description": "Choisissez vos bannières préférées lors de duels.",
+    "abuseNotice": "Merci de voter équitablement. Les votes inhabituels peuvent être examinés et les votes manipulés supprimés.",
+    "retry": "Réessayer",
+    "modeLabel": "Mode de vote",
+    "unranked": "Non classé",
+    "fingerprintUnavailable": "La vérification du navigateur est indisponible. Réessayez ou utilisez le mode personnel.",
+    "refreshFailed": "Impossible de charger le dernier classement. La mise à jour précédente est affichée.",
+    "seasons": {
+      "title": "Classement des bannières de {season}",
+      "choose": "Saison du classement",
+      "upcoming": "À venir",
+      "open": "Vote communautaire ouvert",
+      "closed": "Vote communautaire clos",
+      "paused": "Vote communautaire en pause"
+    },
+    "event": {
+      "vote": "Voter maintenant",
+      "results": "Voir le classement final"
+    },
     "success": "Vote soumis avec succès !",
     "viewRankings": "Voir les classements",
     "rankingsUnavailable": "Les classements ne sont pas encore disponibles.",
     "mode": {
-      "personal": "Mode personnel",
-      "community": "Mode Communauté",
-      "personalDesc": "Vos votes sont stockés localement et créent votre classement personnel. N'affecte pas les classements de la communauté.",
-      "communityDesc": "Vos votes contribuent au classement de la communauté et aident à déterminer les bannières les plus populaires."
+      "personal": "Personnel",
+      "community": "Communauté",
+      "personalDesc": "Votre classement est enregistré sur cet appareil et n’influence pas les résultats de la communauté."
     },
     "errors": {
       "loadFailed": "Échec du chargement de la paire de votes. Veuillez réessayer.",
       "submitFailed": "Échec de la soumission du vote. Veuillez réessayer.",
-      "rateLimit": "Trop de votes. Veuillez patienter avant de voter à nouveau.",
+      "rateLimit": "Vous avez voté 50 fois au cours des dernières 24 heures. Réessayez plus tard.",
       "loadRankingsFailed": "Échec du chargement des classements. Veuillez réessayer.",
-      "votingClosed": "Le vote communautaire est terminé. Consultez le classement final ou passez en mode personnel pour continuer à voter."
+      "votingClosed": "Le vote communautaire est indisponible. Vous pouvez toujours utiliser le mode personnel."
     },
     "rankings": {
       "title": "Classement des bannières",
-      "description": "Découvrez quelles bannières de la version 1.x sont les plus populaires en fonction des votes de la communauté.",
-      "votingPeriod": "Période de vote",
+      "description": "Découvrez les bannières les plus populaires selon les votes de la communauté.",
       "voteMore": "Votez plus",
       "lastUpdated": "Dernière mise à jour",
       "rank": "Rang",

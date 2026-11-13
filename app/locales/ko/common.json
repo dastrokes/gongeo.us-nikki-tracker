@@ -895,29 +895,51 @@
     }
   },
   "vote": {
-    "description": "버전 1.x에서 가장 인기 있는 배너를 결정하는 데 도움을 주세요! 정면 승부에서 가장 좋아하는 배너에 투표하세요.",
-    "howItWorks": "가장 좋아하는 배너를 선택하고 투표를 제출하여 가장 인기 있는 배너 순위를 매기세요. 확실하지 않으면 건너뛰세요. 24시간마다 최대 50번까지 투표할 수 있습니다.",
-    "abuseNotice": "투표 시스템을 남용하지 마십시오. 비정상적인 투표 패턴이 감지되면 해당 투표가 제거될 수 있습니다.",
+    "versus": "VS",
+    "navigation": "배너 투표",
+    "navigationVote": "투표",
+    "navigationRanking": "순위",
+    "info": "투표 안내",
+    "submit": "투표 제출",
+    "usePersonal": "개인 모드 사용",
+    "bannerDetails": "{banner} 상세 보기(새 탭에서 열림)",
+    "description": "일대일 대결에서 더 마음에 드는 배너를 선택하세요.",
+    "abuseNotice": "공정하게 투표해 주세요. 비정상적인 투표 패턴은 검토될 수 있으며, 조작된 표는 삭제될 수 있습니다.",
+    "retry": "다시 시도",
+    "modeLabel": "투표 모드",
+    "unranked": "순위 없음",
+    "fingerprintUnavailable": "브라우저 인증을 사용할 수 없습니다. 다시 시도하거나 개인 모드를 이용해 주세요.",
+    "refreshFailed": "최신 순위를 불러오지 못해 이전 순위를 표시합니다.",
+    "seasons": {
+      "title": "{season} 배너 순위",
+      "choose": "순위 시즌",
+      "upcoming": "공개 예정",
+      "open": "커뮤니티 투표 진행 중",
+      "closed": "커뮤니티 투표 종료",
+      "paused": "커뮤니티 투표 일시 중지"
+    },
+    "event": {
+      "vote": "지금 투표하기",
+      "results": "최종 순위 보기"
+    },
     "success": "투표가 성공적으로 제출되었습니다!",
     "viewRankings": "순위 보기",
     "rankingsUnavailable": "순위를 아직 이용할 수 없습니다.",
     "mode": {
-      "personal": "개인 모드",
-      "community": "커뮤니티 모드",
-      "personalDesc": "귀하의 투표는 로컬에 저장되며 개인 순위를 생성합니다. 커뮤니티 순위에는 영향을 미치지 않습니다.",
-      "communityDesc": "귀하의 투표는 커뮤니티 순위에 영향을 미치며 가장 인기 있는 배너를 결정하는 데 도움이 됩니다."
+      "personal": "개인",
+      "community": "커뮤니티",
+      "personalDesc": "내 순위는 이 기기에 저장되며 커뮤니티 결과에는 영향을 주지 않습니다."
     },
     "errors": {
       "loadFailed": "투표 쌍을 로드하지 못했습니다. 다시 시도해 주세요.",
       "submitFailed": "투표를 제출하지 못했습니다. 다시 시도해 주세요.",
-      "rateLimit": "투표수가 너무 많습니다. 다시 투표하기 전에 잠시 기다려 주세요.",
+      "rateLimit": "지난 24시간 동안 50회 투표했습니다. 나중에 다시 시도해 주세요.",
       "loadRankingsFailed": "순위를 로드하지 못했습니다. 다시 시도해 주세요.",
-      "votingClosed": "커뮤니티 투표가 종료되었습니다. 최종 순위를 확인하거나 개인 모드로 전환하여 투표를 계속하세요."
+      "votingClosed": "커뮤니티 투표를 이용할 수 없습니다. 개인 모드는 계속 이용할 수 있습니다."
     },
     "rankings": {
       "title": "배너 순위",
-      "description": "커뮤니티 투표를 기반으로 버전 1.x의 어떤 배너가 가장 인기가 있는지 확인하세요.",
-      "votingPeriod": "투표기간",
+      "description": "커뮤니티 투표에서 가장 인기 있는 배너를 확인하세요.",
       "voteMore": "더 많이 투표하세요",
       "lastUpdated": "마지막 업데이트",
       "rank": "순위",

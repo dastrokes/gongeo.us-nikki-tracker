@@ -895,29 +895,51 @@
     }
   },
   "vote": {
-    "description": "帮助我们评选出1.x版本中最受欢迎的卡池！在一对一的对决中为您最喜欢的卡池投票。",
-    "howItWorks": "选择您喜欢的卡池并提交投票，帮助评选最受欢迎的卡池。不确定可以跳过。每24小时最多可投票50次。",
-    "abuseNotice": "请不要恶意刷票。异常的投票行为将会被系统检测到，相关投票可能会被移除。",
+    "versus": "VS",
+    "navigation": "卡池投票",
+    "navigationVote": "投票",
+    "navigationRanking": "排名",
+    "info": "投票说明",
+    "submit": "提交投票",
+    "usePersonal": "使用个人模式",
+    "bannerDetails": "查看{banner}详情（在新标签页打开）",
+    "description": "在一对一对决中选出你更喜欢的卡池。",
+    "abuseNotice": "请公平投票。异常投票可能会被核查，刷票可能会被移除。",
+    "retry": "重试",
+    "modeLabel": "投票模式",
+    "unranked": "未上榜",
+    "fingerprintUnavailable": "暂时无法验证浏览器，请重试或使用个人模式。",
+    "refreshFailed": "无法加载最新排名，正在显示上次更新的结果。",
+    "seasons": {
+      "title": "{season}卡池排名",
+      "choose": "排名赛季",
+      "upcoming": "即将开启",
+      "open": "社区投票进行中",
+      "closed": "社区投票已结束",
+      "paused": "社区投票已暂停"
+    },
+    "event": {
+      "vote": "立即投票",
+      "results": "查看最终排名"
+    },
     "success": "投票提交成功！",
     "viewRankings": "查看排名",
     "rankingsUnavailable": "排名暂不可用。",
     "mode": {
-      "personal": "个人模式",
-      "community": "社区模式",
-      "personalDesc": "您的投票将本地存储并创建您的个人排名。不会影响社区排名。",
-      "communityDesc": "您的投票将贡献给社区排名，帮助选出最受欢迎的卡池。"
+      "personal": "个人",
+      "community": "社区",
+      "personalDesc": "个人排名保存在当前设备上，不影响社区投票结果。"
     },
     "errors": {
       "loadFailed": "加载投票失败，请重试。",
       "submitFailed": "提交投票失败，请重试。",
-      "rateLimit": "投票次数过多，请稍后再试。",
+      "rateLimit": "过去 24 小时内你已投票 50 次，请稍后再试。",
       "loadRankingsFailed": "加载排名失败，请重试。",
-      "votingClosed": "社区投票已结束。查看最终排名或切换到个人模式继续投票。"
+      "votingClosed": "社区投票暂不可用，仍可使用个人模式。"
     },
     "rankings": {
       "title": "卡池排名",
-      "description": "根据社区投票查看1.x版本中最受欢迎的卡池。",
-      "votingPeriod": "投票时间",
+      "description": "查看社区投票中最受欢迎的卡池。",
       "voteMore": "继续投票",
       "lastUpdated": "最后更新",
       "rank": "排名",

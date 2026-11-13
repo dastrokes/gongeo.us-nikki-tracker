@@ -13,7 +13,7 @@
       isBannerVoteSeason(route.params.season),
   })
   const { id: seasonId, season, phase } = useBannerVoteSeason()
-  const { t, n, locale } = useI18n()
+  const { t, n } = useI18n()
   const { getImageSrc } = imageProvider()
   const localePath = useLocalePath()
   const breakpoints = useBreakpoints(breakpointsTailwind)
@@ -331,9 +331,15 @@
       if (version === loadVersion) loading.value = false
     }
   }
+  const intlLocale = useIntlLocale()
   const updatedAtLabel = computed(() =>
     lastUpdated.value
-      ? new Date(lastUpdated.value).toLocaleString(locale.value)
+      ? new Date(lastUpdated.value).toLocaleString(intlLocale.value, {
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric',
+          hour: 'numeric',
+        })
       : null
   )
   onMounted(() => {

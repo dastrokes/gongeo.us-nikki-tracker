@@ -23,7 +23,7 @@ Netlify caches ranking responses for one hour. Nitro reads the Supabase snapshot
 
 To publish a snapshot early, refresh it in Supabase first, then run `npm run purge -- banner-ranking-2x` with `NETLIFY_SITE_ID` and `NETLIFY_AUTH_TOKEN` set. This tag covers both the default request and the explicit 2.x request when both resolve to 2.x.
 
-Apply [banner_ranking_refresh.sql](banner_ranking_refresh.sql), then deploy with the existing `SUPABASE_DATABASE_URL` and `SUPABASE_SECRET_KEY` available to Netlify Functions. Netlify runs `refresh-banner-rankings` hourly. It waits for the database refresh to succeed, then purges the 2.x tag using Netlify's built-in credentials. Use **Run now** in the Netlify Functions dashboard to verify the first run, then disable the old `banner-ranking-hourly` Supabase job if it is still active.
+Apply [banner_ranking_refresh.sql](banner_ranking_refresh.sql), then deploy with the existing `SUPABASE_DATABASE_URL` and `SUPABASE_SECRET_KEY` available to Netlify Functions. Netlify runs `refresh-banner-rankings` hourly; the schedule lives in `netlify.toml`. It waits for the database refresh to succeed, then purges the 2.x tag using Netlify's built-in credentials. Verify the first top-of-hour run in the function logs; the dashboard's **Run now** reports success without reaching the handler on this site. Then disable the old `banner-ranking-hourly` Supabase job if it is still active.
 
 ## Validate and repair
 

@@ -1,9 +1,7 @@
 import { purgeCache } from '@netlify/cache'
-import type { Config } from '@netlify/functions'
 import { createClient } from '@supabase/supabase-js'
 
-export const config: Config = { schedule: '@hourly' }
-
+// Schedule is declared in netlify.toml.
 export default async (request: Request) => {
   const payload = await request.json().catch(() => null)
   console.log('Banner ranking refresh started', {

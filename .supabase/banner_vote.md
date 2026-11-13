@@ -5,9 +5,9 @@ The database holds only the current poll. Completed results are static archives;
 ## Setup and opening
 
 1. Confirm the previous poll is archived. Inspect the installed table definitions, triggers and dependent views before applying [banner_vote.sql](banner_vote.sql). The current setup enables voting with no automatic closing date.
-2. Enable Supabase Cron and start with empty `banner_votes` and `banner_rankings` tables. Apply the SQL as the database owner. It seeds the provisional current roster and schedules `banner-ranking-hourly`; finalize the IDs after 2.11.2.
+2. For a fresh poll, start with empty `banner_votes` and `banner_rankings` tables and apply the SQL as the database owner. It seeds the current roster.
 3. Keep UTC dates and enabled flags matched in `banner_vote_window()` and `shared/utils/bannerVoteSeasons.ts`. A null closing date keeps voting open. The seeded ranking rows are the allowed roster.
-4. Refresh results manually when needed. The setup already installs one hourly job:
+4. Refresh results manually when needed:
 
    ```sql
    refresh materialized view concurrently public.banner_ranking_snapshots;
@@ -19,7 +19,11 @@ The RPC accepts five arguments: banner 1, banner 2, winner, fingerprint and requ
 
 The public API serves the single snapshot row (`id = 1`) for the live poll. Archived routes use `shared/data/bannerRankingArchives.ts`. The API checks that returned banner IDs match the requested roster, so a replaced database poll cannot be shown as an older result.
 
-Cache freshness uses expiry rather than an hourly purge: Nitro and Netlify CDN each cache responses for one hour. Netlify's durable cache lets edge nodes reuse the cached response before invoking a function. Browser HTTP responses require revalidation. The ranking page fetches on entry/reload or a mode change; there is no background polling or focus/visibility refresh. Voting reuses a local snapshot for up to ten minutes when selecting new pairs. Failed requests retain the previous snapshot and its timestamp. The two cache layers can delay a new database snapshot reaching a fresh request by roughly two hours under normal conditions. No ranking cache tag or Cron-to-CDN purge hook is installed.
+Netlify caches ranking responses for one hour. Nitro reads the Supabase snapshot on a CDN miss, so a Netlify purge can pick up a fresh snapshot immediately. Voting reuses its browser snapshot for up to ten minutes when selecting new pairs.
+
+To publish a snapshot early, refresh it in Supabase first, then run `npm run purge -- banner-ranking-2x` with `NETLIFY_SITE_ID` and `NETLIFY_AUTH_TOKEN` set. This tag covers both the default request and the explicit 2.x request when both resolve to 2.x.
+
+Apply [banner_ranking_refresh.sql](banner_ranking_refresh.sql), then deploy with the existing `SUPABASE_DATABASE_URL` and `SUPABASE_SECRET_KEY` available to Netlify Functions. Netlify runs `refresh-banner-rankings` hourly. It waits for the database refresh to succeed, then purges the 2.x tag using Netlify's built-in credentials. Use **Run now** in the Netlify Functions dashboard to verify the first run, then disable the old `banner-ranking-hourly` Supabase job if it is still active.
 
 ## Validate and repair
 
@@ -39,19 +43,18 @@ For a pause, set the SQL window's enabled flag to false and update the frontend 
 2. Refresh once, then export `rankings`, `stats`, and `updated_at` together from `banner_ranking_snapshots`. Save a raw vote backup if desired.
 3. Add the snapshot as a static archive factory in `shared/data/bannerRankingArchives.ts`, following the existing 1.x archive. Mark its manifest entry `archived = true` and deploy.
 4. Verify the completed ranking route works from its static archive. Keep the short routes on that season until the next poll opens.
-5. Stop the hourly job, then clear the completed database data:
+5. Remove the schedule from the Netlify function and deploy, then clear the completed database data:
 
    ```sql
-   select cron.unschedule('banner-ranking-hourly');
    truncate table public.banner_votes, public.banner_rankings restart identity;
    refresh materialized view concurrently public.banner_ranking_snapshots;
    ```
 
-The next poll reuses the same tables, RPC, snapshot and cron. Update the live manifest ID, seed its roster and set its dates; no database season columns or season arguments are needed.
+The next poll reuses the same tables, RPC and snapshot. Update the live manifest ID, purge tag, roster and dates before restoring the schedule.
 
 ## Current readiness
 
-Installed on the main project `fimzdbqulflilnnopibz` on 2026-10-21 under migration `setup_current_banner_vote`. Voting is enabled with no closing date; `banner-ranking-hourly` refreshes the snapshot at minute zero of every hour. No existing voting objects were present, and no objects or data were dropped.
+Installed on the main project `fimzdbqulflilnnopibz` on 2026-10-21 under migration `setup_current_banner_vote`. Voting is enabled with no closing date.
 
 Verified anonymous voting, retry deduplication, request conflicts, roster/fingerprint validation, the rolling 50-vote allowance and expiry, private raw data/admin functions, replay agreement, and the repair pause guard. All 51 test votes were rolled back; the installed ledger and snapshot start at zero votes. Manual concurrent refresh also succeeded.
 

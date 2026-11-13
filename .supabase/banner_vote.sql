@@ -217,16 +217,11 @@ end $$;
 revoke all on function public.rebuild_all_rankings(boolean) from public, anon, authenticated;
 grant execute on function public.rebuild_all_rankings(boolean) to service_role;
 
--- Supabase Cron must be enabled before applying this setup.
-select cron.schedule('banner-ranking-hourly', '0 * * * *',
-  'refresh materialized view concurrently public.banner_ranking_snapshots');
-
 notify pgrst, 'reload schema';
 commit;
 
 -- Manual refresh: refresh materialized view concurrently public.banner_ranking_snapshots;
 -- Validate: select public.rebuild_all_rankings(true);
 -- Repair (pause first): select public.rebuild_all_rankings(false);
--- Final refresh, export the snapshot, then:
--- select cron.unschedule('banner-ranking-hourly');
+-- Apply banner_ranking_refresh.sql to enable the Netlify scheduled refresh.
 

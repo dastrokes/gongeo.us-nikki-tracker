@@ -37,7 +37,7 @@ Personal data and pair history stay separate by season/mode. Preserve legacy 1.x
 
 `process_vote` validates the window, fingerprint, distinct seeded opponents and winner. It uses a fixed K factor, checks quota under a fingerprint lock, returns existing retry receipts, locks ranking rows in ID order, and inserts/updates atomically. Table writes and raw fingerprints remain private.
 
-Refresh the public snapshot hourly; do not replay the ledger hourly. The snapshot includes Elo/exposure for pairing and win percentage for display. Public reads cache for one hour in Nitro and Netlify's durable CDN cache; the combined layers can delay visibility of a refreshed snapshot by roughly two hours. Ranking pages fetch on entry/reload or mode changes, with no background polling. Consecutive vote pairs reuse a local snapshot for up to ten minutes.
+Refresh the public snapshot hourly; do not replay the ledger hourly. The snapshot includes Elo/exposure for pairing and win percentage for display. Public reads cache for one hour in Netlify's durable CDN cache. Nitro reads the current snapshot on a CDN miss. Use `npm run purge -- banner-ranking-2x` after a manual snapshot refresh. Ranking pages fetch on entry/reload or mode changes, with no background polling. Consecutive vote pairs reuse a local snapshot for up to ten minutes.
 
 `rebuild_all_rankings()` validates the complete current ledger in recorded order. Repair requires paused voting. Finalize and archive the snapshot before clearing completed data.
 

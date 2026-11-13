@@ -9,13 +9,13 @@ import {
   createInitialBannerRankingSnapshot,
   validateBannerRankingSnapshot,
 } from '~~/shared/utils/bannerRankingSnapshot'
-import { getGameVersion } from '~~/shared/utils/gameVersion'
 
 export default defineCachedApiEventHandler(
   async (event) => {
     const seasonId = getQuery(event).season ?? CURRENT_BANNER_VOTE_SEASON
     if (!isBannerVoteSeason(seasonId))
       throw createNotFoundError('Banner vote season')
+    setResponseHeader(event, 'Netlify-Cache-Tag', `banner-ranking-${seasonId}`)
     const archive = getBannerRankingArchive(seasonId)
     if (archive) return archive
     const season = BANNER_VOTE_SEASONS[seasonId]
@@ -45,12 +45,7 @@ export default defineCachedApiEventHandler(
     return data
   },
   {
-    cache: {
-      maxAge: 3600,
-      swr: false,
-      getKey: (event) =>
-        `${getGameVersion()}:${getQuery(event).season ?? CURRENT_BANNER_VOTE_SEASON}`,
-    },
+    cache: false,
     headers: { varyQuery: true },
     profile: 'bannerRanking',
   }

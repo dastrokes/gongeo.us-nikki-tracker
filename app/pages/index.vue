@@ -120,6 +120,8 @@
       </n-modal>
     </section>
 
+    <LandingBannerVote />
+
     <!-- ═══ Current Banners ═══ -->
     <section
       ref="bannersSectionRef"

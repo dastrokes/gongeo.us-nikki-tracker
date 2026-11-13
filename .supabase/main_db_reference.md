@@ -11,12 +11,20 @@ Canonical source for expanded query notes:
 
 ## Functions
 
+- Banner voting: `public.process_vote(integer, integer, integer, text, uuid)`, `public.banner_vote_window()` and `public.rebuild_all_rankings(boolean default true)`. See [banner vote operations](banner_vote.md) for grants, snapshot and hourly Cron.
 - `public.generate_percentile_data()`
 - `public.generate_tierlist_data()`
 
 Global-stat generators and refresh functions are installed by the backup workflow in its disposable PostgreSQL database. Their `user_global_stats` scratch table is created there when absent and is not required in source Supabase. Published global stats are served from D1.
 
 ## Tables
+
+### Current banner poll
+
+- `public.banner_votes`: private current vote ledger, fingerprint, request UUID and processing order.
+- `public.banner_rankings`: seeded current roster, Elo and win/loss counters.
+- RLS enabled; no direct browser access. Anonymous/authenticated callers submit through `process_vote` only.
+- `public.banner_ranking_snapshots`: service-only materialized view with one row (`id = 1`); refreshed hourly by `banner-ranking-hourly`.
 
 ### `public.user_banner_stats`
 

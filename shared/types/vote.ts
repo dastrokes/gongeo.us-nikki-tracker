@@ -35,3 +35,15 @@ export interface VoteStats {
   totalVoters: number
   averageVotesPerVoter: number
 }
+
+export interface BannerRankingSnapshot {
+  rankings: BannerRanking[]
+  stats: VoteStats
+  updated_at: string | null
+}
+
+export interface BannerVoteReceipt {
+  success: true
+  request_id: string
+  votes_remaining: number
+}

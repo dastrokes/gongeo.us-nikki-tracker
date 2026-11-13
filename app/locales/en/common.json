@@ -895,28 +895,51 @@
     }
   },
   "vote": {
-    "description": "Help us determine the most popular banners from version 1.x! Vote on your favorite banners in head-to-head matchups.",
-    "howItWorks": "Pick your favorite banner and submit your vote to help rank the most popular banners. Skip if you're not sure. You can vote up to 50 times every 24 hours.",
-    "abuseNotice": "Please do not abuse the voting system. Unusual voting patterns will be detected, and those votes may be removed.",
+    "versus": "VS",
+    "navigation": "Banner voting",
+    "navigationVote": "Vote",
+    "navigationRanking": "Rankings",
+    "info": "Voting information",
+    "submit": "Submit vote",
+    "usePersonal": "Use Personal mode",
+    "bannerDetails": "View {banner} details (opens in a new tab)",
+    "description": "Choose your favorite banners in head-to-head matchups.",
+    "abuseNotice": "Please vote fairly. Unusual voting patterns may be reviewed, and manipulated votes may be removed.",
+    "retry": "Try again",
+    "modeLabel": "Voting mode",
+    "unranked": "Unranked",
+    "fingerprintUnavailable": "Browser verification is unavailable. Try again or use Personal Mode.",
+    "refreshFailed": "The latest rankings could not be loaded. Showing the previous update.",
+    "seasons": {
+      "title": "{season} Banner Ranking",
+      "choose": "Ranking season",
+      "upcoming": "Upcoming",
+      "open": "Community open",
+      "closed": "Community closed",
+      "paused": "Community paused"
+    },
+    "event": {
+      "vote": "Vote now",
+      "results": "View final rankings"
+    },
     "success": "Vote submitted successfully!",
     "viewRankings": "View Rankings",
+    "rankingsUnavailable": "Rankings aren’t available yet.",
     "mode": {
-      "personal": "Personal Mode",
-      "community": "Community Mode",
-      "personalDesc": "Your votes are stored locally and create your personal rankings. Does not affect community rankings.",
-      "communityDesc": "Your votes contribute to the community rankings and help determine the most popular banners."
+      "personal": "Personal",
+      "community": "Community",
+      "personalDesc": "Your rankings are saved on this device and do not affect community results."
     },
     "errors": {
       "loadFailed": "Failed to load vote pair. Please try again.",
       "submitFailed": "Failed to submit vote. Please try again.",
-      "rateLimit": "Too many votes. Please wait before voting again.",
+      "rateLimit": "You've voted 50 times in the past 24 hours. Please try again later.",
       "loadRankingsFailed": "Failed to load rankings. Please try again.",
-      "votingClosed": "Community voting has ended. View the final rankings or switch to Personal Mode to continue voting."
+      "votingClosed": "Community voting is unavailable. You can still use Personal mode."
     },
     "rankings": {
       "title": "Banner Rankings",
-      "description": "See which banners from version 1.x are the most popular based on community votes.",
-      "votingPeriod": "Voting Period",
+      "description": "See which banners are the most popular based on community votes.",
       "voteMore": "Vote More",
       "lastUpdated": "Last updated",
       "rank": "Rank",

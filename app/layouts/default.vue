@@ -613,6 +613,7 @@
     Tshirt,
     ListAlt,
     SortAmountDown,
+    VoteYea,
     ChartBar,
     ChartLine,
     CaretDown,
@@ -731,6 +732,11 @@
       key: 'community',
       label: t('navigation.groups.community'),
       items: [
+        {
+          key: 'vote',
+          label: t('vote.navigation'),
+          icon: VoteYea,
+        },
         {
           key: 'tierlist',
           label: t('navigation.tierlist'),
@@ -857,7 +863,6 @@
     return {
       ...map,
       global: isBannerStatsRoute.value ? 'banner' : 'data',
-      vote: 'community',
       ranking: 'community',
     }
   })

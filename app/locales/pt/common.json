@@ -895,28 +895,51 @@
     }
   },
   "vote": {
-    "description": "Ajude-nos a determinar os banners mais populares da versão 1.x! Vote em seus banners favoritos em confrontos diretos.",
-    "howItWorks": "Escolha seu banner favorito e envie seu voto para ajudar a classificar os banners mais populares. Pule se não tiver certeza. Você pode votar até 50 vezes a cada 24 horas.",
-    "abuseNotice": "Por favor, não abuse do sistema de votação. Padrões de votação incomuns serão detectados e esses votos poderão ser removidos.",
+    "versus": "VS",
+    "navigation": "Votação de banners",
+    "navigationVote": "Votar",
+    "navigationRanking": "Classificações",
+    "info": "Informações sobre a votação",
+    "submit": "Enviar voto",
+    "usePersonal": "Usar o modo pessoal",
+    "bannerDetails": "Ver detalhes de {banner} (abre em uma nova aba)",
+    "description": "Escolha seus banners favoritos em confrontos diretos.",
+    "abuseNotice": "Vote de forma justa. Padrões de votação incomuns podem ser analisados e votos manipulados podem ser removidos.",
+    "retry": "Tentar novamente",
+    "modeLabel": "Modo de votação",
+    "unranked": "Sem classificação",
+    "fingerprintUnavailable": "A verificação do navegador está indisponível. Tente novamente ou use o modo pessoal.",
+    "refreshFailed": "Não foi possível carregar a classificação mais recente. A atualização anterior está sendo exibida.",
+    "seasons": {
+      "title": "Classificação de banners de {season}",
+      "choose": "Temporada da classificação",
+      "upcoming": "Em breve",
+      "open": "Votação da comunidade aberta",
+      "closed": "Votação da comunidade encerrada",
+      "paused": "Votação da comunidade pausada"
+    },
+    "event": {
+      "vote": "Votar agora",
+      "results": "Ver classificação final"
+    },
     "success": "Voto enviado com sucesso!",
     "viewRankings": "Ver classificações",
+    "rankingsUnavailable": "As classificações ainda não estão disponíveis.",
     "mode": {
-      "personal": "Modo Pessoal",
-      "community": "Modo Comunidade",
-      "personalDesc": "Seus votos são armazenados localmente e criam suas classificações pessoais. Não afeta as classificações da comunidade.",
-      "communityDesc": "Seus votos contribuem para a classificação da comunidade e ajudam a determinar os banners mais populares."
+      "personal": "Pessoal",
+      "community": "Comunidade",
+      "personalDesc": "Sua classificação é salva neste dispositivo e não afeta os resultados da comunidade."
     },
     "errors": {
       "loadFailed": "Falha ao carregar o par de votos. Por favor, tente novamente.",
       "submitFailed": "Falha ao enviar voto. Por favor, tente novamente.",
-      "rateLimit": "Muitos votos. Aguarde antes de votar novamente.",
+      "rateLimit": "Você votou 50 vezes nas últimas 24 horas. Tente novamente mais tarde.",
       "loadRankingsFailed": "Falha ao carregar classificações. Por favor, tente novamente.",
-      "votingClosed": "A votação da comunidade terminou. Veja a classificação final ou mude para o Modo Pessoal para continuar votando."
+      "votingClosed": "A votação da comunidade está indisponível. Você ainda pode usar o modo pessoal."
     },
     "rankings": {
       "title": "Classificações de banners",
-      "description": "Veja quais banners da versão 1.x são os mais populares com base nos votos da comunidade.",
-      "votingPeriod": "Período de votação",
+      "description": "Veja quais banners são os mais populares de acordo com os votos da comunidade.",
       "voteMore": "Vote mais",
       "lastUpdated": "Última atualização",
       "rank": "Classificação",

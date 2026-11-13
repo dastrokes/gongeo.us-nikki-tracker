@@ -896,6 +896,7 @@
   },
   "vote": {
     "versus": "VS",
+    "communityLimit": "You can cast up to 50 votes in any 24-hour period.",
     "navigation": "Banner voting",
     "navigationVote": "Vote",
     "navigationRanking": "Rankings",
@@ -924,7 +925,6 @@
     },
     "success": "Vote submitted successfully!",
     "viewRankings": "View Rankings",
-    "rankingsUnavailable": "Rankings aren’t available yet.",
     "mode": {
       "personal": "Personal",
       "community": "Community",

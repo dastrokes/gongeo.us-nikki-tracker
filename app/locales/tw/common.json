@@ -896,6 +896,7 @@
   },
   "vote": {
     "versus": "VS",
+    "communityLimit": "任意 24 小時內最多可投票 50 次。",
     "navigation": "卡池投票",
     "navigationVote": "投票",
     "navigationRanking": "排名",
@@ -924,7 +925,6 @@
     },
     "success": "投票提交成功！",
     "viewRankings": "檢視排名",
-    "rankingsUnavailable": "排名暫不可用。",
     "mode": {
       "personal": "個人",
       "community": "社群",

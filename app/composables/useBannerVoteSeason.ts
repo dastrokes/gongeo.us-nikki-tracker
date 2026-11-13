@@ -2,15 +2,12 @@ import { useIntervalFn, useNow } from '@vueuse/core'
 import {
   BANNER_VOTE_SEASONS,
   CURRENT_BANNER_VOTE_SEASON,
-  type BannerVoteSeasonId,
   getBannerVotePhase,
   isBannerVoteSeason,
 } from '~~/shared/utils/bannerVoteSeasons'
 
-export const useBannerVoteSeason = (
-  defaultSeason: BannerVoteSeasonId = CURRENT_BANNER_VOTE_SEASON
-) => {
-  const requested = useRoute().params.season ?? defaultSeason
+export const useBannerVoteSeason = () => {
+  const requested = useRoute().params.season ?? CURRENT_BANNER_VOTE_SEASON
   if (!isBannerVoteSeason(requested))
     throw createError({
       statusCode: 404,

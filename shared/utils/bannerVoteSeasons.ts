@@ -16,8 +16,6 @@ export interface BannerVoteSeason {
 export const CURRENT_BANNER_VOTE_SEASON: BannerVoteSeasonId = '2x'
 // The database contains only this poll; completed results live in archives.
 export const LIVE_BANNER_VOTE_SEASON: BannerVoteSeasonId = '2x'
-// Controls the live ranking page. Archived results are always available.
-export const BANNER_RANKING_PAGE_ENABLED = false
 
 export const BANNER_VOTE_SEASONS: Record<BannerVoteSeasonId, BannerVoteSeason> =
   {
@@ -49,15 +47,6 @@ export function isBannerVoteSeason(
 ): value is BannerVoteSeasonId {
   return value === '1x' || value === '2x'
 }
-
-export function isBannerRankingAvailable(season: BannerVoteSeasonId): boolean {
-  return BANNER_VOTE_SEASONS[season].archived || BANNER_RANKING_PAGE_ENABLED
-}
-
-export const DEFAULT_BANNER_RANKING_SEASON: BannerVoteSeasonId =
-  isBannerRankingAvailable(CURRENT_BANNER_VOTE_SEASON)
-    ? CURRENT_BANNER_VOTE_SEASON
-    : '1x'
 
 export function getBannerVotePhase(
   season: BannerVoteSeason,

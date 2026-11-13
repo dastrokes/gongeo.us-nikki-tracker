@@ -2,7 +2,6 @@
   import { InfoCircle } from '@vicons/fa'
   import {
     BANNER_VOTE_SEASONS,
-    isBannerRankingAvailable,
     type BannerVoteSeasonId,
     type BannerVotePhase,
   } from '~~/shared/utils/bannerVoteSeasons'
@@ -78,17 +77,7 @@
           v-for="page in ['vote', 'ranking'] as const"
           :key="page"
         >
-          <BannerRankingUnavailable
-            v-if="
-              page === 'ranking' &&
-              !personal &&
-              !isBannerRankingAvailable(season)
-            "
-            class="rounded-full px-2 py-2 font-medium sm:px-5"
-            >{{ t('vote.navigationRanking') }}</BannerRankingUnavailable
-          >
           <NuxtLinkLocale
-            v-else
             :to="`/${page}/${season}`"
             :aria-current="view === page ? 'page' : undefined"
             class="rounded-full px-2 py-2 font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-500 sm:px-5"
@@ -114,11 +103,9 @@
           :aria-label="t('vote.modeLabel')"
           @update:value="emit('update:personal', $event === 'personal')"
         >
-          <n-radio-button
-            value="community"
-            :disabled="view === 'ranking' && !isBannerRankingAvailable(season)"
-            >{{ t('vote.mode.community') }}</n-radio-button
-          >
+          <n-radio-button value="community">{{
+            t('vote.mode.community')
+          }}</n-radio-button>
           <n-radio-button value="personal">{{
             t('vote.mode.personal')
           }}</n-radio-button>
@@ -145,6 +132,12 @@
               ></template>
             </n-button>
           </template>
+          <p
+            v-if="view === 'vote' && !personal && phase === 'open'"
+            class="mb-2"
+          >
+            {{ t('vote.communityLimit') }}
+          </p>
           {{
             t(
               personal

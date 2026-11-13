@@ -3,25 +3,16 @@
   import type { DataTableColumns, DataTableThemeOverrides } from 'naive-ui'
   import { breakpointsTailwind } from '@vueuse/core'
   import { BANNER_DATA } from '~~/data/banners'
-  import {
-    DEFAULT_BANNER_RANKING_SEASON,
-    isBannerRankingAvailable,
-    isBannerVoteSeason,
-  } from '~~/shared/utils/bannerVoteSeasons'
+  import { isBannerVoteSeason } from '~~/shared/utils/bannerVoteSeasons'
   import type { BannerRankingSnapshot } from '~~/shared/types/vote'
 
   definePageMeta({
     key: (route) => route.path,
-    validate: (route) => {
-      const season = route.params.season ?? DEFAULT_BANNER_RANKING_SEASON
-      return isBannerVoteSeason(season)
-    },
+    validate: (route) =>
+      route.params.season === undefined ||
+      isBannerVoteSeason(route.params.season),
   })
-  const {
-    id: seasonId,
-    season,
-    phase,
-  } = useBannerVoteSeason(DEFAULT_BANNER_RANKING_SEASON)
+  const { id: seasonId, season, phase } = useBannerVoteSeason()
   const { t, n, locale } = useI18n()
   const { getImageSrc } = imageProvider()
   const localePath = useLocalePath()
@@ -29,10 +20,7 @@
   const isMobile = shallowRef(false)
   const { getRankings, snapshot, refreshFailed } = useBannerVote(seasonId)
   const { getPersonalRankings } = usePersonalVote(seasonId)
-  const { isPersonalMode: prefersPersonal, setMode } = useVotingMode(seasonId)
-  const isPersonalMode = computed(
-    () => !isBannerRankingAvailable(seasonId) || prefersPersonal.value
-  )
+  const { isPersonalMode, setMode } = useVotingMode(seasonId)
   const loading = shallowRef(true)
   const loadFailed = shallowRef(false)
   const rankings = shallowRef<BannerRanking[]>([])

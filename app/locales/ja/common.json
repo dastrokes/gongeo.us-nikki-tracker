@@ -896,6 +896,7 @@
   },
   "vote": {
     "versus": "VS",
+    "communityLimit": "24時間あたり最大50回まで投票できます。",
     "navigation": "バナー投票",
     "navigationVote": "投票",
     "navigationRanking": "ランキング",
@@ -924,7 +925,6 @@
     },
     "success": "投票は正常に送信されました。",
     "viewRankings": "ランキングを見る",
-    "rankingsUnavailable": "ランキングはまだ利用できません。",
     "mode": {
       "personal": "パーソナル",
       "community": "コミュニティ",

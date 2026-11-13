@@ -896,6 +896,7 @@
   },
   "vote": {
     "versus": "VS",
+    "communityLimit": "Du kannst innerhalb von 24 Stunden bis zu 50 Stimmen abgeben.",
     "navigation": "Banner-Abstimmung",
     "navigationVote": "Abstimmen",
     "navigationRanking": "Ranglisten",
@@ -924,7 +925,6 @@
     },
     "success": "Stimme erfolgreich abgegeben!",
     "viewRankings": "Rangliste ansehen",
-    "rankingsUnavailable": "Die Rangliste ist noch nicht verfügbar.",
     "mode": {
       "personal": "Persönlich",
       "community": "Community",

@@ -896,6 +896,7 @@
   },
   "vote": {
     "versus": "VS",
+    "communityLimit": "24시간 동안 최대 50회 투표할 수 있습니다.",
     "navigation": "배너 투표",
     "navigationVote": "투표",
     "navigationRanking": "순위",
@@ -924,7 +925,6 @@
     },
     "success": "투표가 성공적으로 제출되었습니다!",
     "viewRankings": "순위 보기",
-    "rankingsUnavailable": "순위를 아직 이용할 수 없습니다.",
     "mode": {
       "personal": "개인",
       "community": "커뮤니티",

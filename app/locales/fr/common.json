@@ -896,6 +896,7 @@
   },
   "vote": {
     "versus": "VS",
+    "communityLimit": "Vous pouvez voter jusqu’à 50 fois sur une période de 24 heures.",
     "navigation": "Vote des bannières",
     "navigationVote": "Voter",
     "navigationRanking": "Classements",
@@ -924,7 +925,6 @@
     },
     "success": "Vote soumis avec succès !",
     "viewRankings": "Voir les classements",
-    "rankingsUnavailable": "Les classements ne sont pas encore disponibles.",
     "mode": {
       "personal": "Personnel",
       "community": "Communauté",

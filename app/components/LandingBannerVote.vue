@@ -4,13 +4,11 @@
   import {
     BANNER_VOTE_SEASONS,
     LIVE_BANNER_VOTE_SEASON,
-    isBannerRankingAvailable,
     getBannerVotePhase,
   } from '~~/shared/utils/bannerVoteSeasons'
 
   const { t } = useI18n()
   const season = BANNER_VOTE_SEASONS[LIVE_BANNER_VOTE_SEASON]
-  const rankingsAvailable = isBannerRankingAvailable(season.id)
   const { getImageSrc } = imageProvider()
   const previews = season.bannerIds.slice(0, 2).map((id) => ({
     id,
@@ -90,7 +88,6 @@
         class="col-span-2 flex flex-wrap items-center gap-3 text-sm sm:col-span-1 sm:col-start-2 lg:col-start-3 lg:gap-4"
       >
         <NuxtLinkLocale
-          v-if="phase === 'open' || rankingsAvailable"
           no-prefetch
           :to="mainPath"
           class="inline-flex min-h-11 flex-1 items-center justify-center gap-2 rounded-full bg-rose-500 px-5 py-2.5 font-semibold text-white shadow-[0_4px_12px_rgb(244_63_94/0.12)] transition-colors hover:bg-rose-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-500 sm:flex-none"
@@ -102,13 +99,8 @@
             ><ArrowRight
           /></n-icon>
         </NuxtLinkLocale>
-        <BannerRankingUnavailable
-          v-if="!rankingsAvailable"
-          class="inline-flex min-h-11 flex-1 items-center justify-center rounded-full px-2 font-medium sm:flex-none"
-          >{{ rankingLabel }}</BannerRankingUnavailable
-        >
         <NuxtLinkLocale
-          v-else-if="phase === 'open'"
+          v-if="phase === 'open'"
           no-prefetch
           to="/ranking"
           class="inline-flex min-h-11 flex-1 items-center justify-center rounded-full px-2 font-medium text-slate-600 underline-offset-4 transition-colors hover:text-rose-600 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-500 sm:flex-none dark:text-slate-300 dark:hover:text-rose-300"

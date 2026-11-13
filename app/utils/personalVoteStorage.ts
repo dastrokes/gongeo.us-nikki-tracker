@@ -3,7 +3,12 @@
  * Handles localStorage operations for personal voting data
  */
 
-// Storage keys
+import {
+  CURRENT_BANNER_VOTE_SEASON,
+  type BannerVoteSeasonId,
+} from '~~/shared/utils/bannerVoteSeasons'
+
+// Legacy 1.x keys are read only as a fallback, without deleting existing data.
 export const STORAGE_KEYS = {
   RANKINGS: 'gongeous-personal-rankings',
   RECENT_PAIRS: 'gongeous-recent-votes', // REUSED from community voting
@@ -22,9 +27,13 @@ export interface PersonalRankingsData {
  * Load personal rankings data from localStorage
  * Returns default structure if no data exists or data is corrupted
  */
-export function loadPersonalRankings(): PersonalRankingsData {
+export function loadPersonalRankings(
+  season: BannerVoteSeasonId = CURRENT_BANNER_VOTE_SEASON
+): PersonalRankingsData {
   try {
-    const stored = localStorage.getItem(STORAGE_KEYS.RANKINGS)
+    const stored =
+      localStorage.getItem(`${STORAGE_KEYS.RANKINGS}:${season}`) ??
+      (season === '1x' ? localStorage.getItem(STORAGE_KEYS.RANKINGS) : null)
     if (!stored) {
       return createDefaultRankingsData()
     }
@@ -48,10 +57,13 @@ export function loadPersonalRankings(): PersonalRankingsData {
  * Save personal rankings data to localStorage
  * Handles quota exceeded errors gracefully
  */
-export function savePersonalRankings(data: PersonalRankingsData): boolean {
+export function savePersonalRankings(
+  data: PersonalRankingsData,
+  season: BannerVoteSeasonId = CURRENT_BANNER_VOTE_SEASON
+): boolean {
   try {
     const serialized = JSON.stringify(data)
-    localStorage.setItem(STORAGE_KEYS.RANKINGS, serialized)
+    localStorage.setItem(`${STORAGE_KEYS.RANKINGS}:${season}`, serialized)
     return true
   } catch (error) {
     if (error instanceof Error && error.name === 'QuotaExceededError') {
@@ -71,9 +83,10 @@ export function updatePersonalRankingsAfterVote(
   bannerId1: number,
   bannerId2: number,
   winnerId: number,
-  eloChange: { winnerChange: number; loserChange: number }
+  eloChange: { winnerChange: number; loserChange: number },
+  season: BannerVoteSeasonId = CURRENT_BANNER_VOTE_SEASON
 ): boolean {
-  const data = loadPersonalRankings()
+  const data = loadPersonalRankings(season)
 
   const loserId = winnerId === bannerId1 ? bannerId2 : bannerId1
   const winnerKey = winnerId.toString()
@@ -95,19 +108,22 @@ export function updatePersonalRankingsAfterVote(
   data[winnerKey]!.wins += 1
   data[loserKey]!.losses += 1
 
-  return savePersonalRankings(data)
+  return savePersonalRankings(data, season)
 }
 
 /**
  * Get banner data from personal rankings
  * Returns default values if banner not found
  */
-export function getPersonalBannerData(bannerId: number): {
+export function getPersonalBannerData(
+  bannerId: number,
+  season: BannerVoteSeasonId = CURRENT_BANNER_VOTE_SEASON
+): {
   elo: number
   wins: number
   losses: number
 } {
-  const data = loadPersonalRankings()
+  const data = loadPersonalRankings(season)
   const bannerKey = bannerId.toString()
 
   return (
@@ -130,9 +146,12 @@ export function calculateTotalVotes(data: PersonalRankingsData): number {
 /**
  * Clear all personal rankings data
  */
-export function clearPersonalRankings(): void {
+export function clearPersonalRankings(
+  season: BannerVoteSeasonId = CURRENT_BANNER_VOTE_SEASON
+): void {
   try {
-    localStorage.removeItem(STORAGE_KEYS.RANKINGS)
+    localStorage.removeItem(`${STORAGE_KEYS.RANKINGS}:${season}`)
+    if (season === '1x') localStorage.removeItem(STORAGE_KEYS.RANKINGS)
   } catch (error) {
     console.error('Failed to clear personal rankings:', error)
   }
@@ -150,7 +169,7 @@ function createDefaultRankingsData(): PersonalRankingsData {
  * Ensures data integrity
  */
 function validateRankingsData(data: unknown): data is PersonalRankingsData {
-  if (!data || typeof data !== 'object') {
+  if (!data || typeof data !== 'object' || Array.isArray(data)) {
     return false
   }
 
@@ -176,7 +195,14 @@ function validateRankingsData(data: unknown): data is PersonalRankingsData {
     }
 
     // Validate reasonable ranges
-    if (bd.elo < 0 || bd.wins < 0 || bd.losses < 0) {
+    if (
+      !Number.isFinite(bd.elo) ||
+      !Number.isSafeInteger(bd.wins) ||
+      !Number.isSafeInteger(bd.losses) ||
+      bd.elo < 0 ||
+      bd.wins < 0 ||
+      bd.losses < 0
+    ) {
       return false
     }
   }

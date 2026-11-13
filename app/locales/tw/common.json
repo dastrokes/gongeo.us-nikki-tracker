@@ -900,6 +900,7 @@
     "abuseNotice": "請不要惡意刷票。異常的投票行為將會被系統檢測到，相關投票可能會被移除。",
     "success": "投票提交成功！",
     "viewRankings": "檢視排名",
+    "rankingsUnavailable": "排名暫不可用。",
     "mode": {
       "personal": "個人模式",
       "community": "社群模式",

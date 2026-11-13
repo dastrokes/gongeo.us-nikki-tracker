@@ -14,6 +14,7 @@ import {
   SEO_PROP_LIST_PATHS,
 } from './app/utils/seoListRouteDefinitions'
 import {
+  getCacheHeaders,
   i18nMessages,
   pageStatic,
   pageTheme,
@@ -424,8 +425,6 @@ export default defineNuxtConfig({
             '/login',
             '/profile',
             '/quiz',
-            '/ranking',
-            '/vote',
             '/feedback',
             '/guideline',
             '/contact',
@@ -436,6 +435,23 @@ export default defineNuxtConfig({
             ssr: false,
           }
         ),
+        ...buildLocalizedRules(
+          [
+            '/ranking',
+            '/ranking/1x',
+            '/ranking/2x',
+            '/vote',
+            '/vote/1x',
+            '/vote/2x',
+          ],
+          {
+            headers: getCacheHeaders('page', 'noStore'),
+            ssr: false,
+          }
+        ),
+        ...buildLocalizedRules(['/ranking/**', '/vote/**'], {
+          headers: getCacheHeaders('page', 'noStore'),
+        }),
       }
     })(),
   },

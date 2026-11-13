@@ -900,6 +900,7 @@
     "abuseNotice": "Por favor, no abuse del sistema de votación. Se detectarán patrones de votación inusuales y esos votos podrán eliminarse.",
     "success": "¡Voto enviado exitosamente!",
     "viewRankings": "Ver clasificaciones",
+    "rankingsUnavailable": "Las clasificaciones aún no están disponibles.",
     "mode": {
       "personal": "Modo personal",
       "community": "Modo comunitario",

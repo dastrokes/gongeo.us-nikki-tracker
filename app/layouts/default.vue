@@ -732,6 +732,11 @@
       label: t('navigation.groups.community'),
       items: [
         {
+          key: 'ranking',
+          label: t('vote.rankings.title'),
+          icon: SortAmountDown,
+        },
+        {
           key: 'tierlist',
           label: t('navigation.tierlist'),
           icon: SortAmountDown,

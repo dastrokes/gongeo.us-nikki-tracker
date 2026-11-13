@@ -900,6 +900,7 @@
     "abuseNotice": "Bitte missbrauche nicht das Abstimmungssystem. Ungewöhnliche Abstimmungsmuster werden erkannt und diese Stimmen können entfernt werden.",
     "success": "Stimme erfolgreich abgegeben!",
     "viewRankings": "Rangliste ansehen",
+    "rankingsUnavailable": "Die Rangliste ist noch nicht verfügbar.",
     "mode": {
       "personal": "Persönlicher Modus",
       "community": "Community-Modus",

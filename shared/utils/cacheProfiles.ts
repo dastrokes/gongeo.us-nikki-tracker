@@ -119,6 +119,13 @@ const pageProfiles = {
 } as const satisfies Record<string, CacheProfile>
 
 const apiProfiles = {
+  bannerRanking: createProfile(
+    BROWSER_REVALIDATE,
+    'public, durable, s-maxage=3600',
+    {
+      includeVersion: true,
+    }
+  ),
   catalog: createProfile(BROWSER_REVALIDATE, CDN_API_LONG, {
     includeVersion: true,
   }),

@@ -900,6 +900,7 @@
     "abuseNotice": "투표 시스템을 남용하지 마십시오. 비정상적인 투표 패턴이 감지되면 해당 투표가 제거될 수 있습니다.",
     "success": "투표가 성공적으로 제출되었습니다!",
     "viewRankings": "순위 보기",
+    "rankingsUnavailable": "순위를 아직 이용할 수 없습니다.",
     "mode": {
       "personal": "개인 모드",
       "community": "커뮤니티 모드",

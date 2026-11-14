@@ -1,4 +1,21 @@
-import type { BannerRankingSnapshot } from '../types/vote'
+import type { BannerRanking, BannerRankingSnapshot } from '../types/vote'
+
+// Community order: voted banners first, then win rate, then banner ID.
+export function rankBannerRankings<T extends BannerRanking>(
+  rows: readonly T[]
+): T[] {
+  return [...rows]
+    .sort(
+      (a, b) =>
+        Number(!!b.total_votes) - Number(!!a.total_votes) ||
+        (b.win_rate ?? 0) - (a.win_rate ?? 0) ||
+        a.banner_id - b.banner_id
+    )
+    .map((row, index) => ({
+      ...row,
+      rank: row.total_votes ? index + 1 : undefined,
+    }))
+}
 
 function matchesCalculatedRatio(
   value: unknown,

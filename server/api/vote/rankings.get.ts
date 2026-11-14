@@ -29,20 +29,29 @@ export default defineCachedApiEventHandler(
     ) {
       return createInitialBannerRankingSnapshot(season.bannerIds)
     }
-    const { data, error } = await withSupabaseRetry(() =>
-      useSupabaseServerClient()
-        .from('banner_ranking_snapshots')
-        .select('rankings, stats, updated_at')
+    const supabase = useSupabaseServerClient()
+    const [{ data, error }, { data: previous }] = await Promise.all([
+      withSupabaseRetry(() =>
+        supabase
+          .from('banner_ranking_snapshots')
+          .select('rankings, stats, updated_at')
+          .eq('id', 1)
+          .single()
+      ),
+      // Optional: rank-change arrows are hidden when this read fails.
+      supabase
+        .from('banner_ranking_previous')
+        .select('rankings')
         .eq('id', 1)
-        .single()
-    )
+        .maybeSingle(),
+    ])
     if (error || !validateBannerRankingSnapshot(data, season.bannerIds)) {
       console.error(
         `Banner ranking snapshot unavailable for ${seasonId}: ${toErrorMessage(error, 'Invalid or missing snapshot')}`
       )
       throw createApiFailureError('fetch banner rankings', { transient: true })
     }
-    return data
+    return { ...data, previous_rankings: previous?.rankings ?? null }
   },
   {
     cache: false,

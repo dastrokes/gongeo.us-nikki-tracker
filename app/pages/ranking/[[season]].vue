@@ -1,10 +1,11 @@
 <script setup lang="ts">
-  import { Trophy } from '@vicons/fa'
+  import { CaretDown, CaretUp, Trophy } from '@vicons/fa'
   import type { DataTableColumns, DataTableThemeOverrides } from 'naive-ui'
   import { breakpointsTailwind } from '@vueuse/core'
   import { BANNER_DATA } from '~~/data/banners'
   import { isBannerVoteSeason } from '~~/shared/utils/bannerVoteSeasons'
   import type { BannerRankingSnapshot } from '~~/shared/types/vote'
+  import { rankBannerRankings } from '~~/shared/utils/bannerRankingSnapshot'
 
   definePageMeta({
     key: (route) => route.path,
@@ -35,6 +36,30 @@
     tdColorSorting: 'rgba(148, 163, 184, 0.04)',
     thColorSorting: 'rgba(148, 163, 184, 0.04)',
     borderColor: 'rgba(148, 163, 184, 0.16)',
+  }
+
+  const renderRankChange = (row: BannerRanking) => {
+    const change = row.rank_change
+    if (!change) return null
+    const up = change > 0
+    return h(
+      'span',
+      {
+        class: `inline-flex items-center gap-0.5 text-xs font-semibold tabular-nums ${
+          up
+            ? 'text-green-600 dark:text-green-400'
+            : 'text-red-600 dark:text-red-400'
+        }`,
+      },
+      [
+        h(
+          resolveComponent('n-icon'),
+          { size: 10 },
+          { default: () => h(up ? CaretUp : CaretDown) }
+        ),
+        Math.abs(change),
+      ]
+    )
   }
 
   // Mobile columns - compact view
@@ -68,6 +93,7 @@
                 { default: () => h(icon) }
               )
             : null,
+          renderRankChange(row),
         ])
       },
       sorter: (a, b) => (a.rank ?? 0) - (b.rank ?? 0),
@@ -187,6 +213,7 @@
                 { default: () => h(icon) }
               )
             : null,
+          renderRankChange(row),
         ])
       },
       sorter: (a, b) => (a.rank ?? 0) - (b.rank ?? 0),
@@ -294,17 +321,20 @@
   })
 
   const applyCommunityRankings = (data: BannerRankingSnapshot) => {
-    rankings.value = [...data.rankings]
-      .sort(
-        (a, b) =>
-          Number(!!b.total_votes) - Number(!!a.total_votes) ||
-          (b.win_rate ?? 0) - (a.win_rate ?? 0) ||
-          a.banner_id - b.banner_id
-      )
-      .map((row, index) => ({
+    const previousRanks = new Map(
+      rankBannerRankings(data.previous_rankings ?? []).map((row) => [
+        row.banner_id,
+        row.rank,
+      ])
+    )
+    rankings.value = rankBannerRankings(data.rankings).map((row) => {
+      const previousRank = previousRanks.get(row.banner_id)
+      return {
         ...row,
-        rank: row.total_votes ? index + 1 : undefined,
-      }))
+        rank_change:
+          row.rank && previousRank ? previousRank - row.rank : undefined,
+      }
+    })
     stats.value = data.stats
     lastUpdated.value = data.updated_at
   }

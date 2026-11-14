@@ -7,10 +7,10 @@ The database holds only the current poll. Completed results are static archives;
 1. Confirm the previous poll is archived. Inspect the installed table definitions, triggers and dependent views before applying [banner_vote.sql](banner_vote.sql). The current setup enables voting with no automatic closing date.
 2. For a fresh poll, start with empty `banner_votes` and `banner_rankings` tables and apply the SQL as the database owner. It seeds the current roster.
 3. Keep UTC dates and enabled flags matched in `banner_vote_window()` and `shared/utils/bannerVoteSeasons.ts`. A null closing date keeps voting open. The seeded ranking rows are the allowed roster.
-4. Refresh results manually when needed:
+4. Refresh results manually when needed. The RPC also keeps the previous ranking for rank-change arrows:
 
    ```sql
-   refresh materialized view concurrently public.banner_ranking_snapshots;
+   select public.refresh_banner_ranking_snapshot();
    ```
 
 5. At opening, deploy `CURRENT_BANNER_VOTE_SEASON = '2x'`. `LIVE_BANNER_VOTE_SEASON` identifies the poll stored in Supabase; explicit older routes read their archive. Confirm the roster matches the manifest.
@@ -18,6 +18,8 @@ The database holds only the current poll. Completed results are static archives;
 The RPC accepts five arguments: banner 1, banner 2, winner, fingerprint and request UUID. It enforces the voting window, eligibility, 50 accepted votes per rolling 24 hours, and retry deduplication. Skips stay local and free.
 
 The public API serves the single snapshot row (`id = 1`) for the live poll. Archived routes use `shared/data/bannerRankingArchives.ts`. The API checks that returned banner IDs match the requested roster, so a replaced database poll cannot be shown as an older result.
+
+Before refreshing, the RPC copies the current rankings into `banner_ranking_previous` when new votes arrived since the snapshot. The API returns them as `previous_rankings`, and the ranking page shows up/down arrows against them.
 
 Netlify caches ranking responses for one hour. Nitro reads the Supabase snapshot on a CDN miss, so a Netlify purge can pick up a fresh snapshot immediately. Voting reuses its browser snapshot for up to ten minutes when selecting new pairs.
 
@@ -46,7 +48,7 @@ For a pause, set the SQL window's enabled flag to false and update the frontend 
 5. Remove the schedule from the Netlify function and deploy, then clear the completed database data:
 
    ```sql
-   truncate table public.banner_votes, public.banner_rankings restart identity;
+   truncate table public.banner_votes, public.banner_rankings, public.banner_ranking_previous restart identity;
    refresh materialized view concurrently public.banner_ranking_snapshots;
    ```
 

@@ -1,6 +1,6 @@
 # Banner vote operations
 
-The dedicated Supabase project `gongeous-vote` (`mlkhcalrpdyimgshjvwv`) is the destination for the live banner poll. The original poll remains on `fimzdbqulflilnnopibz` until cutover. Completed results are static archives. Raw votes and live rankings can be exported and cleared after archiving.
+The dedicated Supabase project `gongeous-vote` (`mlkhcalrpdyimgshjvwv`) hosts the live banner poll. The original voting schema on `fimzdbqulflilnnopibz` was removed after cutover verification. Completed results are static archives. Raw votes and live rankings can be exported and cleared after archiving.
 
 ## Setup and opening
 
@@ -15,7 +15,7 @@ The dedicated Supabase project `gongeous-vote` (`mlkhcalrpdyimgshjvwv`) is the d
 
 5. At opening, deploy `CURRENT_BANNER_VOTE_SEASON = '2x'`. `LIVE_BANNER_VOTE_SEASON` identifies the poll stored in Supabase; explicit older routes read their archive. Confirm the roster matches the manifest.
 
-The RPC accepts five arguments: banner 1, banner 2, winner, fingerprint and request UUID. It enforces the voting window, eligibility, 50 accepted votes per rolling 24 hours, and retry deduplication. Skips stay local and free.
+The RPC accepts five arguments: banner 1, banner 2, winner, fingerprint and request UUID. It enforces the voting window, eligibility, 50 accepted votes per rolling 24 hours, and retry deduplication. A receipt at the cap includes `retry_after_ms`. Over-limit requests return HTTP 400 with `RATE_LIMIT` and the wait in milliseconds in `details`, without raising a PostgreSQL exception. The browser disables community voting until that wait expires. Skips stay local and free.
 
 The public API serves the single snapshot row (`id = 1`) for the live poll. Archived routes use `shared/data/bannerRankingArchives.ts`. The API checks that returned banner IDs match the requested roster, so a replaced database poll cannot be shown as an older result.
 

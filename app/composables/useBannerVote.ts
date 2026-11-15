@@ -9,6 +9,7 @@ import { createInitialBannerRankingSnapshot } from '~~/shared/utils/bannerRankin
 import type {
   BannerRankingSnapshot,
   BannerVoteReceipt,
+  BannerVoteResult,
 } from '~~/shared/types/vote'
 
 const PAIRING_CACHE_TTL = 10 * 60 * 1000
@@ -93,7 +94,7 @@ export const useBannerVote = (
     banner2: number,
     winner: number,
     requestId: string
-  ): Promise<BannerVoteReceipt> => {
+  ): Promise<BannerVoteResult> => {
     if (season.archived || seasonId !== LIVE_BANNER_VOTE_SEASON)
       throw new Error('VOTING_CLOSED')
     if (
@@ -119,6 +120,9 @@ export const useBannerVote = (
         p_request_id: requestId,
       } as never)
     )
+    if (error?.message === 'RATE_LIMIT') {
+      return { success: false, retry_after_ms: Number(error.details) }
+    }
     if (error) throw new Error(error.message)
     const receipt = data as BannerVoteReceipt | null
     if (

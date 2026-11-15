@@ -81,6 +81,8 @@ declare
   previous public.banner_votes%rowtype;
   vote_window record;
   accepted integer;
+  quota_checked_at timestamptz;
+  retry_after_ms integer;
   locked integer;
   winner_rating numeric;
   loser_rating numeric;
@@ -99,14 +101,22 @@ begin
 
   select * into previous from public.banner_votes
   where voter_fingerprint = p_voter_fingerprint and request_id = p_request_id;
-  select count(*) into accepted from public.banner_votes
-  where voter_fingerprint = p_voter_fingerprint
-    and created_at > clock_timestamp() - interval '24 hours';
+  quota_checked_at := clock_timestamp();
+  select count(*), ceil(extract(epoch from (min(created_at) + interval '24 hours' - quota_checked_at)) * 1000)::integer
+  into accepted, retry_after_ms
+  from (
+    select created_at from public.banner_votes
+    where voter_fingerprint = p_voter_fingerprint
+      and created_at > quota_checked_at - interval '24 hours'
+    order by created_at desc
+    limit 50
+  ) recent_votes;
 
   if previous.request_id is not null then
     if previous.banner_id_1 <> p_banner_id_1 or previous.banner_id_2 <> p_banner_id_2 or previous.winner_id <> p_winner_id
     then raise exception 'REQUEST_CONFLICT'; end if;
-    return jsonb_build_object('success', true, 'request_id', p_request_id, 'votes_remaining', greatest(0, 50 - accepted));
+    return jsonb_build_object('success', true, 'request_id', p_request_id, 'votes_remaining', 50 - accepted,
+      'retry_after_ms', case when accepted = 50 then retry_after_ms end);
   end if;
 
   select * into vote_window from public.banner_vote_window();
@@ -115,7 +125,11 @@ begin
     or (vote_window.closes_at is not null and
       (vote_window.closes_at <= vote_window.opens_at or clock_timestamp() >= vote_window.closes_at))
   then raise exception 'VOTING_CLOSED'; end if;
-  if accepted >= 50 then raise exception 'RATE_LIMIT'; end if;
+  if accepted >= 50 then
+    -- Keep the browser's warning response without raising a Postgres exception.
+    perform set_config('response.status', '400', true);
+    return jsonb_build_object('code', 'RATE_LIMIT', 'message', 'RATE_LIMIT', 'details', retry_after_ms::text);
+  end if;
 
   perform banner_id from public.banner_rankings
   where banner_id in (p_banner_id_1, p_banner_id_2)
@@ -144,7 +158,8 @@ begin
       losses = losses + case when banner_id = p_winner_id then 0 else 1 end,
       updated_at = accepted_at
   where banner_id in (p_banner_id_1, p_banner_id_2);
-  return jsonb_build_object('success', true, 'request_id', p_request_id, 'votes_remaining', 49 - accepted);
+  return jsonb_build_object('success', true, 'request_id', p_request_id, 'votes_remaining', 49 - accepted,
+    'retry_after_ms', case when accepted = 49 then retry_after_ms end);
 end $$;
 revoke all on function public.process_vote(integer, integer, integer, text, uuid) from public;
 grant execute on function public.process_vote(integer, integer, integer, text, uuid) to anon, authenticated;

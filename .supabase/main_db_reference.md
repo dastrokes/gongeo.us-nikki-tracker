@@ -16,7 +16,7 @@ Canonical source for expanded query notes:
 
 Global-stat generators and refresh functions are installed by the backup workflow in its disposable PostgreSQL database. Their `user_global_stats` scratch table is created there when absent and is not required in source Supabase. Published global stats are served from D1.
 
-The live banner poll moves to `gongeous-vote` (`mlkhcalrpdyimgshjvwv`) at cutover. The ledger, voter counts, rankings, previous rankings, snapshot, and voting RPCs move together. The original tables and functions stay on the main project during verification. See [banner vote operations](banner_vote.md).
+The live banner poll runs on `gongeous-vote` (`mlkhcalrpdyimgshjvwv`). That project owns the ledger, voter counts, rankings, previous rankings, snapshot, and voting RPCs. See [banner vote operations](banner_vote.md).
 
 ## Tables
 

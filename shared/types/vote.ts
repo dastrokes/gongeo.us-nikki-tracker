@@ -49,4 +49,8 @@ export interface BannerVoteReceipt {
   success: true
   request_id: string
   votes_remaining: number
+  retry_after_ms?: number | null
 }
+
+export type BannerVoteResult =
+  BannerVoteReceipt | { success: false; retry_after_ms: number }

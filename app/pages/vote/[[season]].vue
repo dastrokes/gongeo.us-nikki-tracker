@@ -22,11 +22,47 @@
   const selectedBanner = shallowRef<number | null>(null)
   // Keep the payload and UUID after a network failure, so Retry is idempotent.
   const pendingVote = shallowRef<{ id: string; winner: number } | null>(null)
+  const maxCooldownMs = 24 * 60 * 60 * 1000
+  const quotaUntil = useLocalStorage(`gongeous-vote-quota:${seasonId}`, 0, {
+    initOnMounted: true,
+    writeDefaults: false,
+    flush: 'sync',
+  })
+  const { start: startQuotaTimer, stop: stopQuotaTimer } = useTimeoutFn(
+    () => {
+      quotaUntil.value = 0
+    },
+    () => quotaUntil.value - Date.now(),
+    { immediate: false }
+  )
+  watch(
+    quotaUntil,
+    (until) => {
+      stopQuotaTimer()
+      if (until === 0) return
+      const remaining = until - Date.now()
+      if (
+        !Number.isFinite(remaining) ||
+        remaining <= 0 ||
+        remaining > maxCooldownMs
+      ) {
+        quotaUntil.value = 0
+        return
+      }
+      startQuotaTimer()
+    },
+    { flush: 'sync' }
+  )
   const displayPhase = computed(() =>
     unavailable.value && phase.value === 'open' ? 'paused' : phase.value
   )
+  const quotaBlocked = computed(
+    () => displayPhase.value === 'open' && quotaUntil.value > 0
+  )
   const canVote = computed(
-    () => isPersonalMode.value || displayPhase.value === 'open'
+    () =>
+      isPersonalMode.value ||
+      (displayPhase.value === 'open' && !quotaBlocked.value)
   )
   const pairBanners = computed(() =>
     currentPair.value
@@ -82,12 +118,20 @@
           id: crypto.randomUUID(),
           winner: selectedBanner.value,
         }
-        await submitVote(
+        const result = await submitVote(
           banner1.id,
           banner2.id,
           pendingVote.value.winner,
           pendingVote.value.id
         )
+        const delay = result.retry_after_ms
+        if (typeof delay === 'number' && delay > 0 && delay <= maxCooldownMs) {
+          quotaUntil.value = Date.now() + delay
+        }
+        if (!result.success) {
+          if (!quotaBlocked.value) message.warning(t('vote.errors.rateLimit'))
+          return
+        }
       }
       message.success(t('vote.success'), { duration: 1500 })
       await loadPair()
@@ -96,8 +140,6 @@
       if (code.includes('VOTING_CLOSED')) {
         unavailable.value = true
         message.warning(t('vote.errors.votingClosed'))
-      } else if (code.includes('RATE_LIMIT')) {
-        message.warning(t('vote.errors.rateLimit'))
       } else if (code.includes('FINGERPRINT_UNAVAILABLE')) {
         message.warning(t('vote.fingerprintUnavailable'))
       } else {
@@ -175,7 +217,18 @@
         v-else-if="!canVote"
         type="info"
       >
-        <p class="mb-3">{{ t('vote.errors.votingClosed') }}</p>
+        <p
+          class="mb-3"
+          role="status"
+        >
+          {{
+            t(
+              quotaBlocked
+                ? 'vote.errors.rateLimit'
+                : 'vote.errors.votingClosed'
+            )
+          }}
+        </p>
         <n-button
           secondary
           @click="setMode(true)"

@@ -1,6 +1,8 @@
 -- Current poll only. Archive and clear completed poll data before reuse.
 -- Apply as the database owner. The current voting window is enabled.
 begin;
+-- Holds new votes while the voter backfill and process_vote replacement apply.
+select pg_advisory_xact_lock(hashtextextended('banner-vote-maintenance', 0));
 
 create table if not exists public.banner_rankings (
   banner_id integer primary key,
@@ -37,6 +39,15 @@ create unique index if not exists banner_votes_processing_order
 create index if not exists banner_votes_quota
   on public.banner_votes (voter_fingerprint, created_at desc);
 
+-- One row per voter so the snapshot can count voters without scanning the ledger.
+create table if not exists public.banner_voters (
+  voter_fingerprint text primary key
+);
+insert into public.banner_voters (voter_fingerprint)
+select distinct voter_fingerprint from public.banner_votes
+where voter_fingerprint is not null
+on conflict do nothing;
+
 -- Current roster through 2.11.2.
 insert into public.banner_rankings (banner_id, elo_rating, wins, losses)
 select id, 1500, 0, 0 from generate_series(42, 82) as id
@@ -44,8 +55,9 @@ on conflict (banner_id) do nothing;
 
 alter table public.banner_votes enable row level security;
 alter table public.banner_rankings enable row level security;
-revoke all on public.banner_votes, public.banner_rankings from public, anon, authenticated;
-grant select, insert, update, delete on public.banner_votes, public.banner_rankings to service_role;
+alter table public.banner_voters enable row level security;
+revoke all on public.banner_votes, public.banner_rankings, public.banner_voters from public, anon, authenticated;
+grant select, insert, update, delete on public.banner_votes, public.banner_rankings, public.banner_voters to service_role;
 
 -- Change these constants together with shared/utils/bannerVoteSeasons.ts.
 -- A null closing date leaves voting open until it is disabled or a date is set.
@@ -124,6 +136,8 @@ begin
   insert into public.banner_votes
     (banner_id_1, banner_id_2, winner_id, voter_fingerprint, request_id, created_at)
   values (p_banner_id_1, p_banner_id_2, p_winner_id, p_voter_fingerprint, p_request_id, accepted_at);
+  insert into public.banner_voters (voter_fingerprint) values (p_voter_fingerprint)
+  on conflict do nothing;
   update public.banner_rankings
   set elo_rating = round(elo_rating + case when banner_id = p_winner_id then change else -change end, 8),
       wins = wins + case when banner_id = p_winner_id then 1 else 0 end,
@@ -135,10 +149,13 @@ end $$;
 revoke all on function public.process_vote(integer, integer, integer, text, uuid) from public;
 grant execute on function public.process_vote(integer, integer, integer, text, uuid) to anon, authenticated;
 
-create materialized view if not exists public.banner_ranking_snapshots as
+-- Derived from small tables only: each vote adds one win, and banner_voters has one row per voter.
+-- Recreated on every apply so definition changes take effect; it holds no source data.
+drop materialized view if exists public.banner_ranking_snapshots;
+create materialized view public.banner_ranking_snapshots as
 with stats as (
-  select count(*) as votes, count(distinct voter_fingerprint) as voters
-  from public.banner_votes
+  select coalesce((select sum(wins) from public.banner_rankings), 0) as votes,
+    (select count(*) from public.banner_voters) as voters
 )
 select 1 as id,
   coalesce((select jsonb_agg(jsonb_build_object(

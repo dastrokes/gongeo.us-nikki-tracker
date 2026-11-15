@@ -29,7 +29,7 @@ export default defineCachedApiEventHandler(
     ) {
       return createInitialBannerRankingSnapshot(season.bannerIds)
     }
-    const supabase = useSupabaseServerClient()
+    const supabase = useVoteSupabaseServerClient(event)
     const [{ data, error }, { data: previous }] = await Promise.all([
       withSupabaseRetry(() =>
         supabase

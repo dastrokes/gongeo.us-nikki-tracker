@@ -198,10 +198,14 @@ export default defineNuxtConfig({
 
   runtimeConfig: {
     supabaseSecretKey: process.env.SUPABASE_SECRET_KEY,
+    voteSupabaseSecretKey: '',
 
     public: {
       supabaseUrl: process.env.SUPABASE_DATABASE_URL,
       supabasePublishableKey: process.env.SUPABASE_PUBLISHABLE_KEY,
+      voteSupabaseUrl: process.env.VOTE_SUPABASE_URL ?? '',
+      voteSupabasePublishableKey:
+        process.env.VOTE_SUPABASE_PUBLISHABLE_KEY ?? '',
       dataApiBaseUrl,
       gongeousApiKey: process.env.GONGEOUS_API_KEY,
       siteUrl,

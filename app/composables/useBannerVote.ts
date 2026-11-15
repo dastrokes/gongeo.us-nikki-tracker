@@ -19,7 +19,7 @@ export const useBannerVote = (
   const season = BANNER_VOTE_SEASONS[seasonId]
   const { getImageSrc } = imageProvider()
   const fingerprint = useVoterFingerprint()
-  const supabase = useSupabaseClient()
+  const nuxtApp = useNuxtApp()
   const snapshot = useState<BannerRankingSnapshot | null>(
     `banner-ranking:${seasonId}`,
     () => null
@@ -110,13 +110,15 @@ export const useBannerVote = (
       !fingerprint.voterFingerprint.value
     )
       throw new Error('FINGERPRINT_UNAVAILABLE')
-    const { data, error } = await supabase.rpc('process_vote', {
-      p_banner_id_1: banner1,
-      p_banner_id_2: banner2,
-      p_winner_id: winner,
-      p_voter_fingerprint: fingerprint.voterFingerprint.value,
-      p_request_id: requestId,
-    } as never)
+    const { data, error } = await nuxtApp.runWithContext(() =>
+      useVoteSupabaseClient().rpc('process_vote', {
+        p_banner_id_1: banner1,
+        p_banner_id_2: banner2,
+        p_winner_id: winner,
+        p_voter_fingerprint: fingerprint.voterFingerprint.value,
+        p_request_id: requestId,
+      } as never)
+    )
     if (error) throw new Error(error.message)
     const receipt = data as BannerVoteReceipt | null
     if (

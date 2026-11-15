@@ -7,12 +7,12 @@ export default async (request: Request) => {
   console.log('Banner ranking refresh started', {
     scheduled: Boolean(payload),
   })
-  const url = process.env.SUPABASE_DATABASE_URL
-  const key = process.env.SUPABASE_SECRET_KEY
+  const url = process.env.VOTE_SUPABASE_URL
+  const key = process.env.VOTE_SUPABASE_SECRET_KEY
   if (!url || !key) {
     const missing = [
-      !url && 'SUPABASE_DATABASE_URL',
-      !key && 'SUPABASE_SECRET_KEY',
+      !url && 'VOTE_SUPABASE_URL',
+      !key && 'VOTE_SUPABASE_SECRET_KEY',
     ].filter(Boolean)
     throw new Error(
       `Missing Netlify Functions environment: ${missing.join(', ')}`

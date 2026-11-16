@@ -22,6 +22,11 @@
   const selectedBanner = shallowRef<number | null>(null)
   // Keep the payload and UUID after a network failure, so Retry is idempotent.
   const pendingVote = shallowRef<{ id: string; winner: number } | null>(null)
+  const repeatedVoteWarningThreshold = 5
+  const communityStreak = {
+    winner: { bannerId: 0, count: 0 },
+    loser: { bannerId: 0, count: 0 },
+  }
   const maxCooldownMs = 24 * 60 * 60 * 1000
   const quotaUntil = useLocalStorage(`gongeous-vote-quota:${seasonId}`, 0, {
     initOnMounted: true,
@@ -99,6 +104,20 @@
       selectedBanner.value = id
   }
 
+  const trackCommunityVote = (winner: number, loser: number) => {
+    const streaks = [
+      { streak: communityStreak.winner, bannerId: winner },
+      { streak: communityStreak.loser, bannerId: loser },
+    ]
+    for (const { streak, bannerId } of streaks) {
+      streak.count = streak.bannerId === bannerId ? streak.count + 1 : 1
+      streak.bannerId = bannerId
+    }
+    return streaks.some(
+      ({ streak }) => streak.count === repeatedVoteWarningThreshold
+    )
+  }
+
   const handleVote = async () => {
     if (
       !currentPair.value ||
@@ -111,18 +130,19 @@
     const { banner1, banner2 } = currentPair.value
     submitting.value = true
     try {
+      let showRepeatedVoteWarning = false
       if (isPersonalMode.value) {
         submitPersonalVote(banner1.id, banner2.id, selectedBanner.value)
       } else {
-        pendingVote.value ??= {
+        const vote = (pendingVote.value ??= {
           id: crypto.randomUUID(),
           winner: selectedBanner.value,
-        }
+        })
         const result = await submitVote(
           banner1.id,
           banner2.id,
-          pendingVote.value.winner,
-          pendingVote.value.id
+          vote.winner,
+          vote.id
         )
         const delay = result.retry_after_ms
         if (typeof delay === 'number' && delay > 0 && delay <= maxCooldownMs) {
@@ -132,8 +152,14 @@
           if (!quotaBlocked.value) message.warning(t('vote.errors.rateLimit'))
           return
         }
+        const loser = vote.winner === banner1.id ? banner2.id : banner1.id
+        showRepeatedVoteWarning = trackCommunityVote(vote.winner, loser)
       }
-      message.success(t('vote.success'), { duration: 1500 })
+      if (showRepeatedVoteWarning) {
+        message.warning(t('vote.abuseNotice'), { duration: 6000 })
+      } else {
+        message.success(t('vote.success'), { duration: 1500 })
+      }
       await loadPair()
     } catch (error) {
       const code = error instanceof Error ? error.message : ''

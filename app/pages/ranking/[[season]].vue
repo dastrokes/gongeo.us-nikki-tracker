@@ -18,7 +18,7 @@
   const { getImageSrc } = imageProvider()
   const localePath = useLocalePath()
   const breakpoints = useBreakpoints(breakpointsTailwind)
-  const isMobile = shallowRef(false)
+  const isCompact = shallowRef(false)
   const { getRankings, snapshot, refreshFailed } = useBannerVote(seasonId)
   const { getPersonalRankings } = usePersonalVote(seasonId)
   const { isPersonalMode, setMode } = useVotingMode(seasonId)
@@ -62,12 +62,26 @@
     )
   }
 
-  // Mobile columns - compact view
+  const renderBannerThumbnail = (bannerId: number) =>
+    h(resolveComponent('NuxtImg'), {
+      src: getImageSrc('bannerThumb', bannerId),
+      alt: '',
+      class:
+        'aspect-2/1 w-full max-w-40 shrink-0 rounded-md object-cover min-[480px]:w-40 lg:w-36 xl:w-44 xl:max-w-44',
+      preset: 'bannerThumb',
+      sizes: '200px',
+      width: 200,
+      height: 100,
+      loading: 'lazy',
+    })
+
+  // Compact table for phones and tablets.
   const mobileColumns: DataTableColumns<BannerRanking> = [
     {
       title: '#',
       key: 'rank',
-      width: 20,
+      width: 40,
+      align: 'center',
       render: (row) => {
         const rank = row.rank
         let icon = null
@@ -85,7 +99,11 @@
         }
 
         return h('div', { class: 'flex flex-col items-center gap-0.5' }, [
-          h('span', { class: 'font-bold text-sm' }, rank ?? t('vote.unranked')),
+          h(
+            'span',
+            { class: 'text-sm font-bold wrap-anywhere' },
+            rank ?? t('vote.unranked')
+          ),
           icon
             ? h(
                 resolveComponent('n-icon'),
@@ -101,82 +119,83 @@
     {
       title: t('common.banner'),
       key: 'banner',
-      width: 160,
       render: (row) => {
         const banner = BANNER_DATA[row.banner_id]
         if (!banner) return '-'
 
-        return h('div', { class: 'flex flex-col gap-2 py-1' }, [
-          h(resolveComponent('NuxtImg'), {
-            src: getImageSrc('bannerThumb', row.banner_id),
-            alt: t(`banner.${row.banner_id}.name`),
-            class: 'w-16 h-8 rounded-sm object-cover shrink-0',
-            preset: 'bannerThumb',
-            sizes: '100px',
-            width: 200,
-            height: 100,
-            loading: 'lazy',
-          }),
-          h(
-            resolveComponent('NuxtLinkLocale'),
-            {
-              to: getBannerDetailPath(row.banner_id),
-              class:
-                'text-sm font-medium whitespace-normal break-words hover:underline focus-visible:outline-2 focus-visible:outline-rose-500',
-            },
-            () => t(`banner.${row.banner_id}.name`)
-          ),
-          h('div', { class: 'flex gap-3 text-sm' }, [
-            h('span', { class: 'font-mono' }, [
+        return h(
+          'div',
+          {
+            class:
+              'flex min-w-0 flex-col gap-2 min-[480px]:flex-row min-[480px]:items-center min-[480px]:gap-3',
+          },
+          [
+            renderBannerThumbnail(row.banner_id),
+            h('div', { class: 'min-w-0 space-y-1' }, [
               h(
-                'span',
-                { class: 'text-gray-500 dark:text-gray-400' },
-                `${t('vote.rankings.winRateShort')}: `
+                resolveComponent('NuxtLinkLocale'),
+                {
+                  to: getBannerDetailPath(row.banner_id),
+                  class:
+                    'text-sm font-medium wrap-anywhere hover:underline focus-visible:outline-2 focus-visible:outline-rose-500',
+                },
+                () => t(`banner.${row.banner_id}.name`)
               ),
-              h(
-                'span',
-                { class: 'font-semibold' },
-                `${((row.win_rate ?? 0) * 100).toFixed(1)}%`
-              ),
-            ]),
-            isPersonalMode.value
-              ? h('span', { class: 'font-mono' }, [
+              h('div', { class: 'flex flex-wrap gap-x-2 gap-y-0.5 text-xs' }, [
+                h('span', { class: 'font-mono' }, [
                   h(
                     'span',
                     { class: 'text-gray-500 dark:text-gray-400' },
-                    `${t('vote.rankings.eloShort')}: `
+                    `${t('vote.rankings.winRateShort')}: `
                   ),
                   h(
                     'span',
                     { class: 'font-semibold' },
-                    Math.round(row.elo_rating)
+                    `${((row.win_rate ?? 0) * 100).toFixed(1)}%`
                   ),
-                ])
-              : null,
-          ]),
-        ])
+                ]),
+                isPersonalMode.value
+                  ? h('span', { class: 'font-mono' }, [
+                      h(
+                        'span',
+                        { class: 'text-gray-500 dark:text-gray-400' },
+                        `${t('vote.rankings.eloShort')}: `
+                      ),
+                      h(
+                        'span',
+                        { class: 'font-semibold' },
+                        Math.round(row.elo_rating)
+                      ),
+                    ])
+                  : null,
+              ]),
+            ]),
+          ]
+        )
       },
       sorter: (a, b) => a.banner_id - b.banner_id,
     },
     {
       title: t('vote.rankings.winsLosses'),
       key: 'wins_losses',
-      width: 90,
+      width: 88,
       render: (row) => {
-        return h('div', { class: 'flex flex-col gap-1 text-sm font-mono' }, [
-          h(
-            'span',
-            { class: 'text-green-600 dark:text-green-400 font-semibold' },
-            [
-              h('span', { class: 'inline-block text-right w-10' }, row.wins),
-              ` ${t('vote.rankings.winsShort')}`,
-            ]
-          ),
-          h('span', { class: 'text-red-600 dark:text-red-400 font-semibold' }, [
-            h('span', { class: 'inline-block text-right w-10' }, row.losses),
-            ` ${t('vote.rankings.lossesShort')}`,
-          ]),
-        ])
+        return h(
+          'div',
+          { class: 'flex flex-col items-end gap-1 text-xs tabular-nums' },
+          [
+            h(
+              'span',
+              { class: 'text-green-600 dark:text-green-400 font-semibold' },
+              `${row.wins} ${t('vote.rankings.winsShort')}`
+            ),
+            h(
+              'span',
+              { class: 'text-red-600 dark:text-red-400 font-semibold' },
+              `${row.losses} ${t('vote.rankings.lossesShort')}`
+            ),
+          ]
+        )
       },
       sorter: (a, b) => b.wins - a.wins,
     },
@@ -187,7 +206,7 @@
     {
       title: t('vote.rankings.rank'),
       key: 'rank',
-      width: 80,
+      width: 104,
       render: (row) => {
         const rank = row.rank
         let icon = null
@@ -221,28 +240,18 @@
     {
       title: t('common.banner'),
       key: 'banner',
-      width: 250,
       render: (row) => {
         const banner = BANNER_DATA[row.banner_id]
         if (!banner) return '-'
 
-        return h('div', { class: 'flex items-center gap-3' }, [
-          h(resolveComponent('NuxtImg'), {
-            src: getImageSrc('bannerThumb', row.banner_id),
-            alt: t(`banner.${row.banner_id}.name`),
-            class: 'w-20 h-10 rounded-sm object-cover shrink-0',
-            preset: 'bannerThumb',
-            sizes: '100px',
-            width: 200,
-            height: 100,
-            loading: 'lazy',
-          }),
+        return h('div', { class: 'flex min-w-0 items-center gap-4' }, [
+          renderBannerThumbnail(row.banner_id),
           h(
             resolveComponent('NuxtLinkLocale'),
             {
               to: getBannerDetailPath(row.banner_id),
               class:
-                'whitespace-normal hover:underline focus-visible:outline-2 focus-visible:outline-rose-500',
+                'min-w-0 font-medium wrap-anywhere hover:underline focus-visible:outline-2 focus-visible:outline-rose-500',
             },
             () => t(`banner.${row.banner_id}.name`)
           ),
@@ -373,8 +382,9 @@
       : null
   )
   onMounted(() => {
+    const hasWideTable = breakpoints.greaterOrEqual('lg')
     watchEffect(() => {
-      isMobile.value = !breakpoints.greater('sm').value
+      isCompact.value = !hasWideTable.value
     })
     watch(
       isPersonalMode,
@@ -494,16 +504,17 @@
       <n-card
         size="small"
         class="rounded-xl"
+        :content-style="{ padding: isCompact ? '0 4px' : '0 12px' }"
       >
         <n-data-table
-          :columns="isMobile ? mobileColumns : columns"
+          :columns="isCompact ? mobileColumns : columns"
           :data="rankings"
           :loading="loading"
           :bordered="false"
           :row-props="rowProps"
           single-line
           :theme-overrides="tableTheme"
-          :size="isMobile ? 'small' : 'medium'"
+          :size="isCompact ? 'small' : 'medium'"
         />
       </n-card>
     </template>

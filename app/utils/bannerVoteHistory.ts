@@ -2,6 +2,56 @@ import type { BannerVoteSeasonId } from '~~/shared/utils/bannerVoteSeasons'
 
 type VoteMode = 'personal' | 'community'
 
+const COMMUNITY_VOTE_WINDOW = 15
+const COMMUNITY_TARGET_THRESHOLD = 5
+const COMMUNITY_BANNER_COOLDOWN = 10
+
+interface AcceptedCommunityVote {
+  requestId: string
+  winner: number
+  loser: number
+}
+
+type CommunityVoteHistory = {
+  votes: AcceptedCommunityVote[]
+  cooldowns: Array<{ bannerId: number; remaining: number }>
+}
+
+export const createCommunityVoteHistory = (): CommunityVoteHistory => ({
+  votes: [],
+  cooldowns: [],
+})
+
+export function recordAcceptedCommunityVote(
+  history: CommunityVoteHistory,
+  vote: AcceptedCommunityVote
+): { history: CommunityVoteHistory; showNotice: boolean } {
+  if (history.votes.some(({ requestId }) => requestId === vote.requestId)) {
+    return { history, showNotice: false }
+  }
+
+  const votes = [vote, ...history.votes].slice(0, COMMUNITY_VOTE_WINDOW)
+  const newCooldownBanners = (['winner', 'loser'] as const)
+    .filter(
+      (side) =>
+        !history.cooldowns.some(({ bannerId }) => bannerId === vote[side]) &&
+        votes.filter((entry) => entry[side] === vote[side]).length >=
+          COMMUNITY_TARGET_THRESHOLD
+    )
+    .map((side) => vote[side])
+  const cooldowns = history.cooldowns
+    .filter(({ remaining }) => remaining > 1)
+    .map(({ bannerId, remaining }) => ({ bannerId, remaining: remaining - 1 }))
+  for (const bannerId of newCooldownBanners) {
+    cooldowns.push({ bannerId, remaining: COMMUNITY_BANNER_COOLDOWN })
+  }
+
+  return {
+    history: { votes, cooldowns },
+    showNotice: newCooldownBanners.length > 0,
+  }
+}
+
 const historyKey = (season: BannerVoteSeasonId, mode: VoteMode) =>
   `gongeous-recent-votes:${season}:${mode}`
 

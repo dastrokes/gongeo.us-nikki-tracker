@@ -6,6 +6,10 @@ import {
 } from '~~/shared/utils/bannerVoteSeasons'
 import { getBannerRankingArchive } from '~~/shared/data/bannerRankingArchives'
 import { createInitialBannerRankingSnapshot } from '~~/shared/utils/bannerRankingSnapshot'
+import {
+  createCommunityVoteHistory,
+  recordAcceptedCommunityVote,
+} from '~/utils/bannerVoteHistory'
 import type {
   BannerRankingSnapshot,
   BannerVoteReceipt,
@@ -30,6 +34,11 @@ export const useBannerVote = (
     () => 0
   )
   const refreshFailed = shallowRef(false)
+  const communityHistory = useLocalStorage(
+    `gongeous-community-vote-history:${seasonId}`,
+    createCommunityVoteHistory(),
+    { initOnMounted: true, writeDefaults: false, flush: 'sync' }
+  )
   let pending: Promise<BannerRankingSnapshot> | null = null
 
   const getRankings = async (force = false): Promise<BannerRankingSnapshot> => {
@@ -77,9 +86,12 @@ export const useBannerVote = (
       if (snapshot.value) return snapshot.value
       throw error
     })
+    const { cooldowns } = communityHistory.value
+    const coolingBanners = new Set(cooldowns.map(({ bannerId }) => bannerId))
+    const eligible = season.bannerIds.filter((id) => !coolingBanners.has(id))
     const pair = selectBannerPair(
       data.rankings,
-      [...season.bannerIds],
+      eligible.length >= 2 ? eligible : [...season.bannerIds],
       getVoteHistory(seasonId, 'community')
     )
     addRecentPair(seasonId, 'community', pair.banner1, pair.banner2)
@@ -94,7 +106,7 @@ export const useBannerVote = (
     banner2: number,
     winner: number,
     requestId: string
-  ): Promise<BannerVoteResult> => {
+  ): Promise<BannerVoteResult & { showNotice?: boolean }> => {
     if (season.archived || seasonId !== LIVE_BANNER_VOTE_SEASON)
       throw new Error('VOTING_CLOSED')
     if (
@@ -134,7 +146,12 @@ export const useBannerVote = (
       receipt.votes_remaining > 50
     )
       throw new Error('INVALID_RECEIPT')
-    return receipt
+    const { history, showNotice } = recordAcceptedCommunityVote(
+      communityHistory.value,
+      { requestId, winner, loser: winner === banner1 ? banner2 : banner1 }
+    )
+    communityHistory.value = history
+    return { ...receipt, showNotice }
   }
 
   return {

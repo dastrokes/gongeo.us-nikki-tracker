@@ -22,11 +22,6 @@
   const selectedBanner = shallowRef<number | null>(null)
   // Keep the payload and UUID after a network failure, so Retry is idempotent.
   const pendingVote = shallowRef<{ id: string; winner: number } | null>(null)
-  const repeatedVoteWarningThreshold = 5
-  const communityStreak = {
-    winner: { bannerId: 0, count: 0 },
-    loser: { bannerId: 0, count: 0 },
-  }
   const maxCooldownMs = 24 * 60 * 60 * 1000
   const quotaUntil = useLocalStorage(`gongeous-vote-quota:${seasonId}`, 0, {
     initOnMounted: true,
@@ -104,20 +99,6 @@
       selectedBanner.value = id
   }
 
-  const trackCommunityVote = (winner: number, loser: number) => {
-    const streaks = [
-      { streak: communityStreak.winner, bannerId: winner },
-      { streak: communityStreak.loser, bannerId: loser },
-    ]
-    for (const { streak, bannerId } of streaks) {
-      streak.count = streak.bannerId === bannerId ? streak.count + 1 : 1
-      streak.bannerId = bannerId
-    }
-    return streaks.some(
-      ({ streak }) => streak.count === repeatedVoteWarningThreshold
-    )
-  }
-
   const handleVote = async () => {
     if (
       !currentPair.value ||
@@ -152,8 +133,7 @@
           if (!quotaBlocked.value) message.warning(t('vote.errors.rateLimit'))
           return
         }
-        const loser = vote.winner === banner1.id ? banner2.id : banner1.id
-        showRepeatedVoteWarning = trackCommunityVote(vote.winner, loser)
+        showRepeatedVoteWarning = result.showNotice ?? false
       }
       if (showRepeatedVoteWarning) {
         message.warning(t('vote.abuseNotice'), { duration: 6000 })

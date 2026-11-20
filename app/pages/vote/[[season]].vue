@@ -111,7 +111,6 @@
     const { banner1, banner2 } = currentPair.value
     submitting.value = true
     try {
-      let showRepeatedVoteWarning = false
       if (isPersonalMode.value) {
         submitPersonalVote(banner1.id, banner2.id, selectedBanner.value)
       } else {
@@ -133,13 +132,8 @@
           if (!quotaBlocked.value) message.warning(t('vote.errors.rateLimit'))
           return
         }
-        showRepeatedVoteWarning = result.showNotice ?? false
       }
-      if (showRepeatedVoteWarning) {
-        message.warning(t('vote.abuseNotice'), { duration: 6000 })
-      } else {
-        message.success(t('vote.success'), { duration: 1500 })
-      }
+      message.success(t('vote.success'), { duration: 1500 })
       await loadPair()
     } catch (error) {
       const code = error instanceof Error ? error.message : ''

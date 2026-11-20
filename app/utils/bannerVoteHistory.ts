@@ -25,9 +25,9 @@ export const createCommunityVoteHistory = (): CommunityVoteHistory => ({
 export function recordAcceptedCommunityVote(
   history: CommunityVoteHistory,
   vote: AcceptedCommunityVote
-): { history: CommunityVoteHistory; showNotice: boolean } {
+): CommunityVoteHistory {
   if (history.votes.some(({ requestId }) => requestId === vote.requestId)) {
-    return { history, showNotice: false }
+    return history
   }
 
   const votes = [vote, ...history.votes].slice(0, COMMUNITY_VOTE_WINDOW)
@@ -46,10 +46,7 @@ export function recordAcceptedCommunityVote(
     cooldowns.push({ bannerId, remaining: COMMUNITY_BANNER_COOLDOWN })
   }
 
-  return {
-    history: { votes, cooldowns },
-    showNotice: newCooldownBanners.length > 0,
-  }
+  return { votes, cooldowns }
 }
 
 const historyKey = (season: BannerVoteSeasonId, mode: VoteMode) =>

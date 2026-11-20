@@ -106,7 +106,7 @@ export const useBannerVote = (
     banner2: number,
     winner: number,
     requestId: string
-  ): Promise<BannerVoteResult & { showNotice?: boolean }> => {
+  ): Promise<BannerVoteResult> => {
     if (season.archived || seasonId !== LIVE_BANNER_VOTE_SEASON)
       throw new Error('VOTING_CLOSED')
     if (
@@ -146,12 +146,11 @@ export const useBannerVote = (
       receipt.votes_remaining > 50
     )
       throw new Error('INVALID_RECEIPT')
-    const { history, showNotice } = recordAcceptedCommunityVote(
+    communityHistory.value = recordAcceptedCommunityVote(
       communityHistory.value,
       { requestId, winner, loser: winner === banner1 ? banner2 : banner1 }
     )
-    communityHistory.value = history
-    return { ...receipt, showNotice }
+    return receipt
   }
 
   return {

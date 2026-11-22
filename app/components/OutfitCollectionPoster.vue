@@ -53,7 +53,7 @@
           />
           <span
             v-if="status && status.stage !== 'missing'"
-            class="absolute top-2 left-2 min-w-max rounded-full px-[0.35em] py-[0.16em] text-[clamp(32px,19cqw,40px)] leading-none font-semibold whitespace-nowrap tabular-nums"
+            class="absolute inset-x-0 bottom-2 mx-auto w-max min-w-max rounded-full px-[0.35em] py-[0.16em] text-[min(22cqw,clamp(32px,19cqw,40px))] leading-none font-semibold whitespace-nowrap tabular-nums"
             :class="stageStyles[status.stage].badge"
           >
             {{ status.label }}
@@ -162,7 +162,7 @@
 
   const gridStyle = computed(() => {
     const count = Math.max(1, props.entries.length)
-    const columns = Math.ceil(Math.sqrt(count))
+    const columns = Math.max(Math.ceil(Math.sqrt(count)), Math.ceil(count / 6))
     const rows = Math.ceil(count / columns)
     const gap = 12
     const widthFit = `(100cqw - ${(columns - 1) * gap}px) / ${columns}`

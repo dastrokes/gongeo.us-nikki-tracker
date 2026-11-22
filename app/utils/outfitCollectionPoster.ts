@@ -39,11 +39,13 @@ export interface OutfitCollectionPosterSnapshot {
   showProgress: boolean
 }
 
+const OUTFIT_POSTER_PAGE_SIZE = 48
+
 export const paginateOutfitCollectionPoster = <T>(
   entries: readonly T[]
 ): T[][] => {
   if (!entries.length) return []
-  const pageCount = Math.ceil(entries.length / 24)
+  const pageCount = Math.ceil(entries.length / OUTFIT_POSTER_PAGE_SIZE)
   const baseSize = Math.floor(entries.length / pageCount)
   const extra = entries.length % pageCount
   let start = 0

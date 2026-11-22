@@ -1094,6 +1094,7 @@
   },
   "compendium": {
     "image": {
+      "outfit_poster": "套裝海報",
       "current_filters": "目前篩選",
       "stage_complete": "集齊",
       "download_zip": "下載全部（ZIP）",

@@ -1096,7 +1096,7 @@
     "image": {
       "outfit_poster": "套装海报",
       "current_filters": "当前筛选",
-      "stage_complete": "集齐",
+      "stage_complete": "@:banner.outfit.level.1",
       "download_zip": "下载全部（ZIP）",
       "image_error": "部分套装图片加载失败。"
     },

@@ -1094,6 +1094,7 @@
   },
   "compendium": {
     "image": {
+      "outfit_poster": "コーデポスター",
       "current_filters": "現在のフィルター",
       "stage_complete": "@:global.banner_stats.option_completed_set",
       "download_zip": "すべてダウンロード（ZIP）",

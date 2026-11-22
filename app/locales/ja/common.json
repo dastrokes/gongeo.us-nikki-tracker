@@ -1096,7 +1096,7 @@
     "image": {
       "outfit_poster": "コーデポスター",
       "current_filters": "現在のフィルター",
-      "stage_complete": "@:global.banner_stats.option_completed_set",
+      "stage_complete": "@:banner.outfit.level.1",
       "download_zip": "すべてダウンロード（ZIP）",
       "image_error": "一部のコーデ画像を読み込めませんでした。"
     },

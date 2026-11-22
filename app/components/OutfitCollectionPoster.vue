@@ -22,42 +22,48 @@
 
     <div class="[container-type:size] mt-6 min-h-0 flex-1">
       <div
-        class="flex h-full flex-wrap content-center justify-center"
-        :style="gridStyle"
+        class="flex h-full flex-col justify-center"
+        :style="layout.style"
       >
         <div
-          v-for="{ entry, status, surface, frameStyle } in tiles"
-          :key="entry.id"
-          class="[container-type:inline-size] relative w-(--outfit-tile-width) min-w-0 flex-none overflow-hidden rounded-2xl"
-          :class="
-            status?.stage === 'evo3'
-              ? 'shadow-[0_0_12px_rgb(245_158_11/0.22)]'
-              : ''
-          "
-          :style="surface"
+          v-for="(row, index) in layout.rows"
+          :key="index"
+          class="flex shrink-0 justify-center gap-[inherit]"
         >
-          <NuxtImg
-            :src="getImageSrc('outfit', entry.id)"
-            :alt="entry.name"
-            :sizes="entries.length <= 4 ? '400px' : '200px'"
-            loading="eager"
-            class="absolute inset-0 size-full object-contain"
-            :class="status?.stage === 'missing' ? 'opacity-75 grayscale' : ''"
-            @error="emit('image-error')"
-          />
           <div
-            aria-hidden="true"
-            class="pointer-events-none absolute inset-0 rounded-2xl"
-            :class="status ? stageStyles[status.stage].frame : 'border-2'"
-            :style="frameStyle"
-          />
-          <span
-            v-if="status && status.stage !== 'missing'"
-            class="absolute inset-x-0 bottom-2 mx-auto w-max min-w-max rounded-full px-[0.35em] py-[0.16em] text-[min(22cqw,clamp(32px,19cqw,40px))] leading-none font-semibold whitespace-nowrap tabular-nums"
-            :class="stageStyles[status.stage].badge"
+            v-for="{ entry, status, surface, frameStyle } in row"
+            :key="entry.id"
+            class="[container-type:inline-size] relative w-(--outfit-tile-width) min-w-0 flex-none overflow-hidden rounded-2xl"
+            :class="
+              status?.stage === 'evo3'
+                ? 'shadow-[0_0_12px_rgb(245_158_11/0.22)]'
+                : ''
+            "
+            :style="surface"
           >
-            {{ status.label }}
-          </span>
+            <NuxtImg
+              :src="getImageSrc('outfit', entry.id)"
+              :alt="entry.name"
+              :sizes="entries.length <= 4 ? '400px' : '200px'"
+              loading="eager"
+              class="absolute inset-0 size-full object-contain"
+              :class="status?.stage === 'missing' ? 'opacity-75 grayscale' : ''"
+              @error="emit('image-error')"
+            />
+            <div
+              aria-hidden="true"
+              class="pointer-events-none absolute inset-0 rounded-2xl"
+              :class="status ? stageStyles[status.stage].frame : 'border-2'"
+              :style="frameStyle"
+            />
+            <span
+              v-if="status && status.stage !== 'missing'"
+              class="absolute inset-x-0 bottom-2 mx-auto w-max min-w-max rounded-full px-[0.35em] py-[0.16em] text-[min(22cqw,clamp(32px,19cqw,40px))] leading-none font-semibold whitespace-nowrap tabular-nums"
+              :class="stageStyles[status.stage].badge"
+            >
+              {{ status.label }}
+            </span>
+          </div>
         </div>
       </div>
     </div>
@@ -160,16 +166,26 @@
     })
   )
 
-  const gridStyle = computed(() => {
-    const count = Math.max(1, props.entries.length)
-    const columns = Math.max(Math.ceil(Math.sqrt(count)), Math.ceil(count / 6))
-    const rows = Math.ceil(count / columns)
+  const layout = computed(() => {
+    const count = tiles.value.length
+    const columns = Math.max(
+      1,
+      Math.ceil(Math.sqrt(count)),
+      Math.ceil(count / 6)
+    )
+    const rowCount = Math.ceil(count / columns)
     const gap = 12
     const widthFit = `(100cqw - ${(columns - 1) * gap}px) / ${columns}`
-    const heightFit = `(100cqh - ${(rows - 1) * gap}px) / ${rows}`
+    const rows = Array.from({ length: rowCount }, (_, row) =>
+      tiles.value.slice(row * columns, (row + 1) * columns)
+    )
+    const heightFit = `(100cqh - ${(rowCount - 1) * gap}px) / ${rowCount || 1}`
     return {
-      gap: `${gap}px`,
-      '--outfit-tile-width': `min(calc(${widthFit}), calc(${heightFit} * ${outfitArtAspect}))`,
+      rows,
+      style: {
+        gap: `${gap}px`,
+        '--outfit-tile-width': `min(calc(${widthFit}), calc(${heightFit} * ${outfitArtAspect}))`,
+      },
     }
   })
 </script>

@@ -1096,7 +1096,7 @@
     "image": {
       "outfit_poster": "套裝海報",
       "current_filters": "目前篩選",
-      "stage_complete": "集齊",
+      "stage_complete": "@:banner.outfit.level.1",
       "download_zip": "下載全部（ZIP）",
       "image_error": "部分套裝圖片無法載入。"
     },

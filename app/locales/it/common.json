@@ -1094,6 +1094,7 @@
   },
   "compendium": {
     "image": {
+      "outfit_poster": "Poster degli outfit",
       "current_filters": "Filtri attuali",
       "stage_complete": "@:global.banner_stats.option_completed_set",
       "download_zip": "Scarica tutto (ZIP)",

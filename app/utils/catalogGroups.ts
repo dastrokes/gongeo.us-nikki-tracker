@@ -39,3 +39,32 @@ export const getCatalogGroupIdsByVariantRank = (
     const variantType = getVariantType(relatedId)
     return predicate(getRank(variantType), variantType, relatedId)
   })
+
+const OUTFIT_VARIANT_RANK: Record<VariantType, number> = {
+  base: 0,
+  glowup: 1,
+  evo1: 2,
+  evo2: 3,
+  evo3: 4,
+}
+
+export const getOutfitVariantRank = (variantType: VariantType) =>
+  OUTFIT_VARIANT_RANK[variantType]
+
+export const getOutfitOwnershipMarkIds = (
+  index: CatalogLocalIndex | null,
+  outfitId: number
+) => {
+  const variant = getOutfitVariantType(String(outfitId))
+  if (variant === 'base') return [outfitId]
+
+  const prerequisiteIds = getCatalogGroupIdsByVariantRank(
+    index,
+    'outfit',
+    outfitId,
+    (id) => getOutfitVariantType(String(id)),
+    (rank, type) => type !== 'glowup' && rank < getOutfitVariantRank(variant),
+    getOutfitVariantRank
+  )
+  return [outfitId, ...prerequisiteIds]
+}

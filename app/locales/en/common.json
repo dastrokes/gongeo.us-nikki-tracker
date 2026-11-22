@@ -1093,6 +1093,12 @@
     }
   },
   "compendium": {
+    "image": {
+      "current_filters": "Current filters",
+      "stage_complete": "@:global.banner_stats.option_completed_set",
+      "download_zip": "Download all (ZIP)",
+      "image_error": "Some outfit artwork could not load."
+    },
     "error_title": "Failed to Load Data",
     "error_description": "Unable to load data. Please try again.",
     "no_results_description": "No items match your criteria.",

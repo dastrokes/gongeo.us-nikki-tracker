@@ -1093,6 +1093,12 @@
     }
   },
   "compendium": {
+    "image": {
+      "current_filters": "Aktuelle Filter",
+      "stage_complete": "@:global.banner_stats.option_completed_set",
+      "download_zip": "Alle herunterladen (ZIP)",
+      "image_error": "Einige Outfitbilder konnten nicht geladen werden."
+    },
     "error_title": "Daten konnten nicht geladen werden",
     "error_description": "Daten konnten nicht geladen werden. Bitte versuche es erneut.",
     "no_results_description": "Keine Stücke entsprechen deinen Kriterien.",

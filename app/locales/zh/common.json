@@ -1093,6 +1093,12 @@
     }
   },
   "compendium": {
+    "image": {
+      "current_filters": "当前筛选",
+      "stage_complete": "集齐",
+      "download_zip": "下载全部（ZIP）",
+      "image_error": "部分套装图片加载失败。"
+    },
     "error_title": "加载物品失败",
     "error_description": "无法加载物品数据。请检查您的连接并重试。",
     "no_results_description": "没有符合您搜索条件的部件。",

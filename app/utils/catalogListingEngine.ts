@@ -641,13 +641,17 @@ const getLocalOutfitMatchingIds = ({
   const outfitIds = stableFiltered.map((outfit) => outfit.id)
 
   if (query.ownershipMode === 'all') return outfitIds
-  if (!wardrobe.getOutfitProgress) {
+  const getOutfitProgress = wardrobe.getOutfitProgress
+  if (!getOutfitProgress) {
     throw new Error('Outfit wardrobe progress is unavailable')
   }
 
   return outfitIds.filter((outfitId) => {
-    const progress = wardrobe.getOutfitProgress!(
-      index.outfitItemsById.get(outfitId) ?? []
+    const progress = getOutfitProgress(
+      getRegionScopedItemIds(
+        index.outfitItemsById.get(outfitId) ?? [],
+        regionScope
+      )
     )
     if (query.ownershipMode === 'owned') {
       return progress.status === 'owned' || progress.status === 'partial'

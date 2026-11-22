@@ -1093,6 +1093,12 @@
     }
   },
   "compendium": {
+    "image": {
+      "current_filters": "Filtri attuali",
+      "stage_complete": "@:global.banner_stats.option_completed_set",
+      "download_zip": "Scarica tutto (ZIP)",
+      "image_error": "Impossibile caricare alcune immagini degli outfit."
+    },
     "error_title": "Impossibile caricare i dati",
     "error_description": "Impossibile caricare i dati. Per favore riprova.",
     "no_results_description": "Nessun articolo corrisponde ai tuoi criteri.",

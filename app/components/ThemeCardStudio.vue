@@ -1,7 +1,7 @@
 <template>
   <div class="space-y-3 sm:space-y-4">
-    <div class="flex items-start justify-between gap-3 px-1">
-      <div class="min-w-0">
+    <div class="flex flex-wrap items-start justify-between gap-3 px-1">
+      <div class="min-w-0 flex-1 basis-56">
         <h2
           class="truncate text-lg font-semibold text-slate-900 sm:text-xl dark:text-slate-50"
         >
@@ -11,16 +11,26 @@
           {{ t('creation_hub.outfit_card.editor_description') }}
         </p>
       </div>
-      <n-button
-        size="small"
-        secondary
-        @click="showTemplateEditor = true"
+      <div
+        class="flex w-full flex-wrap items-center justify-between gap-2 sm:w-auto sm:justify-start"
       >
-        <template #icon
-          ><n-icon><Edit /></n-icon
-        ></template>
-        {{ t('common.customize') }}
-      </n-button>
+        <CreationVersionSelect
+          :model-value="majorVersion"
+          :versions="majorVersions"
+          :disabled="loading || exporting"
+          @update:model-value="selectMajorVersion"
+        />
+        <n-button
+          size="small"
+          secondary
+          @click="showTemplateEditor = true"
+        >
+          <template #icon
+            ><n-icon><Edit /></n-icon
+          ></template>
+          {{ t('common.customize') }}
+        </n-button>
+      </div>
     </div>
 
     <div class="grid items-start gap-4 lg:grid-cols-[minmax(0,1fr)_420px]">
@@ -120,6 +130,7 @@
           :selected-ids="selectedIds"
           :outfits="outfitsById"
           :title="posterTitle"
+          :major-version="posterVersion"
         />
         <div class="grid grid-cols-2 gap-2">
           <n-popconfirm @positive-click="clearSelections">
@@ -304,6 +315,7 @@
           :selected-ids="selectedIds"
           :outfits="outfitsById"
           :title="posterTitle"
+          :major-version="posterVersion"
         />
         <n-button
           type="primary"
@@ -455,6 +467,7 @@
         :selected-ids="selectedIds"
         :outfits="outfitsById"
         :title="posterTitle"
+        :major-version="posterVersion"
       />
     </div>
   </div>
@@ -507,6 +520,20 @@
     version: string | null
     sourceKey: string | null
   }
+  type OutfitChoices = Array<string | number | null>
+  type OutfitCardDrafts = Record<
+    ShareCardTemplateId,
+    Record<string, OutfitChoices>
+  >
+  const templateIds = ['default', 'custom'] as const
+  const createOutfitChoices = (): OutfitChoices => Array(9).fill(null)
+  const restoreOutfitChoices = (saved: readonly unknown[]): OutfitChoices =>
+    Array.from({ length: 9 }, (_, index) => {
+      const value = saved[index]
+      return typeof value === 'string' || typeof value === 'number'
+        ? value
+        : null
+    })
   const { t, tm, rt, locale, getLocaleMessage } = useI18n()
   const route = useRoute()
   const router = useRouter()
@@ -522,6 +549,10 @@
   const page = ref(1)
   const qualityFilter = ref<number | null>(null)
   const versionFilter = ref<string | null>(null)
+  const majorVersion = ref('all')
+  const posterVersion = computed(() =>
+    majorVersion.value === 'all' ? undefined : majorVersion.value
+  )
   const styleFilter = ref<string | null>(null)
   const sourceFilter = ref<string | null>(null)
   const activeIndex = ref<number | null>(null)
@@ -549,18 +580,18 @@
     name: '',
     prompts: [],
   })
-  const selections = reactive<
-    Record<ShareCardTemplateId, Array<string | number | null>>
-  >({
-    default: Array(9).fill(null),
-    custom: Array(9).fill(null),
+  const selections = reactive<OutfitCardDrafts>({
+    default: { all: createOutfitChoices() },
+    custom: { all: createOutfitChoices() },
   })
   const prompts = computed(() =>
     activeTemplateId.value === 'custom'
       ? customTemplate.value.prompts
       : defaultPrompts.value
   )
-  const selectedIds = computed(() => selections[activeTemplateId.value])
+  const selectedChoices = computed(
+    () => selections[activeTemplateId.value][majorVersion.value]!
+  )
   const activeTemplateName = computed(() =>
     activeTemplateId.value === 'custom'
       ? customTemplate.value.name
@@ -627,7 +658,21 @@
       outfits.value.map((outfit) => [String(outfit.id), outfit])
     )
   )
-  const selectedCount = computed(() => selectedIds.value.filter(Boolean).length)
+  const selectedIds = computed(() =>
+    selectedChoices.value.map((id) => {
+      if (id == null) return null
+      const outfit = outfitsById.value[String(id)]
+      return outfit &&
+        (majorVersion.value === 'all' ||
+          (outfit.version &&
+            matchesVersionFilter(outfit.version, majorVersion.value)))
+        ? id
+        : null
+    })
+  )
+  const selectedCount = computed(
+    () => selectedIds.value.filter((id) => id != null).length
+  )
   const activePrompt = computed(() =>
     activeIndex.value == null ? '' : (prompts.value[activeIndex.value] ?? '')
   )
@@ -649,6 +694,9 @@
   const categoryOutfits = computed(() =>
     outfits.value.filter(
       (outfit) =>
+        (majorVersion.value === 'all' ||
+          (outfit.version &&
+            matchesVersionFilter(outfit.version, majorVersion.value))) &&
         (!activeCategoryOutfitIds.value ||
           activeCategoryOutfitIds.value.has(String(outfit.id))) &&
         activeQualityOptions.value.includes(Number(outfit.quality))
@@ -666,12 +714,20 @@
   const availableVersions = computed(() =>
     getExactVersionsFromLocaleMessages(messages.value)
   )
+  const majorVersions = computed(() =>
+    getMajorVersionFilters(
+      outfits.value.flatMap(({ version }) => (version ? [version] : []))
+    )
+  )
   const versionOptions = computed(() =>
-    createVersionFilterOptions(availableVersions.value, (value) => {
-      const key = `version.${value}`
-      const translated = t(key)
-      return translated !== key ? `${value} - ${translated}` : value
-    })
+    createVersionFilterOptions(
+      availableVersions.value.filter(
+        (version) =>
+          majorVersion.value === 'all' ||
+          matchesVersionFilter(version, majorVersion.value)
+      ),
+      (value) => formatVersionFilterLabel(value, t)
+    ).filter((option) => majorVersion.value === 'all' || !option.isMajor)
   )
   const renderVersionOptionLabel = (option: {
     label?: string | number
@@ -746,12 +802,27 @@
         JSON.stringify({
           activeTemplateId: activeTemplateId.value,
           customTemplate: customTemplate.value,
-          selections,
+          majorVersion: majorVersion.value,
+          versionSelections: selections,
         })
       )
     } catch {
       // Storage can be unavailable in private or restricted browser contexts.
     }
+  }
+  const activateMajorVersion = (value: string) => {
+    for (const id of templateIds)
+      selections[id][value] ??= createOutfitChoices()
+    majorVersion.value = value
+  }
+  const selectMajorVersion = (value: string) => {
+    if (value !== 'all' && !majorVersions.value.includes(value)) return
+    activateMajorVersion(value)
+    persist()
+  }
+  const clearCustomDrafts = () => {
+    selections.custom = { all: createOutfitChoices() }
+    selections.custom[majorVersion.value] ??= createOutfitChoices()
   }
   const openPicker = (index: number) => {
     activeIndex.value = index
@@ -771,16 +842,17 @@
   }
   const selectOutfit = (id: string | number) => {
     if (activeIndex.value == null) return
-    selectedIds.value[activeIndex.value] = id
+    selectedChoices.value[activeIndex.value] = id
     persist()
     showPicker.value = false
   }
   const clearSelections = () => {
-    selections[activeTemplateId.value] = Array(prompts.value.length).fill(null)
+    selections[activeTemplateId.value][majorVersion.value] =
+      createOutfitChoices()
     persist()
   }
   const clearSelection = (index: number) => {
-    selectedIds.value[index] = null
+    selectedChoices.value[index] = null
     persist()
   }
   const useDefaultTemplate = () => {
@@ -847,7 +919,7 @@
   const useSharedTemplate = () => {
     if (!sharedTemplate.value) return
     customTemplate.value = sharedTemplate.value
-    selections.custom = Array(9).fill(null)
+    clearCustomDrafts()
     activeTemplateId.value = 'custom'
     persist()
     showTemplateEditor.value = false
@@ -860,7 +932,7 @@
       name: t('creation_hub.template.custom_default_name'),
       prompts: [...defaultPrompts.value],
     }
-    selections.custom = Array(9).fill(null)
+    clearCustomDrafts()
     activeTemplateId.value = 'custom'
     persist()
   }
@@ -886,6 +958,7 @@
 
   onMounted(async () => {
     try {
+      let savedMajorVersion: string | undefined
       canNativeShare.value = typeof navigator.share === 'function'
       customTemplate.value = {
         id: 'custom',
@@ -903,9 +976,9 @@
           const parsed = JSON.parse(stored) as {
             activeTemplateId?: ShareCardTemplateId
             customTemplate?: ShareCardTemplate
-            selections?: Partial<
-              Record<ShareCardTemplateId, Array<string | number | null>>
-            >
+            selections?: Partial<Record<ShareCardTemplateId, OutfitChoices>>
+            majorVersion?: string
+            versionSelections?: OutfitCardDrafts
           }
           const storedTemplate = parsed.customTemplate
           const storedTemplateName = cleanShareCardTemplateText(
@@ -932,18 +1005,22 @@
             (parsed.activeTemplateId === 'custom' && hasValidCustomTemplate)
           )
             activeTemplateId.value = parsed.activeTemplateId
-          for (const id of ['default', 'custom'] as ShareCardTemplateId[]) {
-            const storedSelections = parsed.selections?.[id]
-            if (Array.isArray(storedSelections))
-              selections[id] = storedSelections
-                .slice(0, 9)
-                .map((value) =>
-                  typeof value === 'string' || typeof value === 'number'
-                    ? value
-                    : null
-                )
-                .concat(Array(9).fill(null))
-                .slice(0, 9)
+          savedMajorVersion = parsed.majorVersion
+          for (const id of templateIds) {
+            const legacyChoices = parsed.selections?.[id]
+            if (Array.isArray(legacyChoices)) {
+              selections[id].all = restoreOutfitChoices(legacyChoices)
+            }
+            for (const [version, choices] of Object.entries(
+              parsed.versionSelections?.[id] ?? {}
+            )) {
+              if (
+                (version === 'all' || /^\d+\.x$/.test(version)) &&
+                Array.isArray(choices)
+              ) {
+                selections[id][version] = restoreOutfitChoices(choices)
+              }
+            }
           }
         } catch {
           // Ignore malformed or outdated local state and keep safe defaults.
@@ -961,6 +1038,12 @@
         }
       }
       await catalog.load(['outfits'])
+      if (
+        savedMajorVersion &&
+        majorVersions.value.includes(savedMajorVersion)
+      ) {
+        activateMajorVersion(savedMajorVersion)
+      }
     } finally {
       loading.value = false
     }

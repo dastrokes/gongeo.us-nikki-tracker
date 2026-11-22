@@ -163,8 +163,10 @@ export const useCatalogListing = async <
     })
   }
 
-  const fetchMatchingIds = async (): Promise<CatalogListingIdsResult> => {
-    return tryFetchLocalMatchingIds(getQuery())
+  const fetchMatchingIds = async (
+    query = getQuery()
+  ): Promise<CatalogListingIdsResult> => {
+    return tryFetchLocalMatchingIds(query)
   }
 
   const fetchOutfitRelations = async () => {

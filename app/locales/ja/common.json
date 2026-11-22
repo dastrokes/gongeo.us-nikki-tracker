@@ -1093,6 +1093,12 @@
     }
   },
   "compendium": {
+    "image": {
+      "current_filters": "現在のフィルター",
+      "stage_complete": "@:global.banner_stats.option_completed_set",
+      "download_zip": "すべてダウンロード（ZIP）",
+      "image_error": "一部のコーデ画像を読み込めませんでした。"
+    },
     "error_title": "データのロードに失敗しました",
     "error_description": "データをロードできません。もう一度試してください。",
     "no_results_description": "条件に一致するアイテムはありません。",

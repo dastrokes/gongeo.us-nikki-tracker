@@ -1,3 +1,5 @@
+import { isListingMissingFilterValue } from './listingFilters'
+
 export const getVersionFromId = (
   id: number | null | undefined
 ): string | null => {
@@ -20,6 +22,19 @@ export type VersionFilterOption = {
   label: string
   value: string
   isMajor?: boolean
+}
+
+export const formatVersionFilterLabel = (
+  version: string,
+  translate: (key: string) => string
+) => {
+  if (isListingMissingFilterValue(version)) {
+    return translate('compendium.missing_value')
+  }
+
+  const key = `version.${version}`
+  const title = translate(key)
+  return title === key ? version : `${version} - ${title}`
 }
 
 export const isExactVersion = (version: string) =>

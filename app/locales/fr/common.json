@@ -1093,6 +1093,12 @@
     }
   },
   "compendium": {
+    "image": {
+      "current_filters": "Filtres actuels",
+      "stage_complete": "@:global.banner_stats.option_completed_set",
+      "download_zip": "Tout télécharger (ZIP)",
+      "image_error": "Certaines images de tenues n’ont pas pu être chargées."
+    },
     "error_title": "Échec du chargement des données",
     "error_description": "Impossible de charger les données. Veuillez réessayer.",
     "no_results_description": "Aucun article ne correspond à vos critères.",

@@ -83,9 +83,11 @@
                     size="small"
                     text
                     class="w-8"
-                    :disabled="editMode"
+                    :disabled="
+                      editMode || (hasCustomImageExport && (loading || !!error))
+                    "
                     :aria-label="t('common.export_as_image')"
-                    @click="exportListingPng"
+                    @click="handleImageExport"
                   >
                     <template #icon>
                       <n-icon :depth="3">
@@ -415,6 +417,7 @@
       editMode: boolean
       wardrobeReady: boolean
       tierlistDisabled: boolean
+      hasCustomImageExport?: boolean
       selectedCount: number
       showClearFilters?: boolean
       skeletonAspectClass?: string
@@ -434,6 +437,7 @@
     'retry-wardrobe-mode': []
     'toggle-edit-mode': []
     'open-tierlist': []
+    'export-image': []
     'clear-filters': []
     'mark-owned': []
     'mark-owned-menu-select': [key: string]
@@ -482,8 +486,12 @@
     return index
   }
 
-  const exportListingPng = async () => {
+  const handleImageExport = async () => {
     if (exporting.value || props.editMode) return
+    if (props.hasCustomImageExport) {
+      emit('export-image')
+      return
+    }
 
     message.info(t('tracker.export.in_progress'))
     exporting.value = true

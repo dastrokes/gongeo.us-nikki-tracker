@@ -1093,6 +1093,12 @@
     }
   },
   "compendium": {
+    "image": {
+      "current_filters": "目前篩選",
+      "stage_complete": "集齊",
+      "download_zip": "下載全部（ZIP）",
+      "image_error": "部分套裝圖片無法載入。"
+    },
     "error_title": "載入物品失敗",
     "error_description": "無法載入物品資料。請檢查您的連線並重試。",
     "no_results_description": "沒有符合您搜尋條件的部件。",

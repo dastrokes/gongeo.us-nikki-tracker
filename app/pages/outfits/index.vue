@@ -15,8 +15,10 @@
     :selected-count="selectedOutfitIds.size"
     :show-clear-filters="hasFilters"
     :mark-owned-menu-options="batchVariationMarkOptions"
+    has-custom-image-export
     @toggle-edit-mode="toggleEditMode"
     @open-tierlist="goToTierlist"
+    @export-image="openOutfitExport"
     @retry="retryFetch"
     @retry-wardrobe-mode="retryWardrobeMode"
     @clear-filters="clearFilters"
@@ -211,6 +213,19 @@
         </div>
       </component>
     </template>
+    <template #footer>
+      <LazyOutfitCollectionExportDialog
+        v-if="outfitExportOpen"
+        v-model:show="outfitExportOpen"
+        :filters="outfitExportFilters"
+        :versions="outfitExportVersions"
+        :snapshot="outfitExportSnapshot"
+        :loading="outfitExportLoading"
+        :load-error="outfitExportLoadError"
+        @retry="prepareOutfitExport"
+        @update:filters="updateOutfitExportFilters"
+      />
+    </template>
   </CompendiumListingPage>
 </template>
 
@@ -228,6 +243,10 @@
   } from '@vicons/fa'
   import { NIcon } from 'naive-ui'
   import type { DropdownOption, SelectOption, TreeSelectOption } from 'naive-ui'
+  import type {
+    OutfitCollectionPosterFilters,
+    OutfitCollectionPosterSnapshot,
+  } from '~/utils/outfitCollectionPoster'
 
   definePageMeta({
     key: 'outfits-listing',
@@ -456,15 +475,8 @@
     const translated = t(labelKey)
     return translated !== labelKey ? translated : null
   })
-  const getVersionFilterLabel = (version?: string | null) => {
-    if (!version) return null
-    if (isListingMissingFilterValue(version)) {
-      return t('compendium.missing_value')
-    }
-    const key = `version.${version}`
-    const translated = t(key)
-    return translated !== key ? `${version} - ${translated}` : version
-  }
+  const getVersionFilterLabel = (version?: string | null) =>
+    version ? formatVersionFilterLabel(version, t) : null
   const getQualityFilterLabel = (quality?: number | null) =>
     quality ? `${quality}★` : null
   const getSourceFilterLabel = (source?: string | null) => {
@@ -559,6 +571,25 @@
   const selectedOutfitIds = ref<Set<number>>(new Set())
   const togglingOutfitIds = ref<Set<number>>(new Set())
   const catalogIndex = useCatalogIndex()
+  const { activeSlot } = useProfileSlots()
+  const outfitExportOpen = ref(false)
+  const outfitExportLoading = ref(false)
+  const outfitExportLoadError = ref(false)
+  const outfitExportFilters = ref<OutfitCollectionPosterFilters>({
+    sourcePreset: 'current',
+    version: null,
+    ownership: 'owned',
+  })
+  const outfitExportVersions = computed(() => {
+    const majorVersions = getMajorVersionFilters(availableVersions.value)
+    const listingVersion = versionFilter.value
+    return listingVersion && !majorVersions.includes(listingVersion)
+      ? [listingVersion, ...majorVersions]
+      : majorVersions
+  })
+  const outfitExportSnapshot =
+    shallowRef<OutfitCollectionPosterSnapshot | null>(null)
+  let outfitExportRequest = 0
   await catalogIndex
     .load(['items', 'outfits', 'outfitItems'])
     .catch(() => undefined)
@@ -816,8 +847,11 @@
         !outfitFacetsReady.value ||
           !wardrobeInitialized.value ||
           getOutfitFacetEntries('ownershipMode').some((entry) => {
-            const itemIds =
-              catalogIndex.index.value?.outfitItemsById.get(entry.id) ?? []
+            const itemIds = filterCatalogIdsByRegionScope(
+              'item',
+              catalogIndex.index.value?.outfitItemsById.get(entry.id) ?? [],
+              activeRegionScope.value
+            )
             const status = getOutfitProgress(itemIds).status
             return value === 'owned'
               ? status === 'owned' || status === 'partial'
@@ -1154,13 +1188,6 @@
     if (key === 'evo3') return 4
     return 0
   }
-  const getVariantRank = (variantType: VariantType) => {
-    if (variantType === 'base') return 0
-    if (variantType === 'glowup') return 1
-    if (variantType === 'evo1') return 2
-    if (variantType === 'evo2') return 3
-    return 4
-  }
   const getEvoLevel = (variantType: VariantType) => {
     if (variantType === 'evo1') return 1
     if (variantType === 'evo2') return 2
@@ -1184,7 +1211,8 @@
         const variantType = getOutfitVariantType(String(relatedId))
         return variantKey === 'glowup'
           ? variantType === 'base' || variantType === 'glowup'
-          : variantType !== 'glowup' && getVariantRank(variantType) <= maxRank
+          : variantType !== 'glowup' &&
+              getOutfitVariantRank(variantType) <= maxRank
       })
     })
   }
@@ -1210,7 +1238,8 @@
           return getOutfitGroupIds(outfitId, index).filter((relatedId) => {
             const variantType = getOutfitVariantType(String(relatedId))
             return (
-              variantType !== 'glowup' && getVariantRank(variantType) > maxRank
+              variantType !== 'glowup' &&
+              getOutfitVariantRank(variantType) > maxRank
             )
           })
         })
@@ -1224,10 +1253,13 @@
     return Array.from(
       new Set(
         outfitIds.flatMap((outfitId) => {
-          const minRank = getVariantRank(getOutfitVariantType(String(outfitId)))
+          const minRank = getOutfitVariantRank(
+            getOutfitVariantType(String(outfitId))
+          )
           return getOutfitGroupIds(outfitId, index).filter(
             (relatedId) =>
-              getVariantRank(getOutfitVariantType(String(relatedId))) >= minRank
+              getOutfitVariantRank(getOutfitVariantType(String(relatedId))) >=
+              minRank
           )
         })
       )
@@ -1313,22 +1345,20 @@
   const getOutfitItemIdsForCurrentMark = async (
     outfitIds: readonly number[]
   ) => {
+    const regionScope = activeRegionScope.value
     await catalogIndex.load(['outfits', 'outfitItems'])
     const index = catalogIndex.index.value
-    const targetOutfitIds = outfitIds.flatMap((outfitId) => {
-      if (getOutfitVariantType(String(outfitId)) !== 'glowup') {
-        return [outfitId]
-      }
-
-      return getOutfitGroupIds(outfitId, index).filter((relatedId) => {
-        const variantType = getOutfitVariantType(String(relatedId))
-        return variantType === 'base' || relatedId === outfitId
-      })
-    })
+    const targetOutfitIds = outfitIds.flatMap((outfitId) =>
+      getOutfitOwnershipMarkIds(index, outfitId)
+    )
 
     return normalizeWardrobeItemIds(
-      targetOutfitIds.flatMap(
-        (outfitId) => index?.outfitItemsById.get(outfitId) ?? []
+      filterCatalogIdsByRegionScope(
+        'item',
+        targetOutfitIds.flatMap(
+          (outfitId) => index?.outfitItemsById.get(outfitId) ?? []
+        ),
+        regionScope
       )
     )
   }
@@ -1414,6 +1444,126 @@
       ? status
       : 'owned'
   }
+
+  const prepareOutfitExport = async () => {
+    const request = ++outfitExportRequest
+    const listingKey = cacheKey.value
+    const selectedLocale = locale.value
+    const { sourcePreset, version, ownership } = outfitExportFilters.value
+    const preset =
+      sourcePreset === 'current'
+        ? null
+        : OUTFIT_POSTER_SOURCE_PRESETS[sourcePreset]
+    const listingQuery = catalogListingQuery.value
+    outfitExportLoading.value = true
+    outfitExportLoadError.value = false
+
+    try {
+      const { ids, outfitItems } = await fetchMatchingOutfitIds({
+        ...listingQuery,
+        ownershipMode: ownership,
+        filters: {
+          ...listingQuery.filters,
+          version,
+          ...(preset ? { ...preset, quality: null } : {}),
+        },
+      })
+      if (request !== outfitExportRequest) return
+      const index = catalogIndex.index.value
+      if (
+        !index ||
+        listingKey !== cacheKey.value ||
+        selectedLocale !== locale.value
+      ) {
+        throw new Error('Outfit listing changed while preparing the poster')
+      }
+
+      const canShowProgress = isWardrobeReady.value
+      const hasMissingVersionFilter = isListingMissingFilterValue(version)
+      const titleHighlight =
+        sourcePreset !== 'current'
+          ? t(OUTFIT_POSTER_SOURCE_LABEL_KEYS[sourcePreset])
+          : (getSourceDetailFilterLabel(sourceDetailFilter.value) ??
+            getSourceFilterLabel(obtainFilter.value) ??
+            getQualityFilterLabel(qualityFilter.value) ??
+            (hasMissingVersionFilter ? getVersionFilterLabel(version) : null) ??
+            getStyleFilterLabel(styleFilter.value) ??
+            getTagFilterLabel(labelFilter.value))
+
+      outfitExportSnapshot.value = {
+        titleHighlight,
+        version: hasMissingVersionFilter ? null : version,
+        showProgress: canShowProgress && !hideOwnershipStatus.value,
+        entries: ids.flatMap((id) => {
+          const outfit = index.outfitById.get(id)
+          if (!outfit) return []
+
+          const itemIds = outfitItems?.[String(id)] ?? []
+          const progress =
+            canShowProgress && itemIds.length
+              ? getOutfitProgress(itemIds)
+              : null
+          const variant = getOutfitVariantType(String(id))
+          const evoLevel = !progress
+            ? null
+            : variant === 'base'
+              ? getOutfitEvoLevel(itemIds, outfit.quality)
+              : progress.status === 'owned'
+                ? getEvoLevel(variant)
+                : null
+          return [
+            {
+              id,
+              name: t(`outfit.${id}.name`),
+              quality: outfit.quality,
+              progress,
+              evoLevel,
+            },
+          ]
+        }),
+      }
+    } catch (error) {
+      if (request !== outfitExportRequest) return
+      console.error('Outfit poster preparation failed:', error)
+      outfitExportLoadError.value = true
+    } finally {
+      if (request === outfitExportRequest) outfitExportLoading.value = false
+    }
+  }
+
+  const openOutfitExport = () => {
+    outfitExportFilters.value = {
+      sourcePreset: 'current',
+      version: versionFilter.value,
+      ownership: 'owned',
+    }
+    outfitExportOpen.value = true
+    void prepareOutfitExport()
+  }
+
+  const updateOutfitExportFilters = (
+    filters: OutfitCollectionPosterFilters
+  ) => {
+    outfitExportFilters.value = filters
+    void prepareOutfitExport()
+  }
+
+  watch(
+    outfitExportOpen,
+    (open) => {
+      if (open) return
+      outfitExportRequest += 1
+      outfitExportSnapshot.value = null
+    },
+    { flush: 'sync' }
+  )
+  watch(
+    activeSlot,
+    () => {
+      outfitExportOpen.value = false
+    },
+    { flush: 'sync' }
+  )
 
   const toggleVisibleOutfitOwned = async (outfitId: number) => {
     if (isOutfitToggleLoading(outfitId)) return
@@ -1617,7 +1767,9 @@
     try {
       const itemIds = normalizeWardrobeItemIds(
         owned
-          ? await getBatchOutfitItemIds()
+          ? variationFilter.value === 'base'
+            ? await getBatchOutfitItemIds()
+            : await getOutfitItemIdsForCurrentMark(await getBatchOutfitIds())
           : await getOutfitItemIdsForVariantUnmark(await getBatchOutfitIds())
       )
       if (itemIds.length === 0) return

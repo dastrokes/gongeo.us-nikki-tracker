@@ -1093,6 +1093,12 @@
     }
   },
   "compendium": {
+    "image": {
+      "current_filters": "Filtros atuais",
+      "stage_complete": "@:global.banner_stats.option_completed_set",
+      "download_zip": "Baixar tudo (ZIP)",
+      "image_error": "Não foi possível carregar algumas imagens de trajes."
+    },
     "error_title": "Falha ao carregar dados",
     "error_description": "Não foi possível carregar os dados. Por favor, tente novamente.",
     "no_results_description": "Nenhum item corresponde aos seus critérios.",

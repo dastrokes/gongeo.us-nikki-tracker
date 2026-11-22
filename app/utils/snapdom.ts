@@ -30,6 +30,8 @@ const downloadDataUrl = (dataUrl: string, fileName: string) => {
 
 const waitForImages = async (element: HTMLElement) => {
   const images = Array.from(element.querySelectorAll('img'))
+  const controller = new AbortController()
+  const listenerOptions = { once: true, signal: controller.signal }
   const imageReady = Promise.all(
     images.map(
       (image) =>
@@ -42,17 +44,26 @@ const waitForImages = async (element: HTMLElement) => {
 
           if (image.complete) void decode()
           else {
-            image.addEventListener('load', () => void decode(), { once: true })
-            image.addEventListener('error', () => resolve(), { once: true })
+            image.addEventListener('load', () => void decode(), listenerOptions)
+            image.addEventListener('error', () => resolve(), listenerOptions)
           }
         })
     )
   )
-  const timeout = new Promise<void>((resolve) => setTimeout(resolve, 10000))
-  await Promise.race([imageReady, timeout])
+  let timer: ReturnType<typeof setTimeout> | undefined
+  const timeout = new Promise<void>((resolve) => {
+    timer = setTimeout(resolve, 10000)
+  })
+  try {
+    await Promise.race([imageReady, timeout])
+  } finally {
+    clearTimeout(timer)
+    controller.abort()
+  }
+  return images.every((image) => image.complete && image.naturalWidth > 0)
 }
 
-export const exportToPng = async (element: HTMLElement, fileName: string) => {
+const preparePngCapture = async (element: HTMLElement) => {
   if (typeof window === 'undefined' || typeof document === 'undefined') {
     throw new Error('SnapDOM export requires a browser environment')
   }
@@ -60,8 +71,11 @@ export const exportToPng = async (element: HTMLElement, fileName: string) => {
   if ('fonts' in document) {
     await document.fonts.ready
   }
-  await waitForImages(element)
+  return waitForImages(element)
+}
 
+export const exportToPng = async (element: HTMLElement, fileName: string) => {
+  await preparePngCapture(element)
   const snapdom = await getSnapdom()
   const image = await snapdom.toPng(element, {
     embedFonts: true,
@@ -71,4 +85,27 @@ export const exportToPng = async (element: HTMLElement, fileName: string) => {
   })
 
   downloadDataUrl(image.src, fileName)
+}
+
+export const capturePngBlob = async (element: HTMLElement) => {
+  if (!(await preparePngCapture(element))) {
+    throw new Error('Poster images did not load')
+  }
+
+  const snapdom = await getSnapdom()
+  return snapdom.toBlob(element, {
+    format: 'png',
+    embedFonts: true,
+    reconcile: true,
+    width: element.offsetWidth,
+    height: element.offsetHeight,
+    scale: 1,
+    dpr: 1,
+  })
+}
+
+export const downloadImageExportBlob = (blob: Blob, fileName: string) => {
+  const url = URL.createObjectURL(blob)
+  downloadDataUrl(url, fileName)
+  setTimeout(() => URL.revokeObjectURL(url), 1000)
 }

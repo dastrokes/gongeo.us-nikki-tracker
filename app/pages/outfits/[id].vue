@@ -852,13 +852,6 @@
     if (key === 'evo3') return 4
     return 0
   }
-  const getVariantRank = (variantType: VariantType) => {
-    if (variantType === 'base') return 0
-    if (variantType === 'glowup') return 1
-    if (variantType === 'evo1') return 2
-    if (variantType === 'evo2') return 3
-    return 4
-  }
   const getEvoLevel = (variantType: VariantType) => {
     if (variantType === 'evo1') return 1
     if (variantType === 'evo2') return 2
@@ -985,10 +978,10 @@
           return
         }
 
-        const currentRank = getVariantRank(currentOutfitVariantType.value)
+        const currentRank = getOutfitVariantRank(currentOutfitVariantType.value)
         const targetOutfitIds = getCurrentOutfitGroupIds().filter(
           (relatedId) =>
-            getVariantRank(getOutfitVariantType(String(relatedId))) >=
+            getOutfitVariantRank(getOutfitVariantType(String(relatedId))) >=
             currentRank
         )
 
@@ -1006,18 +999,21 @@
         return
       }
 
-      if (owned && currentOutfitVariantType.value === 'glowup') {
+      if (owned && currentOutfitVariantType.value !== 'base') {
+        const selectedOutfitId = outfitId.value
+        const selectedItemIds = outfitItems.value.map((item) => item.id)
         await catalogIndex.load(['outfits', 'outfitItems'])
         const index = catalogIndex.index.value
-        const targetOutfitIds = getCurrentOutfitGroupIds(index).filter(
-          (relatedId) => {
-            const variantType = getOutfitVariantType(String(relatedId))
-            return variantType === 'base' || relatedId === outfitId.value
-          }
+        const targetOutfitIds = getOutfitOwnershipMarkIds(
+          index,
+          selectedOutfitId
         )
         const itemIds = normalizeWardrobeItemIds(
-          targetOutfitIds.flatMap(
-            (targetOutfitId) => index?.outfitItemsById.get(targetOutfitId) ?? []
+          selectedItemIds.concat(
+            targetOutfitIds.flatMap(
+              (targetOutfitId) =>
+                index?.outfitItemsById.get(targetOutfitId) ?? []
+            )
           )
         )
 
@@ -1046,7 +1042,7 @@
       if (variantKey === 'unmark-all') {
         const targetOutfitIds = relatedOutfitIds.filter(
           (relatedId) =>
-            getVariantRank(getOutfitVariantType(String(relatedId))) >= 0
+            getOutfitVariantRank(getOutfitVariantType(String(relatedId))) >= 0
         )
 
         await catalogIndex.load(['outfits', 'outfitItems'])
@@ -1085,7 +1081,8 @@
         const variantType = getOutfitVariantType(String(relatedId))
         return variantKey === 'glowup'
           ? variantType === 'base' || variantType === 'glowup'
-          : variantType !== 'glowup' && getVariantRank(variantType) <= maxRank
+          : variantType !== 'glowup' &&
+              getOutfitVariantRank(variantType) <= maxRank
       })
       const clearOutfitIds =
         Number.isFinite(maxRank) && variantKey !== 'glowup'
@@ -1093,7 +1090,7 @@
               const variantType = getOutfitVariantType(String(relatedId))
               return (
                 variantType !== 'glowup' &&
-                getVariantRank(variantType) > maxRank
+                getOutfitVariantRank(variantType) > maxRank
               )
             })
           : []

@@ -1093,6 +1093,12 @@
     }
   },
   "compendium": {
+    "image": {
+      "current_filters": "Filtros actuales",
+      "stage_complete": "@:global.banner_stats.option_completed_set",
+      "download_zip": "Descargar todo (ZIP)",
+      "image_error": "No se pudieron cargar algunas imágenes de atuendos."
+    },
     "error_title": "No se pudieron cargar los datos",
     "error_description": "No se pueden cargar datos. Por favor inténtalo de nuevo.",
     "no_results_description": "Ningún artículo coincide con sus criterios.",

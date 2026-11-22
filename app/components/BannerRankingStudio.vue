@@ -1,5 +1,12 @@
 <template>
   <div class="space-y-3 sm:space-y-4">
+    <CreationVersionSelect
+      v-if="majorVersions.length"
+      :model-value="majorVersion"
+      :versions="majorVersions"
+      :disabled="exporting"
+      @update:model-value="selectMajorVersion"
+    />
     <template v-if="!activeScope">
       <div class="grid grid-cols-1 gap-3 sm:grid-cols-3">
         <button
@@ -26,12 +33,14 @@
                 </p>
               </div>
               <n-tag
-                v-if="drafts[scope.value].selectedIds.length"
+                v-if="currentVersionDrafts[scope.value].selectedIds.length"
                 round
                 size="small"
                 :bordered="false"
                 type="info"
-                >{{ drafts[scope.value].selectedIds.length }}/10</n-tag
+                >{{
+                  currentVersionDrafts[scope.value].selectedIds.length
+                }}/10</n-tag
               >
             </div>
             <div
@@ -103,7 +112,6 @@
             v-model:value="version"
             clearable
             :options="versionOptions"
-            :render-label="renderVersionOptionLabel"
             filterable
             :show-checkmark="false"
             :placeholder="t('compendium.filter_version')"
@@ -346,7 +354,10 @@
           </div>
         </n-card>
         <aside class="hidden space-y-3 lg:sticky lg:top-20 lg:block">
-          <BannerRankingPoster :banners="rankedBanners" />
+          <BannerRankingPoster
+            :banners="rankedBanners"
+            :major-version="posterVersion"
+          />
           <div class="grid grid-cols-2 gap-2">
             <n-button @click="resetRanking">{{
               t('creation_hub.banner_ranking.reset')
@@ -480,7 +491,10 @@
         closable
         @close="showPreview = false"
       >
-        <BannerRankingPoster :banners="rankedBanners" />
+        <BannerRankingPoster
+          :banners="rankedBanners"
+          :major-version="posterVersion"
+        />
         <n-button
           type="primary"
           block
@@ -503,6 +517,7 @@
         ref="exportPoster"
         export-mode
         :banners="rankedBanners"
+        :major-version="posterVersion"
       />
     </div>
   </div>
@@ -529,6 +544,12 @@
     rankedIds: number[]
   }
   type RankingState = Record<RankingScope, RankingDraft>
+  const rankingScopes = ['limited', 'five', 'four'] as const
+  const createRankingState = (): RankingState => ({
+    limited: { selectedIds: [], rankedIds: [] },
+    five: { selectedIds: [], rankedIds: [] },
+    four: { selectedIds: [], rankedIds: [] },
+  })
   type BannerCandidate = {
     bannerId: number
     name: string
@@ -548,6 +569,10 @@
   const phase = ref<'select' | 'rank'>('select')
   const query = ref('')
   const version = ref<string | null>(null)
+  const majorVersion = ref('all')
+  const posterVersion = computed(() =>
+    majorVersion.value === 'all' ? undefined : majorVersion.value
+  )
   const showPreview = ref(false)
   const showReplacement = ref(false)
   const replacementId = ref<number | null>(null)
@@ -567,10 +592,8 @@
   let edgeScrollFrame = 0
   let edgeScrollActive = false
   let edgeScrollContainer: HTMLElement | null = null
-  const drafts = reactive<RankingState>({
-    limited: { selectedIds: [], rankedIds: [] },
-    five: { selectedIds: [], rankedIds: [] },
-    four: { selectedIds: [], rankedIds: [] },
+  const versionDrafts = reactive<Record<string, RankingState>>({
+    all: createRankingState(),
   })
 
   const outfitNames = computed(
@@ -601,16 +624,32 @@
       })
       .sort((left, right) => right.bannerId - left.bannerId)
   )
-  const candidates = computed(() =>
-    allCandidates.value.filter((banner) =>
-      activeScope.value === 'five'
-        ? banner.bannerType === 2
-        : activeScope.value === 'four'
-          ? banner.bannerType === 3
-          : true
-    )
+  const catalogMajorVersions = computed(() =>
+    getMajorVersionFilters(allCandidates.value.map(({ version }) => version))
   )
-  const currentDraft = computed(() => drafts[activeScope.value ?? 'limited'])
+  const getScopedCandidates = (scope: RankingScope, major: string) =>
+    allCandidates.value.filter(
+      (banner) =>
+        (major === 'all' || matchesVersionFilter(banner.version, major)) &&
+        (scope === 'limited' ||
+          banner.bannerType === (scope === 'five' ? 2 : 3))
+    )
+  const rankableMajorVersions = (scope: RankingScope) =>
+    catalogMajorVersions.value.filter(
+      (version) => getScopedCandidates(scope, version).length >= 10
+    )
+  const majorVersions = computed(() =>
+    rankableMajorVersions(activeScope.value ?? 'limited')
+  )
+  const candidates = computed(() =>
+    getScopedCandidates(activeScope.value ?? 'limited', majorVersion.value)
+  )
+  const currentVersionDrafts = computed(
+    () => versionDrafts[majorVersion.value]!
+  )
+  const currentDraft = computed(
+    () => currentVersionDrafts.value[activeScope.value ?? 'limited']
+  )
   const selectedIds = computed(() => currentDraft.value.selectedIds)
   const selectedBanners = computed(() =>
     selectedIds.value
@@ -630,25 +669,18 @@
       .filter((banner): banner is BannerCandidate => Boolean(banner))
   )
   const availableVersions = computed(() =>
-    getFirstRunVersions(Object.values(BANNER_DATA).map((banner) => banner.runs))
+    sortVersionsDesc([
+      ...new Set(
+        candidates.value.map(({ version }) => version).filter(isExactVersion)
+      ),
+    ])
   )
   const versionOptions = computed(() =>
-    createVersionFilterOptions(availableVersions.value, (value) => {
-      const key = `version.${value}`
-      const translated = t(key)
-      return translated !== key ? `${value} - ${translated}` : value
-    })
+    availableVersions.value.map((value) => ({
+      label: formatVersionFilterLabel(value, t),
+      value,
+    }))
   )
-  const renderVersionOptionLabel = (option: {
-    label?: string | number
-    value?: string | number
-    isMajor?: boolean
-  }) => {
-    const label = String(option.label ?? option.value ?? '')
-    return option.isMajor
-      ? h('span', { style: { fontWeight: '700' } }, label)
-      : label
-  }
   const filteredCandidates = computed(() => {
     const needle = query.value.trim().toLocaleLowerCase()
     return candidates.value.filter(
@@ -662,38 +694,59 @@
     )
   })
   const scopeOptions = computed(() =>
-    (['limited', 'five', 'four'] as RankingScope[]).map((value) => {
-      const scoped = allCandidates.value.filter((banner) =>
-        value === 'five'
-          ? banner.bannerType === 2
-          : value === 'four'
-            ? banner.bannerType === 3
-            : true
-      )
-      return {
-        value,
-        label: t(`creation_hub.banner_ranking.scope_${value}`),
-        description: t(
-          `creation_hub.banner_ranking.scope_${value}_description`
-        ),
-        preview: scoped.slice(0, 3),
-      }
+    rankingScopes.flatMap((value) => {
+      const scoped = getScopedCandidates(value, majorVersion.value)
+      if (scoped.length < 10) return []
+      return [
+        {
+          value,
+          label: t(`creation_hub.banner_ranking.scope_${value}`),
+          description: t(
+            `creation_hub.banner_ranking.scope_${value}_description`
+          ),
+          preview: scoped.slice(0, 3),
+        },
+      ]
     })
   )
 
   const persist = () => {
     if (!import.meta.client) return
     try {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(drafts))
+      localStorage.setItem(
+        STORAGE_KEY,
+        JSON.stringify({ majorVersion: majorVersion.value, versionDrafts })
+      )
     } catch {
       // Storage can be unavailable in private or restricted browser contexts.
     }
   }
   const chooseScope = (scope: RankingScope) => {
+    if (getScopedCandidates(scope, majorVersion.value).length < 10) return
     activeScope.value = scope
-    phase.value = drafts[scope].rankedIds.length === 10 ? 'rank' : 'select'
+    const draft = currentVersionDrafts.value[scope]
+    phase.value =
+      draft.rankedIds.length === 10 &&
+      draft.rankedIds.every((id) => draft.selectedIds.includes(id))
+        ? 'rank'
+        : 'select'
     query.value = ''
     version.value = null
+  }
+  const activateMajorVersion = (value: string) => {
+    versionDrafts[value] ??= createRankingState()
+    majorVersion.value = value
+  }
+  const selectMajorVersion = (value: string) => {
+    if (value !== 'all' && !majorVersions.value.includes(value)) return
+    const scope = activeScope.value
+    activateMajorVersion(value)
+    activeScope.value = null
+    showPreview.value = false
+    showReplacement.value = false
+    replacementId.value = null
+    if (scope) chooseScope(scope)
+    persist()
   }
   const isSelected = (id: number) => selectedIds.value.includes(id)
   const toggleBanner = (id: number) => {
@@ -943,6 +996,40 @@
     }
   }
 
+  const restoreVersionDrafts = (
+    saved: Partial<RankingState>,
+    major: string
+  ) => {
+    const restored = createRankingState()
+    for (const scope of rankingScopes) {
+      const storedDraft = saved[scope]
+      if (!storedDraft) continue
+
+      const candidateIds = new Set(
+        getScopedCandidates(scope, major).map(({ bannerId }) => bannerId)
+      )
+      const normalizeIds = (value: unknown) =>
+        Array.isArray(value)
+          ? [
+              ...new Set(
+                value.filter(
+                  (id): id is number =>
+                    typeof id === 'number' && candidateIds.has(id)
+                )
+              ),
+            ].slice(0, 10)
+          : []
+      const selectedIds = normalizeIds(storedDraft.selectedIds)
+      restored[scope] = {
+        selectedIds,
+        rankedIds: normalizeIds(storedDraft.rankedIds).filter((id) =>
+          selectedIds.includes(id)
+        ),
+      }
+    }
+    versionDrafts[major] = restored
+  }
+
   onMounted(async () => {
     let stored: string | null = null
     try {
@@ -952,37 +1039,26 @@
     }
     if (stored) {
       try {
-        const parsed = JSON.parse(stored) as Partial<RankingState>
-        for (const scope of ['limited', 'five', 'four'] as RankingScope[]) {
-          const storedDraft = parsed[scope]
-          if (!storedDraft) continue
-          const isInScope = (id: number) => {
-            const banner = BANNER_DATA[id]
-            if (!banner || banner.bannerType === 1 || !banner.runs.length)
-              return false
-            if (scope === 'five') return banner.bannerType === 2
-            if (scope === 'four') return banner.bannerType === 3
-            return true
+        const parsed = JSON.parse(stored) as Partial<RankingState> & {
+          majorVersion?: string
+          versionDrafts?: Record<string, Partial<RankingState>>
+        }
+        restoreVersionDrafts(parsed, 'all')
+        for (const [major, saved] of Object.entries(
+          parsed.versionDrafts ?? {}
+        )) {
+          if (
+            saved &&
+            (major === 'all' || catalogMajorVersions.value.includes(major))
+          ) {
+            restoreVersionDrafts(saved, major)
           }
-          const normalizeIds = (value: unknown) =>
-            Array.isArray(value)
-              ? Array.from(
-                  new Set(
-                    value.filter(
-                      (id): id is number =>
-                        Number.isInteger(id) && isInScope(id as number)
-                    )
-                  )
-                ).slice(0, 10)
-              : []
-          const selectedIds = normalizeIds(storedDraft.selectedIds)
-          const rankedIds = normalizeIds(storedDraft.rankedIds).filter((id) =>
-            selectedIds.includes(id)
-          )
-          drafts[scope] = {
-            selectedIds,
-            rankedIds,
-          }
+        }
+        if (
+          parsed.majorVersion &&
+          majorVersions.value.includes(parsed.majorVersion)
+        ) {
+          activateMajorVersion(parsed.majorVersion)
         }
       } catch {
         // Ignore malformed or outdated local state and keep safe defaults.
@@ -991,7 +1067,7 @@
     await catalog.load(['outfits'])
   })
   watch(
-    [activeScope, phase],
+    [activeScope, phase, majorVersion],
     ([scope, currentPhase]) => {
       if (scope && currentPhase === 'rank') void initSortable()
       else destroySortable()

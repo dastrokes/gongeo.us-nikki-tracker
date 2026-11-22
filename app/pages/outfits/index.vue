@@ -1465,6 +1465,7 @@
         filters: {
           ...listingQuery.filters,
           version,
+          variations: 'base',
           ...(preset ? { ...preset, quality: null } : {}),
         },
       })
@@ -1503,14 +1504,9 @@
             canShowProgress && itemIds.length
               ? getOutfitProgress(itemIds)
               : null
-          const variant = getOutfitVariantType(String(id))
-          const evoLevel = !progress
-            ? null
-            : variant === 'base'
-              ? getOutfitEvoLevel(itemIds, outfit.quality)
-              : progress.status === 'owned'
-                ? getEvoLevel(variant)
-                : null
+          const evoLevel = progress
+            ? getOutfitEvoLevel(itemIds, outfit.quality)
+            : null
           return [
             {
               id,

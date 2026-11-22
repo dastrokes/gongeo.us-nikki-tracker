@@ -1094,6 +1094,7 @@
   },
   "compendium": {
     "image": {
+      "outfit_poster": "의상 포스터",
       "current_filters": "현재 필터",
       "stage_complete": "@:global.banner_stats.option_completed_set",
       "download_zip": "모두 다운로드(ZIP)",

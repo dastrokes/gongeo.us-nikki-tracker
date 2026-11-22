@@ -31,7 +31,7 @@
             </div>
 
             <div
-              class="order-1 flex min-h-8 shrink-0 items-center justify-end gap-1 self-end sm:order-2 sm:self-start"
+              class="order-1 flex min-h-8 max-w-full shrink-0 flex-wrap items-center justify-end gap-1 self-end sm:order-2 sm:self-start"
             >
               <div
                 v-if="exporting"
@@ -74,6 +74,22 @@
                 }}
               </n-tooltip>
 
+              <n-button
+                v-if="!exporting && hasCustomImageExport"
+                size="small"
+                type="primary"
+                secondary
+                round
+                :disabled="editMode || loading || !!error"
+                aria-haspopup="dialog"
+                @click="emit('export-image')"
+              >
+                <template #icon>
+                  <n-icon><ImagesRegular /></n-icon>
+                </template>
+                {{ t('compendium.image.outfit_poster') }}
+              </n-button>
+
               <n-tooltip
                 v-if="!exporting"
                 trigger="hover"
@@ -83,9 +99,7 @@
                     size="small"
                     text
                     class="w-8"
-                    :disabled="
-                      editMode || (hasCustomImageExport && (loading || !!error))
-                    "
+                    :disabled="editMode"
                     :aria-label="t('common.export_as_image')"
                     @click="handleImageExport"
                   >
@@ -393,6 +407,7 @@
     BookOpen,
     Cog,
     FileImageRegular,
+    ImagesRegular,
     SortAmountDown,
     UserEdit,
   } from '@vicons/fa'
@@ -488,10 +503,6 @@
 
   const handleImageExport = async () => {
     if (exporting.value || props.editMode) return
-    if (props.hasCustomImageExport) {
-      emit('export-image')
-      return
-    }
 
     message.info(t('tracker.export.in_progress'))
     exporting.value = true

@@ -20,6 +20,9 @@ export const getQualityColor = (quality: number) => {
   )
 }
 
+export const getQualityBackgroundColor = (quality: number) =>
+  BG_COLORS[quality as keyof typeof BG_COLORS] ?? BG_COLORS[2]
+
 export const getQualityTextTheme = (quality: number) => {
   const color = getQualityColor(quality)
 

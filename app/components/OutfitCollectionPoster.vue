@@ -14,52 +14,50 @@
       #aside
     >
       <span
-        class="inline-flex rounded-xl border border-[#DDD2E8] bg-white/90 px-4 py-2 text-[24px] font-semibold text-slate-600 tabular-nums"
+        class="inline-flex rounded-full bg-[#f5f0fa] px-4 py-2 text-[24px] font-semibold text-slate-600 tabular-nums"
       >
         {{ page }} / {{ pageCount }}
       </span>
     </template>
 
-    <div
-      class="mt-6 grid min-h-0 flex-1 justify-center gap-3"
-      :style="gridStyle"
-    >
+    <div class="[container-type:size] mt-6 min-h-0 flex-1">
       <div
-        v-for="{ entry, badge } in tiles"
-        :key="entry.id"
-        class="relative flex min-h-0 min-w-0 flex-col overflow-hidden rounded-[22px] border-2 bg-slate-100 bg-[url('/images/bg.webp')] bg-cover bg-center shadow-[0_5px_14px_rgb(74_49_80/0.07)]"
-        :style="{ borderColor: getQualityTextTheme(entry.quality).borderColor }"
+        class="flex h-full flex-wrap content-center justify-center"
+        :style="gridStyle"
       >
         <div
-          class="absolute inset-0"
-          :style="getQualityOverlayStyle(entry.quality)"
-        />
-        <NuxtImg
-          :src="getImageSrc('outfit', entry.id)"
-          :alt="entry.name"
-          sizes="200px"
-          loading="eager"
-          class="relative min-h-0 w-full flex-1 object-contain object-bottom"
+          v-for="{ entry, status, surface, frameStyle } in tiles"
+          :key="entry.id"
+          class="[container-type:inline-size] relative w-(--outfit-tile-width) min-w-0 flex-none overflow-hidden rounded-2xl"
           :class="
-            showProgress &&
-            entry.progress?.status === 'missing' &&
-            !entry.evoLevel
-              ? 'opacity-45 grayscale'
+            status?.stage === 'evo3'
+              ? 'shadow-[0_0_12px_rgb(245_158_11/0.22)]'
               : ''
           "
-          @error="emit('image-error')"
-        />
-        <span
-          v-if="badge"
-          class="absolute top-2 left-2 max-w-[calc(100%-16px)] truncate rounded-lg border px-2 py-1 text-[22px] leading-none font-semibold tabular-nums"
-          :class="badge.color"
+          :style="surface"
         >
-          {{ badge.label }}
-        </span>
-        <div
-          class="relative mx-2 mb-2 rounded-xl border border-[#e2d8e6c7] bg-white/90 px-2 py-1 text-center text-[23px] leading-tight font-bold text-slate-800 shadow-[0_2px_8px_rgb(67_44_72/0.10)]"
-        >
-          <span class="block truncate">{{ entry.name }}</span>
+          <NuxtImg
+            :src="getImageSrc('outfit', entry.id)"
+            :alt="entry.name"
+            :sizes="entries.length <= 4 ? '400px' : '200px'"
+            loading="eager"
+            class="absolute inset-0 size-full object-contain"
+            :class="status?.stage === 'missing' ? 'opacity-75 grayscale' : ''"
+            @error="emit('image-error')"
+          />
+          <div
+            aria-hidden="true"
+            class="pointer-events-none absolute inset-0 rounded-2xl"
+            :class="status ? stageStyles[status.stage].frame : 'border-2'"
+            :style="frameStyle"
+          />
+          <span
+            v-if="status && status.stage !== 'missing'"
+            class="absolute top-2 left-2 min-w-max rounded-full px-[0.35em] py-[0.16em] text-[clamp(32px,19cqw,40px)] leading-none font-semibold whitespace-nowrap tabular-nums"
+            :class="stageStyles[status.stage].badge"
+          >
+            {{ status.label }}
+          </span>
         </div>
       </div>
     </div>
@@ -81,44 +79,97 @@
   const emit = defineEmits<{ 'image-error': [] }>()
   const { t } = useI18n()
   const { getImageSrc } = imageProvider()
+  const outfitArtAspect = 448 / 656
 
-  const getBadge = ({ evoLevel, progress }: OutfitCollectionPosterEntry) => {
+  const stageStyles = {
+    missing: {
+      frame: 'shadow-[inset_0_0_8px_1px_rgb(100_116_139/0.24)]',
+    },
+    partial: {
+      frame: 'border-2 border-dashed border-slate-400',
+      badge: 'border-[1.5px] border-[#a99fab] bg-white/95 text-slate-700',
+    },
+    complete: {
+      frame: 'border-2 border-emerald-400',
+      badge: 'border-[1.5px] border-[#6ee7b7] bg-emerald-100 text-emerald-900',
+    },
+    evo1: {
+      frame: 'border-[3px] border-sky-400',
+      badge: 'border-[1.5px] border-[#38bdf8] bg-sky-100 text-sky-900',
+    },
+    evo2: {
+      frame: 'border-[3px] border-violet-400',
+      badge: 'border-[1.5px] border-[#a78bfa] bg-violet-100 text-violet-900',
+    },
+    evo3: {
+      frame: 'border-[3px] border-amber-500',
+      badge: 'bg-[linear-gradient(135deg,#fde68a,#f59e0b)] text-[#5b3a06]',
+    },
+  } as const
+
+  type PosterStatus =
+    | { stage: 'missing' }
+    | { stage: Exclude<keyof typeof stageStyles, 'missing'>; label: string }
+
+  const getStatus = ({
+    evoLevel,
+    progress,
+  }: OutfitCollectionPosterEntry): PosterStatus | null => {
     if (evoLevel === 1 || evoLevel === 2 || evoLevel === 3) {
       return {
+        stage: `evo${evoLevel}`,
         label: t(`banner.outfit.level.${evoLevel + 1}`),
-        color:
-          evoLevel === 3
-            ? 'border-amber-300 bg-amber-100 text-amber-900'
-            : 'border-indigo-200 bg-indigo-50 text-indigo-800',
       }
     }
     if (progress?.status === 'owned') {
       return {
+        stage: 'complete',
         label: t('compendium.image.stage_complete'),
-        color: 'border-emerald-200 bg-emerald-50 text-emerald-800',
       }
     }
     if (progress?.status === 'partial') {
       return {
+        stage: 'partial',
         label: `${progress.owned}/${progress.total}`,
-        color: 'border-[#DDD2E8] bg-white text-slate-800',
       }
+    }
+    if (progress?.status === 'missing') {
+      return { stage: 'missing' }
     }
     return null
   }
   const tiles = computed(() =>
-    props.entries.map((entry) => ({
-      entry,
-      badge: props.showProgress ? getBadge(entry) : null,
-    }))
+    props.entries.map((entry) => {
+      const status = props.showProgress ? getStatus(entry) : null
+      const rarity = getQualityColor(entry.quality)
+      const missing = status?.stage === 'missing'
+      return {
+        entry,
+        status,
+        surface: {
+          aspectRatio: outfitArtAspect,
+          backgroundColor: missing
+            ? '#f1f5f9'
+            : getQualityBackgroundColor(entry.quality),
+          backgroundImage: missing
+            ? `linear-gradient(155deg, ${rarity}0A, ${rarity}1A)`
+            : undefined,
+        },
+        frameStyle: status ? undefined : { borderColor: `${rarity}40` },
+      }
+    })
   )
 
   const gridStyle = computed(() => {
     const count = Math.max(1, props.entries.length)
-    const columns = Math.min(count, 6, Math.ceil(Math.sqrt(count * 1.25)))
+    const columns = Math.ceil(Math.sqrt(count))
+    const rows = Math.ceil(count / columns)
+    const gap = 12
+    const widthFit = `(100cqw - ${(columns - 1) * gap}px) / ${columns}`
+    const heightFit = `(100cqh - ${(rows - 1) * gap}px) / ${rows}`
     return {
-      gridTemplateColumns: `repeat(${columns}, minmax(0, ${columns <= 3 ? '320px' : '1fr'}))`,
-      gridTemplateRows: `repeat(${Math.ceil(count / columns)}, minmax(0, 1fr))`,
+      gap: `${gap}px`,
+      '--outfit-tile-width': `min(calc(${widthFit}), calc(${heightFit} * ${outfitArtAspect}))`,
     }
   })
 </script>

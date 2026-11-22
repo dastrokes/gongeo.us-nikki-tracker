@@ -186,12 +186,15 @@
       <n-card
         role="dialog"
         :title="activePrompt"
-        class="flex h-[calc(100dvh-24px)] w-[calc(100vw-24px)] max-w-4xl flex-col overflow-hidden rounded-2xl lg:h-[calc(100dvh-64px)] lg:max-w-3xl"
-        content-class="flex min-h-0 flex-1 flex-col overflow-hidden p-3 sm:p-5"
+        class="flex h-dvh w-full max-w-none flex-col overflow-hidden rounded-2xl"
+        content-class="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden p-3 sm:p-5"
+        :bordered="false"
         closable
         @close="showPicker = false"
       >
-        <div class="flex min-h-0 flex-1 flex-col gap-3">
+        <div
+          class="mx-auto flex min-h-0 w-full max-w-5xl flex-1 flex-col gap-3"
+        >
           <div
             class="shrink-0 rounded-xl border border-slate-200 bg-slate-50/70 p-3 dark:border-slate-700 dark:bg-slate-800/60"
           >
@@ -256,7 +259,10 @@
             </div>
           </div>
           <div class="min-h-0 flex-1 overflow-hidden">
-            <n-scrollbar class="h-full pr-1">
+            <n-scrollbar
+              class="h-full pr-1"
+              container-class="overflow-x-hidden overscroll-contain"
+            >
               <div
                 v-if="pagedOutfits.length"
                 class="grid grid-cols-3 gap-2 p-1 sm:grid-cols-4 md:grid-cols-5"
@@ -305,30 +311,38 @@
       <n-card
         role="dialog"
         :title="t('creation_hub.outfit_card.preview')"
-        class="flex max-h-dvh w-full max-w-none flex-col overflow-hidden rounded-2xl sm:max-h-[calc(100dvh-24px)] sm:w-[calc(100vw-24px)] sm:max-w-2xl lg:max-h-[calc(100dvh-64px)] lg:max-w-lg"
-        content-class="min-h-0 min-w-0 flex-1 overflow-x-hidden overflow-y-auto p-3 sm:p-5"
+        class="flex h-dvh w-full max-w-none flex-col overflow-hidden rounded-2xl"
+        content-class="min-h-0 min-w-0 flex-1 overflow-hidden p-0"
+        :bordered="false"
         closable
         @close="showPreview = false"
       >
-        <ThemeCardPoster
-          :prompts="prompts"
-          :selected-ids="selectedIds"
-          :outfits="outfitsById"
-          :title="posterTitle"
-          :major-version="posterVersion"
-        />
-        <n-button
-          type="primary"
-          block
-          class="mt-4"
-          :loading="exporting"
-          @click="downloadPoster"
+        <n-scrollbar
+          container-class="overflow-x-hidden overscroll-contain"
+          content-class="min-w-0"
         >
-          <template #icon
-            ><n-icon><Download /></n-icon
-          ></template>
-          {{ t('common.export_as_image') }}
-        </n-button>
+          <div class="mx-auto max-w-lg p-3 sm:p-5">
+            <ThemeCardPoster
+              :prompts="prompts"
+              :selected-ids="selectedIds"
+              :outfits="outfitsById"
+              :title="posterTitle"
+              :major-version="posterVersion"
+            />
+            <n-button
+              type="primary"
+              block
+              class="mt-4"
+              :loading="exporting"
+              @click="downloadPoster"
+            >
+              <template #icon
+                ><n-icon><Download /></n-icon
+              ></template>
+              {{ t('common.export_as_image') }}
+            </n-button>
+          </div>
+        </n-scrollbar>
       </n-card>
     </n-modal>
 

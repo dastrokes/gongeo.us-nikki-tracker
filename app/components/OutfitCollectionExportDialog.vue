@@ -5,8 +5,10 @@
     :close-on-esc="!exporting"
   >
     <n-card
-      class="w-[min(56rem,calc(100vw-2rem))]"
+      class="flex h-dvh w-full max-w-none flex-col overflow-hidden rounded-2xl"
+      content-class="min-h-0 min-w-0 flex-1 overflow-hidden p-0"
       size="small"
+      :bordered="false"
       role="dialog"
       aria-modal="true"
       :aria-label="t('common.export_as_image')"
@@ -15,8 +17,8 @@
       @close="show = false"
     >
       <n-scrollbar
-        class="h-auto max-h-[min(70dvh,48rem)]"
-        content-class="grid gap-4 p-1 pe-3 md:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)]"
+        container-class="overflow-x-hidden overscroll-contain"
+        content-class="mx-auto grid min-w-0 max-w-5xl gap-4 p-4 sm:p-6 md:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)]"
         trigger="none"
       >
         <div class="space-y-4">
@@ -48,7 +50,7 @@
               :model-value="filters.version ?? 'all'"
               :versions="versions"
               :disabled="exporting"
-              class="min-w-36 flex-1 md:flex-none"
+              class="flex-1 basis-36 md:flex-none"
               @update:model-value="selectVersion"
             />
             <n-radio-group
@@ -85,7 +87,7 @@
             </n-button>
           </n-alert>
         </div>
-        <div class="mx-auto w-full max-w-[400px] space-y-3">
+        <div class="mx-auto w-full max-w-md min-w-0 space-y-3">
           <div
             v-if="loading"
             class="flex min-h-36 items-center justify-center"
@@ -141,6 +143,7 @@
             <n-pagination
               v-if="pages.length > 1"
               v-model:page="previewPage"
+              class="flex-wrap justify-center gap-y-2"
               :page-count="pages.length"
               :page-slot="5"
               :disabled="exporting"
@@ -152,7 +155,7 @@
         v-if="snapshot"
         #footer
       >
-        <div class="flex flex-wrap justify-end gap-2">
+        <div class="mx-auto flex max-w-5xl flex-wrap justify-end gap-2">
           <span
             v-if="exporting"
             class="self-center text-sm"
@@ -186,26 +189,26 @@
           </n-button>
         </div>
       </template>
-      <div
-        v-if="snapshot && capturePage !== null"
-        inert
-        aria-hidden="true"
-        class="pointer-events-none fixed top-0 left-[-10000px]"
-      >
-        <OutfitCollectionPoster
-          :key="capturePage"
-          ref="capturePoster"
-          export-mode
-          :entries="pages[capturePage - 1] ?? []"
-          :title-highlight="snapshot.titleHighlight"
-          :version="snapshot.version"
-          :page="capturePage"
-          :page-count="pages.length"
-          :show-progress="snapshot.showProgress"
-        />
-      </div>
     </n-card>
   </n-modal>
+  <div
+    v-if="snapshot && capturePage !== null"
+    inert
+    aria-hidden="true"
+    class="pointer-events-none fixed top-0 left-[-10000px]"
+  >
+    <OutfitCollectionPoster
+      :key="capturePage"
+      ref="capturePoster"
+      export-mode
+      :entries="pages[capturePage - 1] ?? []"
+      :title-highlight="snapshot.titleHighlight"
+      :version="snapshot.version"
+      :page="capturePage"
+      :page-count="pages.length"
+      :show-progress="snapshot.showProgress"
+    />
+  </div>
 </template>
 
 <script setup lang="ts">

@@ -1096,7 +1096,7 @@
     "image": {
       "outfit_poster": "Outfit-Poster",
       "current_filters": "Aktuelle Filter",
-      "stage_complete": "@:global.banner_stats.option_completed_set",
+      "stage_complete": "@:banner.outfit.level.1",
       "download_zip": "Alle herunterladen (ZIP)",
       "image_error": "Einige Outfitbilder konnten nicht geladen werden."
     },

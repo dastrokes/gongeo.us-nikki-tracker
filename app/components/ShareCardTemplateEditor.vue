@@ -6,8 +6,9 @@
     <n-card
       role="dialog"
       :title="t('creation_hub.template.title')"
-      class="flex h-dvh w-full max-w-none flex-col overflow-hidden rounded-2xl sm:h-auto sm:max-h-[calc(100dvh-24px)] sm:w-[calc(100vw-24px)] sm:max-w-2xl lg:max-h-[calc(100dvh-64px)] lg:max-w-xl"
+      class="flex h-dvh w-full max-w-none flex-col overflow-hidden rounded-2xl"
       content-class="min-h-0 min-w-0 flex-1 overflow-hidden p-0"
+      :bordered="false"
       closable
       @close="emit('update:show', false)"
     >
@@ -15,6 +16,7 @@
         <div class="border-b border-slate-200 p-3 dark:border-slate-700">
           <n-tabs
             v-model:value="editorMode"
+            class="mx-auto max-w-2xl"
             type="segment"
             animated
           >
@@ -25,10 +27,11 @@
           </n-tabs>
         </div>
 
-        <div
-          class="min-h-0 flex-1 overflow-x-hidden overflow-y-auto overscroll-contain"
+        <n-scrollbar
+          class="min-h-0 flex-1"
+          container-class="overflow-x-hidden overscroll-contain"
         >
-          <div class="p-4 pb-6 sm:p-5 sm:pb-7">
+          <div class="mx-auto max-w-2xl p-4 pb-6 sm:p-5 sm:pb-7">
             <div
               v-if="editorMode === 'default'"
               class="space-y-4"
@@ -141,7 +144,7 @@
               </div>
             </div>
           </div>
-        </div>
+        </n-scrollbar>
       </div>
     </n-card>
   </n-modal>

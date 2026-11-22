@@ -1363,12 +1363,16 @@
       v-model:show="sharePickerOpen"
       preset="card"
       :title="t('wardrobe.share.customize_title')"
-      class="max-h-[calc(100dvh-2rem)] max-w-5xl"
-      content-class="flex min-h-0 flex-col overflow-hidden"
+      class="flex h-dvh w-full max-w-none flex-col overflow-hidden rounded-2xl"
+      content-class="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden"
       :bordered="false"
     >
-      <div class="grid min-h-0 flex-1 gap-4 lg:grid-cols-[300px_minmax(0,1fr)]">
-        <div class="min-h-0 space-y-2 lg:overflow-y-auto lg:pr-1">
+      <div
+        class="mx-auto grid min-h-0 w-full max-w-7xl flex-1 grid-rows-[auto_minmax(0,1fr)] gap-4 lg:grid-cols-[300px_minmax(0,1fr)] lg:grid-rows-[minmax(0,1fr)]"
+      >
+        <div
+          class="min-h-0 min-w-0 space-y-2 lg:overflow-x-hidden lg:overflow-y-auto lg:overscroll-contain lg:pr-1"
+        >
           <div
             class="rounded-xl border border-gray-100 bg-white/60 p-3 dark:border-gray-800 dark:bg-gray-950/40"
           >
@@ -1439,7 +1443,10 @@
             :placeholder="t('wardrobe.share.search_placeholder')"
           />
 
-          <n-scrollbar class="min-h-0 flex-1 pr-2">
+          <n-scrollbar
+            class="min-h-0 flex-1 pr-2"
+            container-class="overflow-x-hidden overscroll-contain"
+          >
             <div
               v-if="activeSharePickCandidates.length > 0"
               class="grid gap-2 p-1 sm:content-start sm:gap-3"
@@ -1535,7 +1542,7 @@
           >
             <n-pagination
               v-model:page="sharePickerPage"
-              class="justify-center"
+              class="flex-wrap justify-center gap-y-2"
               :page-size="sharePickerPageSize"
               :item-count="activeSharePickCandidates.length"
               :show-size-picker="false"

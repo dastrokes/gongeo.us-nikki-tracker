@@ -1363,7 +1363,7 @@
       v-model:show="sharePickerOpen"
       preset="card"
       :title="t('wardrobe.share.customize_title')"
-      class="flex h-dvh w-full max-w-none flex-col overflow-hidden rounded-2xl"
+      class="flex h-dvh w-full max-w-none flex-col overflow-hidden rounded-2xl sm:h-[calc(100dvh-2rem)] sm:w-[calc(100vw-2rem)] sm:max-w-5xl"
       content-class="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden"
       :bordered="false"
     >

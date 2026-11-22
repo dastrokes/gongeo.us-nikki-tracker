@@ -5,8 +5,8 @@
     :close-on-esc="!exporting"
   >
     <n-card
-      class="flex h-dvh w-full max-w-none flex-col overflow-hidden rounded-2xl"
-      content-class="min-h-0 min-w-0 flex-1 overflow-hidden p-0"
+      class="flex h-dvh w-full max-w-none flex-col overflow-hidden rounded-2xl sm:h-auto sm:max-h-[calc(100dvh-24px)] sm:w-[calc(100vw-24px)] sm:max-w-4xl lg:max-h-[calc(100dvh-64px)]"
+      content-class="app-layout-native-scrollbar min-h-0 min-w-0 flex-1 overflow-x-hidden overflow-y-auto overscroll-contain p-0 sm:max-h-[min(70dvh,48rem)]"
       size="small"
       :bordered="false"
       role="dialog"
@@ -16,10 +16,8 @@
       :closable="!exporting"
       @close="show = false"
     >
-      <n-scrollbar
-        container-class="overflow-x-hidden overscroll-contain"
-        content-class="mx-auto grid min-w-0 max-w-5xl gap-4 p-4 sm:p-6 md:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)]"
-        trigger="none"
+      <div
+        class="mx-auto grid max-w-5xl min-w-0 gap-4 p-4 sm:p-6 md:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)]"
       >
         <div class="space-y-4">
           <div
@@ -150,7 +148,7 @@
             />
           </div>
         </div>
-      </n-scrollbar>
+      </div>
       <template
         v-if="snapshot"
         #footer

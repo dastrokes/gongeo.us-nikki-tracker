@@ -404,13 +404,13 @@
       <n-card
         role="dialog"
         :title="t('creation_hub.banner_ranking.replace_title')"
-        class="flex h-dvh w-full max-w-none flex-col overflow-hidden rounded-2xl"
-        content-class="min-h-0 min-w-0 flex-1 overflow-hidden p-0"
+        class="flex h-dvh w-full max-w-none flex-col overflow-hidden rounded-2xl sm:h-auto sm:max-h-[calc(100dvh-24px)] sm:w-[calc(100vw-24px)] sm:max-w-2xl lg:max-h-[calc(100dvh-64px)] lg:max-w-xl"
+        content-class="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden p-0"
         :bordered="false"
         closable
         @close="closeReplacement"
       >
-        <div class="flex h-full min-h-0 flex-col overflow-hidden">
+        <div class="flex min-h-0 flex-1 flex-col overflow-hidden">
           <div
             v-if="replacementBanner"
             class="border-b border-slate-200 p-3 dark:border-slate-700"
@@ -444,9 +444,8 @@
             </div>
           </div>
 
-          <n-scrollbar
-            class="min-h-0 flex-1"
-            container-class="overflow-x-hidden overscroll-contain"
+          <div
+            class="app-layout-native-scrollbar min-h-0 flex-1 overflow-x-hidden overflow-y-auto overscroll-contain"
           >
             <div
               class="mx-auto grid w-full max-w-2xl grid-cols-2 gap-2 p-3 sm:p-5"
@@ -481,7 +480,7 @@
                 >
               </button>
             </div>
-          </n-scrollbar>
+          </div>
         </div>
       </n-card>
     </n-modal>
@@ -490,33 +489,28 @@
       <n-card
         role="dialog"
         :title="t('creation_hub.banner_ranking.preview')"
-        class="flex h-dvh w-full max-w-none flex-col overflow-hidden rounded-2xl"
-        content-class="min-h-0 min-w-0 flex-1 overflow-hidden p-0"
+        class="flex h-dvh w-full max-w-none flex-col overflow-hidden rounded-2xl sm:h-auto sm:max-h-[calc(100dvh-24px)] sm:w-[calc(100vw-24px)] sm:max-w-2xl lg:max-h-[calc(100dvh-64px)] lg:max-w-lg"
+        content-class="app-layout-native-scrollbar min-h-0 min-w-0 flex-1 overflow-x-hidden overflow-y-auto overscroll-contain p-0"
         :bordered="false"
         closable
         @close="showPreview = false"
       >
-        <n-scrollbar
-          container-class="overflow-x-hidden overscroll-contain"
-          content-class="min-w-0"
-        >
-          <div class="mx-auto max-w-lg p-3 sm:p-5">
-            <BannerRankingPoster
-              :banners="rankedBanners"
-              :major-version="posterVersion"
-            />
-            <n-button
-              type="primary"
-              block
-              class="mt-4"
-              :loading="exporting"
-              @click="downloadPoster"
-              ><template #icon
-                ><n-icon><Download /></n-icon></template
-              >{{ t('common.export_as_image') }}</n-button
-            >
-          </div>
-        </n-scrollbar>
+        <div class="mx-auto max-w-lg p-3 sm:p-5">
+          <BannerRankingPoster
+            :banners="rankedBanners"
+            :major-version="posterVersion"
+          />
+          <n-button
+            type="primary"
+            block
+            class="mt-4"
+            :loading="exporting"
+            @click="downloadPoster"
+            ><template #icon
+              ><n-icon><Download /></n-icon></template
+            >{{ t('common.export_as_image') }}</n-button
+          >
+        </div>
       </n-card>
     </n-modal>
 

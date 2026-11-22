@@ -1480,6 +1480,10 @@
       }
 
       const canShowProgress = isWardrobeReady.value
+      const excludedOutfitIds =
+        sourcePreset === 'limited'
+          ? getLimitedBannerSourceDetailOutfitIds('4star-accompanying')
+          : null
       const hasMissingVersionFilter = isListingMissingFilterValue(version)
       const titleHighlight =
         sourcePreset !== 'current'
@@ -1496,6 +1500,8 @@
         version: hasMissingVersionFilter ? null : version,
         showProgress: canShowProgress && !hideOwnershipStatus.value,
         entries: ids.flatMap((id) => {
+          if (excludedOutfitIds?.has(id)) return []
+
           const outfit = index.outfitById.get(id)
           if (!outfit) return []
 

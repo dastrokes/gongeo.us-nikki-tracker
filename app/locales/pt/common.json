@@ -1096,7 +1096,7 @@
     "image": {
       "outfit_poster": "Pôster de trajes",
       "current_filters": "Filtros atuais",
-      "stage_complete": "@:banner.outfit.level.1",
+      "stage_complete": "@:global.banner_stats.option_completed_set",
       "download_zip": "Baixar tudo (ZIP)",
       "image_error": "Não foi possível carregar algumas imagens de trajes."
     },

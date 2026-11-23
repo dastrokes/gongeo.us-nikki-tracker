@@ -1096,7 +1096,7 @@
     "image": {
       "outfit_poster": "Póster de atuendos",
       "current_filters": "Filtros actuales",
-      "stage_complete": "@:banner.outfit.level.1",
+      "stage_complete": "@:global.banner_stats.option_completed_set",
       "download_zip": "Descargar todo (ZIP)",
       "image_error": "No se pudieron cargar algunas imágenes de atuendos."
     },

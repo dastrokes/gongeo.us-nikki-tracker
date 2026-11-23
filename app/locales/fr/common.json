@@ -1096,7 +1096,7 @@
     "image": {
       "outfit_poster": "Affiche de tenues",
       "current_filters": "Filtres actuels",
-      "stage_complete": "@:banner.outfit.level.1",
+      "stage_complete": "@:global.banner_stats.option_completed_set",
       "download_zip": "Tout télécharger (ZIP)",
       "image_error": "Certaines images de tenues n’ont pas pu être chargées."
     },

@@ -383,7 +383,7 @@
       "edit_ownership": "소유 상태 편집",
       "mark_owned": "보유로 표시",
       "mark_unowned": "미보유로 표시",
-      "base_only": "기본만",
+      "base": "기본",
       "mark_all": "모든 변형 표시",
       "unmark_all": "모두 표시 해제",
       "mark_selected_owned": "선택 항목 보유 표시",
@@ -959,6 +959,9 @@
     "back": "크리에이션 허브로 돌아가기",
     "open": "크리에이터 열기",
     "remove": "{name} 제거",
+    "outfit_poster": {
+      "description": "필터로 고른 의상으로 공유할 수 있는 포스터를 만들어 보세요."
+    },
     "template": {
       "title": "카드 템플릿",
       "default": "기본 템플릿",
@@ -1095,7 +1098,9 @@
   "compendium": {
     "image": {
       "outfit_poster": "의상 포스터",
+      "quick_filters": "빠른 필터",
       "current_filters": "현재 필터",
+      "empty_wardrobe_hint": "아직 옷장이 비어 있어요. {source}에서 의상을 가져오거나 {ownershipIcon} 아이콘을 눌러 수집 진행 상황을 표시할 수 있어요.",
       "stage_complete": "@:global.banner_stats.option_completed_set",
       "download_zip": "모두 다운로드(ZIP)",
       "image_error": "일부 의상 이미지를 불러오지 못했습니다."

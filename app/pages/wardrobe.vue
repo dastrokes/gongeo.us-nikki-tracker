@@ -877,45 +877,19 @@
         <ClientOnly>
           <div
             ref="shareCardRef"
-            class="w-full max-w-4xl overflow-hidden rounded-2xl"
+            class="@container w-full max-w-4xl overflow-hidden rounded-2xl bg-[#fffafb] text-slate-900 ring-1 ring-[#ddd2e8] ring-inset dark:bg-[#1e2035] dark:text-slate-100 dark:ring-[#3a3858]"
             :class="isShareLandscape ? 'aspect-video' : 'aspect-9/16 max-w-sm'"
           >
             <div
               v-if="isShareLandscape"
-              class="flex h-full w-full overflow-hidden bg-linear-to-br from-sky-100 via-rose-50 to-amber-100 text-slate-900 dark:from-slate-950 dark:via-sky-950 dark:to-rose-950 dark:text-white"
+              class="flex h-full w-full overflow-hidden"
             >
               <div class="flex w-[38%] flex-col gap-2 p-4 pr-2">
-                <div class="shrink-0">
-                  <div class="flex items-start justify-between gap-3">
-                    <div class="min-w-0">
-                      <div class="text-[1.35rem] leading-none font-bold">
-                        {{ t('navigation.wardrobe') }}
-                      </div>
-                      <div
-                        v-if="showProfileTag"
-                        class="mt-1 text-sm opacity-70"
-                      >
-                        {{ activeProfileLabel }}
-                      </div>
-                    </div>
-                    <div class="flex shrink-0 items-center gap-2">
-                      <NuxtImg
-                        src="/images/logo.webp"
-                        :alt="t('navigation.title')"
-                        class="h-7 w-7 rounded-md object-cover"
-                        preset="iconSm"
-                        fit="cover"
-                        loading="lazy"
-                        sizes="30px"
-                      />
-                      <div
-                        class="shrink-0 text-xs font-semibold tracking-wider whitespace-nowrap text-sky-600 dark:text-sky-300"
-                      >
-                        gongeo.us
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <SharePosterHeader
+                  :caption="showProfileTag ? activeProfileLabel : undefined"
+                >
+                  {{ t('navigation.wardrobe') }}
+                </SharePosterHeader>
 
                 <div
                   v-if="activeShareOptions.showStats"
@@ -924,7 +898,7 @@
                   <div
                     v-for="card in collectionCards"
                     :key="`share-left-stat-${card.key}`"
-                    class="flex flex-col items-center justify-center gap-0.5 rounded-xl bg-white/55 px-1 py-1 ring-1 ring-white/60 dark:bg-white/10 dark:ring-white/10"
+                    class="flex flex-col items-center justify-center gap-0.5 rounded-xl bg-white px-1 py-1 ring-1 ring-[#ddd2e8] dark:bg-white/5 dark:ring-[#3a3858]"
                   >
                     <n-icon
                       size="13"
@@ -945,7 +919,7 @@
                   <div
                     v-for="entry in shareBannerEntries"
                     :key="`share-banner-${entry.slot.key}`"
-                    class="min-h-0 w-full overflow-hidden rounded-2xl bg-white/45 ring-1 ring-white/60 dark:bg-white/10 dark:ring-white/15"
+                    class="min-h-0 w-full overflow-hidden rounded-xl bg-white ring-1 ring-[#ddd2e8] dark:bg-white/5 dark:ring-[#3a3858]"
                   >
                     <template v-if="entry.item">
                       <div class="relative h-full">
@@ -966,7 +940,7 @@
                           class="absolute inset-x-0 bottom-0 bg-linear-to-t from-black/80 via-black/30 to-transparent p-3 text-white"
                         >
                           <div
-                            class="text-[10px] font-semibold tracking-wider text-sky-200 uppercase"
+                            class="text-[10px] font-semibold tracking-wide text-rose-100 uppercase"
                           >
                             {{ entry.slot.label }}
                           </div>
@@ -994,11 +968,11 @@
               </div>
 
               <div
-                class="grid min-h-0 flex-1 grid-rows-[minmax(0,1fr)_auto] gap-3 bg-white/20 p-4 pl-2 backdrop-blur-xs dark:bg-white/5"
+                class="grid min-h-0 flex-1 grid-rows-[minmax(0,1fr)_auto] gap-3 p-4 pl-2"
               >
                 <div class="min-h-0">
                   <div
-                    class="mb-2 text-xs font-semibold tracking-wider uppercase opacity-60"
+                    class="mb-2 text-xs font-semibold tracking-wide text-slate-600 dark:text-slate-300"
                   >
                     {{ t('wardrobe.share.lookbook') }}
                   </div>
@@ -1010,7 +984,7 @@
                       :class="
                         entry
                           ? 'items-center justify-center'
-                          : 'overflow-hidden rounded-xl bg-white/45 ring-1 ring-white/60 dark:bg-white/10 dark:ring-white/10'
+                          : 'overflow-hidden rounded-xl bg-white ring-1 ring-[#ddd2e8] dark:bg-white/5 dark:ring-[#3a3858]'
                       "
                     >
                       <template v-if="entry">
@@ -1026,7 +1000,7 @@
                       <button
                         v-else
                         type="button"
-                        class="flex h-36 w-full flex-col items-center justify-center gap-1.5 px-3 text-center text-xs opacity-60 transition hover:opacity-100"
+                        class="flex h-full w-full flex-col items-center justify-center gap-1.5 px-3 text-center text-xs opacity-60 transition hover:opacity-100"
                         @click="
                           openSharePicker(
                             index === 0
@@ -1053,7 +1027,7 @@
                     <div
                       v-for="entry in shareSignatureEntries"
                       :key="entry.slot.key"
-                      class="grid h-40 grid-rows-[0.75rem_minmax(0,1fr)_1rem] rounded-xl p-2 ring-1"
+                      class="grid h-[clamp(4.5rem,18cqw,10rem)] grid-rows-[0.75rem_minmax(0,1fr)_1rem] rounded-xl p-2 ring-1"
                       :class="getShareSignatureAccentClass(entry.slot.key)"
                     >
                       <div
@@ -1104,44 +1078,20 @@
 
             <div
               v-else
-              class="grid h-full w-full grid-rows-[auto_auto_1fr_auto] overflow-hidden bg-linear-to-b from-sky-100 via-rose-50 to-amber-100 p-4 text-slate-900 dark:from-slate-950 dark:via-sky-950 dark:to-rose-950 dark:text-white"
+              class="grid h-full w-full grid-rows-[auto_auto_minmax(0,1fr)_auto] gap-2 overflow-hidden p-[4cqw]"
             >
-              <div class="flex items-start justify-between gap-3">
-                <div class="min-w-0">
-                  <div class="mt-0.5 text-2xl leading-none font-bold">
-                    {{ t('navigation.wardrobe') }}
-                  </div>
-                  <div
-                    v-if="showProfileTag"
-                    class="mt-0.5 text-xs opacity-70"
-                  >
-                    {{ activeProfileLabel }}
-                  </div>
-                </div>
-                <div class="flex shrink-0 items-center gap-2">
-                  <NuxtImg
-                    src="/images/logo.webp"
-                    :alt="t('navigation.title')"
-                    class="h-8 w-8 rounded-md object-cover"
-                    preset="iconSm"
-                    fit="cover"
-                    loading="lazy"
-                    sizes="30px"
-                  />
-                  <div
-                    class="shrink-0 text-xs font-semibold tracking-wider whitespace-nowrap text-sky-600 dark:text-sky-300"
-                  >
-                    gongeo.us
-                  </div>
-                </div>
-              </div>
+              <SharePosterHeader
+                :caption="showProfileTag ? activeProfileLabel : undefined"
+              >
+                {{ t('navigation.wardrobe') }}
+              </SharePosterHeader>
 
               <div
-                class="mt-2 grid h-[clamp(12rem,49vw,13rem)] gap-2"
+                class="grid gap-2"
                 :class="
                   activeShareOptions.showStats
-                    ? 'grid-cols-[1fr_1.45fr]'
-                    : 'grid-cols-[1.25fr_1.15fr]'
+                    ? 'h-[56cqw] grid-cols-[1fr_1.45fr]'
+                    : 'h-[50cqw] grid-cols-[1.25fr_1.15fr]'
                 "
               >
                 <div
@@ -1151,7 +1101,7 @@
                   <div
                     v-for="card in collectionCards"
                     :key="`share-portrait-stat-${card.key}`"
-                    class="flex min-w-0 flex-col items-center justify-center gap-1 rounded-xl bg-white/55 p-1.5 ring-1 ring-white/60 dark:bg-white/10 dark:ring-white/10"
+                    class="flex min-w-0 flex-col items-center justify-center gap-1 rounded-xl bg-white p-1.5 ring-1 ring-[#ddd2e8] dark:bg-white/5 dark:ring-[#3a3858]"
                   >
                     <n-icon
                       size="14"
@@ -1165,16 +1115,11 @@
                   </div>
                 </div>
 
-                <div class="grid h-full grid-rows-2 content-center gap-2">
+                <div class="grid min-h-0 grid-rows-2 gap-2">
                   <div
                     v-for="entry in shareBannerEntries"
                     :key="`share-portrait-banner-${entry.slot.key}`"
-                    class="w-full overflow-hidden rounded-2xl bg-white/45 ring-1 ring-white/60 dark:bg-white/10 dark:ring-white/15"
-                    :class="
-                      activeShareOptions.showStats
-                        ? 'aspect-2/1 self-center'
-                        : 'min-h-0'
-                    "
+                    class="min-h-0 w-full overflow-hidden rounded-xl bg-white ring-1 ring-[#ddd2e8] dark:bg-white/5 dark:ring-[#3a3858]"
                   >
                     <template v-if="entry.item">
                       <div class="relative h-full">
@@ -1196,7 +1141,7 @@
                           class="absolute inset-x-0 bottom-0 bg-linear-to-t from-black/80 via-black/30 to-transparent p-2.5 text-white"
                         >
                           <div
-                            class="text-[9px] font-semibold tracking-wider text-sky-200 uppercase"
+                            class="text-[9px] font-semibold tracking-wide text-rose-100 uppercase"
                           >
                             {{ entry.slot.label }}
                           </div>
@@ -1230,11 +1175,11 @@
                     v-for="entry in shareBannerEntries"
                     :key="`share-portrait-banner-copy-${entry.slot.key}`"
                     type="button"
-                    class="flex min-h-0 flex-col justify-center rounded-2xl bg-linear-to-br from-sky-100/80 via-white/50 to-amber-100/70 p-3 text-left ring-1 ring-sky-100/80 transition hover:from-sky-100 hover:to-amber-100 dark:from-sky-950/50 dark:via-white/10 dark:to-amber-950/40 dark:ring-white/10 dark:hover:bg-white/15"
+                    class="flex min-h-0 flex-col justify-center rounded-xl bg-white p-3 text-left ring-1 ring-[#ddd2e8] transition hover:bg-rose-50 dark:bg-white/5 dark:ring-[#3a3858] dark:hover:bg-white/10"
                     @click="openSharePicker(entry.slot.key)"
                   >
                     <div
-                      class="text-[10px] leading-tight font-semibold tracking-wider text-sky-600 uppercase dark:text-sky-300"
+                      class="text-[10px] leading-tight font-semibold tracking-wide text-rose-700 uppercase dark:text-rose-300"
                     >
                       {{ entry.slot.label }}
                     </div>
@@ -1247,9 +1192,9 @@
                 </div>
               </div>
 
-              <div class="mt-3 min-h-0">
+              <div class="min-h-0">
                 <div
-                  class="mb-1 text-xs font-semibold tracking-wider uppercase opacity-60"
+                  class="mb-1 text-xs font-semibold tracking-wide text-slate-600 dark:text-slate-300"
                 >
                   {{ t('wardrobe.share.lookbook') }}
                 </div>
@@ -1261,7 +1206,7 @@
                     :class="
                       entry
                         ? 'items-center justify-center'
-                        : 'overflow-hidden rounded-xl bg-white/45 ring-1 ring-white/60 dark:bg-white/10 dark:ring-white/10'
+                        : 'overflow-hidden rounded-xl bg-white ring-1 ring-[#ddd2e8] dark:bg-white/5 dark:ring-[#3a3858]'
                     "
                   >
                     <template v-if="entry">
@@ -1299,21 +1244,21 @@
                 </div>
               </div>
 
-              <div class="mt-2 grid h-56 grid-cols-2 gap-2">
+              <div class="grid h-[55cqw] grid-cols-2 grid-rows-2 gap-2">
                 <div
                   v-for="entry in shareSignatureEntries"
                   :key="`share-portrait-${entry.slot.key}`"
-                  class="grid min-h-0 grid-rows-[1.25rem_minmax(0,1fr)_2.25rem] rounded-xl p-1.5 ring-1"
+                  class="grid min-h-0 grid-rows-[auto_minmax(0,1fr)_auto] gap-1 rounded-xl p-1.5 ring-1"
                   :class="getShareSignatureAccentClass(entry.slot.key)"
                 >
                   <div
-                    class="overflow-hidden text-[9px] leading-[1.05] font-semibold uppercase opacity-50"
+                    class="truncate text-[9px] leading-tight font-semibold uppercase opacity-70"
                   >
                     {{ entry.slot.label }}
                   </div>
-                  <div class="mt-1 flex min-h-0 items-center justify-center">
+                  <div class="flex min-h-0 items-center justify-center">
                     <div
-                      class="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-white/40 p-1 dark:bg-white/10"
+                      class="flex h-full w-16 shrink-0 items-center justify-center overflow-hidden rounded-lg bg-white/50 p-1 dark:bg-white/5"
                     >
                       <NuxtImg
                         v-if="entry.item"
@@ -1341,7 +1286,7 @@
                   </div>
                   <div class="min-w-0 self-end">
                     <div
-                      class="overflow-hidden text-center text-[9px] leading-[1.05] font-bold break-words"
+                      class="line-clamp-2 text-center text-[9px] leading-tight font-bold wrap-break-word"
                     >
                       {{ entry.item?.name ?? t('wardrobe.share.empty_slot') }}
                     </div>
@@ -1352,7 +1297,7 @@
           </div>
           <template #fallback>
             <div
-              class="aspect-9/16 w-full max-w-sm overflow-hidden rounded-2xl bg-linear-to-b from-sky-100 via-rose-50 to-amber-100 sm:aspect-video sm:max-w-4xl dark:from-slate-950 dark:via-sky-950 dark:to-rose-950"
+              class="aspect-9/16 w-full max-w-sm overflow-hidden rounded-2xl bg-[#fffafb] ring-1 ring-[#ddd2e8] ring-inset sm:aspect-video sm:max-w-4xl dark:bg-[#1e2035] dark:ring-[#3a3858]"
             ></div>
           </template>
         </ClientOnly>
@@ -1632,7 +1577,7 @@
     ownedItemIds,
     ownedMakeupIds,
     ownedMomoIds,
-    ownedPropIds,
+    totalOwnedEntries,
     initialized,
     loading: wardrobeLoading,
     error: wardrobeError,
@@ -1698,13 +1643,6 @@
   const activeProfileLabel = computed(() => getSlotLabel(activeSlot.value))
   const showProfileTag = computed(
     () => slots.value.filter((slot) => slot.exists).length > 1
-  )
-  const totalOwnedEntries = computed(
-    () =>
-      ownedItemIds.value.length +
-      ownedMakeupIds.value.length +
-      ownedMomoIds.value.length +
-      ownedPropIds.value.length
   )
   const isSummaryLoading = computed(
     () => !summary.value && (summaryLoading.value || wardrobeLoading.value)
@@ -2220,15 +2158,15 @@
   const getShareSignatureAccentClass = (slotKey: SharePickSlotKey) => {
     switch (slotKey) {
       case 'dress':
-        return 'bg-linear-to-br from-rose-50/90 via-white/55 to-amber-50/80 ring-rose-100/80 dark:from-rose-950/35 dark:via-white/10 dark:to-amber-950/30 dark:ring-rose-900/30'
+        return 'bg-rose-50 ring-rose-100 dark:bg-rose-400/8 dark:ring-rose-300/20'
       case 'hair':
-        return 'bg-linear-to-br from-emerald-50/90 via-white/55 to-sky-50/80 ring-emerald-100/80 dark:from-emerald-950/35 dark:via-white/10 dark:to-sky-950/30 dark:ring-emerald-900/30'
+        return 'bg-emerald-50 ring-emerald-100 dark:bg-emerald-400/8 dark:ring-emerald-300/20'
       case 'item':
-        return 'bg-linear-to-br from-violet-50/90 via-white/55 to-sky-50/80 ring-violet-100/80 dark:from-violet-950/35 dark:via-white/10 dark:to-sky-950/30 dark:ring-violet-900/30'
+        return 'bg-violet-50 ring-violet-100 dark:bg-violet-400/8 dark:ring-violet-300/20'
       case 'momo':
-        return 'bg-linear-to-br from-slate-50/95 via-white/55 to-cyan-50/80 ring-cyan-100/80 dark:from-slate-900/70 dark:via-white/10 dark:to-cyan-950/30 dark:ring-cyan-900/30'
+        return 'bg-sky-50 ring-sky-100 dark:bg-sky-400/8 dark:ring-sky-300/20'
       default:
-        return 'bg-white/45 ring-white/60 dark:bg-white/10 dark:ring-white/10'
+        return 'bg-white ring-1 ring-[#ddd2e8] dark:bg-white/5 dark:ring-[#3a3858]'
     }
   }
 

@@ -206,6 +206,7 @@
                 : null
             "
             variant="overlay"
+            :ownership-tier="getOwnershipTier('outfit', entry.id)"
             :menu-options="getOutfitVariationMarkOptions(entry)"
             @toggle="toggleVisibleOutfitOwned(entry.id)"
             @menu-select="(key) => markVisibleOutfitVariantOwned(entry.id, key)"
@@ -220,6 +221,7 @@
         :filters="outfitExportFilters"
         :versions="outfitExportVersions"
         :snapshot="outfitExportSnapshot"
+        :wardrobe-empty="isWardrobeReady && totalOwnedEntries === 0"
         :loading="outfitExportLoading"
         :load-error="outfitExportLoadError"
         @retry="prepareOutfitExport"
@@ -299,17 +301,6 @@
   type WardrobeVariantMarkOption = DropdownOption & {
     key: WardrobeVariantMarkKey | WardrobeVariantMarkDividerKey
   }
-  const markCurrentVariantOption = (
-    option: WardrobeVariantMarkOption,
-    currentVariantType?: VariantType | null
-  ): WardrobeVariantMarkOption =>
-    currentVariantType && option.key === currentVariantType
-      ? {
-          ...option,
-          label: () =>
-            h('span', { class: 'font-semibold' }, String(option.label ?? '')),
-        }
-      : option
 
   type OutfitListingPrimaryFilter =
     'quality' | 'version' | 'style' | 'label' | 'source' | null
@@ -552,6 +543,7 @@
     outfitCardSize,
     overlayCornerClasses,
     hideOwnershipStatus,
+    preferencesReady,
   } = provideCompendiumListingView({ currentPage })
   type OutfitWardrobeFilter = 'all' | WardrobeOutfitStatus
   type BatchScope = 'selected' | 'page' | 'all'
@@ -596,12 +588,14 @@
   const {
     initialized: wardrobeInitialized,
     ownedItemIds,
+    totalOwnedEntries,
     error: storageError,
     canMutate: isWardrobeReady,
     mutationVersion: wardrobeMutationVersion,
     init: initWardrobe,
     retry: retryWardrobeStorage,
     getOutfitProgress,
+    getOwnershipTier,
     markOutfitOwned,
   } = useWardrobe()
   const ownedItemIdSet = computed(() => new Set(ownedItemIds.value))
@@ -1044,27 +1038,26 @@
   }
 
   const getVariantMarkOptions = (
-    glowUpOwned: boolean,
-    currentVariantType?: VariantType | null
-  ): WardrobeVariantMarkOption[] =>
-    [
-      { key: 'base', label: t('wardrobe.actions.base_only') },
-      { key: 'evo1', label: t('banner.outfit.level.2') },
-      { key: 'evo2', label: t('banner.outfit.level.3') },
-      { key: 'evo3', label: t('banner.outfit.level.4') },
-      { key: 'divider-glowup', type: 'divider' },
-      {
-        key: 'glowup',
-        label: t(
-          glowUpOwned
-            ? 'wardrobe.actions.unmark_glowup'
-            : 'wardrobe.actions.mark_glowup'
-        ),
-      },
-      { key: 'divider-bulk', type: 'divider' },
-      { key: 'complete-set', label: t('wardrobe.actions.mark_all') },
-      { key: 'unmark-all', label: t('wardrobe.actions.unmark_all') },
-    ].map((option) => markCurrentVariantOption(option, currentVariantType))
+    glowUpOwned: boolean
+  ): WardrobeVariantMarkOption[] => [
+    { key: 'base', label: t('wardrobe.actions.base') },
+    { key: 'evo1', label: t('banner.outfit.level.2') },
+    { key: 'evo2', label: t('banner.outfit.level.3') },
+    { key: 'evo3', label: t('banner.outfit.level.4') },
+    { key: 'divider-glowup', type: 'divider' },
+    {
+      key: 'glowup',
+      owned: glowUpOwned,
+      label: t(
+        glowUpOwned
+          ? 'wardrobe.actions.unmark_glowup'
+          : 'wardrobe.actions.mark_glowup'
+      ),
+    },
+    { key: 'divider-bulk', type: 'divider' },
+    { key: 'complete-set', label: t('wardrobe.actions.mark_all') },
+    { key: 'unmark-all', label: t('wardrobe.actions.unmark_all') },
+  ]
   const selectedVariationMarkOptions = computed<WardrobeVariantMarkOption[]>(
     () => [
       {
@@ -1082,15 +1075,13 @@
   }
   const getApplicableVariantMarkOptions = (
     qualities: readonly number[],
-    glowUpOwned: boolean,
-    currentVariantType?: VariantType | null
+    glowUpOwned: boolean
   ) =>
     qualities.length > 0
-      ? getVariantMarkOptions(glowUpOwned, currentVariantType).filter(
-          (option) =>
-            qualities.every((quality) =>
-              isVariantMarkApplicableToQuality(option.key, quality)
-            )
+      ? getVariantMarkOptions(glowUpOwned).filter((option) =>
+          qualities.every((quality) =>
+            isVariantMarkApplicableToQuality(option.key, quality)
+          )
         )
       : []
   const outfitQualityById = computed(
@@ -1177,8 +1168,7 @@
   }) =>
     getApplicableVariantMarkOptions(
       [entry.quality],
-      isOutfitGlowUpOwned(entry.itemIds, entry.quality),
-      getOutfitVariantType(String(entry.id))
+      isOutfitGlowUpOwned(entry.itemIds, entry.quality)
     )
   const getVariantMarkMaxRank = (key: WardrobeVariantMarkKey) => {
     if (key === 'base') return 0
@@ -1947,9 +1937,12 @@
     const listingPath = currentListingPath.value
     router.replace({
       path: localePath(listingPath.path),
-      query: buildListingQuery({
-        primaryFilter: listingPath.primaryFilter,
-      }),
+      query: {
+        ...buildListingQuery({ primaryFilter: listingPath.primaryFilter }),
+        ...(route.query.poster === '1' && !outfitExportOpen.value
+          ? { poster: '1' }
+          : {}),
+      },
     })
   }
 
@@ -2087,6 +2080,16 @@
   onMounted(() => {
     syncListingRoute()
   })
+
+  watch(
+    [() => route.query.poster, preferencesReady, loading],
+    ([poster, ready, pending]) => {
+      if (poster !== '1' || !ready || pending) return
+      if (!outfitExportOpen.value) openOutfitExport()
+      syncListingRoute()
+    },
+    { flush: 'post' }
+  )
 
   const retryFetch = () => {
     loadData()

@@ -544,57 +544,57 @@
         <div class="flex justify-center">
           <div
             ref="shareCardRef"
-            class="w-full max-w-3xl overflow-hidden rounded-2xl"
+            class="@container w-full max-w-3xl overflow-hidden rounded-2xl bg-[#fffafb] text-slate-900 ring-1 ring-[#ddd2e8] ring-inset dark:bg-[#1e2035] dark:text-slate-100 dark:ring-[#3a3858]"
             :class="isShareLandscape ? 'aspect-video' : 'aspect-9/16 max-w-sm'"
           >
             <!-- Landscape Layout -->
             <div
               v-if="isShareLandscape"
-              class="flex h-full w-full overflow-hidden"
-              :class="[
-                'bg-linear-to-br',
-                shareCardGradient,
-                isDark ? 'text-white' : 'text-gray-800',
-              ]"
+              class="flex h-full w-full gap-3 overflow-hidden p-4"
             >
-              <!-- Left Panel: Emote + Luck Tier -->
-              <div
-                class="relative flex w-1/3 flex-col items-center justify-center p-6"
-              >
-                <NuxtImg
-                  :src="shareCardEmoteSrc"
-                  :alt="$t('banner.luck.' + luckTier)"
-                  class="relative z-10 h-32 w-32 object-cover"
-                  preset="iconLg"
-                  fit="cover"
-                  loading="lazy"
-                  sizes="120px"
-                />
+              <div class="flex w-1/3 min-w-0 flex-col">
+                <SharePosterHeader>{{
+                  $t('navigation.stats')
+                }}</SharePosterHeader>
                 <div
-                  class="relative z-10 mt-3 text-center text-xl font-bold sm:text-2xl"
-                  :class="shareCardAccentClass"
+                  class="flex min-h-0 flex-1 flex-col items-center justify-center gap-1 px-1 text-center"
                 >
-                  {{ $t('banner.luck.' + luckTier) }}
-                </div>
-                <div class="relative z-10 mt-1 text-center text-sm opacity-60">
-                  {{
-                    $t('tracker.stats.luckier', {
-                      percent: overallLuckPercentile.toFixed(1),
-                    })
-                  }}
+                  <NuxtImg
+                    :src="shareCardEmoteSrc"
+                    alt=""
+                    class="size-[clamp(4rem,15cqw,8rem)] object-contain"
+                    preset="iconLg"
+                    fit="contain"
+                    loading="lazy"
+                    sizes="120px"
+                  />
+                  <div
+                    class="text-xl leading-tight font-bold"
+                    :class="shareCardAccentClass"
+                  >
+                    {{ $t('banner.luck.' + luckTier) }}
+                  </div>
+                  <div
+                    class="text-sm leading-tight text-slate-600 dark:text-slate-300"
+                  >
+                    {{
+                      $t('tracker.stats.luckier', {
+                        percent: overallLuckPercentile.toFixed(1),
+                      })
+                    }}
+                  </div>
                 </div>
               </div>
 
               <!-- Right Panel: Best/Worst Luck + Stats -->
-              <div class="flex flex-1 flex-col bg-white/5 p-4 backdrop-blur-xs">
+              <div class="flex min-w-0 flex-1 flex-col gap-2.5">
                 <div
                   v-if="luckiestBanner || unluckiestBanner"
-                  class="mb-3 flex h-36 gap-3"
+                  class="flex min-h-0 flex-1 gap-2"
                 >
                   <div
                     v-if="luckiestBanner"
-                    class="relative flex-1 overflow-hidden rounded-xl ring-1"
-                    :class="isDark ? 'ring-white/10' : 'ring-black/10'"
+                    class="relative min-w-0 flex-1 overflow-hidden rounded-xl bg-white ring-1 ring-[#ddd2e8] dark:bg-white/5 dark:ring-[#3a3858]"
                   >
                     <NuxtImg
                       :src="getImageSrc('banner', luckiestBanner.bannerId)"
@@ -634,8 +634,7 @@
                   </div>
                   <div
                     v-if="unluckiestBanner"
-                    class="relative flex-1 overflow-hidden rounded-xl ring-1"
-                    :class="isDark ? 'ring-white/10' : 'ring-black/10'"
+                    class="relative min-w-0 flex-1 overflow-hidden rounded-xl bg-white ring-1 ring-[#ddd2e8] dark:bg-white/5 dark:ring-[#3a3858]"
                   >
                     <NuxtImg
                       :src="getImageSrc('banner', unluckiestBanner.bannerId)"
@@ -680,75 +679,74 @@
 
                 <!-- Stats Grid -->
                 <div
-                  class="grid grid-cols-2 gap-x-8 gap-y-3 rounded-xl p-3 ring-1"
-                  :class="
-                    isDark
-                      ? 'bg-white/5 ring-white/10'
-                      : 'bg-black/5 ring-black/10'
-                  "
+                  class="grid flex-1 grid-cols-2 gap-x-3 rounded-xl bg-white p-2.5 ring-1 ring-[#ddd2e8] dark:bg-white/5 dark:ring-[#3a3858]"
                 >
                   <!-- Left Column: Split Stats -->
-                  <div class="space-y-3">
+                  <div class="grid content-evenly gap-2">
                     <div>
-                      <div class="text-xs opacity-50">
-                        <span class="text-amber-500">5★</span> /
-                        <span class="text-sky-500">4★</span>
+                      <div class="text-xs text-slate-600 dark:text-slate-300">
+                        <span :style="fiveStarPosterText">5★</span>
+                        /
+                        <span :style="fourStarPosterText">4★</span>
                         {{ $t('common.pulls') }}
                       </div>
                       <div class="text-sm font-bold tabular-nums">
-                        <span class="text-amber-500">{{
+                        <span :style="fiveStarPosterText">{{
                           pulls5StarBanners
                         }}</span>
                         <span class="mx-0.5 text-gray-400">/</span>
-                        <span class="text-sky-500">{{
+                        <span :style="fourStarPosterText">{{
                           pulls4StarBanners
                         }}</span>
                       </div>
                     </div>
                     <div>
-                      <div class="text-xs opacity-50">
-                        <span class="text-amber-500">5★</span> /
-                        <span class="text-sky-500">4★</span>
+                      <div class="text-xs text-slate-600 dark:text-slate-300">
+                        <span :style="fiveStarPosterText">5★</span>
+                        /
+                        <span :style="fourStarPosterText">4★</span>
                         {{ $t('common.banners') }}
                       </div>
                       <div class="text-sm font-bold tabular-nums">
-                        <span class="text-amber-500">{{
+                        <span :style="fiveStarPosterText">{{
                           bannersPulled5Star
                         }}</span>
                         <span class="mx-0.5 text-gray-400">/</span>
-                        <span class="text-sky-500">{{
+                        <span :style="fourStarPosterText">{{
                           bannersPulled4Star
                         }}</span>
                       </div>
                     </div>
                     <div>
-                      <div class="text-xs opacity-50">
-                        <span class="text-amber-500">5★</span> /
-                        <span class="text-sky-500">4★</span>
+                      <div class="text-xs text-slate-600 dark:text-slate-300">
+                        <span :style="fiveStarPosterText">5★</span>
+                        /
+                        <span :style="fourStarPosterText">4★</span>
                         {{ $t('common.outfits') }}
                       </div>
                       <div class="text-sm font-bold tabular-nums">
-                        <span class="text-amber-500">{{
+                        <span :style="fiveStarPosterText">{{
                           outfitsObtained5Star
                         }}</span>
                         <span class="mx-0.5 text-gray-400">/</span>
-                        <span class="text-sky-500">{{
+                        <span :style="fourStarPosterText">{{
                           outfitsObtained4Star
                         }}</span>
                       </div>
                     </div>
                     <div>
-                      <div class="text-xs opacity-50">
-                        <span class="text-amber-500">5★</span> /
-                        <span class="text-sky-500">4★</span>
+                      <div class="text-xs text-slate-600 dark:text-slate-300">
+                        <span :style="fiveStarPosterText">5★</span>
+                        /
+                        <span :style="fourStarPosterText">4★</span>
                         {{ $t('common.items') }}
                       </div>
                       <div class="text-sm font-bold tabular-nums">
-                        <span class="text-amber-500">{{
+                        <span :style="fiveStarPosterText">{{
                           globalStats.total5StarItems
                         }}</span>
                         <span class="mx-0.5 text-gray-400">/</span>
-                        <span class="text-sky-500">
+                        <span :style="fourStarPosterText">
                           {{
                             globalStats.total4StarItems +
                             globalStats.total4StarOnlyItems
@@ -759,59 +757,47 @@
                   </div>
 
                   <!-- Right Column: Avg Stats -->
-                  <div class="space-y-3">
+                  <div class="grid content-evenly gap-2">
                     <div>
-                      <div class="text-xs capitalize opacity-50">
+                      <div
+                        class="text-xs text-slate-600 capitalize dark:text-slate-300"
+                      >
                         {{ $t('tracker.banner.stats.avg_5star') }}
                       </div>
-                      <div class="text-sm font-bold tabular-nums">
+                      <div
+                        class="text-sm font-bold tabular-nums"
+                        :style="fiveStarPosterText"
+                      >
                         {{ globalStats.avg5StarPulls.toFixed(1) }}
                       </div>
                     </div>
                     <div>
-                      <div class="text-xs capitalize opacity-50">
+                      <div
+                        class="text-xs text-slate-600 capitalize dark:text-slate-300"
+                      >
                         {{ $t('common.stats.avg_4star_mixed') }}
                       </div>
-                      <div class="text-sm font-bold tabular-nums">
+                      <div
+                        class="text-sm font-bold tabular-nums"
+                        :style="fourStarPosterText"
+                      >
                         {{ globalStats.avg4StarPulls.toFixed(1) }}
                       </div>
                     </div>
                     <div>
-                      <div class="text-xs capitalize opacity-50">
+                      <div
+                        class="text-xs text-slate-600 capitalize dark:text-slate-300"
+                      >
                         {{ $t('common.stats.avg_4star_only') }}
                       </div>
-                      <div class="text-sm font-bold tabular-nums">
+                      <div
+                        class="text-sm font-bold tabular-nums"
+                        :style="fourStarPosterText"
+                      >
                         {{ globalStats.avg4StarOnlyPulls.toFixed(1) }}
                       </div>
                     </div>
                   </div>
-                </div>
-
-                <!-- Footer -->
-                <div
-                  class="mt-auto flex items-end justify-end text-xs opacity-40"
-                >
-                  <span class="inline-flex items-center gap-1.5">
-                    <span
-                      class="inline-flex h-5 w-5 items-center justify-center rounded-md ring-1"
-                      :class="
-                        isDark
-                          ? 'bg-white/10 ring-white/15'
-                          : 'bg-white/70 shadow-xs ring-black/10'
-                      "
-                    >
-                      <NuxtImg
-                        src="images/logo.webp"
-                        preset="iconSm"
-                        sizes="30px"
-                        fit="cover"
-                        loading="lazy"
-                        :alt="$t('navigation.title')"
-                        class="h-4 w-4 rounded-xs"
-                      />
-                    </span>
-                    <span>{{ generatedDateLabel }} · gongeo.us</span>
-                  </span>
                 </div>
               </div>
             </div>
@@ -819,52 +805,52 @@
             <!-- Portrait Layout -->
             <div
               v-else
-              class="relative flex h-full w-full flex-col overflow-hidden"
-              :class="[
-                'bg-linear-to-b',
-                shareCardGradient,
-                isDark ? 'text-white' : 'text-gray-800',
-              ]"
+              class="flex h-full w-full flex-col gap-[clamp(0.5rem,3cqw,0.75rem)] overflow-hidden p-[4cqw]"
             >
+              <SharePosterHeader>{{
+                $t('navigation.stats')
+              }}</SharePosterHeader>
+
               <!-- Hero: Emote + Luck Tier -->
               <div
-                class="relative z-10 flex shrink-0 flex-col items-center px-5 pt-5 pb-4"
+                class="flex shrink-0 flex-col items-center justify-center gap-1 py-1.5 text-center @max-[340px]:flex-row @max-[340px]:gap-2 @max-[340px]:text-left"
               >
                 <NuxtImg
                   :src="shareCardEmoteSrc"
-                  :alt="$t('banner.luck.' + luckTier)"
-                  class="relative z-10 h-32 w-32 object-cover"
+                  alt=""
+                  class="size-[clamp(3.5rem,20cqw,5rem)] shrink-0 object-contain"
                   preset="iconLg"
-                  fit="cover"
+                  fit="contain"
                   loading="lazy"
                   sizes="120px"
                 />
-                <div
-                  class="relative z-10 mt-4 max-w-60 text-center text-2xl leading-[0.95] font-bold"
-                  :class="shareCardAccentClass"
-                >
-                  {{ $t('banner.luck.' + luckTier) }}
-                </div>
-                <div
-                  class="relative z-10 mt-1 max-w-60 text-center text-sm leading-tight opacity-50"
-                >
-                  {{
-                    $t('tracker.stats.luckier', {
-                      percent: overallLuckPercentile.toFixed(1),
-                    })
-                  }}
+                <div class="min-w-0 space-y-1">
+                  <div
+                    class="text-xl leading-tight font-bold @max-[340px]:text-base"
+                    :class="shareCardAccentClass"
+                  >
+                    {{ $t('banner.luck.' + luckTier) }}
+                  </div>
+                  <div
+                    class="text-xs leading-tight text-slate-600 dark:text-slate-300"
+                  >
+                    {{
+                      $t('tracker.stats.luckier', {
+                        percent: overallLuckPercentile.toFixed(1),
+                      })
+                    }}
+                  </div>
                 </div>
               </div>
 
               <!-- Featured Banners -->
               <div
                 v-if="luckiestBanner || unluckiestBanner"
-                class="relative z-10 mb-4 grid grid-cols-1 gap-4 px-4"
+                class="grid grow auto-rows-fr grid-cols-1 gap-2"
               >
                 <div
                   v-if="luckiestBanner"
-                  class="relative min-h-21 overflow-hidden rounded-lg ring-1"
-                  :class="isDark ? 'ring-white/10' : 'ring-black/10'"
+                  class="relative min-h-[clamp(3.5rem,22cqw,5.5rem)] overflow-hidden rounded-xl bg-white ring-1 ring-[#ddd2e8] dark:bg-white/5 dark:ring-[#3a3858]"
                 >
                   <NuxtImg
                     :src="getImageSrc('banner', luckiestBanner.bannerId)"
@@ -908,8 +894,7 @@
                 </div>
                 <div
                   v-if="unluckiestBanner"
-                  class="relative min-h-21 overflow-hidden rounded-lg ring-1"
-                  :class="isDark ? 'ring-white/10' : 'ring-black/10'"
+                  class="relative min-h-[clamp(3.5rem,22cqw,5.5rem)] overflow-hidden rounded-xl bg-white ring-1 ring-[#ddd2e8] dark:bg-white/5 dark:ring-[#3a3858]"
                 >
                   <NuxtImg
                     :src="getImageSrc('banner', unluckiestBanner.bannerId)"
@@ -958,71 +943,84 @@
 
               <!-- Stats list panel -->
               <div
-                class="relative z-10 mx-5 mb-3 space-y-1 rounded-xl p-3 ring-1"
-                :class="
-                  isDark
-                    ? 'bg-white/5 ring-white/10'
-                    : 'bg-black/5 ring-black/10'
-                "
+                class="flex grow flex-col justify-evenly gap-[clamp(0.25rem,1.5cqw,0.375rem)] rounded-xl bg-white p-2.5 text-sm leading-tight ring-1 ring-[#ddd2e8] dark:bg-white/5 dark:ring-[#3a3858]"
               >
                 <div class="flex items-center justify-between gap-2">
-                  <span class="shrink-0 text-xs whitespace-nowrap opacity-50">
-                    <span class="text-amber-500">5★</span> /
-                    <span class="text-sky-500">4★</span>
+                  <span
+                    class="min-w-0 text-xs text-slate-600 dark:text-slate-300"
+                  >
+                    <span :style="fiveStarPosterText">5★</span> /
+                    <span :style="fourStarPosterText">4★</span>
                     {{ $t('common.pulls') }}
                   </span>
                   <span
                     class="shrink-0 font-bold whitespace-nowrap tabular-nums"
                   >
-                    <span class="text-amber-500">{{ pulls5StarBanners }}</span>
+                    <span :style="fiveStarPosterText">{{
+                      pulls5StarBanners
+                    }}</span>
                     <span class="mx-0.5 text-gray-400">/</span>
-                    <span class="text-sky-500">{{ pulls4StarBanners }}</span>
+                    <span :style="fourStarPosterText">{{
+                      pulls4StarBanners
+                    }}</span>
                   </span>
                 </div>
                 <div class="flex items-center justify-between gap-2">
-                  <span class="shrink-0 text-xs whitespace-nowrap opacity-50">
-                    <span class="text-amber-500">5★</span> /
-                    <span class="text-sky-500">4★</span>
+                  <span
+                    class="min-w-0 text-xs text-slate-600 dark:text-slate-300"
+                  >
+                    <span :style="fiveStarPosterText">5★</span> /
+                    <span :style="fourStarPosterText">4★</span>
                     {{ $t('common.banners') }}
                   </span>
                   <span
                     class="shrink-0 font-bold whitespace-nowrap tabular-nums"
                   >
-                    <span class="text-amber-500">{{ bannersPulled5Star }}</span>
+                    <span :style="fiveStarPosterText">{{
+                      bannersPulled5Star
+                    }}</span>
                     <span class="mx-0.5 text-gray-400">/</span>
-                    <span class="text-sky-500">{{ bannersPulled4Star }}</span>
+                    <span :style="fourStarPosterText">{{
+                      bannersPulled4Star
+                    }}</span>
                   </span>
                 </div>
                 <div class="flex items-center justify-between gap-2">
-                  <span class="shrink-0 text-xs whitespace-nowrap opacity-50">
-                    <span class="text-amber-500">5★</span> /
-                    <span class="text-sky-500">4★</span>
+                  <span
+                    class="min-w-0 text-xs text-slate-600 dark:text-slate-300"
+                  >
+                    <span :style="fiveStarPosterText">5★</span> /
+                    <span :style="fourStarPosterText">4★</span>
                     {{ $t('common.outfits') }}
                   </span>
                   <span
                     class="shrink-0 font-bold whitespace-nowrap tabular-nums"
                   >
-                    <span class="text-amber-500">{{
+                    <span :style="fiveStarPosterText">{{
                       outfitsObtained5Star
                     }}</span>
                     <span class="mx-0.5 text-gray-400">/</span>
-                    <span class="text-sky-500">{{ outfitsObtained4Star }}</span>
+                    <span :style="fourStarPosterText">{{
+                      outfitsObtained4Star
+                    }}</span>
                   </span>
                 </div>
                 <div class="flex items-center justify-between gap-2">
-                  <span class="shrink-0 text-xs whitespace-nowrap opacity-50">
-                    <span class="text-amber-500">5★</span> /
-                    <span class="text-sky-500">4★</span>
+                  <span
+                    class="min-w-0 text-xs text-slate-600 dark:text-slate-300"
+                  >
+                    <span :style="fiveStarPosterText">5★</span> /
+                    <span :style="fourStarPosterText">4★</span>
                     {{ $t('common.items') }}
                   </span>
                   <span
                     class="shrink-0 font-bold whitespace-nowrap tabular-nums"
                   >
-                    <span class="text-amber-500">{{
+                    <span :style="fiveStarPosterText">{{
                       globalStats.total5StarItems
                     }}</span>
                     <span class="mx-0.5 text-gray-400">/</span>
-                    <span class="text-sky-500">{{
+                    <span :style="fourStarPosterText">{{
                       globalStats.total4StarItems +
                       globalStats.total4StarOnlyItems
                     }}</span>
@@ -1030,61 +1028,43 @@
                 </div>
                 <div class="flex items-center justify-between gap-2">
                   <span
-                    class="shrink-0 text-xs whitespace-nowrap capitalize opacity-50"
+                    class="min-w-0 text-xs text-slate-600 capitalize dark:text-slate-300"
                   >
                     {{ $t('tracker.banner.stats.avg_5star') }}
                   </span>
-                  <span class="shrink-0 font-bold tabular-nums">
+                  <span
+                    class="shrink-0 font-bold tabular-nums"
+                    :style="fiveStarPosterText"
+                  >
                     {{ globalStats.avg5StarPulls.toFixed(1) }}
                   </span>
                 </div>
                 <div class="flex items-center justify-between gap-2">
                   <span
-                    class="shrink-0 text-xs whitespace-nowrap capitalize opacity-50"
+                    class="min-w-0 text-xs text-slate-600 capitalize dark:text-slate-300"
                   >
                     {{ $t('common.stats.avg_4star_mixed') }}
                   </span>
-                  <span class="shrink-0 font-bold tabular-nums">
+                  <span
+                    class="shrink-0 font-bold tabular-nums"
+                    :style="fourStarPosterText"
+                  >
                     {{ globalStats.avg4StarPulls.toFixed(1) }}
                   </span>
                 </div>
                 <div class="flex items-center justify-between gap-2">
                   <span
-                    class="shrink-0 text-xs whitespace-nowrap capitalize opacity-50"
+                    class="min-w-0 text-xs text-slate-600 capitalize dark:text-slate-300"
                   >
                     {{ $t('common.stats.avg_4star_only') }}
                   </span>
-                  <span class="shrink-0 font-bold tabular-nums">
+                  <span
+                    class="shrink-0 font-bold tabular-nums"
+                    :style="fourStarPosterText"
+                  >
                     {{ globalStats.avg4StarOnlyPulls.toFixed(1) }}
                   </span>
                 </div>
-              </div>
-
-              <!-- Footer -->
-              <div
-                class="relative z-10 mt-auto flex items-center justify-end px-5 pb-3 text-xs opacity-40"
-              >
-                <span class="inline-flex items-center gap-1.5">
-                  <span
-                    class="inline-flex h-5 w-5 items-center justify-center rounded-md ring-1"
-                    :class="
-                      isDark
-                        ? 'bg-white/10 ring-white/15'
-                        : 'bg-white/70 shadow-xs ring-black/10'
-                    "
-                  >
-                    <NuxtImg
-                      src="images/logo.webp"
-                      preset="iconSm"
-                      sizes="30px"
-                      fit="cover"
-                      loading="lazy"
-                      :alt="$t('navigation.title')"
-                      class="h-4 w-4 rounded-xs"
-                    />
-                  </span>
-                  <span>{{ generatedDateLabel }} · gongeo.us</span>
-                </span>
               </div>
             </div>
           </div>
@@ -1121,7 +1101,6 @@
     reducedMotion.value === 'reduce' ? 0 : 2000
   )
 
-  const generatedDateLabel = ref('')
   const localDataSource = useDataSource()
   const effectiveDataSource = computed({
     get: () => pullStore.dataSource ?? localDataSource.value,
@@ -1196,26 +1175,21 @@
     )
   }
 
-  const shareCardGradient = computed(() => {
-    const tier = luckTier.value
-    if (isDark.value) {
-      if (tier >= 5) return 'from-[#1a0f2e] via-[#2d1541] to-[#1a0a28]'
-      if (tier >= 3) return 'from-[#0f1729] via-[#1a1f3d] to-[#1a1033]'
-      if (tier === 2) return 'from-[#1a1a2e] via-[#16213e] to-[#0f0f23]'
-      return 'from-[#1a1a1a] via-[#2d1f1f] to-[#1a0f0f]'
+  const getPosterRarityText = (quality: number) => {
+    const color = getQualityColor(quality)
+    return {
+      color: isDark.value ? color : `color-mix(in srgb, ${color} 60%, #0f172a)`,
     }
-    if (tier >= 5) return 'from-[#fef9e7] via-[#fce4ec] to-[#f3e5f5]'
-    if (tier >= 3) return 'from-[#f5eeff] via-[#ffe8f5] to-[#fff5e8]'
-    if (tier === 2) return 'from-[#e8eaf6] via-[#e1f5fe] to-[#f3e5f5]'
-    return 'from-[#fce4ec] via-[#efebe9] to-[#eceff1]'
-  })
+  }
+  const fiveStarPosterText = computed(() => getPosterRarityText(5))
+  const fourStarPosterText = computed(() => getPosterRarityText(4))
 
   const shareCardAccentClass = computed(() => {
     const tier = luckTier.value
-    if (tier >= 5) return 'text-amber-400'
-    if (tier >= 3) return 'text-purple-400'
-    if (tier === 2) return 'text-sky-400'
-    return 'text-red-400'
+    if (tier >= 5) return 'text-amber-700 dark:text-amber-300'
+    if (tier >= 3) return 'text-violet-700 dark:text-violet-300'
+    if (tier === 2) return 'text-sky-700 dark:text-sky-300'
+    return 'text-red-700 dark:text-red-300'
   })
 
   const loadAndProcessData = async () => {
@@ -1230,12 +1204,6 @@
   }
 
   onMounted(async () => {
-    generatedDateLabel.value = new Intl.DateTimeFormat(locale.value, {
-      year: 'numeric',
-      month: '2-digit',
-      day: '2-digit',
-    }).format(new Date())
-
     if (Object.keys(processedPulls.value).length > 0 && !pullStore.dataSource) {
       loading.value = false
       initializeCharts()

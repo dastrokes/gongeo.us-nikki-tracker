@@ -20,50 +20,113 @@
         class="mx-auto grid max-w-5xl min-w-0 gap-4 p-4 sm:p-6 md:grid-cols-[minmax(0,1fr)_minmax(0,1.6fr)]"
       >
         <div class="space-y-4">
-          <div
-            class="flex flex-wrap gap-1.5"
-            role="group"
-            :aria-label="t('compendium.filter_obtain')"
-          >
-            <n-button
-              v-for="sourcePreset in sourcePresets"
-              :key="sourcePreset"
-              size="small"
-              secondary
-              round
-              :type="
-                filters.sourcePreset === sourcePreset ? 'primary' : 'default'
-              "
-              :aria-pressed="filters.sourcePreset === sourcePreset"
-              :disabled="exporting"
-              @click="updateFilters({ sourcePreset })"
+          <div class="space-y-1.5">
+            <p
+              :id="quickFiltersLabelId"
+              class="text-sm font-semibold text-slate-900 dark:text-slate-100"
             >
-              {{ t(OUTFIT_POSTER_SOURCE_LABEL_KEYS[sourcePreset]) }}
-            </n-button>
+              {{ t('compendium.image.quick_filters') }}
+            </p>
+            <div
+              class="flex flex-wrap gap-1.5"
+              role="group"
+              :aria-labelledby="quickFiltersLabelId"
+            >
+              <n-button
+                v-for="sourcePreset in sourcePresets"
+                :key="sourcePreset"
+                size="small"
+                secondary
+                round
+                :type="
+                  filters.sourcePreset === sourcePreset ? 'primary' : 'default'
+                "
+                :aria-pressed="filters.sourcePreset === sourcePreset"
+                :disabled="exporting"
+                @click="updateFilters({ sourcePreset })"
+              >
+                {{ t(OUTFIT_POSTER_SOURCE_LABEL_KEYS[sourcePreset]) }}
+              </n-button>
+            </div>
           </div>
-          <div
-            class="flex flex-wrap items-center gap-2 md:flex-col md:items-start md:gap-4"
-          >
-            <CreationVersionSelect
-              :model-value="filters.version ?? 'all'"
-              :versions="versions"
-              :disabled="exporting"
-              class="flex-1 basis-36 md:flex-none"
-              @update:model-value="selectVersion"
-            />
-            <n-radio-group
-              :value="filters.ownership"
-              name="outfit-export-ownership"
-              role="radiogroup"
-              :aria-label="t('eurekas.filters.status')"
-              :disabled="exporting"
-              @update:value="selectOwnership"
+          <div class="flex flex-wrap items-start gap-3 md:flex-col md:gap-4">
+            <div class="min-w-0 flex-1 basis-32 space-y-1.5 md:flex-none">
+              <p
+                class="text-sm font-semibold text-slate-900 dark:text-slate-100"
+              >
+                {{ t('banner.version') }}
+              </p>
+              <CreationVersionSelect
+                :model-value="filters.version ?? 'all'"
+                :versions="versions"
+                :disabled="exporting"
+                @update:model-value="selectVersion"
+              />
+            </div>
+            <div
+              class="min-w-0 space-y-1.5"
+              :class="{ 'w-full': wardrobeEmpty }"
             >
-              <n-radio-button value="owned">{{
-                t('wardrobe.status.owned')
-              }}</n-radio-button>
-              <n-radio-button value="all">{{ t('common.all') }}</n-radio-button>
-            </n-radio-group>
+              <p
+                :id="ownershipLabelId"
+                class="text-sm font-semibold text-slate-900 dark:text-slate-100"
+              >
+                {{ t('eurekas.filters.status') }}
+              </p>
+              <n-radio-group
+                :value="filters.ownership"
+                name="outfit-export-ownership"
+                role="radiogroup"
+                :aria-labelledby="ownershipLabelId"
+                :aria-describedby="wardrobeEmpty ? wardrobeHintId : undefined"
+                :disabled="exporting"
+                :theme-overrides="{
+                  buttonColorActive: themeVars.primaryColorPressed,
+                  buttonBorderColorActive: themeVars.primaryColorPressed,
+                  buttonTextColorActive: '#fff',
+                }"
+                @update:value="selectOwnership"
+              >
+                <n-radio-button value="owned">{{
+                  t('wardrobe.status.owned')
+                }}</n-radio-button>
+                <n-radio-button value="all">{{
+                  t('common.all')
+                }}</n-radio-button>
+              </n-radio-group>
+              <I18nT
+                v-if="wardrobeEmpty"
+                :id="wardrobeHintId"
+                keypath="compendium.image.empty_wardrobe_hint"
+                scope="global"
+                tag="p"
+                class="max-w-xs text-xs leading-relaxed text-slate-600 dark:text-slate-300"
+              >
+                <template #source>
+                  <NuxtLinkLocale
+                    :to="{
+                      path: '/import',
+                      query: { method: 'pearpal', returnTo: 'wardrobe' },
+                    }"
+                    class="font-medium text-rose-700 underline underline-offset-2 dark:text-rose-300"
+                  >
+                    {{ t('common.sources.whimlog') }}
+                  </NuxtLinkLocale>
+                </template>
+                <template #ownershipIcon>
+                  <n-icon
+                    size="12"
+                    aria-hidden="true"
+                    class="align-middle"
+                  >
+                    <UserEdit />
+                  </n-icon>
+                  <span class="sr-only">{{
+                    t('wardrobe.actions.edit_mode')
+                  }}</span>
+                </template>
+              </I18nT>
+            </div>
           </div>
           <n-alert
             v-if="!loading && !loadError && (previewError || exportError)"
@@ -210,6 +273,8 @@
 </template>
 
 <script setup lang="ts">
+  import { UserEdit } from '@vicons/fa'
+  import { I18nT } from 'vue-i18n'
   import type {
     OutfitCollectionPosterFilters,
     OutfitCollectionPosterSnapshot,
@@ -219,6 +284,7 @@
     filters: OutfitCollectionPosterFilters
     versions: readonly string[]
     snapshot: OutfitCollectionPosterSnapshot | null
+    wardrobeEmpty: boolean
     loading: boolean
     loadError: boolean
   }>()
@@ -228,6 +294,10 @@
   }>()
   const show = defineModel<boolean>('show', { required: true })
   const { t, n } = useI18n()
+  const themeVars = useThemeVars()
+  const quickFiltersLabelId = useId()
+  const ownershipLabelId = useId()
+  const wardrobeHintId = useId()
   const previewPage = ref(1)
   const previewAttempt = ref(0)
   const previewError = ref(false)

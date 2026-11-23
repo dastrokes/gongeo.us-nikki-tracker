@@ -383,7 +383,7 @@
       "edit_ownership": "Besitz bearbeiten",
       "mark_owned": "Als im Besitz markieren",
       "mark_unowned": "Als nicht im Besitz markieren",
-      "base_only": "Nur Basis",
+      "base": "Basis",
       "mark_all": "Alle Variationen markieren",
       "unmark_all": "Alle abwählen",
       "mark_selected_owned": "Auswahl als im Besitz markieren",
@@ -959,6 +959,9 @@
     "back": "Zurück zum Kreativ-Hub",
     "open": "Editor öffnen",
     "remove": "{name} entfernen",
+    "outfit_poster": {
+      "description": "Erstelle aus deiner gefilterten Outfit-Sammlung ein Poster zum Teilen."
+    },
     "template": {
       "title": "Kartenvorlage",
       "default": "Standardvorlage",
@@ -1095,7 +1098,9 @@
   "compendium": {
     "image": {
       "outfit_poster": "Outfit-Poster",
+      "quick_filters": "Schnellfilter",
       "current_filters": "Aktuelle Filter",
+      "empty_wardrobe_hint": "Deine Garderobe ist noch leer. Importiere Outfits aus {source} oder nutze das Symbol {ownershipIcon}, um deinen Fortschritt zu markieren.",
       "stage_complete": "@:banner.outfit.level.1",
       "download_zip": "Alle herunterladen (ZIP)",
       "image_error": "Einige Outfit-Artworks konnten nicht geladen werden."

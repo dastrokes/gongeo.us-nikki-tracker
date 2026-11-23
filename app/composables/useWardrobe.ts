@@ -42,6 +42,13 @@ export const useWardrobe = () => {
   const ownedMomoIds = computed(() => data.value.ownedMomoIds)
   const ownedPropIds = computed(() => data.value.ownedPropIds)
   const ownedEurekaColorIds = computed(() => data.value.ownedEurekaColorIds)
+  const totalOwnedEntries = computed(
+    () =>
+      ownedItemIds.value.length +
+      ownedMakeupIds.value.length +
+      ownedMomoIds.value.length +
+      ownedPropIds.value.length
+  )
   const ownedItemIdSet = computed(() => new Set(data.value.ownedItemIds))
   const ownedMakeupIdSet = computed(() => new Set(data.value.ownedMakeupIds))
   const ownedMomoIdSet = computed(() => new Set(data.value.ownedMomoIds))
@@ -385,6 +392,14 @@ export const useWardrobe = () => {
   const getOutfitProgress = (itemIds: readonly number[]) =>
     getWardrobeOutfitProgress(itemIds, ownedItemIdSet.value)
 
+  const getOwnershipTier = (entity: 'item' | 'outfit', id: number) =>
+    getCatalogWardrobeOwnershipTier(
+      catalogIndex.index.value,
+      entity,
+      id,
+      ownedItemIdSet.value
+    )
+
   const getFullMakeupProgress = (makeupIds: readonly number[]) =>
     getWardrobeSetProgress(makeupIds, ownedMakeupIdSet.value)
 
@@ -518,6 +533,7 @@ export const useWardrobe = () => {
     ownedMomoIds,
     ownedPropIds,
     ownedEurekaColorIds,
+    totalOwnedEntries,
     ownedItemIdSet,
     ownedMakeupIdSet,
     ownedMomoIdSet,
@@ -537,6 +553,7 @@ export const useWardrobe = () => {
     isPropOwned,
     isEurekaColorOwned,
     getOutfitProgress,
+    getOwnershipTier,
     getFullMakeupProgress,
     toggleItemOwned,
     toggleMakeupOwned,

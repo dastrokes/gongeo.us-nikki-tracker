@@ -383,7 +383,7 @@
       "edit_ownership": "Editar posse",
       "mark_owned": "Marcar como possuído",
       "mark_unowned": "Marcar como não possuído",
-      "base_only": "Somente base",
+      "base": "Base",
       "mark_all": "Marcar todas as variações",
       "unmark_all": "Desmarcar tudo",
       "mark_selected_owned": "Marcar selecionados como possuídos",
@@ -959,6 +959,9 @@
     "back": "Voltar à Central de criação",
     "open": "Abrir criador",
     "remove": "Remover {name}",
+    "outfit_poster": {
+      "description": "Crie um pôster para compartilhar com os trajes que correspondem aos seus filtros."
+    },
     "template": {
       "title": "Modelo de cartão",
       "default": "Modelo padrão",
@@ -1095,7 +1098,9 @@
   "compendium": {
     "image": {
       "outfit_poster": "Pôster de trajes",
+      "quick_filters": "Filtros rápidos",
       "current_filters": "Filtros atuais",
+      "empty_wardrobe_hint": "Seu guarda-roupa está vazio. Importe trajes de {source} ou use o ícone {ownershipIcon} para registrar seu progresso.",
       "stage_complete": "@:global.banner_stats.option_completed_set",
       "download_zip": "Baixar tudo (ZIP)",
       "image_error": "Não foi possível carregar algumas imagens de trajes."

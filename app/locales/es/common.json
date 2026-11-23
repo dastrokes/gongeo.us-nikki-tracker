@@ -383,7 +383,7 @@
       "edit_ownership": "Editar propiedad",
       "mark_owned": "Marcar como propio",
       "mark_unowned": "Marcar como no propio",
-      "base_only": "Solo base",
+      "base": "Base",
       "mark_all": "Marcar todas las variaciones",
       "unmark_all": "Desmarcar todo",
       "mark_selected_owned": "Marcar selección como propia",
@@ -959,6 +959,9 @@
     "back": "Volver al Centro creativo",
     "open": "Abrir creador",
     "remove": "Eliminar {name}",
+    "outfit_poster": {
+      "description": "Crea un póster para compartir con los atuendos que coincidan con tus filtros."
+    },
     "template": {
       "title": "Plantilla de tarjeta",
       "default": "Plantilla predeterminada",
@@ -1095,7 +1098,9 @@
   "compendium": {
     "image": {
       "outfit_poster": "Póster de atuendos",
+      "quick_filters": "Filtros rápidos",
       "current_filters": "Filtros actuales",
+      "empty_wardrobe_hint": "Tu guardarropa está vacío. Importa conjuntos desde {source} o usa el icono {ownershipIcon} para registrar tu progreso.",
       "stage_complete": "@:global.banner_stats.option_completed_set",
       "download_zip": "Descargar todo (ZIP)",
       "image_error": "No se pudieron cargar algunas imágenes de atuendos."

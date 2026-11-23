@@ -383,7 +383,7 @@
       "edit_ownership": "編輯擁有狀態",
       "mark_owned": "標記為擁有",
       "mark_unowned": "標記為未擁有",
-      "base_only": "僅基礎",
+      "base": "基礎",
       "mark_all": "標記所有變化",
       "unmark_all": "取消標記全部",
       "mark_selected_owned": "標記所選為已擁有",
@@ -959,6 +959,9 @@
     "back": "返回創作工坊",
     "open": "開啟創作工具",
     "remove": "移除 {name}",
+    "outfit_poster": {
+      "description": "將篩選出的套裝製作成可分享的海報。"
+    },
     "template": {
       "title": "卡片範本",
       "default": "預設範本",
@@ -1095,7 +1098,9 @@
   "compendium": {
     "image": {
       "outfit_poster": "套裝海報",
+      "quick_filters": "快速篩選",
       "current_filters": "目前篩選",
+      "empty_wardrobe_hint": "你的衣櫥還是空的。可以從 {source} 匯入套裝，或使用 {ownershipIcon} 圖示標記收集進度。",
       "stage_complete": "@:banner.outfit.level.1",
       "download_zip": "下載全部（ZIP）",
       "image_error": "部分套裝圖片無法載入。"

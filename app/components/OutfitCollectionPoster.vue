@@ -4,7 +4,9 @@
     :version="version"
   >
     <template #title>
-      {{ t(showProgress ? 'navigation.wardrobe' : 'navigation.outfit') }}
+      {{
+        title ?? t(showProgress ? 'navigation.wardrobe' : 'navigation.outfit')
+      }}
       <template v-if="titleHighlight">
         · <span class="text-rose-700">{{ titleHighlight }}</span>
       </template>
@@ -75,6 +77,7 @@
 
   const props = defineProps<{
     entries: readonly OutfitCollectionPosterEntry[]
+    title?: string
     titleHighlight: string | null
     version: string | null
     page: number

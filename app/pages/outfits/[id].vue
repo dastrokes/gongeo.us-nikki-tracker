@@ -161,6 +161,7 @@
                     :loading="wardrobeSaving"
                     :quality="outfit.quality"
                     :evo-level="currentOutfitDisplayEvoLevel"
+                    :ownership-tier="getOwnershipTier('outfit', outfitId)"
                     :menu-options="outfitVariationMarkOptions"
                     variant="overlay"
                     @toggle="toggleCurrentOutfitOwned"
@@ -487,17 +488,6 @@
   type WardrobeVariantMarkOption = DropdownOption & {
     key: WardrobeVariantMarkKey | WardrobeVariantMarkDividerKey
   }
-  const markCurrentVariantOption = (
-    option: WardrobeVariantMarkOption,
-    currentVariantType?: VariantType | null
-  ): WardrobeVariantMarkOption =>
-    currentVariantType && option.key === currentVariantType
-      ? {
-          ...option,
-          label: () =>
-            h('span', { class: 'font-semibold' }, String(option.label ?? '')),
-        }
-      : option
 
   const { t, te, locale } = useI18n()
   const message = useMessage()
@@ -524,12 +514,15 @@
     canMutate: isWardrobeReady,
     ownedItemIds,
     getOutfitProgress,
+    getOwnershipTier,
     markOutfitOwned,
   } = useWardrobe()
   const ownedItemIdSet = computed(() => new Set(ownedItemIds.value))
 
   if (import.meta.client) {
-    void catalogIndex.load(['items', 'outfits']).catch(() => undefined)
+    void catalogIndex
+      .load(['items', 'outfits', 'outfitItems'])
+      .catch(() => undefined)
   }
 
   const outfitVariationIds = computed(() =>
@@ -809,7 +802,7 @@
       if (outfit.value.quality < 4) return []
 
       return [
-        { key: 'base', label: t('wardrobe.actions.base_only') },
+        { key: 'base', label: t('wardrobe.actions.base') },
         { key: 'evo1', label: t('banner.outfit.level.2') },
         ...(outfit.value.quality >= 5
           ? [
@@ -826,6 +819,7 @@
         { key: 'divider-glowup', type: 'divider' },
         {
           key: 'glowup',
+          owned: currentOutfitGlowUpOwned.value,
           label: t(
             currentOutfitGlowUpOwned.value
               ? 'wardrobe.actions.unmark_glowup'
@@ -835,12 +829,7 @@
         { key: 'divider-bulk', type: 'divider' },
         { key: 'complete-set', label: t('wardrobe.actions.mark_all') },
         { key: 'unmark-all', label: t('wardrobe.actions.unmark_all') },
-      ].map((option) =>
-        markCurrentVariantOption(
-          option,
-          getOutfitVariantType(String(outfitId.value))
-        )
-      )
+      ]
     }
   )
 

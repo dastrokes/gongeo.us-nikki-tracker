@@ -383,7 +383,7 @@
       "edit_ownership": "Edit ownership",
       "mark_owned": "Mark owned",
       "mark_unowned": "Mark unowned",
-      "base_only": "Base only",
+      "base": "Base",
       "mark_all": "Mark all variations",
       "unmark_all": "Unmark all",
       "mark_selected_owned": "Mark selected owned",
@@ -959,6 +959,9 @@
     "back": "Back to Creation Hub",
     "open": "Open creator",
     "remove": "Remove {name}",
+    "outfit_poster": {
+      "description": "Turn your filtered outfit collection into a shareable poster."
+    },
     "template": {
       "title": "Card template",
       "default": "Default template",
@@ -1095,7 +1098,9 @@
   "compendium": {
     "image": {
       "outfit_poster": "Outfit Poster",
+      "quick_filters": "Quick filters",
       "current_filters": "Current filters",
+      "empty_wardrobe_hint": "Your wardrobe is empty. Import outfits from {source}, or use the {ownershipIcon} icon to mark your progress.",
       "stage_complete": "@:banner.outfit.level.1",
       "download_zip": "Download all (ZIP)",
       "image_error": "Some outfit artwork could not load."

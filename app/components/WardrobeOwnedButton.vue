@@ -73,11 +73,16 @@
 </template>
 
 <script setup lang="ts">
-  import { Pen } from '@vicons/fa'
+  import { Check, Pen } from '@vicons/fa'
   import type { DropdownMixedOption, DropdownOption } from 'naive-ui'
+  import {
+    WARDROBE_OWNERSHIP_TIERS,
+    type WardrobeOwnershipTier,
+  } from '~/utils/wardrobeOwnershipTier'
 
   export type WardrobeOwnedButtonMenuOption = DropdownOption & {
     key: string
+    owned?: boolean
   }
 
   const props = withDefaults(
@@ -90,6 +95,7 @@
       inactiveLabel?: string
       quality?: number
       evoLevel?: number | null
+      ownershipTier?: WardrobeOwnershipTier | null
       menuOptions?: WardrobeOwnedButtonMenuOption[]
     }>(),
     {
@@ -98,6 +104,7 @@
       inactiveLabel: undefined,
       quality: undefined,
       evoLevel: null,
+      ownershipTier: null,
       menuOptions: () => [],
     }
   )
@@ -148,10 +155,41 @@
       ),
   }))
 
+  const earlierOwnershipTiers = computed(() =>
+    props.ownershipTier
+      ? WARDROBE_OWNERSHIP_TIERS.slice(
+          0,
+          WARDROBE_OWNERSHIP_TIERS.indexOf(props.ownershipTier)
+        )
+      : []
+  )
+
   const actionMenuOptions = computed<DropdownMixedOption[]>(() => [
     menuHeaderOption.value,
     ...(props.menuOptions.length > 0
-      ? props.menuOptions
+      ? props.menuOptions.map((option) => {
+          const isCurrentTier = option.key === props.ownershipTier
+          const isEarlierTier = earlierOwnershipTiers.value.some(
+            (tier) => tier === option.key
+          )
+          if (!isCurrentTier && !isEarlierTier && !option.owned) return option
+
+          return {
+            ...option,
+            props: isCurrentTier
+              ? { ...option.props, 'aria-current': 'true' as const }
+              : option.props,
+            icon: () => [
+              h(Check, {
+                class: ['h-3.5 w-3.5', isEarlierTier && 'opacity-60'],
+                'aria-hidden': 'true',
+              }),
+              isEarlierTier
+                ? h('span', { class: 'sr-only' }, t('wardrobe.status.owned'))
+                : null,
+            ],
+          }
+        })
       : [
           {
             key: 'toggle-ownership',

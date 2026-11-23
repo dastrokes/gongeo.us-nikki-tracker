@@ -38,7 +38,7 @@
     "@supabase/supabase-js": "2.119.0",
     "@vueuse/integrations": "15.0.0",
     "@vueuse/nuxt": "15.0.0",
-    "@zumer/snapdom": "3.7.4",
+    "@zumer/snapdom": "3.8.2",
     "echarts": "6.1.0",
     "fflate": "0.8.3",
     "fuse.js": "7.5.0",

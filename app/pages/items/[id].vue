@@ -188,6 +188,7 @@
                     :loading="wardrobeSaving"
                     :quality="item.quality"
                     :evo-level="currentItemDisplayEvoLevel"
+                    :ownership-tier="getOwnershipTier('item', itemId)"
                     :menu-options="itemVariationMarkOptions"
                     variant="overlay"
                     @toggle="toggleCurrentItemOwned"
@@ -775,17 +776,6 @@
   type WardrobeVariantMarkOption = DropdownOption & {
     key: WardrobeVariantMarkKey | WardrobeVariantMarkDividerKey
   }
-  const markCurrentVariantOption = (
-    option: WardrobeVariantMarkOption,
-    currentVariantType?: VariantType | null
-  ): WardrobeVariantMarkOption =>
-    currentVariantType && option.key === currentVariantType
-      ? {
-          ...option,
-          label: () =>
-            h('span', { class: 'font-semibold' }, String(option.label ?? '')),
-        }
-      : option
 
   type DetailItem = {
     id: number
@@ -854,6 +844,7 @@
     saving: wardrobeSaving,
     canMutate: isWardrobeReady,
     isItemOwned,
+    getOwnershipTier,
     markItemsOwned,
   } = useWardrobe()
 
@@ -1342,7 +1333,7 @@
     if (item.value.quality < 4) return []
 
     return [
-      { key: 'base', label: t('wardrobe.actions.base_only') },
+      { key: 'base', label: t('wardrobe.actions.base') },
       { key: 'evo1', label: t('banner.outfit.level.2') },
       ...(item.value.quality >= 5
         ? [
@@ -1359,6 +1350,7 @@
       { key: 'divider-glowup', type: 'divider' },
       {
         key: 'glowup',
+        owned: currentItemGlowUpOwned.value,
         label: t(
           currentItemGlowUpOwned.value
             ? 'wardrobe.actions.unmark_glowup'
@@ -1368,9 +1360,7 @@
       { key: 'divider-bulk', type: 'divider' },
       { key: 'complete-set', label: t('wardrobe.actions.mark_all') },
       { key: 'unmark-all', label: t('wardrobe.actions.unmark_all') },
-    ].map((option) =>
-      markCurrentVariantOption(option, getCatalogItemVariantType(itemId.value))
-    )
+    ]
   })
 
   const getVariantMarkMaxRank = (key: WardrobeVariantMarkKey) => {

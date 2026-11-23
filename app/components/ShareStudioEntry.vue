@@ -20,9 +20,13 @@
       </section>
     </n-card>
 
-    <div class="grid min-w-0 grid-cols-1 gap-2 sm:gap-4 md:grid-cols-2">
+    <div
+      class="grid min-w-0 grid-cols-1 gap-2 sm:gap-4 md:grid-cols-2 lg:grid-cols-3"
+    >
       <NuxtLink
-        :to="{ query: { mode: 'themes' } }"
+        v-for="entry in creatorEntries"
+        :key="entry.id"
+        :to="entry.to"
         class="group block min-w-0 rounded-2xl focus-visible:ring-2 focus-visible:ring-rose-500 focus-visible:outline-hidden"
       >
         <n-card
@@ -30,79 +34,50 @@
           class="h-full min-w-0 rounded-2xl transition-[border-color,box-shadow] duration-200 group-hover:border-rose-300 group-hover:shadow-[0_4px_16px_rgb(244_63_94/0.10)]"
           content-class="flex h-full flex-col p-4 sm:p-5"
         >
-          <div class="flex min-h-[84px] items-start gap-3">
+          <div class="flex min-h-[84px] flex-1 items-start gap-3">
             <span
-              class="flex size-10 shrink-0 items-center justify-center rounded-xl bg-rose-50 text-rose-500 ring-1 ring-rose-100 dark:bg-rose-950/40 dark:text-rose-300 dark:ring-rose-900/60"
+              class="flex size-10 shrink-0 items-center justify-center rounded-xl ring-1"
+              :class="entry.iconClass"
             >
-              <n-icon size="18"><Tshirt /></n-icon>
+              <n-icon size="18">
+                <component :is="entry.icon" />
+              </n-icon>
             </span>
             <div class="min-w-0">
               <h2
                 class="text-lg font-semibold text-slate-900 sm:text-xl dark:text-slate-50"
               >
-                {{ t('creation_hub.outfit_card.title') }}
+                {{ t(entry.title) }}
               </h2>
               <p
                 class="mt-1 text-sm leading-5 text-slate-600 dark:text-slate-300"
               >
-                {{ t('creation_hub.outfit_card.description') }}
+                {{ t(entry.description) }}
               </p>
             </div>
           </div>
 
           <div class="mx-auto mt-4 w-full max-w-[360px]">
             <ThemeCardPoster
+              v-if="entry.id === 'themes'"
               :prompts="previewPrompts"
               :selected-ids="previewOutfitIds"
               :outfits="previewOutfitsById"
             />
-          </div>
-
-          <div
-            class="mt-4 flex items-center justify-between border-t border-slate-200 pt-3 text-sm font-semibold text-rose-500 dark:border-slate-700"
-          >
-            <span>{{ t('creation_hub.open') }}</span>
-            <n-icon
-              size="14"
-              class="flex size-7 items-center justify-center rounded-full bg-rose-50 transition-colors group-hover:bg-rose-100 dark:bg-rose-950/40 dark:group-hover:bg-rose-950/70"
-            >
-              <ChevronRight />
-            </n-icon>
-          </div>
-        </n-card>
-      </NuxtLink>
-
-      <NuxtLink
-        :to="{ query: { mode: 'ranking' } }"
-        class="group block min-w-0 rounded-2xl focus-visible:ring-2 focus-visible:ring-rose-500 focus-visible:outline-hidden"
-      >
-        <n-card
-          size="small"
-          class="h-full min-w-0 rounded-2xl transition-[border-color,box-shadow] duration-200 group-hover:border-rose-300 group-hover:shadow-[0_4px_16px_rgb(244_63_94/0.10)]"
-          content-class="flex h-full flex-col p-4 sm:p-5"
-        >
-          <div class="flex min-h-[84px] items-start gap-3">
-            <span
-              class="flex size-10 shrink-0 items-center justify-center rounded-xl bg-indigo-50 text-indigo-500 ring-1 ring-indigo-100 dark:bg-indigo-950/40 dark:text-indigo-300 dark:ring-indigo-900/60"
-            >
-              <n-icon size="18"><SortAmountDown /></n-icon>
-            </span>
-            <div class="min-w-0">
-              <h2
-                class="text-lg font-semibold text-slate-900 sm:text-xl dark:text-slate-50"
-              >
-                {{ t('creation_hub.banner_ranking.title') }}
-              </h2>
-              <p
-                class="mt-1 text-sm leading-5 text-slate-600 dark:text-slate-300"
-              >
-                {{ t('creation_hub.banner_ranking.description') }}
-              </p>
-            </div>
-          </div>
-
-          <div class="mx-auto mt-4 w-full max-w-[360px]">
-            <BannerRankingPoster :banners="previewBanners" />
+            <BannerRankingPoster
+              v-else-if="entry.id === 'ranking'"
+              :banners="previewBanners"
+            />
+            <OutfitCollectionPoster
+              v-else
+              :entries="previewPosterOutfits"
+              :title="t('navigation.outfit')"
+              :title-highlight="t('compendium.source.limited')"
+              :version="null"
+              :page="1"
+              :page-count="1"
+              show-progress
+            />
           </div>
 
           <div
@@ -123,12 +98,49 @@
 </template>
 
 <script setup lang="ts">
-  import { ChevronRight, SortAmountDown, Tshirt } from '@vicons/fa'
+  import {
+    ChevronRight,
+    ImagesRegular,
+    SortAmountDown,
+    Tshirt,
+  } from '@vicons/fa'
+  import type { OutfitCollectionPosterEntry } from '~/utils/outfitCollectionPoster'
   import { BANNER_DATA } from '~~/data/banners'
 
   const { t, tm, rt } = useI18n()
+  const localePath = useLocalePath()
   const { getImageSrc } = imageProvider()
   const catalog = useCatalogIndex()
+
+  const creatorEntries = computed(() => [
+    {
+      id: 'poster',
+      to: localePath({ path: '/outfits', query: { poster: '1' } }),
+      title: 'compendium.image.outfit_poster',
+      description: 'creation_hub.outfit_poster.description',
+      icon: ImagesRegular,
+      iconClass:
+        'bg-teal-50 text-teal-600 ring-teal-100 dark:bg-teal-950/40 dark:text-teal-300 dark:ring-teal-900/60',
+    },
+    {
+      id: 'ranking',
+      to: { query: { mode: 'ranking' } },
+      title: 'creation_hub.banner_ranking.title',
+      description: 'creation_hub.banner_ranking.description',
+      icon: SortAmountDown,
+      iconClass:
+        'bg-indigo-50 text-indigo-500 ring-indigo-100 dark:bg-indigo-950/40 dark:text-indigo-300 dark:ring-indigo-900/60',
+    },
+    {
+      id: 'themes',
+      to: { query: { mode: 'themes' } },
+      title: 'creation_hub.outfit_card.title',
+      description: 'creation_hub.outfit_card.description',
+      icon: Tshirt,
+      iconClass:
+        'bg-rose-50 text-rose-500 ring-rose-100 dark:bg-rose-950/40 dark:text-rose-300 dark:ring-rose-900/60',
+    },
+  ])
 
   const newestLimitedBanners = Object.values(BANNER_DATA)
     .filter(
@@ -145,6 +157,7 @@
   const newestFiveStarOutfitIds = newestLimitedBanners.flatMap((banner) =>
     banner.bannerType === 2 ? banner.outfit5StarId : []
   )
+  const fiveStarOutfitIdSet = new Set(newestFiveStarOutfitIds.map(String))
   const newestCompanionOutfitIds = newestLimitedBanners.flatMap((banner) =>
     banner.bannerType === 2 ? banner.outfit4StarId : []
   )
@@ -156,6 +169,9 @@
     ...banner.outfit5StarId,
     ...banner.outfit4StarId,
   ])
+  const limitedPosterOutfitIds = [
+    ...new Set(newestLimitedOutfitIds.map(String)),
+  ].filter((id) => !companionOutfitIdSet.has(id))
   const createFallbackOutfitIds = () => {
     const selected: Array<string | number> = []
     const used = new Set<string>()
@@ -200,6 +216,43 @@
       previewOutfits.value.map((outfit) => [String(outfit.id), outfit])
     )
   )
+  const posterSampleStages = [
+    { ownedFraction: 1, evolution: 0 },
+    { ownedFraction: 1, evolution: 1 },
+    { ownedFraction: 0.5, evolution: 0 },
+    { ownedFraction: 1, evolution: 3 },
+    { ownedFraction: 0, evolution: 0 },
+    { ownedFraction: 1, evolution: 2 },
+  ] as const
+  const previewPosterOutfits = computed<OutfitCollectionPosterEntry[]>(() => {
+    const cardOutfitIds = new Set(previewOutfitIds.value.map(String))
+    return limitedPosterOutfitIds
+      .filter((id) => !cardOutfitIds.has(id))
+      .slice(0, 16)
+      .map((id, index) => {
+        const outfitId = Number(id)
+        const quality =
+          outfitQualityById.value.get(id) ??
+          (fiveStarOutfitIdSet.has(id) ? 5 : 4)
+        const total =
+          catalog.index.value?.outfitItemsById.get(outfitId)?.length ?? 0
+        const { ownedFraction, evolution } =
+          posterSampleStages[index % posterSampleStages.length]!
+        const owned = Math.floor(total * ownedFraction)
+        const status =
+          owned === 0 ? 'missing' : owned === total ? 'owned' : 'partial'
+
+        return {
+          id: outfitId,
+          name: t(`outfit.${id}.name`),
+          quality,
+          progress: total ? { status, owned, total } : null,
+          evoLevel: evolution
+            ? Math.min(evolution, quality === 5 ? 3 : 1)
+            : null,
+        }
+      })
+  })
 
   const fallbackBanners = Object.values(BANNER_DATA)
     .filter((banner) => banner.bannerType !== 1 && banner.runs.length > 0)
@@ -260,6 +313,6 @@
     } catch {
       previewBannerIds.value = fallbackBanners.map((banner) => banner.bannerId)
     }
-    await catalog.load(['outfits'])
+    await catalog.load(['outfits', 'outfitItems'])
   })
 </script>

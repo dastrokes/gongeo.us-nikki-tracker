@@ -383,7 +383,7 @@
       "edit_ownership": "所有状態を編集",
       "mark_owned": "所持済みにする",
       "mark_unowned": "未所持にする",
-      "base_only": "ベースのみ",
+      "base": "ベース",
       "mark_all": "すべてのバリエーションをマーク",
       "unmark_all": "すべて解除",
       "mark_selected_owned": "選択中を所有済みにする",
@@ -959,6 +959,9 @@
     "back": "クリエイションハブに戻る",
     "open": "クリエイターを開く",
     "remove": "{name}を削除",
+    "outfit_poster": {
+      "description": "絞り込んだコーデで、シェアできるポスターを作成できます。"
+    },
     "template": {
       "title": "カードテンプレート",
       "default": "デフォルトテンプレート",
@@ -1095,7 +1098,9 @@
   "compendium": {
     "image": {
       "outfit_poster": "コーデポスター",
+      "quick_filters": "クイックフィルター",
       "current_filters": "現在のフィルター",
+      "empty_wardrobe_hint": "ワードローブはまだ空です。{source}からセットをインポートするか、{ownershipIcon}アイコンを使って収集状況を記録できます。",
       "stage_complete": "@:global.banner_stats.option_completed_set",
       "download_zip": "すべてダウンロード（ZIP）",
       "image_error": "一部のコーデ画像を読み込めませんでした。"

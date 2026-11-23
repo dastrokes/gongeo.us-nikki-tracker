@@ -362,6 +362,7 @@
                   : null
               "
               variant="overlay"
+              :ownership-tier="getOwnershipTier('item', entry.id)"
               :menu-options="
                 getItemVariationMarkOptions(entry.id, entry.quality)
               "
@@ -542,17 +543,6 @@
   type WardrobeVariantMarkOption = DropdownOption & {
     key: WardrobeVariantMarkKey | WardrobeVariantMarkDividerKey
   }
-  const markCurrentVariantOption = (
-    option: WardrobeVariantMarkOption,
-    currentVariantType?: VariantType | null
-  ): WardrobeVariantMarkOption =>
-    currentVariantType && option.key === currentVariantType
-      ? {
-          ...option,
-          label: () =>
-            h('span', { class: 'font-semibold' }, String(option.label ?? '')),
-        }
-      : option
 
   type ItemListingPrimaryFilter =
     'type' | 'quality' | 'version' | 'style' | 'label' | 'source' | null
@@ -934,6 +924,7 @@
     init: initWardrobe,
     retry: retryWardrobeStorage,
     isItemOwned,
+    getOwnershipTier,
     markItemsOwned,
   } = useWardrobe()
   const catalogIndex = useCatalogIndex()
@@ -1573,27 +1564,26 @@
   }
 
   const getVariantMarkOptions = (
-    glowUpOwned: boolean,
-    currentVariantType?: VariantType | null
-  ): WardrobeVariantMarkOption[] =>
-    [
-      { key: 'base', label: t('wardrobe.actions.base_only') },
-      { key: 'evo1', label: t('banner.outfit.level.2') },
-      { key: 'evo2', label: t('banner.outfit.level.3') },
-      { key: 'evo3', label: t('banner.outfit.level.4') },
-      { key: 'divider-glowup', type: 'divider' },
-      {
-        key: 'glowup',
-        label: t(
-          glowUpOwned
-            ? 'wardrobe.actions.unmark_glowup'
-            : 'wardrobe.actions.mark_glowup'
-        ),
-      },
-      { key: 'divider-bulk', type: 'divider' },
-      { key: 'complete-set', label: t('wardrobe.actions.mark_all') },
-      { key: 'unmark-all', label: t('wardrobe.actions.unmark_all') },
-    ].map((option) => markCurrentVariantOption(option, currentVariantType))
+    glowUpOwned: boolean
+  ): WardrobeVariantMarkOption[] => [
+    { key: 'base', label: t('wardrobe.actions.base') },
+    { key: 'evo1', label: t('banner.outfit.level.2') },
+    { key: 'evo2', label: t('banner.outfit.level.3') },
+    { key: 'evo3', label: t('banner.outfit.level.4') },
+    { key: 'divider-glowup', type: 'divider' },
+    {
+      key: 'glowup',
+      owned: glowUpOwned,
+      label: t(
+        glowUpOwned
+          ? 'wardrobe.actions.unmark_glowup'
+          : 'wardrobe.actions.mark_glowup'
+      ),
+    },
+    { key: 'divider-bulk', type: 'divider' },
+    { key: 'complete-set', label: t('wardrobe.actions.mark_all') },
+    { key: 'unmark-all', label: t('wardrobe.actions.unmark_all') },
+  ]
   const selectedVariationMarkOptions = computed<WardrobeVariantMarkOption[]>(
     () => [
       {
@@ -1611,15 +1601,13 @@
   }
   const getApplicableVariantMarkOptions = (
     qualities: readonly number[],
-    glowUpOwned: boolean,
-    currentVariantType?: VariantType | null
+    glowUpOwned: boolean
   ) =>
     qualities.length > 0
-      ? getVariantMarkOptions(glowUpOwned, currentVariantType).filter(
-          (option) =>
-            qualities.every((quality) =>
-              isVariantMarkApplicableToQuality(option.key, quality)
-            )
+      ? getVariantMarkOptions(glowUpOwned).filter((option) =>
+          qualities.every((quality) =>
+            isVariantMarkApplicableToQuality(option.key, quality)
+          )
         )
       : []
   const itemQualityById = computed(
@@ -1684,8 +1672,7 @@
   const getItemVariationMarkOptions = (itemId: number, quality: number) =>
     getApplicableVariantMarkOptions(
       [quality],
-      isItemGlowUpOwned(itemId, quality),
-      getCatalogItemVariantType(itemId)
+      isItemGlowUpOwned(itemId, quality)
     )
   const getVariantMarkMaxRank = (key: WardrobeVariantMarkKey) => {
     if (key === 'base') return 0

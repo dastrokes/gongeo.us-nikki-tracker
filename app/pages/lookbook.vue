@@ -803,7 +803,7 @@
     if (status === 'variant-owned') {
       return {
         icon: ExclamationCircle,
-        label: t('wardrobe.actions.base_only'),
+        label: t('wardrobe.actions.base'),
       }
     }
 

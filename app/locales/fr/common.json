@@ -383,7 +383,7 @@
       "edit_ownership": "Modifier la possession",
       "mark_owned": "Marquer comme possédé",
       "mark_unowned": "Marquer comme non possédé",
-      "base_only": "Base uniquement",
+      "base": "Base",
       "mark_all": "Marquer toutes les variations",
       "unmark_all": "Tout démarquer",
       "mark_selected_owned": "Marquer la sélection comme possédée",
@@ -959,6 +959,9 @@
     "back": "Retour au Hub de création",
     "open": "Ouvrir le créateur",
     "remove": "Retirer {name}",
+    "outfit_poster": {
+      "description": "Créez une affiche à partager à partir des tenues qui correspondent à vos filtres."
+    },
     "template": {
       "title": "Modèle de carte",
       "default": "Modèle par défaut",
@@ -1095,7 +1098,9 @@
   "compendium": {
     "image": {
       "outfit_poster": "Affiche de tenues",
+      "quick_filters": "Filtres rapides",
       "current_filters": "Filtres actuels",
+      "empty_wardrobe_hint": "Ta garde-robe est vide. Importe tes tenues depuis {source} ou utilise l’icône {ownershipIcon} pour indiquer ta progression.",
       "stage_complete": "@:global.banner_stats.option_completed_set",
       "download_zip": "Tout télécharger (ZIP)",
       "image_error": "Certaines images de tenues n’ont pas pu être chargées."

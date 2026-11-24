@@ -1366,7 +1366,9 @@
               )
             ) {
               try {
-                await sendUserBannerStats(processedPulls)
+                if ((await sendUserBannerStats(processedPulls)) === false) {
+                  message.error(t('import.messages.stats_submit_failed'))
+                }
               } catch {
                 message.error(t('import.messages.stats_submit_failed'))
               }

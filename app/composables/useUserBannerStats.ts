@@ -13,7 +13,6 @@ export const useUserBannerStats = () => {
     const {
       data: { session },
     } = await supabase.auth.getSession()
-    const userId = session?.user?.id
 
     if (!uid) return
 
@@ -26,7 +25,6 @@ export const useUserBannerStats = () => {
       .map(([bannerId, banner]) => ({
         uid: hashedUid,
         region,
-        user_id: userId,
         banner_id: Number(bannerId),
         banner_type: banner.bannerType,
         total_pulls: banner.stats.totalPulls,
@@ -72,11 +70,14 @@ export const useUserBannerStats = () => {
 
     // Send all data in a single batch
     if (analyticsDataArray.length > 0) {
-      await sendUserStats(analyticsDataArray)
+      return await sendUserStats(analyticsDataArray, session?.access_token)
     }
   }
 
-  const sendUserStats = async (data: UserBannerStats[]) => {
+  const sendUserStats = async (
+    data: UserBannerStats[],
+    accessToken?: string
+  ) => {
     try {
       const timestamp = Math.floor(Date.now() / 1000)
       const signature = await generateSignature(apiKey, timestamp, data)
@@ -89,6 +90,7 @@ export const useUserBannerStats = () => {
           'X-Signature': signature,
           'X-Timestamp': timestamp.toString(),
           'X-Target': 'game',
+          ...(accessToken ? { Authorization: 'Bearer ' + accessToken } : {}),
         },
       })
 
@@ -106,14 +108,10 @@ export const useUserBannerStats = () => {
       const {
         data: { session },
       } = await supabase.auth.getSession()
-      const userId = session?.user?.id
-
-      const payload: UserBannerStats[] = userId
-        ? bannerStats.map((s) => ({ ...s, user_id: userId }))
-        : bannerStats
+      const accessToken = session?.access_token
 
       const timestamp = Math.floor(Date.now() / 1000)
-      const signature = await generateSignature(apiKey, timestamp, payload)
+      const signature = await generateSignature(apiKey, timestamp, bannerStats)
 
       const response = await $fetch('/api/stats', {
         method: 'POST',
@@ -122,8 +120,9 @@ export const useUserBannerStats = () => {
           'X-Signature': signature,
           'X-Timestamp': timestamp.toString(),
           'X-Target': 'pearpal',
+          ...(accessToken ? { Authorization: 'Bearer ' + accessToken } : {}),
         },
-        body: payload,
+        body: bannerStats,
       })
 
       return response

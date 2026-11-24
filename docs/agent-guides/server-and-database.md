@@ -14,6 +14,15 @@ Read this guide for server endpoints, caching, locale resolution, Supabase, SQL,
 - D1 query/schema behavior belongs in the sibling data API and data processor projects. Keep tracker reference markdown condensed.
 - Reference files are non-executable maps. Verify risky behavior against code, schemas, or APIs.
 
+## Raw banner stats migration
+
+- `BANNER_STATS_WRITE_MODE` defaults to `supabase`. Use `paused` to reject submissions during a cutover, then `d1` to write only to `gongeous-raw-stats`. There is no dual-write mode.
+- Set the same server-only `BANNER_STATS_WRITE_TOKEN` on the tracker and data API Worker. The Worker owns the `RAW_STATS` binding and import validation. The browser still calls `/api/stats`.
+- Local Nuxt development accepts a loopback HTTP `BANNER_STATS_WORKER_ORIGIN`. Verify the hosted Netlify-to-Worker path during snapshot capture before enabling D1 writes.
+- Reject uploads above 2,000,000 bytes or 1,000 rows before writing. Only a verified Supabase session links an upload to an account. Anonymous submissions remain supported.
+- Relay the whole D1 import in one request and one transaction. Allow one transient retry of the same payload under a 40-second endpoint budget, with up to 15 seconds per relay attempt.
+- Use the backup repository's exact raw row and aggregate comparison before the switch. Supabase will no longer contain new D1 writes after cutover. Verify restore and plan rollback or replay before choosing `d1`.
+
 ## Runtime boundaries
 
 - Nitro auto-imports server and shared helpers, but not frontend helpers from `app/`. Explicitly import any frontend dependency in a module loaded by server code, including transitive dependencies.

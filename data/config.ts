@@ -2,7 +2,7 @@ import { BANNER_DATA } from './banners'
 
 export const LATEST_BANNER_ID = 82
 
-export const IMPORT_PAGE_MAINTENANCE = false
+export const IMPORT_PAGE_MAINTENANCE = true
 
 const MID_PATCH_DATES = ['2026-10-11'] as const
 

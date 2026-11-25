@@ -2,22 +2,21 @@
   import { ArrowRight, Trophy } from '@vicons/fa'
   import {
     BANNER_VOTE_SEASONS,
-    LIVE_BANNER_VOTE_SEASON,
+    CURRENT_BANNER_VOTE_SEASON,
   } from '~~/shared/utils/bannerVoteSeasons'
 
   const { t } = useI18n()
-  const season = BANNER_VOTE_SEASONS[LIVE_BANNER_VOTE_SEASON]
+  const season = BANNER_VOTE_SEASONS[CURRENT_BANNER_VOTE_SEASON]
   const { getImageSrc } = imageProvider()
   const previews = season.bannerIds.slice(0, 2).map((id) => ({
     id,
     image: getImageSrc('banner', id),
   }))
-  const mainPath = `/ranking/${LIVE_BANNER_VOTE_SEASON}`
+  const mainPath = `/ranking/${season.id}`
 </script>
 
 <template>
   <section
-    v-if="!season.archived"
     aria-labelledby="landing-banner-vote-title"
     class="mx-auto w-full max-w-4xl rounded-2xl border border-[#DDD2E8] bg-[#F5F0FA] p-4 sm:px-6 sm:py-5 dark:border-[#3A3858] dark:bg-[#1E2035]"
   >

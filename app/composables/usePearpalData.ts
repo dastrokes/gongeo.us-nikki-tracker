@@ -237,9 +237,9 @@ export const usePearpalData = () => {
           )
           .map((pull) => ({
             item_id: pull.itemId,
-            pulls_to_obtain: pull.pullsToObtain,
-            obtained_at: pull.obtainedAt,
             pull_index: pull.pullIndex,
+            obtained_at: pull.obtainedAt,
+            pulls_to_obtain: pull.pullsToObtain,
           }))
           .reverse(),
         pulls_5star: banner.pulls
@@ -252,9 +252,9 @@ export const usePearpalData = () => {
           )
           .map((pull) => ({
             item_id: pull.itemId,
-            pulls_to_obtain: pull.pullsToObtain,
-            obtained_at: pull.obtainedAt,
             pull_index: pull.pullIndex,
+            obtained_at: pull.obtainedAt,
+            pulls_to_obtain: pull.pullsToObtain,
           }))
           .reverse(),
         last_pull_time: banner.stats.lastPull,

@@ -16,7 +16,7 @@ Read this guide for server endpoints, caching, locale resolution, Supabase, SQL,
 
 ## Raw banner stats migration
 
-- Production uses `productionStatsWriteMode` in `nuxt.config.ts`, currently `supabase`. Set it to `paused` for cutover, then `d1` to write only to `gongeous-stats`. There is no dual-write mode.
+- Production uses `productionStatsWriteMode` in `nuxt.config.ts`. It is set to `d1` for draft testing against `gongeous-stats`. Keep the draft unpublished until backfill and parity checks pass. There is no dual-write mode.
 - Set the same server-only `CLOUDFLARE_INGEST_TOKEN` on the tracker and data API Worker. The Worker owns the `RAW_STATS` binding and import validation. The browser still calls `/api/stats`.
 - Netlify Deploy Previews use D1 via `https://data.gongeo.us`. Scope `CLOUDFLARE_INGEST_TOKEN` to the test preview before submitting fixtures. Local Nuxt development uses the Worker at `http://127.0.0.1:8787`. A production-context permalink still uses the production write mode.
 - Reject uploads above 2,000,000 bytes or 1,000 rows before writing. Only a verified Supabase session links an upload to an account. Anonymous submissions remain supported.

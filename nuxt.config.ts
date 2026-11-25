@@ -72,7 +72,7 @@ const isAdSenseEnabled =
   process.env.NUXT_PUBLIC_ENABLE_ADSENSE === 'true' ||
   (process.env.NODE_ENV === 'production' &&
     process.env.CONTEXT === 'production')
-const productionStatsWriteMode = 'supabase' as 'supabase' | 'paused' | 'd1'
+const productionStatsWriteMode = 'd1' as 'supabase' | 'paused' | 'd1'
 const statsWriteMode =
   process.env.NODE_ENV === 'development' ||
   process.env.CONTEXT === 'deploy-preview'

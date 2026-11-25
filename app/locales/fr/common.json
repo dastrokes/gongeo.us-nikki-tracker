@@ -941,6 +941,7 @@
       "title": "Classement des bannières",
       "description": "Découvrez les bannières les plus populaires selon les votes de la communauté.",
       "voteMore": "Votez plus",
+      "creatorConfirm": "Utiliser votre top 10 actuel ? Cela remplacera votre classement enregistré des bannières limitées de {season}.",
       "lastUpdated": "Dernière mise à jour",
       "rank": "Rang",
       "elo": "Note Elo",

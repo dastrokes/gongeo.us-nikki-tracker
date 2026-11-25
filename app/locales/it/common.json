@@ -941,6 +941,7 @@
       "title": "Classifiche dei banner",
       "description": "Scopri quali banner sono i più popolari secondo i voti della community.",
       "voteMore": "Vota di più",
+      "creatorConfirm": "Usare la tua attuale top 10? Sostituirà la bozza salvata dei banner limitati di {season}.",
       "lastUpdated": "Ultimo aggiornamento",
       "rank": "Posizione",
       "elo": "Valutazione Elo",

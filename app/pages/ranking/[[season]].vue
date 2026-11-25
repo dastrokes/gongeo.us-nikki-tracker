@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  import { CaretDown, CaretUp, Trophy } from '@vicons/fa'
+  import { CaretDown, CaretUp, ImagesRegular, Trophy } from '@vicons/fa'
   import type { DataTableColumns, DataTableThemeOverrides } from 'naive-ui'
   import { breakpointsTailwind } from '@vueuse/core'
   import { BANNER_DATA } from '~~/data/banners'
@@ -17,6 +17,9 @@
   const { t, n } = useI18n()
   const { getImageSrc } = imageProvider()
   const localePath = useLocalePath()
+  const router = useRouter()
+  const message = useMessage()
+  const bannerRankingImport = useBannerRankingImport()
   const breakpoints = useBreakpoints(breakpointsTailwind)
   const isCompact = shallowRef(false)
   const { getRankings, snapshot, refreshFailed } = useBannerVote(seasonId)
@@ -27,6 +30,32 @@
   const rankings = shallowRef<BannerRanking[]>([])
   const stats = shallowRef<VoteStats | null>(null)
   const lastUpdated = shallowRef<string | null>(null)
+  const showCreatorConfirmation = shallowRef(false)
+  const openingCreator = shallowRef(false)
+  const personalTopTen = computed(() =>
+    isPersonalMode.value && stats.value?.totalVotes
+      ? rankings.value.slice(0, 10).map(({ banner_id }) => banner_id)
+      : []
+  )
+  const openRankingCreator = async () => {
+    const bannerIds = personalTopTen.value
+    if (openingCreator.value || bannerIds.length !== 10) return
+
+    const destination = localePath({
+      path: '/create',
+      query: { mode: 'ranking' },
+    })
+    openingCreator.value = true
+    bannerRankingImport.value = { majorVersion: season.version, bannerIds }
+    const failed = await router.push(destination).catch(() => true)
+    openingCreator.value = false
+    if (failed) {
+      bannerRankingImport.value = null
+      message.error(t('common.error'))
+    } else {
+      showCreatorConfirmation.value = false
+    }
+  }
   let loadVersion = 0
   const tableTheme: DataTableThemeOverrides = {
     tdColor: 'transparent',
@@ -476,12 +505,28 @@
       >
         {{ t('vote.rankings.lastUpdated') }}: {{ updatedAtLabel }}
       </p>
-      <NuxtLinkLocale
+      <div
         v-if="isPersonalMode || phase === 'open'"
-        :to="`/vote/${seasonId}`"
-        class="rounded-full bg-rose-500 px-5 py-2.5 font-semibold text-white transition-colors hover:bg-rose-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-500"
-        >{{ t('vote.rankings.voteMore') }}</NuxtLinkLocale
+        class="flex flex-wrap items-center gap-3"
       >
+        <n-button
+          v-if="personalTopTen.length === 10"
+          secondary
+          round
+          class="min-h-10"
+          @click="showCreatorConfirmation = true"
+        >
+          <template #icon>
+            <n-icon aria-hidden="true"><ImagesRegular /></n-icon>
+          </template>
+          {{ t('creation_hub.open') }}
+        </n-button>
+        <NuxtLinkLocale
+          :to="`/vote/${seasonId}`"
+          class="rounded-full bg-rose-500 px-5 py-2.5 font-semibold text-white transition-colors hover:bg-rose-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-500"
+          >{{ t('vote.rankings.voteMore') }}</NuxtLinkLocale
+        >
+      </div>
     </div>
     <div
       v-if="loading && !stats"
@@ -518,5 +563,40 @@
         />
       </n-card>
     </template>
+    <n-modal
+      v-model:show="showCreatorConfirmation"
+      preset="card"
+      :title="t('creation_hub.banner_ranking.title')"
+      :aria-label="t('creation_hub.banner_ranking.title')"
+      class="w-[calc(100vw-2rem)] max-w-md"
+      :closable="!openingCreator"
+      :mask-closable="!openingCreator"
+      :close-on-esc="!openingCreator"
+    >
+      <p class="text-sm leading-6 text-slate-600 dark:text-slate-300">
+        {{
+          t('vote.rankings.creatorConfirm', {
+            season: t(`version.${season.version}`),
+          })
+        }}
+      </p>
+      <template #footer>
+        <div class="flex flex-wrap justify-end gap-2">
+          <n-button
+            :disabled="openingCreator"
+            @click="showCreatorConfirmation = false"
+          >
+            {{ t('common.cancel') }}
+          </n-button>
+          <n-button
+            type="primary"
+            :loading="openingCreator"
+            @click="openRankingCreator"
+          >
+            {{ t('creation_hub.open') }}
+          </n-button>
+        </div>
+      </template>
+    </n-modal>
   </div>
 </template>

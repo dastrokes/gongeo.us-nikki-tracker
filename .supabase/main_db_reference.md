@@ -11,45 +11,15 @@ Canonical source for expanded query notes:
 
 ## Functions
 
-- `public.generate_percentile_data()`
 - `public.generate_tierlist_data()`
 
-Global-stat generators and refresh functions are installed by the backup workflow in its disposable PostgreSQL database. Their `user_global_stats` scratch table is created there when absent and is not required in source Supabase. Published global stats are served from D1.
+Global-stat generators and refresh functions, including `generate_percentile_data()`, run in the backup workflow's disposable PostgreSQL database. They read raw stats from D1 `gongeous-stats` and banner config from D1 `gongeous`. Published global stats are served from D1.
+
+Legacy Supabase objects `user_banner_stats`, `user_banner_stats_pearpal`, `user_banner_stats_view`, and `global_banner_config` are outside the active stats contract and pending retirement.
 
 Community banner voting uses a dedicated Supabase project during an active poll. Completed rankings are served from the repository. See [banner vote operations](banner-vote/README.md).
 
 ## Tables
-
-### `public.user_banner_stats`
-
-- `uid text` (PK part)
-- `region text` (PK part)
-- `banner_id integer` (PK part)
-- `banner_type integer`
-- `total_pulls integer`
-- `total_4star_items integer`
-- `total_5star_items integer`
-- `total_4star_pulls integer`
-- `total_5star_pulls integer`
-- `pulls_4star jsonb`
-- `pulls_5star jsonb`
-- `last_pull_time timestamptz`
-- `created_at timestamptz`
-- `updated_at timestamptz`
-- `user_id text`
-
-### `public.user_banner_stats_pearpal`
-
-- Same column set as `public.user_banner_stats`
-- PK: `(uid, region, banner_id)`
-
-### `public.global_banner_config`
-
-- `banner_id integer` (PK part)
-- `banner_type smallint`
-- `quality smallint` (PK part)
-- `outfit_id text` (PK part)
-- `item_count smallint`
 
 ### `public.user_tierlists`
 
@@ -86,12 +56,6 @@ Community banner voting uses a dedicated Supabase project during an active poll.
 - RLS enabled; only `service_role` has table privileges
 
 ## Views
-
-### `public.user_banner_stats_view`
-
-- Merges `user_banner_stats` and `user_banner_stats_pearpal`.
-- Join key: `(uid, region, banner_id)`.
-- Exposes derived `source_table` (`game` or `pearpal`).
 
 ### `public.feedback_queue`
 

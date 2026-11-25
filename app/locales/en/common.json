@@ -941,6 +941,7 @@
       "title": "Banner Rankings",
       "description": "See which banners are the most popular based on community votes.",
       "voteMore": "Vote More",
+      "creatorConfirm": "Use your current top 10? This replaces your saved {season} limited banner draft.",
       "lastUpdated": "Last updated",
       "rank": "Rank",
       "elo": "Elo Rating",

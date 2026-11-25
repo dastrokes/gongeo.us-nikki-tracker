@@ -941,6 +941,7 @@
       "title": "배너 순위",
       "description": "커뮤니티 투표에서 가장 인기 있는 배너를 확인하세요.",
       "voteMore": "더 많이 투표하세요",
+      "creatorConfirm": "현재 개인 랭킹 상위 10개를 사용할까요? {season} 한정 배너의 저장된 랭킹 초안은 덮어씁니다.",
       "lastUpdated": "마지막 업데이트",
       "rank": "순위",
       "elo": "ELO 레이팅",

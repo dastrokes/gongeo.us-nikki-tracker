@@ -7,6 +7,7 @@ type StatsSource = 'game' | 'pearpal'
 type StatsWriteMode = 'supabase' | 'd1' | 'paused'
 
 const DATA_API_ORIGIN = 'https://data.gongeo.us'
+const LOCAL_DATA_API_ORIGIN = 'http://127.0.0.1:8787'
 const MAX_IMPORT_BYTES = 2_000_000
 const MAX_IMPORT_ROWS = 1_000
 const MAX_PULL_COUNT = 10_000
@@ -24,9 +25,9 @@ const numericFields = [
 ] as const
 
 export const getBannerStatsWriteMode = (): StatsWriteMode => {
-  const mode = process.env.BANNER_STATS_WRITE_MODE?.trim() || 'supabase'
+  const mode = useRuntimeConfig().statsWriteMode
   if (mode === 'supabase' || mode === 'd1' || mode === 'paused') return mode
-  throw new Error('Invalid BANNER_STATS_WRITE_MODE')
+  throw new Error('Invalid stats write mode')
 }
 
 export const invalidBannerStats = () =>
@@ -155,24 +156,15 @@ export const writeBannerStatsD1 = async (
   body: string,
   deadline: AbortSignal
 ) => {
-  const origin = new URL(
-    process.env.BANNER_STATS_WORKER_ORIGIN?.trim() || DATA_API_ORIGIN
-  )
-  const token = process.env.BANNER_STATS_WRITE_TOKEN?.trim()
-  const local =
-    process.env.NODE_ENV === 'development' &&
-    origin.protocol === 'http:' &&
-    origin.hostname === '127.0.0.1'
-
-  if (
-    !token ||
-    (!local && origin.origin !== DATA_API_ORIGIN) ||
-    origin.username ||
-    origin.password
-  ) {
-    throw new Error('Banner stats Worker configuration is invalid')
+  const token = process.env.CLOUDFLARE_INGEST_TOKEN?.trim()
+  if (!token) {
+    throw new Error('Stats ingest token is missing')
   }
 
+  const origin =
+    process.env.NODE_ENV === 'development'
+      ? LOCAL_DATA_API_ORIGIN
+      : DATA_API_ORIGIN
   const url = new URL('/_internal/stats/import', origin)
   const failure = () =>
     createApiFailureError('update D1 banner stats', { transient: true })

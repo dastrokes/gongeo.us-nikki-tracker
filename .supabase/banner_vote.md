@@ -27,16 +27,16 @@ Netlify caches ranking responses for one hour. Nitro reads the Supabase snapshot
 
 To publish a snapshot early, refresh it in Supabase first, then run `npm run purge -- banner-ranking-2x` with `NETLIFY_SITE_ID` and `NETLIFY_AUTH_TOKEN` set. This tag covers both the default request and the explicit 2.x request when both resolve to 2.x.
 
-Apply [banner_ranking_refresh.sql](banner_ranking_refresh.sql) after `banner_vote.sql` on the vote project. Set `VOTE_SUPABASE_URL` and `VOTE_SUPABASE_PUBLISHABLE_KEY` for Netlify Builds. Also make `VOTE_SUPABASE_URL` and `VOTE_SUPABASE_SECRET_KEY` available to Netlify Functions. Get the secret from the vote project's API Keys dashboard and store it in Netlify.
+Apply [banner_ranking_refresh.sql](banner_ranking_refresh.sql) after `banner_vote.sql` on the vote project. Set `VOTE_SUPABASE_URL` and `VOTE_SUPABASE_PUBLISHABLE_KEY` for Netlify Builds. Store `VOTE_SUPABASE_SECRET_KEY` in Netlify for the ranking API runtime. Get the secret from the vote project's API Keys dashboard and store it in Netlify.
 
-Netlify runs `refresh-banner-rankings` hourly, using the schedule in `netlify.toml`. The function refreshes the snapshot, then purges the 2.x tag using Netlify's built-in credentials. Verify the first top-of-hour run in the function logs. The dashboard's **Run now** reports success without reaching the handler on this site. Disable the old `banner-ranking-hourly` Supabase job if it is still active.
+Snapshots are refreshed manually. After an early refresh, use `npm run purge -- banner-ranking-2x` to publish it before the one-hour cache expires. Disable the old `banner-ranking-hourly` Supabase job if it is still active.
 
 ## Move the live poll
 
 1. Install both schemas on the vote project with `banner_vote_window()` disabled there. When the Netlify deployment is ready, take the `banner-vote-maintenance` advisory transaction lock on the main project and disable its window to drain in-flight votes.
 2. Copy `banner_rankings`, `banner_votes`, `banner_voters`, and `banner_ranking_previous`. Insert the ledger with `OVERRIDING SYSTEM VALUE` to preserve its identity values, alongside the original vote IDs, request UUIDs and timestamps. Reset the identity sequence after the highest copied order.
 3. Compare the tables and win totals, and confirm `rebuild_all_rankings(true)` reports a match. Refresh the materialized view directly so the first refresh preserves the copied previous rankings.
-4. Once the new deployment is live, enable the original window dates on the vote project and leave the main project's window disabled. Verify a real vote, `/api/vote/rankings`, and the next scheduled refresh. Keep the source tables for verification and rollback until cleanup is approved.
+4. Once the new deployment is live, enable the original window dates on the vote project and leave the main project's window disabled. Verify a real vote and `/api/vote/rankings`, then refresh and purge a snapshot when needed. Keep the source tables for verification and rollback until cleanup is approved.
 
 ## Validate and repair
 
@@ -52,18 +52,18 @@ For a pause, set the SQL window's enabled flag to false and update the frontend 
 
 ## Close, archive, and clear
 
-1. Let the SQL closing time stop new submissions. Disable the SQL flag and wait for outstanding votes by running rebuild validation.
-2. Refresh once, then export `rankings`, `stats`, and `updated_at` together from `banner_ranking_snapshots`. Save a raw vote backup if desired.
-3. Add the snapshot as a static archive factory in `shared/data/bannerRankingArchives.ts`, following the existing 1.x archive. Mark its manifest entry `archived = true` and deploy.
-4. Verify the completed ranking route works from its static archive. Keep the short routes on that season until the next poll opens.
-5. Remove the schedule from the Netlify function and deploy, then clear the completed database data:
+1. For a scheduled close, set the confirmed UTC deadline in the deployed `banner_vote_window()` and in the `2x` manifest's `closesAt`. Preserve the installed opening time. Deploy the manifest with `enabled: true` and `archived: false` so it switches to Closed at the deadline while the ranking route still reads the database.
+2. At close, run [close_banner_vote_2x.sql](close_banner_vote_2x.sql) as the database owner on `gongeous-vote`. With no scheduled deadline, running this file closes voting immediately. With a scheduled deadline, it refuses to run early. It drains in-flight votes, verifies Elo against the ledger, and refreshes and returns the final public snapshot in one transaction. A failed validation rolls back the transaction. The Supabase SQL Editor can run the complete file and return the export.
+3. Run `npm run purge -- banner-ranking-2x` and verify that `/api/vote/rankings?season=2x` serves the final totals. Save the returned `archive` object and keep a private raw vote backup if needed.
+4. Add the final snapshot as a static archive factory in `shared/data/bannerRankingArchives.ts`, following the existing 1.x archive. Set the manifest's `closesAt` to the returned cutoff, `enabled: false`, and `archived: true`. Verify both `/ranking` and `/ranking/2x` serve the final results. The short routes can remain on 2.x until the next poll opens.
+5. When retiring the completed data after verifying the archive and backup, clear the live tables:
 
    ```sql
    truncate table public.banner_votes, public.banner_rankings, public.banner_voters, public.banner_ranking_previous restart identity;
    refresh materialized view concurrently public.banner_ranking_snapshots;
    ```
 
-The next poll reuses the same tables, RPC and snapshot. Update the live manifest ID, purge tag, roster and dates before restoring the schedule.
+The next poll reuses the same tables, RPC and snapshot. Update the live manifest ID, purge tag, roster and dates before reopening voting.
 
 ## Current readiness
 

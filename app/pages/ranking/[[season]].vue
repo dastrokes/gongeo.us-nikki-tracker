@@ -40,7 +40,7 @@
 
   const renderRankChange = (row: BannerRanking) => {
     const change = row.rank_change
-    if (!change) return null
+    if (!change || phase.value === 'closed') return null
     const up = change > 0
     return h(
       'span',

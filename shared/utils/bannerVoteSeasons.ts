@@ -35,9 +35,9 @@ export const BANNER_VOTE_SEASONS: Record<BannerVoteSeasonId, BannerVoteSeason> =
       // First debuts in 2.x, through 2.11.2.
       bannerIds: Array.from({ length: 41 }, (_, index) => index + 42),
       rosterFinal: true,
-      enabled: true,
-      opensAt: '2026-10-22T01:14:37Z',
-      closesAt: null,
+      enabled: false,
+      opensAt: '2026-10-22T00:00:00Z',
+      closesAt: '2026-11-25T21:00:00Z',
       archived: false,
     },
   }

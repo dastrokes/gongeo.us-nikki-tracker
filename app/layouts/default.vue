@@ -733,11 +733,6 @@
       label: t('navigation.groups.community'),
       items: [
         {
-          key: 'vote',
-          label: t('vote.navigation'),
-          icon: VoteYea,
-        },
-        {
           key: 'tierlist',
           label: t('navigation.tierlist'),
           icon: SortAmountDown,
@@ -748,6 +743,11 @@
           icon: Shapes,
         },
         { key: 'lookbook', label: t('navigation.lookbook'), icon: Th },
+        {
+          key: 'vote',
+          label: t('vote.navigation'),
+          icon: VoteYea,
+        },
         { key: 'quiz', label: t('quiz.title'), icon: PuzzlePiece },
         {
           key: 'feedback',

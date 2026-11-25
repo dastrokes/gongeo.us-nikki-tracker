@@ -213,6 +213,23 @@
           >{{ t('vote.retry') }}</n-button
         >
       </n-alert>
+      <div
+        v-else-if="displayPhase === 'closed' && !isPersonalMode"
+        class="flex flex-wrap items-center gap-3"
+      >
+        <NuxtLinkLocale
+          :to="`/ranking/${seasonId}`"
+          class="rounded-full bg-rose-500 px-5 py-2 font-semibold text-white transition-colors hover:bg-rose-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-500"
+          >{{
+            t(season.archived ? 'vote.event.results' : 'vote.viewRankings')
+          }}</NuxtLinkLocale
+        >
+        <n-button
+          secondary
+          @click="setMode(true)"
+          >{{ t('vote.usePersonal') }}</n-button
+        >
+      </div>
       <n-alert
         v-else-if="!canVote"
         type="info"

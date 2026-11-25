@@ -255,5 +255,5 @@ commit;
 -- Manual refresh: refresh materialized view concurrently public.banner_ranking_snapshots;
 -- Validate: select public.rebuild_all_rankings(true);
 -- Repair (pause first): select public.rebuild_all_rankings(false);
--- Apply banner_ranking_refresh.sql to enable the Netlify scheduled refresh.
+-- Apply banner_ranking_refresh.sql to add the manual snapshot refresh RPC.
 

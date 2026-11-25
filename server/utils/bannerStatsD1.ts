@@ -168,7 +168,15 @@ export const writeBannerStatsD1 = async (
   const url = new URL('/_internal/stats/import', origin)
   const failure = () =>
     createApiFailureError('update D1 banner stats', { transient: true })
+  let upstreamStatus: number | undefined
+  let cfMitigated: string | null = null
+  let cfRay: string | null = null
+  let errorName: string | undefined
   for (let attempt = 0; attempt < 2 && !deadline.aborted; attempt++) {
+    upstreamStatus = undefined
+    cfMitigated = null
+    cfRay = null
+    errorName = undefined
     let response: Response
     let result
     try {
@@ -186,12 +194,16 @@ export const writeBannerStatsD1 = async (
           AbortSignal.timeout(WRITE_TIMEOUT_MS),
         ]),
       })
+      upstreamStatus = response.status
+      cfMitigated = response.headers.get('cf-mitigated')
+      cfRay = response.headers.get('cf-ray')
       result = response.headers
         .get('content-type')
         ?.includes('application/json')
         ? await response.json()
         : null
-    } catch {
+    } catch (error) {
+      errorName = error instanceof Error ? error.name : 'unknown'
       continue
     }
 
@@ -202,5 +214,13 @@ export const writeBannerStatsD1 = async (
     if (response.ok && result?.success === true) return
     if (![429, 502, 503, 504].includes(response.status)) break
   }
+  console.warn('Stats Worker relay failed', {
+    source,
+    upstreamStatus,
+    cfMitigated,
+    cfRay,
+    errorName,
+    deadlineReached: deadline.aborted,
+  })
   throw failure()
 }

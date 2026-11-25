@@ -81,31 +81,10 @@ export const useUserBannerStats = () => {
     const {
       data: { session },
     } = await supabase.auth.getSession()
-    const payload = JSON.stringify(data)
-    let ticket: string | undefined
-    if (session?.access_token) {
-      const digest = await crypto.subtle.digest(
-        'SHA-256',
-        new TextEncoder().encode(payload)
-      )
-      const bodyHash = Array.from(new Uint8Array(digest), (byte) =>
-        byte.toString(16).padStart(2, '0')
-      ).join('')
-      const authorization = await $fetch<{ ticket: string }>(
-        '/api/stats/ticket',
-        {
-          method: 'POST',
-          body: { source, bodyHash },
-          headers: { Authorization: 'Bearer ' + session.access_token },
-          credentials: 'omit',
-          redirect: 'error',
-          timeout: 10_000,
-          retry: 0,
-        }
-      )
-      if (!authorization.ticket) throw new Error('Missing stats upload ticket')
-      ticket = authorization.ticket
-    }
+    const userId = session?.user.id
+    const payload = JSON.stringify(
+      data.map((row) => ({ ...row, user_id: userId }))
+    )
 
     const endpoint = import.meta.dev
       ? getDataApiUrl('/stats')
@@ -118,7 +97,6 @@ export const useUserBannerStats = () => {
       headers: {
         'Content-Type': 'application/json',
         'X-Target': source,
-        ...(ticket ? { Authorization: 'Bearer ' + ticket } : {}),
       },
       timeout: 15_000,
       retry: 1,

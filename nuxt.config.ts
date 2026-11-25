@@ -72,13 +72,6 @@ const isAdSenseEnabled =
   process.env.NUXT_PUBLIC_ENABLE_ADSENSE === 'true' ||
   (process.env.NODE_ENV === 'production' &&
     process.env.CONTEXT === 'production')
-const productionStatsWriteMode = 'd1' as 'supabase' | 'paused' | 'd1'
-const statsWriteMode =
-  process.env.NODE_ENV === 'development' ||
-  process.env.CONTEXT === 'deploy-preview'
-    ? 'd1'
-    : productionStatsWriteMode
-
 export default defineNuxtConfig({
   devtools: { enabled: false },
 
@@ -203,7 +196,6 @@ export default defineNuxtConfig({
   },
 
   runtimeConfig: {
-    statsWriteMode,
     supabaseSecretKey: process.env.SUPABASE_SECRET_KEY,
     voteSupabaseSecretKey: '',
 
@@ -214,7 +206,6 @@ export default defineNuxtConfig({
       voteSupabasePublishableKey:
         process.env.VOTE_SUPABASE_PUBLISHABLE_KEY ?? '',
       dataApiBaseUrl,
-      gongeousApiKey: process.env.GONGEOUS_API_KEY,
       siteUrl,
       catalogRevision,
       imagekitBaseUrl,

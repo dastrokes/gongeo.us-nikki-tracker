@@ -1,18 +1,10 @@
 export const useUserBannerStats = () => {
-  const runtimeConfig = useRuntimeConfig()
-  const apiKey = runtimeConfig.public.gongeousApiKey || 'api-key'
-
   const sendUserBannerStats = async (
     processedPulls: Record<string, ProcessedBanner>
   ) => {
     const userStore = useUserStore()
     const uid = userStore.uid
     const region = userStore.region
-
-    const supabase = useSupabaseClient()
-    const {
-      data: { session },
-    } = await supabase.auth.getSession()
 
     if (!uid) return
 
@@ -68,72 +60,74 @@ export const useUserBannerStats = () => {
         updated_at: new Date().toISOString(),
       }))
 
-    // Send all data in a single batch
-    if (analyticsDataArray.length > 0) {
-      return await sendUserStats(analyticsDataArray, session?.access_token)
-    }
-  }
-
-  const sendUserStats = async (
-    data: UserBannerStats[],
-    accessToken?: string
-  ) => {
     try {
-      const timestamp = Math.floor(Date.now() / 1000)
-      const signature = await generateSignature(apiKey, timestamp, data)
-
-      const response = await $fetch('/api/stats', {
-        method: 'POST',
-        body: data,
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Signature': signature,
-          'X-Timestamp': timestamp.toString(),
-          'X-Target': 'game',
-          ...(accessToken ? { Authorization: 'Bearer ' + accessToken } : {}),
-        },
-      })
-
-      return (response as { success: boolean }).success === true
+      return (await sendUserStats('game', analyticsDataArray)).success
     } catch (error) {
-      console.error('Error sending banner stats:', error)
+      console.error(
+        'Error sending banner stats:',
+        error instanceof Error ? error.message : 'Unknown error'
+      )
       return false
     }
   }
 
-  // Import pearpal tracker data to internal API
-  const importPearpalTrackerData = async (bannerStats: UserBannerStats[]) => {
-    try {
-      const supabase = useSupabaseClient()
-      const {
-        data: { session },
-      } = await supabase.auth.getSession()
-      const accessToken = session?.access_token
+  const sendUserStats = async (
+    source: 'game' | 'pearpal',
+    data: UserBannerStats[]
+  ) => {
+    if (!data.length) return { success: true }
 
-      const timestamp = Math.floor(Date.now() / 1000)
-      const signature = await generateSignature(apiKey, timestamp, bannerStats)
-
-      const response = await $fetch('/api/stats', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Signature': signature,
-          'X-Timestamp': timestamp.toString(),
-          'X-Target': 'pearpal',
-          ...(accessToken ? { Authorization: 'Bearer ' + accessToken } : {}),
-        },
-        body: bannerStats,
-      })
-
-      return response
-    } catch (err: Error | unknown) {
-      const error =
-        err instanceof Error
-          ? err.message
-          : 'Failed to import pearpal tracker data'
-      throw new Error(error, { cause: err })
+    const supabase = useSupabaseClient()
+    const {
+      data: { session },
+    } = await supabase.auth.getSession()
+    const payload = JSON.stringify(data)
+    let ticket: string | undefined
+    if (session?.access_token) {
+      const digest = await crypto.subtle.digest(
+        'SHA-256',
+        new TextEncoder().encode(payload)
+      )
+      const bodyHash = Array.from(new Uint8Array(digest), (byte) =>
+        byte.toString(16).padStart(2, '0')
+      ).join('')
+      const authorization = await $fetch<{ ticket: string }>(
+        '/api/stats/ticket',
+        {
+          method: 'POST',
+          body: { source, bodyHash },
+          headers: { Authorization: 'Bearer ' + session.access_token },
+          credentials: 'omit',
+          redirect: 'error',
+          timeout: 10_000,
+          retry: 0,
+        }
+      )
+      if (!authorization.ticket) throw new Error('Missing stats upload ticket')
+      ticket = authorization.ticket
     }
+
+    const endpoint = import.meta.dev
+      ? getDataApiUrl('/stats')
+      : 'https://data.gongeo.us/v1/stats'
+    return $fetch<{ success: boolean }>(endpoint, {
+      method: 'POST',
+      body: payload,
+      credentials: 'omit',
+      redirect: 'error',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Target': source,
+        ...(ticket ? { Authorization: 'Bearer ' + ticket } : {}),
+      },
+      timeout: 15_000,
+      retry: 1,
+      retryStatusCodes: [500, 502, 503, 504],
+    })
   }
+
+  const importPearpalTrackerData = (bannerStats: UserBannerStats[]) =>
+    sendUserStats('pearpal', bannerStats)
 
   return {
     sendUserBannerStats,

@@ -16,11 +16,10 @@ Read this guide for server endpoints, caching, locale resolution, Supabase, SQL,
 
 ## Raw banner stats migration
 
-- Production uses `productionStatsWriteMode` in `nuxt.config.ts`. It is set to `d1` for draft testing against `gongeous-stats`. Keep the draft unpublished until backfill and parity checks pass. There is no dual-write mode.
-- Set the same server-only `CLOUDFLARE_INGEST_TOKEN` on the tracker and data API Worker. The Worker owns the `RAW_STATS` binding and import validation. The browser still calls `/api/stats`.
-- Netlify Deploy Previews use D1 via `https://data.gongeo.us`. Scope `CLOUDFLARE_INGEST_TOKEN` to the test preview before submitting fixtures. Local Nuxt development uses the Worker at `http://127.0.0.1:8787`. A production-context permalink still uses the production write mode.
-- Reject uploads above 2,000,000 bytes or 1,000 rows before writing. Only a verified Supabase session links an upload to an account. Anonymous submissions remain supported.
-- Relay the whole D1 import in one request and one transaction. Allow one transient retry of the same payload under a 40-second endpoint budget, with up to 15 seconds per relay attempt.
+- The browser uploads directly to `POST https://data.gongeo.us/v1/stats`. The Worker validates and rate-limits the request and commits one transaction to `gongeous-stats`. The legacy `/api/stats` server route remains during the rollout.
+- For signed-in users, the tracker verifies the session at `/api/stats/ticket` and signs a two-minute ticket bound to the upload. Configure the same server-only `CLOUDFLARE_INGEST_TOKEN` on the tracker and Worker. The browser never gets this secret, and the Worker never calls Supabase.
+- Anonymous users upload without a ticket or account link. The Worker allows one account and region per upload and rejects requests above 2,000,000 bytes or 1,000 rows before writing.
+- Hosted production and draft uploads use `data.gongeo.us`. For local testing, point the existing `NUXT_PUBLIC_DATA_API_BASE_URL` at a local Worker, such as `http://127.0.0.1:8787/v1`, and open the tracker on port 3000.
 - Use the backup repository's exact raw row and aggregate comparison before the switch. Supabase will no longer contain new D1 writes after cutover. Verify restore and plan rollback or replay before choosing `d1`.
 
 ## Runtime boundaries

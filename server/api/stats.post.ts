@@ -5,6 +5,7 @@ import {
   readBannerStatsImport,
   writeBannerStatsD1,
 } from '../utils/bannerStatsD1'
+import { verifyStatsUser } from '../utils/bannerStatsAuth'
 
 const createForbiddenError = (type?: string) =>
   createError({
@@ -29,28 +30,6 @@ const verifySignature = async (
   const apiKey = useRuntimeConfig().public.gongeousApiKey || 'api-key'
   const expectedSignature = await generateSignature(apiKey, timestamp, payload)
   return signature === expectedSignature
-}
-
-const verifyStatsUser = async (header: string, deadline: AbortSignal) => {
-  const token = /^Bearer (\S+)$/i.exec(header)?.[1]
-  if (!token) throw createForbiddenError('invalid')
-  deadline.throwIfAborted()
-  let abort: (() => void) | undefined
-  try {
-    const expired = new Promise<never>((_resolve, reject) => {
-      abort = () => reject(deadline.reason)
-      deadline.addEventListener('abort', abort, { once: true })
-    })
-    const { data, error } = await Promise.race([
-      useSupabaseServerClient().auth.getUser(token),
-      expired,
-    ])
-    if (error && isTransientSupabaseError(error)) throw error
-    if (error || !data.user) throw createForbiddenError('invalid')
-    return data.user.id
-  } finally {
-    if (abort) deadline.removeEventListener('abort', abort)
-  }
 }
 
 export default defineEventHandler(async (event) => {

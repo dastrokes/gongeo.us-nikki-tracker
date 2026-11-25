@@ -164,7 +164,7 @@
                       h(
                         'span',
                         { class: 'font-semibold' },
-                        Math.round(row.elo_rating)
+                        Math.round(row.elo_rating ?? 1500)
                       ),
                     ])
                   : null,
@@ -314,11 +314,11 @@
               return h(
                 'span',
                 { class: 'font-mono' },
-                Math.round(row.elo_rating)
+                Math.round(row.elo_rating ?? 1500)
               )
             },
             sorter: (a: BannerRanking, b: BannerRanking) =>
-              b.elo_rating - a.elo_rating,
+              (b.elo_rating ?? 1500) - (a.elo_rating ?? 1500),
           },
         ]
       : []),
@@ -373,11 +373,11 @@
   const intlLocale = useIntlLocale()
   const updatedAtLabel = computed(() =>
     lastUpdated.value
-      ? new Date(lastUpdated.value).toLocaleString(intlLocale.value, {
+      ? new Date(lastUpdated.value).toLocaleDateString(intlLocale.value, {
           year: 'numeric',
           month: 'short',
           day: 'numeric',
-          hour: 'numeric',
+          timeZone: 'UTC',
         })
       : null
   )
@@ -470,6 +470,12 @@
           </dd>
         </div>
       </dl>
+      <p
+        v-if="updatedAtLabel && !isPersonalMode"
+        class="text-sm text-slate-600 dark:text-slate-300"
+      >
+        {{ t('vote.rankings.lastUpdated') }}: {{ updatedAtLabel }}
+      </p>
       <NuxtLinkLocale
         v-if="isPersonalMode || phase === 'open'"
         :to="`/vote/${seasonId}`"
@@ -495,12 +501,6 @@
       />
     </div>
     <template v-else-if="stats">
-      <p
-        v-if="updatedAtLabel && !isPersonalMode"
-        class="text-sm text-slate-600 dark:text-slate-300"
-      >
-        {{ t('vote.rankings.lastUpdated') }}: {{ updatedAtLabel }}
-      </p>
       <n-card
         size="small"
         class="rounded-xl"

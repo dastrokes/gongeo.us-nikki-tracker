@@ -11,7 +11,7 @@ export interface BannerRanking {
   banner_id: number
   wins: number
   losses: number
-  elo_rating: number
+  elo_rating?: number
   updated_at?: string
   // Calculated fields (not stored in DB)
   total_votes?: number // wins + losses

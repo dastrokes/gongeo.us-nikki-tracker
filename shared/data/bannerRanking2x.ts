@@ -1,0 +1,61 @@
+import type { BannerRankingSnapshot } from '../types/vote'
+
+const rows = [
+  { banner_id: 42, wins: 2173, losses: 989 },
+  { banner_id: 43, wins: 2083, losses: 1087 },
+  { banner_id: 44, wins: 1319, losses: 1855 },
+  { banner_id: 45, wins: 1074, losses: 2097 },
+  { banner_id: 46, wins: 1924, losses: 1237 },
+  { banner_id: 47, wins: 1640, losses: 1531 },
+  { banner_id: 48, wins: 1667, losses: 1501 },
+  { banner_id: 49, wins: 2088, losses: 1077 },
+  { banner_id: 50, wins: 1848, losses: 1327 },
+  { banner_id: 51, wins: 696, losses: 2475 },
+  { banner_id: 52, wins: 977, losses: 2194 },
+  { banner_id: 53, wins: 2077, losses: 1086 },
+  { banner_id: 54, wins: 1423, losses: 1747 },
+  { banner_id: 55, wins: 1734, losses: 1437 },
+  { banner_id: 56, wins: 2075, losses: 1087 },
+  { banner_id: 57, wins: 1107, losses: 2063 },
+  { banner_id: 58, wins: 1808, losses: 1364 },
+  { banner_id: 59, wins: 2464, losses: 703 },
+  { banner_id: 60, wins: 1988, losses: 1182 },
+  { banner_id: 61, wins: 1343, losses: 1828 },
+  { banner_id: 62, wins: 1098, losses: 2072 },
+  { banner_id: 63, wins: 1869, losses: 1302 },
+  { banner_id: 64, wins: 1310, losses: 1859 },
+  { banner_id: 65, wins: 1535, losses: 1636 },
+  { banner_id: 66, wins: 1621, losses: 1546 },
+  { banner_id: 67, wins: 1021, losses: 2149 },
+  { banner_id: 68, wins: 1253, losses: 1921 },
+  { banner_id: 69, wins: 1890, losses: 1277 },
+  { banner_id: 70, wins: 2455, losses: 712 },
+  { banner_id: 71, wins: 1304, losses: 1868 },
+  { banner_id: 72, wins: 1045, losses: 2127 },
+  { banner_id: 73, wins: 1964, losses: 1206 },
+  { banner_id: 74, wins: 1104, losses: 2068 },
+  { banner_id: 75, wins: 1282, losses: 1890 },
+  { banner_id: 76, wins: 1993, losses: 1175 },
+  { banner_id: 77, wins: 1991, losses: 1175 },
+  { banner_id: 78, wins: 1522, losses: 1647 },
+  { banner_id: 79, wins: 1275, losses: 1892 },
+  { banner_id: 80, wins: 1460, losses: 1707 },
+  { banner_id: 81, wins: 1399, losses: 1772 },
+  { banner_id: 82, wins: 1071, losses: 2102 },
+]
+
+export function getBannerRanking2xArchive(): BannerRankingSnapshot {
+  return {
+    rankings: rows.map((row) => ({
+      ...row,
+      total_votes: row.wins + row.losses,
+      win_rate: row.wins / (row.wins + row.losses),
+    })),
+    stats: {
+      totalVotes: 64970,
+      totalVoters: 1467,
+      averageVotesPerVoter: 64970 / 1467,
+    },
+    updated_at: '2026-11-25T22:20:39.586164+00:00',
+  }
+}

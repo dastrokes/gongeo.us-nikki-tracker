@@ -79,7 +79,7 @@ export function computeAllRankingsFromVotes(
 ): BannerRanking[] {
   const elos = computeAllElosFromVotes(bannerIds, allVotes)
 
-  const rankings: BannerRanking[] = bannerIds.map((bannerId) => {
+  const rankings = bannerIds.map((bannerId) => {
     const { wins, losses, totalVotes } = computeStatsFromVotes(
       bannerId,
       allVotes
@@ -94,7 +94,7 @@ export function computeAllRankingsFromVotes(
       elo_rating: elos.get(bannerId) ?? 1500,
       win_rate: winRate,
     }
-  })
+  }) satisfies BannerRanking[]
 
   rankings.sort((a, b) => b.elo_rating - a.elo_rating)
 

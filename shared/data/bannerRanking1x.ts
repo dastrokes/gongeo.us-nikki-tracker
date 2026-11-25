@@ -48,7 +48,6 @@ export function getBannerRanking1xArchive(): BannerRankingSnapshot {
   return {
     rankings: rows.map((row) => ({
       ...row,
-      elo_rating: 1500,
       total_votes: row.wins + row.losses,
       win_rate: row.wins / (row.wins + row.losses),
     })),

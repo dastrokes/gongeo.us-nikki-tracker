@@ -8,9 +8,6 @@ command = "npm run build"
   NODE_VERSION = "24.15.0"
   NODE_OPTIONS = "--max-old-space-size=10240"
 
-[functions."refresh-banner-rankings"]
-schedule = "@hourly"
-
 [images]
 remote_images = [ "https://ik.imagekit.io/.*", "https://cdn.gongeo.us/.*" ]
 

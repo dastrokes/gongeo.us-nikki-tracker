@@ -571,6 +571,7 @@
   const { getImageSrc } = imageProvider()
   const catalog = useCatalogIndex()
   const message = useMessage()
+  const bannerRankingImport = useBannerRankingImport()
   const activeScope = ref<RankingScope | null>(null)
   const phase = ref<'select' | 'rank'>('select')
   const query = ref('')
@@ -1036,6 +1037,33 @@
     versionDrafts[major] = restored
   }
 
+  const importPersonalRanking = () => {
+    const incoming = bannerRankingImport.value
+    if (!incoming) return
+    bannerRankingImport.value = null
+
+    const { majorVersion: major, bannerIds } = incoming
+    const candidateIds = new Set(
+      getScopedCandidates('limited', major).map(({ bannerId }) => bannerId)
+    )
+    if (
+      bannerIds.length !== 10 ||
+      new Set(bannerIds).size !== 10 ||
+      !bannerIds.every((id) => candidateIds.has(id))
+    ) {
+      message.error(t('common.error'))
+      return
+    }
+
+    activateMajorVersion(major)
+    currentVersionDrafts.value.limited = {
+      selectedIds: [...bannerIds],
+      rankedIds: [...bannerIds],
+    }
+    chooseScope('limited')
+    persist()
+  }
+
   onMounted(async () => {
     let stored: string | null = null
     try {
@@ -1070,6 +1098,7 @@
         // Ignore malformed or outdated local state and keep safe defaults.
       }
     }
+    importPersonalRanking()
     await catalog.load(['outfits'])
   })
   watch(

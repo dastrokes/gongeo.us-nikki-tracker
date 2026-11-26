@@ -13,18 +13,20 @@ export const usePersonalVote = (
 
   const getPersonalRankings = (): BannerRankingSnapshot => {
     const data = loadPersonalRankings(season)
-    const rankings: BannerRanking[] = bannerIds.map((bannerId) => {
-      const row = data[String(bannerId)] ?? { elo: 1500, wins: 0, losses: 0 }
-      const total = row.wins + row.losses
-      return {
-        banner_id: bannerId,
-        elo_rating: row.elo,
-        wins: row.wins,
-        losses: row.losses,
-        total_votes: total,
-        win_rate: total ? row.wins / total : 0,
+    const rankings: (BannerRanking & { elo_rating: number })[] = bannerIds.map(
+      (bannerId) => {
+        const row = data[String(bannerId)] ?? { elo: 1500, wins: 0, losses: 0 }
+        const total = row.wins + row.losses
+        return {
+          banner_id: bannerId,
+          elo_rating: row.elo,
+          wins: row.wins,
+          losses: row.losses,
+          total_votes: total,
+          win_rate: total ? row.wins / total : 0,
+        }
       }
-    })
+    )
     rankings.sort(
       (a, b) => b.elo_rating - a.elo_rating || a.banner_id - b.banner_id
     )

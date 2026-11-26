@@ -1,19 +1,27 @@
 # Banner vote operations
 
-The dedicated Supabase project `gongeous-vote` (`mlkhcalrpdyimgshjvwv`) hosts the live banner poll. The original voting schema on `fimzdbqulflilnnopibz` was removed after cutover verification. Completed results are static archives. Raw votes and live rankings can be exported and cleared after archiving.
+Wishfield (1.x) and Itzaland (2.x) are closed. Both results are static archives. The short routes and homepage tile show Itzaland, and Personal mode remains available.
 
-## Setup and opening
+## Retire the 2.x project
 
-1. Confirm the previous poll is archived. Inspect the installed table definitions, triggers and dependent views before applying [banner_vote.sql](banner_vote.sql). The current setup enables voting with no automatic closing date.
-2. For a fresh poll, start with empty `banner_votes` and `banner_rankings` tables and apply the SQL as the database owner. It seeds the current roster.
-3. Keep UTC dates and enabled flags matched in `banner_vote_window()` and `shared/utils/bannerVoteSeasons.ts`. A null closing date keeps voting open. The seeded ranking rows are the allowed roster.
-4. Refresh results manually when needed. The RPC also keeps the previous ranking for rank-change arrows:
+1. Verify that the deployed 2.x archive shows 41 banners, 64,970 votes, and 1,467 voters. Verify the 1.x archive and the homepage tile.
+2. Export all `banner_votes` columns, including `processing_order`. Verify the CSV against the final vote and voter counts and keep it privately outside Supabase. Keep a schema dump if you need an exact copy of the deployed database definitions.
+3. When retiring the project, use only the dedicated 2.x project `gongeous-vote` (`mlkhcalrpdyimgshjvwv`). Remove its `VOTE_SUPABASE_*` variables from Netlify and local configuration. The main app project `fimzdbqulflilnnopibz` continues to serve the rest of the site. The hourly Netlify ranking function was removed.
 
-   ```sql
-   select public.refresh_banner_ranking_snapshot();
-   ```
+## Open the next season
 
-5. At opening, deploy `CURRENT_BANNER_VOTE_SEASON = '2x'`. `LIVE_BANNER_VOTE_SEASON` identifies the poll stored in Supabase; explicit older routes read their archive. Confirm the roster matches the manifest.
+1. Create a dedicated Supabase project for the new poll. Update the seed roster and UTC window in [banner_vote.sql](banner_vote.sql) for the new season before applying it. The checked-in template contains the historical 2.x roster and an enabled window. Keep the new window disabled or set its opening time in the future during setup.
+2. Apply the updated schema as the database owner, then apply [banner_ranking_refresh.sql](banner_ranking_refresh.sql). Start with an empty vote ledger. Confirm that the snapshot contains the expected roster and zero votes. Use a separate test database or a rolled-back transaction to test submissions and replay.
+3. Add the new season ID, roster, and UTC dates in [bannerVoteSeasons.ts](../../shared/utils/bannerVoteSeasons.ts), including its route validation and localized season caption. Add the new explicit vote and ranking routes to the prerender list in [nuxt.config.ts](../../nuxt.config.ts). Keep `banner_vote_window()` and the frontend dates and flags aligned. Set `LIVE_BANNER_VOTE_SEASON` to the new database poll and switch `CURRENT_BANNER_VOTE_SEASON` when the new poll opens.
+4. Set the new project URL and publishable key as `VOTE_SUPABASE_URL` and `VOTE_SUPABASE_PUBLISHABLE_KEY` in Netlify Builds. Set `VOTE_SUPABASE_SECRET_KEY` in Netlify Functions.
+5. Verify the current vote and ranking routes, both explicit archive routes, and Personal mode. After opening, confirm an accepted community vote and publish a fresh snapshot. Use the new season ID in the cache tag.
+
+## Implementation
+
+- [Season manifest](../../shared/utils/bannerVoteSeasons.ts) and [archive registry](../../shared/data/bannerRankingArchives.ts)
+- [Community voting composable](../../app/composables/useBannerVote.ts), [Personal voting composable](../../app/composables/usePersonalVote.ts), and [rankings API](../../server/api/vote/rankings.get.ts)
+- [Homepage tile](../../app/components/LandingBannerVote.vue) and [shared vote and ranking header](../../app/components/BannerVoteSeasonHeader.vue)
+- [Historical 2.x implementation plan](banner-ranking-2x-plan.md)
 
 The RPC accepts five arguments: banner 1, banner 2, winner, fingerprint and request UUID. It enforces the voting window, eligibility, 50 accepted votes per rolling 24 hours, and retry deduplication. A receipt at the cap includes `retry_after_ms`. Over-limit requests return HTTP 400 with `RATE_LIMIT` and the wait in milliseconds in `details`, without raising a PostgreSQL exception. The browser disables community voting until that wait expires. Skips stay local and free.
 
@@ -25,11 +33,7 @@ Before refreshing, the RPC copies the current rankings into `banner_ranking_prev
 
 Netlify caches ranking responses for one hour. Nitro reads the Supabase snapshot on a CDN miss, so a Netlify purge can pick up a fresh snapshot immediately. Voting reuses its browser snapshot for up to ten minutes when selecting new pairs.
 
-To publish a snapshot early, refresh it in Supabase first, then run `npm run purge -- banner-ranking-2x` with `NETLIFY_SITE_ID` and `NETLIFY_AUTH_TOKEN` set. This tag covers both the default request and the explicit 2.x request when both resolve to 2.x.
-
-Apply [banner_ranking_refresh.sql](banner_ranking_refresh.sql) after `banner_vote.sql` on the vote project. Set `VOTE_SUPABASE_URL` and `VOTE_SUPABASE_PUBLISHABLE_KEY` for Netlify Builds. Store `VOTE_SUPABASE_SECRET_KEY` in Netlify for the ranking API runtime. Get the secret from the vote project's API Keys dashboard and store it in Netlify.
-
-Snapshots are refreshed manually. After an early refresh, use `npm run purge -- banner-ranking-2x` to publish it before the one-hour cache expires. Disable the old `banner-ranking-hourly` Supabase job if it is still active.
+Refresh the live snapshot with `select public.refresh_banner_ranking_snapshot();`. To publish it before the one-hour cache expires, run `npm run purge -- banner-ranking-<season-id>` with `NETLIFY_SITE_ID` and `NETLIFY_AUTH_TOKEN` set. The tag covers both the short and explicit URLs when they resolve to the same season.
 
 ## Move the live poll
 
@@ -65,9 +69,9 @@ For a pause, set the SQL window's enabled flag to false and update the frontend 
 
 The next poll reuses the same tables, RPC and snapshot. Update the live manifest ID, purge tag, roster and dates before reopening voting.
 
-## Current readiness
+## 2.x closeout record
 
-Originally installed on the main project `fimzdbqulflilnnopibz` on 2026-10-21 under migration `setup_current_banner_vote`. The live 2.x roster covers IDs 42–82 through version 2.11.2. The poll has no scheduled closing date.
+The 2.x roster covers IDs 42–82 through version 2.11.2. Community voting closed server-side on 2026-11-25 at 22:20:39 UTC. The final Elo replay matched the ledger, and the verified snapshot contained 64,970 votes from 1,467 voters across 41 banners.
 
 The original setup verified anonymous voting, retry deduplication, request conflicts, roster and fingerprint validation, the rolling 50-vote allowance and expiry, private raw data and admin functions, replay agreement, and the repair pause guard. The setup tests rolled back all 51 test votes.
 

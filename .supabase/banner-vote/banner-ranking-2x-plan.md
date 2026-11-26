@@ -1,6 +1,6 @@
 # Banner ranking implementation
 
-Updated 2026-10-21. Local implementation and the main Supabase setup are available. See the [operations guide](../.supabase/banner_vote.md) for installed objects and verification.
+Updated 2026-10-21. This is the historical 2.x implementation plan. See the [operations guide](README.md) for current instructions.
 
 Itzaland voting is enabled in SQL and locally, and selected by the short routes. No closing date is set. The site has not been deployed. Finalize the roster before publishing.
 

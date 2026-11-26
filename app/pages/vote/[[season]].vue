@@ -20,6 +20,7 @@
   const unavailable = shallowRef(false)
   const currentPair = shallowRef<VotePair | null>(null)
   const selectedBanner = shallowRef<number | null>(null)
+  const pairChoices = useTemplateRef<HTMLDivElement>('pairChoices')
   // Keep the payload and UUID after a network failure, so Retry is idempotent.
   const pendingVote = shallowRef<{ id: string; winner: number } | null>(null)
   const maxCooldownMs = 24 * 60 * 60 * 1000
@@ -97,6 +98,12 @@
   const selectBanner = (id: number) => {
     if (!submitting.value && !loading.value && !pendingVote.value)
       selectedBanner.value = id
+  }
+
+  const startPersonalVoting = async () => {
+    setMode(true)
+    await nextTick()
+    pairChoices.value?.querySelector('button')?.focus()
   }
 
   const handleVote = async () => {
@@ -180,7 +187,13 @@
       :busy="submitting"
       @update:personal="setMode"
     />
+    <BannerVoteClosedPreviews
+      v-if="displayPhase === 'closed' && !isPersonalMode"
+      :season-id="seasonId"
+      @personal="startPersonalVoting"
+    />
     <n-card
+      v-else
       size="small"
       class="rounded-2xl"
     >
@@ -213,23 +226,6 @@
           >{{ t('vote.retry') }}</n-button
         >
       </n-alert>
-      <div
-        v-else-if="displayPhase === 'closed' && !isPersonalMode"
-        class="flex flex-wrap items-center gap-3"
-      >
-        <NuxtLinkLocale
-          :to="`/ranking/${seasonId}`"
-          class="rounded-full bg-rose-500 px-5 py-2 font-semibold text-white transition-colors hover:bg-rose-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-500"
-          >{{
-            t(season.archived ? 'vote.event.results' : 'vote.viewRankings')
-          }}</NuxtLinkLocale
-        >
-        <n-button
-          secondary
-          @click="setMode(true)"
-          >{{ t('vote.usePersonal') }}</n-button
-        >
-      </div>
       <n-alert
         v-else-if="!canVote"
         type="info"
@@ -256,7 +252,10 @@
         v-else-if="currentPair && canVote"
         class="space-y-5"
       >
-        <div class="grid gap-4 sm:gap-6 md:grid-cols-2">
+        <div
+          ref="pairChoices"
+          class="grid gap-4 sm:gap-6 md:grid-cols-2"
+        >
           <div
             v-for="banner in pairBanners"
             :key="banner.id"

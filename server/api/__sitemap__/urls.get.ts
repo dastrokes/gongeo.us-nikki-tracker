@@ -12,6 +12,7 @@ export default defineCachedApiEventHandler(
       staleMaxAge: 60 * 60 * 24 * 7,
       name: 'sitemap-urls',
       swr: true,
+      allowQuery: ['locale'],
       getKey: (event) => {
         const localeCode = resolveSitemapLocaleCode(
           String(getQuery(event).locale ?? '')

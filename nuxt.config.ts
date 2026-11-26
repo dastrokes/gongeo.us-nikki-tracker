@@ -460,9 +460,6 @@ export default defineNuxtConfig({
 
   nitro: {
     preset: 'netlify',
-    future: {
-      nativeSWR: true,
-    },
     prerender: {
       autoSubfolderIndex: false,
     },

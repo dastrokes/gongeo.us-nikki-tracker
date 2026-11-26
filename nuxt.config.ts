@@ -474,6 +474,10 @@ export default defineNuxtConfig({
     appManifest: false,
   },
 
+  build: {
+    transpile: ['vooks', '@vicons/fa'],
+  },
+
   vite: {
     plugins: [
       tailwindcss(),

@@ -941,6 +941,7 @@
       "title": "卡池排名",
       "description": "查看社区投票中最受欢迎的卡池。",
       "voteMore": "继续投票",
+      "creatorConfirm": "使用当前个人排名前 10 名？这会覆盖已保存的 {season} 限定卡池排名草稿。",
       "lastUpdated": "最后更新",
       "rank": "排名",
       "elo": "Elo评分",

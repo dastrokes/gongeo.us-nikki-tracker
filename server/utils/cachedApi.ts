@@ -13,16 +13,18 @@ export function defineCachedApiEventHandler<T>(
   { cache, headers, profile }: CachedApiHandlerOptions
 ) {
   const responseHandler =
-    cache === false ? handler : defineCachedEventHandler(handler, cache)
+    cache === false
+      ? handler
+      : (defineCachedEventHandler(handler, cache) as typeof handler)
 
   return defineEventHandler(async (event) => {
-    const response = await responseHandler(event)
+    const data = await responseHandler(event)
     applyCacheHeaders(
       event,
       'api',
       profile,
       typeof headers === 'function' ? headers(event) : headers
     )
-    return response
+    return data
   })
 }

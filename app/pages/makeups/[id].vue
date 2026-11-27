@@ -160,12 +160,10 @@
                       size="small"
                       class="cursor-pointer"
                     >
-                      <span class="flex items-center gap-1">
-                        {{ makeup.quality }}
-                        <n-icon class="text-xs">
-                          <Star />
-                        </n-icon>
-                      </span>
+                      <QualityLabel
+                        :quality="makeup.quality"
+                        icon-class="text-xs"
+                      />
                     </n-tag>
                   </NuxtLinkLocale>
                   <NuxtLinkLocale
@@ -474,7 +472,7 @@
 </template>
 
 <script setup lang="ts">
-  import { Images, Star } from '@vicons/fa'
+  import { Images } from '@vicons/fa'
 
   definePageMeta({ key: (route) => `makeup-detail-${route.params.id}` })
 

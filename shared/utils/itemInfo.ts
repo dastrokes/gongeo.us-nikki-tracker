@@ -88,6 +88,19 @@ export const TAG_DEFINITIONS: TagDefinition[] = [
   },
   { id: 116, key: 'whimsy', i18nKey: 'label.116.name', color: [237, 78, 96] },
   { id: 117, key: 'glow', i18nKey: 'label.117.name', color: [97, 149, 60] },
+  { id: 118, key: 'rosy', i18nKey: 'label.118.name', color: [63, 96, 223] },
+  { id: 119, key: 'curious', i18nKey: 'label.119.name', color: [233, 103, 40] },
+  { id: 120, key: 'airy', i18nKey: 'label.120.name', color: [239, 77, 53] },
+  { id: 121, key: 'refined', i18nKey: 'label.121.name', color: [49, 104, 133] },
+  { id: 122, key: 'eerie', i18nKey: 'label.122.name', color: [97, 149, 60] },
+  { id: 123, key: 'amusing', i18nKey: 'label.123.name', color: [239, 77, 53] },
+  {
+    id: 124,
+    key: 'ethereal',
+    i18nKey: 'label.124.name',
+    color: [60, 149, 109],
+  },
+  { id: 125, key: 'lively', i18nKey: 'label.125.name', color: [237, 78, 96] },
 ]
 
 export const TAG_COLOR_BY_ID: Record<number, [number, number, number]> =

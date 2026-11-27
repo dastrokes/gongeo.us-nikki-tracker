@@ -1,4 +1,5 @@
 export const RARITY_COLORS = {
+  8: '#8b5cf6', // violet-500 (Star Crown)
   6: '#a21caf', // fuchsia-700
   5: '#f59e0b', // amber-500
   4: '#0ea5e9', // sky-500
@@ -7,6 +8,7 @@ export const RARITY_COLORS = {
 } as const
 
 const BG_COLORS = {
+  8: '#F5F3FF', // bg-violet-50
   6: '#FDF4FF', // bg-fuchsia-50
   5: '#FFFBEB', // bg-amber-50
   4: '#EFF8FF', // bg-sky-50
@@ -85,6 +87,8 @@ export const getQualityRingStyle = (quality: number) => {
 
 export const getQualityGradient = (quality: number) => {
   switch (quality) {
+    case 8:
+      return 'bg-linear-to-br from-violet-50 to-violet-200 ring-violet-200/20 hover:ring-violet-200/80 dark:from-violet-900 dark:to-violet-950 dark:ring-violet-900/20 dark:hover:ring-violet-900/80'
     case 6:
       return 'bg-linear-to-br from-fuchsia-50 to-fuchsia-200 ring-fuchsia-200/20 hover:ring-fuchsia-200/80 dark:from-fuchsia-900 dark:to-fuchsia-950 dark:ring-fuchsia-900/20 dark:hover:ring-fuchsia-900/80'
     case 5:
@@ -107,3 +111,12 @@ export const getCardImageSeparationStyle = (isDark: boolean) => {
       : 'drop-shadow(0 3px 6px rgba(15,23,42,0.08))',
   }
 }
+
+/**
+ * Text label for a quality value: the in-game Star Crown name for quality 8
+ * (generated into misc.json), otherwise "N★".
+ */
+export const formatQualityLabel = (
+  quality: number,
+  t: (key: string) => string
+) => (isStarCrownQuality(quality) ? t('quality.8') : `${quality}★`)

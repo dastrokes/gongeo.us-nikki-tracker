@@ -641,12 +641,7 @@
                         :color="getQualityTagTheme(item.quality)"
                         class="backdrop-blur-xs"
                       >
-                        <span class="flex items-center gap-1">
-                          {{ item.quality }}
-                          <n-icon>
-                            <Star />
-                          </n-icon>
-                        </span>
+                        <QualityLabel :quality="item.quality" />
                       </n-tag>
                     </div>
                     <div
@@ -2563,7 +2558,7 @@
       imageSrc:
         item.image ??
         (item.itemId !== null ? getImageSrc('item', item.itemId) : null),
-      qualityLabel: item.quality ? `${item.quality}★` : '',
+      qualityLabel: item.quality ? formatQualityLabel(item.quality, t) : '',
       styleKey,
       styleLabel: getSearchStyleLabel(styleKey),
       labelTags: getSearchLabelTags(metadata),

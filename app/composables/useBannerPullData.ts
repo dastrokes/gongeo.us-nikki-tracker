@@ -365,7 +365,12 @@ export const useBannerPullData = () => {
         let totalCompletion = 0
         for (const outfit of currentBanner.outfits) {
           const obtainedItemIds = pullsByOutfit[outfit.id]
-          outfit.obtainedItems = obtainedItemIds ? obtainedItemIds.size : 0
+          outfit.obtainedItems = getObtainedOutfitPieceCount(
+            outfit.id,
+            obtainedItemIds ? obtainedItemIds.size : 0,
+            outfit.totalItems,
+            currentBanner.stats.totalPulls
+          )
           outfit.completion =
             outfit.totalItems > 0
               ? Math.floor(outfit.obtainedItems / outfit.totalItems)

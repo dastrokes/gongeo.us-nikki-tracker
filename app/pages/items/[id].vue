@@ -152,12 +152,10 @@
                       size="small"
                       class="cursor-pointer"
                     >
-                      <span class="flex items-center gap-1">
-                        {{ item.quality }}
-                        <n-icon class="text-xs">
-                          <Star />
-                        </n-icon>
-                      </span>
+                      <QualityLabel
+                        :quality="item.quality"
+                        icon-class="text-xs"
+                      />
                     </n-tag>
                   </NuxtLinkLocale>
                   <NuxtLinkLocale
@@ -760,7 +758,6 @@
     MapMarkedAlt,
     PencilAlt,
     Search,
-    Star,
   } from '@vicons/fa'
   import type { DropdownOption } from 'naive-ui'
 

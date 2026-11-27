@@ -137,12 +137,10 @@
                       size="small"
                       class="cursor-pointer"
                     >
-                      <span class="flex items-center gap-1">
-                        {{ outfit.quality }}
-                        <n-icon class="text-xs">
-                          <Star />
-                        </n-icon>
-                      </span>
+                      <QualityLabel
+                        :quality="outfit.quality"
+                        icon-class="text-xs"
+                      />
                     </n-tag>
                   </NuxtLinkLocale>
                   <WardrobeStatusBadge
@@ -473,7 +471,6 @@
 </template>
 
 <script setup lang="ts">
-  import { Star } from '@vicons/fa'
   import type { DropdownOption } from 'naive-ui'
 
   definePageMeta({ key: (route) => `outfit-detail-${route.params.id}` })

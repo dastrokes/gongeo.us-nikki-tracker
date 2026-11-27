@@ -77,6 +77,8 @@ export const getListingCardAnimationStyle = (index: number) => {
 
 export const getListingQualityOverlayClass = (quality: number) => {
   switch (quality) {
+    case 8:
+      return 'bg-violet-500/5'
     case 6:
       return 'bg-fuchsia-500/5'
     case 5:

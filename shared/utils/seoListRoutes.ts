@@ -10,6 +10,7 @@ export type SeoListRouteFilter = SeoListRouteFilterSlug & {
 }
 
 export const SEO_QUALITY_LIST_SLUGS = [
+  'star-crown',
   '6-star',
   '5-star',
   '4-star',
@@ -73,7 +74,8 @@ export const getSeoListRouteFilterSlug = (
 
 export const resolveSeoQuality = (
   slug?: string | null
-): 2 | 3 | 4 | 5 | 6 | null => {
+): 2 | 3 | 4 | 5 | 6 | 8 | null => {
+  if (slug === 'star-crown') return 8
   if (slug === '6-star') return 6
   if (slug === '5-star') return 5
   if (slug === '4-star') return 4
@@ -85,6 +87,7 @@ export const resolveSeoQuality = (
 export const resolveSeoQualitySlug = (
   quality?: number | null
 ): SeoQualityListSlug | null => {
+  if (quality === 8) return 'star-crown'
   if (quality === 6) return '6-star'
   if (quality === 5) return '5-star'
   if (quality === 4) return '4-star'

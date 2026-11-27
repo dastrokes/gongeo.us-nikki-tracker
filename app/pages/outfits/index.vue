@@ -469,7 +469,7 @@
   const getVersionFilterLabel = (version?: string | null) =>
     version ? formatVersionFilterLabel(version, t) : null
   const getQualityFilterLabel = (quality?: number | null) =>
-    quality ? `${quality}★` : null
+    quality ? formatQualityLabel(quality, t) : null
   const getSourceFilterLabel = (source?: string | null) => {
     if (!source) return null
     if (isListingMissingFilterValue(source)) {
@@ -752,7 +752,7 @@
     )
   })
   const outfitQualityOptions = computed(() => {
-    return [5, 4, 3]
+    return [8, 5, 4, 3]
   })
   const outfitUnavailableQualities = computed(() =>
     outfitFacetsReady.value

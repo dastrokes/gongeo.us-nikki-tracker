@@ -558,7 +558,7 @@
               class="block min-h-10 rounded-lg px-2 py-1.5 transition hover:bg-gray-50 dark:hover:bg-gray-900"
             >
               <WardrobeProgressRow
-                :label="`${row.quality}★`"
+                :label="formatQualityLabel(row.quality, t)"
                 :owned="row.owned"
                 :total="row.total"
                 :percent="formatPercent(row.completionPercent)"
@@ -1455,12 +1455,7 @@
                       :color="getQualityTagTheme(candidate.quality)"
                       class="backdrop-blur-xs"
                     >
-                      <span class="flex items-center gap-1">
-                        {{ candidate.quality }}
-                        <n-icon>
-                          <Star />
-                        </n-icon>
-                      </span>
+                      <QualityLabel :quality="candidate.quality" />
                     </n-tag>
                   </div>
                   <div
@@ -1559,7 +1554,6 @@
     PaintBrush,
     Paw,
     Plus,
-    Star,
     Sync,
     Tshirt,
   } from '@vicons/fa'

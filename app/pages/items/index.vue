@@ -341,12 +341,7 @@
               :color="getQualityTagTheme(entry.quality)"
               class="backdrop-blur-xs"
             >
-              <span class="flex items-center gap-1">
-                {{ entry.quality }}
-                <n-icon>
-                  <Star />
-                </n-icon>
-              </span>
+              <QualityLabel :quality="entry.quality" />
             </n-tag>
             <WardrobeOwnedButton
               v-else-if="wardrobeInitialized && editMode"
@@ -466,7 +461,6 @@
 
 <script setup lang="ts">
   import {
-    Star,
     Tshirt,
     ListAlt,
     PaintBrush,
@@ -810,7 +804,7 @@
     return translated !== key ? `${version} - ${translated}` : version
   }
   const getQualityFilterLabel = (quality?: number | null) =>
-    quality ? `${quality}★` : null
+    quality ? formatQualityLabel(quality, t) : null
   const getSourceFilterLabel = (source?: string | null) => {
     if (!source) return null
     if (isListingMissingFilterValue(source)) {
@@ -1262,7 +1256,7 @@
     )
   })
   const itemQualityOptions = computed(() => {
-    return [5, 4, 3, 2]
+    return [8, 5, 4, 3, 2]
   })
   const itemUnavailableQualities = computed(() =>
     itemFacetsReady.value

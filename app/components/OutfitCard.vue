@@ -40,12 +40,7 @@
         :color="getQualityTagTheme(quality)"
         class="backdrop-blur-xs"
       >
-        <span class="flex items-center gap-1">
-          {{ quality }}
-          <n-icon>
-            <Star />
-          </n-icon>
-        </span>
+        <QualityLabel :quality="quality" />
       </n-tag>
     </div>
 
@@ -105,8 +100,6 @@
 </template>
 
 <script setup lang="ts">
-  import { Star } from '@vicons/fa'
-
   type OutfitCardMeta = 'default' | 'status' | 'edit'
 
   const { t } = useI18n()

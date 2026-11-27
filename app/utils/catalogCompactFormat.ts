@@ -28,6 +28,8 @@ const CATALOG_ITEM_TYPES = [
   'bottoms',
   'bodyPaint',
   'rings',
+  // Append new types to keep existing compact indexes stable.
+  'shapeshiftingAccessories',
 ] as const
 const CATALOG_MAKEUP_TYPES = [
   'fullMakeup',

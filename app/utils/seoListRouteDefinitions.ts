@@ -38,9 +38,9 @@ type SeoQualityRoute = {
   slug: string
 }
 
-export const SEO_ITEM_QUALITY_VALUES = [5, 4, 3, 2] as const
-export const SEO_MAKEUP_QUALITY_VALUES = [5, 4, 3] as const
-export const SEO_OUTFIT_QUALITY_VALUES = [5, 4, 3] as const
+export const SEO_ITEM_QUALITY_VALUES = [8, 5, 4, 3, 2] as const
+export const SEO_MAKEUP_QUALITY_VALUES = [8, 5, 4, 3] as const
+export const SEO_OUTFIT_QUALITY_VALUES = [8, 5, 4, 3] as const
 export const SEO_BANNER_QUALITY_VALUES = [5, 4] as const
 export const SEO_PROP_QUALITY_VALUES = [6, 5, 4, 3] as const
 

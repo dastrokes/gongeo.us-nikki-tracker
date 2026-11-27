@@ -19,20 +19,16 @@
         :disabled="disabledQualities.includes(quality)"
         @click="value = quality"
       >
-        <span class="flex items-center justify-center gap-1">
-          {{ quality }}
-          <n-icon>
-            <Star />
-          </n-icon>
-        </span>
+        <QualityLabel
+          class="justify-center"
+          :quality="quality"
+        />
       </n-button>
     </n-button-group>
   </div>
 </template>
 
 <script setup lang="ts">
-  import { Star } from '@vicons/fa'
-
   withDefaults(
     defineProps<{
       qualityOptions?: number[]

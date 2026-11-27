@@ -179,9 +179,13 @@ export const usePearpalData = () => {
         const outfitData = getOutfitData(outfitId)
         if (outfitData) {
           // Calculate how many items from this outfit were obtained
-          const obtainedItems = outfitData.items.filter((itemId) =>
-            pulledItemIds.has(itemId)
-          ).length
+          const obtainedItems = getObtainedOutfitPieceCount(
+            outfitId,
+            outfitData.items.filter((itemId) => pulledItemIds.has(itemId))
+              .length,
+            outfitData.items.length,
+            totalPulls
+          )
           const completion =
             outfitData.items.length > 0
               ? obtainedItems / outfitData.items.length
@@ -193,9 +197,7 @@ export const usePearpalData = () => {
             items: outfitData.items,
             completion,
             totalItems: outfitData.items.length,
-            obtainedItems: outfitData.items.filter((itemId) =>
-              pulledItemIds.has(itemId)
-            ).length,
+            obtainedItems,
           })
         }
       })

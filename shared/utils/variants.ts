@@ -21,6 +21,9 @@
  *   Evo 2:   1024xxxxxx
  *   Evo 3:   1025xxxxxx
  *
+ * Version 3.0 added a parallel 20xx item ID space with the same variant codes
+ * (2020 base, 2022 glow-up, 2023-2025 evolutions, ...).
+ *
  * IMPORTANT: A 5-digit base outfit ID like "10001" must never be classified as
  * a glow-up even though it ends in "01". Only 7-digit IDs carry a variant suffix.
  */
@@ -34,12 +37,12 @@ const OUTFIT_SUFFIX_MAP: Record<string, VariantType> = {
   '04': 'evo3',
 }
 
-const OUTFIT_VARIANT_TO_ITEM_PREFIX: Record<VariantType, string> = {
-  base: '1020',
-  glowup: '1022',
-  evo1: '1023',
-  evo2: '1024',
-  evo3: '1025',
+const OUTFIT_VARIANT_TO_ITEM_CODE: Record<VariantType, string> = {
+  base: '20',
+  glowup: '22',
+  evo1: '23',
+  evo2: '24',
+  evo3: '25',
 }
 
 export function isOutfitVariantId(outfitId: string): boolean {
@@ -55,8 +58,15 @@ export function getOutfitVariantType(outfitId: string): VariantType {
   return OUTFIT_SUFFIX_MAP[outfitId.slice(-2)] ?? 'base'
 }
 
-export function getItemPrefixForOutfitId(outfitId: string): string {
-  return OUTFIT_VARIANT_TO_ITEM_PREFIX[getOutfitVariantType(outfitId)]
+/** Maps an outfit item to the matching item of an outfit variant, keeping
+ * the item's own 10xx/20xx family. */
+export function getOutfitVariantItemId(
+  itemId: string,
+  outfitId: string
+): string {
+  if (itemId.length !== 10) return itemId
+  const code = OUTFIT_VARIANT_TO_ITEM_CODE[getOutfitVariantType(outfitId)]
+  return `${itemId.slice(0, 2)}${code}${itemId.slice(4)}`
 }
 
 export function getFullMakeupVariantType(
@@ -70,15 +80,21 @@ export function getFullMakeupVariantType(
   return 'base'
 }
 
-const ITEM_PREFIX_MAP: Record<string, VariantType> = {
-  '1022': 'glowup',
-  '1023': 'evo1',
-  '1024': 'evo2',
-  '1025': 'evo3',
-  '1026': 'glowup',
-  '1027': 'glowup',
-  '1028': 'glowup',
+const ITEM_CODE_MAP: Record<string, VariantType> = {
+  '22': 'glowup',
+  '23': 'evo1',
+  '24': 'evo2',
+  '25': 'evo3',
+  '26': 'glowup',
+  '27': 'glowup',
+  '28': 'glowup',
 }
+
+const ITEM_PREFIX_MAP: Record<string, VariantType> = Object.fromEntries(
+  ['10', '20'].flatMap((family) =>
+    Object.entries(ITEM_CODE_MAP).map(([code, type]) => [family + code, type])
+  )
+)
 
 function getItemPrefix(itemId: string): string | null {
   return itemId.length === 10 ? itemId.substring(0, 4) : null

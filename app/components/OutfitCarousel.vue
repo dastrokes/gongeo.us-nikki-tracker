@@ -203,13 +203,11 @@
     const outfit = OUTFIT_DATA[props.outfitId as OutfitKey]
     if (!outfit) return []
 
-    const itemPrefix = getItemPrefixForOutfitId(currentOutfitId.value)
-
     return outfit.items.map((itemId) => {
-      const itemIdStr = itemId.toString()
-      const baseDigits = itemIdStr.slice(4)
-      const variationItemId =
-        itemIdStr.length > 4 ? `${itemPrefix}${baseDigits}` : itemId
+      const variationItemId = getOutfitVariantItemId(
+        itemId.toString(),
+        currentOutfitId.value
+      )
       return {
         itemId: variationItemId,
         outfitId: currentOutfitId.value,

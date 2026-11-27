@@ -17,12 +17,10 @@
         round
         size="small"
       >
-        <span class="flex items-center gap-1">
-          {{ quality }}
-          <n-icon class="text-xs">
-            <Star />
-          </n-icon>
-        </span>
+        <QualityLabel
+          :quality="quality"
+          icon-class="text-xs"
+        />
       </n-tag>
       <n-tag
         v-if="itemTypeLabel"
@@ -89,8 +87,6 @@
 </template>
 
 <script setup lang="ts">
-  import { Star } from '@vicons/fa'
-
   type LabelTag = {
     key: string
     text: string

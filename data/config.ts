@@ -1,8 +1,13 @@
+import { isStarCrownOutfit } from '../shared/utils/starCrown'
 import { BANNER_DATA } from './banners'
+
+// Star Crown banners are listed before other banners of the same type.
+const starCrownRank = (bannerId: number) =>
+  BANNER_DATA[bannerId]?.outfit5StarId.some(isStarCrownOutfit) ? 0 : 1
 
 export const LATEST_BANNER_ID = 82
 
-export const IMPORT_PAGE_MAINTENANCE = true
+export const IMPORT_PAGE_MAINTENANCE = false
 
 const MID_PATCH_DATES = [] as const
 
@@ -146,7 +151,9 @@ export const CURRENT_FIRST_RUN_BANNER_IDS = displayedBannerRuns
   .filter((run) => run.runIndex === 0)
   .sort(
     (left, right) =>
-      left.bannerType - right.bannerType || left.bannerId - right.bannerId
+      left.bannerType - right.bannerType ||
+      starCrownRank(left.bannerId) - starCrownRank(right.bannerId) ||
+      left.bannerId - right.bannerId
   )
   .map((run) => run.bannerId)
 
@@ -176,6 +183,7 @@ export const CURRENT_BANNER_GROUPS = [...currentBannerGroups.values()]
       .sort(
         (left, right) =>
           Number(left.runIndex !== 0) - Number(right.runIndex !== 0) ||
+          starCrownRank(left.bannerId) - starCrownRank(right.bannerId) ||
           left.bannerId - right.bannerId
       )
       .map((run) => run.bannerId),

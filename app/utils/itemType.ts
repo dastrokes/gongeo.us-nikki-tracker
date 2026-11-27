@@ -21,6 +21,7 @@ export type ItemType =
   | 'armDecorations'
   | 'bodyPaint'
   | 'handhelds'
+  | 'shapeshiftingAccessories'
   | 'baseMakeup'
   | 'eyebrows'
   | 'eyelashes'
@@ -59,6 +60,7 @@ export const itemTypeMap: Record<string, ItemType> = {
   '83': 'eyelashes',
   '84': 'contactLenses',
   '85': 'lips',
+  '89': 'shapeshiftingAccessories',
 }
 
 const itemTypeValues = new Set<ItemType>([
@@ -181,6 +183,7 @@ export const itemTypeCategories = {
     'armDecorations',
     'handhelds',
     'bodyPaint',
+    'shapeshiftingAccessories',
   ],
   makeups: [
     'fullMakeup',

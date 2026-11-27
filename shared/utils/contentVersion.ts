@@ -4,6 +4,9 @@ export const getVersionFromId = (
   id: number | null | undefined
 ): string | null => {
   if (id == null || id < 0) return null
+  // 3.0 sources (gallery big theme 25) use 500xx IDs instead of encoding the
+  // version in their leading digits.
+  if (id >= 50000 && id < 51000) return '3.0'
   const digits = Math.trunc(id).toString()
   if (digits.length < 3) return null
 

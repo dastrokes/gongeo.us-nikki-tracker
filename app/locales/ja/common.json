@@ -652,7 +652,19 @@
       "apply_to_all": "すべてに適用",
       "success": "衣装が正常に保存されました。",
       "error": "衣装の保存に失敗しました",
-      "evo_level": "進化レベル"
+      "evo_level": "進化レベル",
+      "tab_pieces": "パーツ",
+      "tab_boxes": "宝箱",
+      "box_label": "{pulls}回",
+      "box_locked": "未解放",
+      "box_pick": "パーツを選択",
+      "box_clear": "クリア",
+      "box_swap": "{pulls}回の宝箱と入れ替え",
+      "box_description": "履歴に宝箱の報酬は含まれません。各宝箱で得たパーツを選んでください。",
+      "box_autofill": "ガチャで出ていないパーツで自動入力しました。宝箱の順番は前後する場合があります。",
+      "box_pearpal": "奇想の手帳の正確なデータです。再インポートで更新できます。",
+      "box_saved": "宝箱を保存しました！",
+      "pieces_box_hint": "宝箱で得たパーツは「宝箱」タブで記録してください。"
     },
     "banner": {
       "stats": {

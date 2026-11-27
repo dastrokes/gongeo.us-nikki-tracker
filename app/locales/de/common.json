@@ -1102,7 +1102,6 @@
       "quick_filters": "Schnellfilter",
       "current_filters": "Aktuelle Filter",
       "empty_wardrobe_hint": "Deine Garderobe ist noch leer. Importiere Outfits aus {source} oder nutze das Symbol {ownershipIcon}, um deinen Fortschritt zu markieren.",
-      "stage_complete": "@:banner.outfit.level.1",
       "download_zip": "Alle herunterladen (ZIP)",
       "image_error": "Einige Outfit-Artworks konnten nicht geladen werden."
     },

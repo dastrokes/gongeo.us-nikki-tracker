@@ -78,6 +78,10 @@ export interface StarCrownBoxReward {
   round: number
   source: 'pearpal' | 'manual'
   pieceIndex?: number
+  // Which box gave the piece (0 = the 50-pull box). Pear-Pal rows take it
+  // from list order, manual rows from the editor slot. Older rows without it
+  // use their row order.
+  boxIndex?: number
 }
 
 // Pearpal tracker item type for import and server

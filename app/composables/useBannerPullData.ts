@@ -355,10 +355,22 @@ export const useBannerPullData = () => {
           })
         }
 
-        // Star Crown box rewards count as obtained pieces only
-        const boxItemIds = getStarCrownBoxItemIds(
+        // Star Crown box rewards count as obtained pieces only. Without
+        // stored rewards they are inferred from pull history.
+        const pullTimes = [...pulls].reverse().map(([time]) => time)
+        const storedBoxEntries = getStarCrownBoxEntries(
           starCrownBoxByBanner[bannerId]
         )
+        const boxEntries =
+          storedBoxEntries.length > 0
+            ? storedBoxEntries
+            : inferBannerStarCrownBoxEntries(
+                currentBanner.outfits,
+                currentBanner.pulls,
+                currentBanner.stats.totalPulls,
+                pullTimes
+              )
+        const boxItemIds = boxEntries.map((entry) => entry.itemId)
         const boxPulls: PullItem[] = boxItemIds.map((itemId) => {
           editPullIndex--
           return {
@@ -372,14 +384,22 @@ export const useBannerPullData = () => {
             count: 0,
           }
         })
-        const boxItemIdSet = new Set(boxItemIds)
 
-        // Combine pulls, edits and box rewards
+        // Combine edits, then pulls oldest first with each box copy placed
+        // after the batch that opened it
         const allPulls = [
-          ...currentBanner.pulls,
-          ...editPulls,
-          ...boxPulls,
-        ].reverse()
+          ...[...editPulls].reverse(),
+          ...interleaveStarCrownBoxPulls(
+            [...currentBanner.pulls].reverse(),
+            boxPulls,
+            getStarCrownBoxPositions(
+              currentBanner.outfits.map((outfit) => outfit.id),
+              boxEntries.map((entry) => entry.boxIndex),
+              currentBanner.stats.totalPulls,
+              pullTimes
+            )
+          ),
+        ]
 
         // Count items and track outfit progress
         const itemCount: Record<string, number> = {}
@@ -409,7 +429,7 @@ export const useBannerPullData = () => {
             obtainedItemIds ? obtainedItemIds.size : 0,
             outfit.totalItems,
             currentBanner.stats.totalPulls,
-            outfit.items.some((itemId) => boxItemIdSet.has(itemId))
+            boxItemIds.filter((itemId) => outfit.items.includes(itemId)).length
           )
           outfit.completion =
             outfit.totalItems > 0

@@ -652,7 +652,19 @@
       "apply_to_all": "Apply to All",
       "success": "Outfit saved successfully!",
       "error": "Failed to save outfit",
-      "evo_level": "Evolution Level"
+      "evo_level": "Evolution Level",
+      "tab_pieces": "Pieces",
+      "tab_boxes": "Treasure Boxes",
+      "box_label": "{pulls} pulls",
+      "box_locked": "Locked",
+      "box_pick": "Pick a piece",
+      "box_clear": "Clear",
+      "box_swap": "Swap with {pulls}-pull box",
+      "box_description": "Pull history doesn't include box rewards. Pick what each box gave.",
+      "box_autofill": "Filled with pieces you never pulled. Box order may vary.",
+      "box_pearpal": "Exact data from Whim-Log. Import again to update.",
+      "box_saved": "Boxes saved!",
+      "pieces_box_hint": "Got a piece from a treasure box? Record it under Treasure Boxes."
     },
     "banner": {
       "stats": {

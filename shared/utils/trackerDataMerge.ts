@@ -106,10 +106,11 @@ export const mergePearpalData = (
 ): Record<number, PearpalTrackerItem[]> =>
   mergeArrayRecords(localRecords, remoteRecords, (row) => JSON.stringify(row))
 
-// Box rewards only accumulate, so both sides are combined. A piece comes from a
-// box at most once per set, so rows match by piece and set. Pearpal rows list
-// every box of a banner, so once either side has them the banner's manual rows
-// are dropped.
+// Box rewards only accumulate, so both sides are combined. Each box slot holds
+// one piece, and a piece comes from a box at most once per set, so a row is
+// dropped when its slot or its piece and set is already taken (local rows
+// first). Pearpal rows list every box of a banner, so once either side has
+// them the banner's manual rows are dropped.
 export const mergeStarCrownBoxData = (
   localRecords: Record<number, StarCrownBoxReward[]> | undefined,
   remoteRecords: Record<number, StarCrownBoxReward[]> | undefined
@@ -127,15 +128,22 @@ export const mergeStarCrownBoxData = (
       ...(remoteRecords?.[bannerId] ?? []),
     ].filter(isStarCrownBoxReward)
     const hasPearpalRows = rows.some((row) => row.source === 'pearpal')
-    const byPieceAndSet = new Map<string, StarCrownBoxReward>()
+    const kept: StarCrownBoxReward[] = []
+    const takenSlots = new Set<number>()
+    const takenPieceSets = new Set<string>()
 
     rows.forEach((row) => {
       if (hasPearpalRows && row.source !== 'pearpal') return
-      const rowKey = `${row.itemId}|${row.round}`
-      if (!byPieceAndSet.has(rowKey)) byPieceAndSet.set(rowKey, row)
+      const slot = getValidStarCrownBoxIndex(row)
+      const pieceSet = `${row.itemId}|${row.round}`
+      if (takenPieceSets.has(pieceSet)) return
+      if (slot !== null && takenSlots.has(slot)) return
+      if (slot !== null) takenSlots.add(slot)
+      takenPieceSets.add(pieceSet)
+      kept.push(row)
     })
 
-    if (byPieceAndSet.size > 0) merged[bannerId] = [...byPieceAndSet.values()]
+    if (kept.length > 0) merged[bannerId] = kept
   })
 
   return merged

@@ -7,16 +7,14 @@
         class="cursor-pointer transition-opacity hover:opacity-80"
       >
         <n-tag
-          :color="getQualityTextTheme(quality)"
+          :color="getQualityTextTheme(displayQuality)"
           :bordered="false"
           round
           class="cursor-pointer"
         >
           <span class="flex items-center gap-1">
-            {{ $t(`outfit.${outfitId}.name`) }} {{ quality }}
-            <n-icon>
-              <Star />
-            </n-icon>
+            {{ $t(`outfit.${outfitId}.name`) }}
+            <QualityLabel :quality="displayQuality" />
           </span>
         </n-tag>
       </NuxtLinkLocale>
@@ -52,7 +50,7 @@
               <!-- Tint overlay -->
               <div
                 class="absolute inset-0"
-                :style="getQualityOverlayStyle(quality)"
+                :style="getQualityOverlayStyle(displayQuality)"
               ></div>
               <NuxtImg
                 :src="image.src"
@@ -101,7 +99,7 @@
                   round
                   size="small"
                   :bordered="false"
-                  :color="getQualityTagTheme(quality)"
+                  :color="getQualityTagTheme(displayQuality)"
                   ><span class="flex items-center gap-1">
                     {{
                       t(
@@ -139,7 +137,6 @@
 
 <script setup lang="ts">
   import {
-    Star,
     CheckCircle,
     ChevronLeft,
     ChevronRight,
@@ -159,6 +156,10 @@
   const { getImageSrc } = imageProvider()
 
   const activeSlide = ref(0)
+  // Star Crown outfits keep quality 5 for level rules but show their own rarity
+  const displayQuality = computed(() =>
+    getDisplayQuality(props.quality, props.outfitId)
+  )
 
   // Helper function to get outfit images for carousel
   const outfitImages = computed(() => {
@@ -211,7 +212,7 @@
       return {
         itemId: variationItemId,
         outfitId: currentOutfitId.value,
-        quality: props.quality,
+        quality: displayQuality.value,
         count: 1,
         pullIndex: 0,
         pullsToObtain: 0,

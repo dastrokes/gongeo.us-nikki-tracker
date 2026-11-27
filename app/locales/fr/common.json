@@ -652,7 +652,19 @@
       "apply_to_all": "Appliquer à tous",
       "success": "Tenue enregistrée avec succès !",
       "error": "Échec de l'enregistrement de la tenue",
-      "evo_level": "Niveau d'évolution"
+      "evo_level": "Niveau d'évolution",
+      "tab_pieces": "Pièces",
+      "tab_boxes": "Coffres",
+      "box_label": "{pulls} tirages",
+      "box_locked": "Verrouillé",
+      "box_pick": "Choisir une pièce",
+      "box_clear": "Effacer",
+      "box_swap": "Échanger avec le coffre {pulls}",
+      "box_description": "L'historique n'inclut pas les récompenses des coffres. Choisis ce que chaque coffre a donné.",
+      "box_autofill": "Rempli avec les pièces jamais tirées. L'ordre des coffres peut varier.",
+      "box_pearpal": "Données exactes de Whim-Log. Réimporte pour mettre à jour.",
+      "box_saved": "Coffres enregistrés !",
+      "pieces_box_hint": "Une pièce issue d’un coffre ? Note-la dans Coffres."
     },
     "banner": {
       "stats": {

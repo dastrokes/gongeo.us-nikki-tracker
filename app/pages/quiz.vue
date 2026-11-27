@@ -466,9 +466,10 @@
     () => getLocaleMessage(locale.value) as Record<string, unknown>
   )
 
+  // Star Crown outfit art does not work as a silhouette, so it is left out.
   const allOutfitIds = computed(() => {
     return getEntityNameMessageIds(messages.value, 'outfit', {
-      idFilter: (id) => id.length <= 5,
+      idFilter: (id) => id.length <= 5 && !isStarCrownOutfit(id),
     })
   })
 

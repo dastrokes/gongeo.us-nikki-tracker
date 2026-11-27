@@ -873,10 +873,7 @@
         const children = allScopeEntries.value
           .filter((entry) => entry.bannerId === bannerData.bannerId)
           .map((entry) => ({
-            label: `${entry.quality}★ ${t(
-              `outfit.${entry.outfitId}.name`,
-              entry.outfitId
-            )}`,
+            label: createScopeLabel(entry),
             value: entry.value,
             key: entry.value,
           }))
@@ -1020,7 +1017,7 @@
       .filter((row) => Boolean(row.stats))
   )
   const createScopeLabel = (entry: BannerScopeOptionEntry) =>
-    `${entry.quality}★ ${t(`outfit.${entry.outfitId}.name`, entry.outfitId)}`
+    `${formatQualityLabel(getDisplayQuality(entry.quality, entry.outfitId), t)} ${t(`outfit.${entry.outfitId}.name`, entry.outfitId)}`
   const createDistributionOptionLabel = (
     entry: BannerScopeOptionEntry,
     statLabel: string
@@ -1442,6 +1439,7 @@
       userPullValue > 0
 
     const getAccentColor = (q: number) => {
+      if (q === STAR_CROWN_QUALITY) return '#7c3aed' // Violet-600: related to Violet (Star Crown)
       if (q === 5) return '#ea580c' // Orange-600: related to Amber (5★)
       if (q === 4) return '#4f46e5' // Indigo-600: related to Sky (4★)
       return '#0d9488' // Teal-600
@@ -1734,10 +1732,14 @@
         ? statsData.value?.scopes[selectedOption.scopeKey]
         : undefined
 
+      // Star Crown outfits sit on the 5-star track but show their own rarity
+      const scopeQuality = scopeStats
+        ? getDisplayQuality(scopeStats.quality, scopeStats.outfitId)
+        : 5
       return createHistogramChartOption(
-        getQualityColor(scopeStats?.quality ?? 5) + 'CC',
+        getQualityColor(scopeQuality) + 'CC',
         userPullMarkerValue.value,
-        scopeStats?.quality ?? 5
+        scopeQuality
       )
     }
 

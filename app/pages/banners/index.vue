@@ -356,17 +356,26 @@
                           :bordered="false"
                           :color="
                             getQualityTextTheme(
-                              banner.outfit5StarId.includes(outfitId) ? 5 : 4
+                              getDisplayQuality(
+                                banner.outfit5StarId.includes(outfitId) ? 5 : 4,
+                                outfitId
+                              )
                             )
                           "
                           round
                           class="mt-1"
                         >
                           <span class="flex items-center gap-1">
-                            {{
-                              banner.outfit5StarId.includes(outfitId) ? 5 : 4
-                            }}
-                            <n-icon><Star /></n-icon>
+                            <QualityLabel
+                              :quality="
+                                getDisplayQuality(
+                                  banner.outfit5StarId.includes(outfitId)
+                                    ? 5
+                                    : 4,
+                                  outfitId
+                                )
+                              "
+                            />
                           </span>
                         </n-tag>
                       </div>
@@ -438,7 +447,6 @@
 <script setup lang="ts">
   import {
     Gift,
-    Star,
     HeartRegular,
     ExternalLinkAlt,
     CalendarDay,

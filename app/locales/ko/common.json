@@ -652,7 +652,19 @@
       "apply_to_all": "전체 적용",
       "success": "의상이 성공적으로 저장되었습니다!",
       "error": "의상을 저장하지 못했습니다.",
-      "evo_level": "진화 수준"
+      "evo_level": "진화 수준",
+      "tab_pieces": "파츠",
+      "tab_boxes": "보물 상자",
+      "box_label": "{pulls}회",
+      "box_locked": "잠김",
+      "box_pick": "파츠 선택",
+      "box_clear": "지우기",
+      "box_swap": "{pulls}회 상자와 교환",
+      "box_description": "뽑기 기록에는 상자 보상이 없습니다. 각 상자에서 얻은 파츠를 선택하세요.",
+      "box_autofill": "뽑지 않은 파츠로 자동 입력했습니다. 상자 순서는 다를 수 있습니다.",
+      "box_pearpal": "상상 노트의 정확한 데이터입니다. 다시 가져오면 갱신됩니다.",
+      "box_saved": "상자를 저장했습니다!",
+      "pieces_box_hint": "보물 상자에서 얻은 파츠는 「보물 상자」 탭에 기록하세요."
     },
     "banner": {
       "stats": {

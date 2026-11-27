@@ -462,6 +462,11 @@
   {
     "field": "material",
     "itemType": null,
+    "value": "patent_leather"
+  },
+  {
+    "field": "material",
+    "itemType": null,
     "value": "plant"
   },
   {
@@ -742,6 +747,11 @@
   {
     "field": "ornament",
     "itemType": null,
+    "value": "cameo"
+  },
+  {
+    "field": "ornament",
+    "itemType": null,
     "value": "camera"
   },
   {
@@ -793,6 +803,11 @@
     "field": "ornament",
     "itemType": null,
     "value": "cloud"
+  },
+  {
+    "field": "ornament",
+    "itemType": null,
+    "value": "clover"
   },
   {
     "field": "ornament",
@@ -973,6 +988,11 @@
     "field": "ornament",
     "itemType": null,
     "value": "jade_pendant"
+  },
+  {
+    "field": "ornament",
+    "itemType": null,
+    "value": "key"
   },
   {
     "field": "ornament",
@@ -1372,12 +1392,22 @@
   {
     "field": "pattern",
     "itemType": null,
+    "value": "chess_piece"
+  },
+  {
+    "field": "pattern",
+    "itemType": null,
     "value": "chevron"
   },
   {
     "field": "pattern",
     "itemType": null,
     "value": "circuit"
+  },
+  {
+    "field": "pattern",
+    "itemType": null,
+    "value": "color_block"
   },
   {
     "field": "pattern",
@@ -1502,7 +1532,17 @@
   {
     "field": "pattern",
     "itemType": null,
+    "value": "marbled"
+  },
+  {
+    "field": "pattern",
+    "itemType": null,
     "value": "moon"
+  },
+  {
+    "field": "pattern",
+    "itemType": null,
+    "value": "newspaper_print"
   },
   {
     "field": "pattern",
@@ -1857,6 +1897,11 @@
   {
     "field": "structure",
     "itemType": null,
+    "value": "cat_eye"
+  },
+  {
+    "field": "structure",
+    "itemType": null,
     "value": "circular"
   },
   {
@@ -2007,6 +2052,11 @@
   {
     "field": "structure",
     "itemType": null,
+    "value": "oval"
+  },
+  {
+    "field": "structure",
+    "itemType": null,
     "value": "padded_shoulder"
   },
   {
@@ -2023,6 +2073,11 @@
     "field": "structure",
     "itemType": null,
     "value": "peplum"
+  },
+  {
+    "field": "structure",
+    "itemType": null,
+    "value": "piping"
   },
   {
     "field": "structure",
@@ -2697,6 +2752,16 @@
   {
     "field": "category",
     "itemType": "handhelds",
+    "value": "newspaper"
+  },
+  {
+    "field": "category",
+    "itemType": "handhelds",
+    "value": "orb"
+  },
+  {
+    "field": "category",
+    "itemType": "handhelds",
     "value": "parasol"
   },
   {
@@ -2827,6 +2892,11 @@
   {
     "field": "category",
     "itemType": "outerwear",
+    "value": "camisole"
+  },
+  {
+    "field": "category",
+    "itemType": "outerwear",
     "value": "cape"
   },
   {
@@ -2882,7 +2952,17 @@
   {
     "field": "category",
     "itemType": "pendants",
+    "value": "knee_pad"
+  },
+  {
+    "field": "category",
+    "itemType": "pendants",
     "value": "leg_jewelry"
+  },
+  {
+    "field": "category",
+    "itemType": "pendants",
+    "value": "sash"
   },
   {
     "field": "category",
@@ -3073,6 +3153,11 @@
     "field": "subcategory",
     "itemType": "backpieces",
     "value": "feathered_wings"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "backpieces",
+    "value": "hiking_backpack"
   },
   {
     "field": "subcategory",
@@ -3737,6 +3822,11 @@
   {
     "field": "subcategory",
     "itemType": "handhelds",
+    "value": "harmonica"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "handhelds",
     "value": "hoe"
   },
   {
@@ -3797,6 +3887,11 @@
   {
     "field": "subcategory",
     "itemType": "handhelds",
+    "value": "shoulder_bag"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "handhelds",
     "value": "spear"
   },
   {
@@ -3818,6 +3913,11 @@
     "field": "subcategory",
     "itemType": "handhelds",
     "value": "tambourine"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "handhelds",
+    "value": "tote_bag"
   },
   {
     "field": "subcategory",
@@ -3927,7 +4027,17 @@
   {
     "field": "subcategory",
     "itemType": "headwear",
+    "value": "hood"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "headwear",
     "value": "horned_headpiece"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "headwear",
+    "value": "kokoshnik"
   },
   {
     "field": "subcategory",
@@ -4112,6 +4222,11 @@
   {
     "field": "subcategory",
     "itemType": "outerwear",
+    "value": "puffer_jacket"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "outerwear",
     "value": "shirt_jacket"
   },
   {
@@ -4192,6 +4307,11 @@
   {
     "field": "subcategory",
     "itemType": "shoes",
+    "value": "flip_flops"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "shoes",
     "value": "gladiator_sandals"
   },
   {
@@ -4203,6 +4323,11 @@
     "field": "subcategory",
     "itemType": "shoes",
     "value": "lace_up_flats"
+  },
+  {
+    "field": "subcategory",
+    "itemType": "shoes",
+    "value": "lace_up_heels"
   },
   {
     "field": "subcategory",

@@ -961,10 +961,10 @@
     newCurrentBanners.length > 0 ? newCurrentBanners : currentBanners
 
   // ── Compendium previews and outfit silhouette ──
-  const outfitKeys = featuredCurrentBanners.flatMap((banner) => [
-    ...banner.outfit5StarId,
-    ...banner.outfit4StarId,
-  ]) as OutfitKey[]
+  // Star Crown outfit art does not work as a silhouette, so skip it here.
+  const outfitKeys = featuredCurrentBanners
+    .flatMap((banner) => [...banner.outfit5StarId, ...banner.outfit4StarId])
+    .filter((outfitId) => !isStarCrownOutfit(outfitId)) as OutfitKey[]
   const catalogManifest = useCatalogManifest()
   const compendiumPreview = shallowRef<CatalogLandingPreviewSet | null>(null)
 

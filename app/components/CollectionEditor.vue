@@ -1,6 +1,29 @@
 <template>
-  <n-card class="w-full max-w-5xl">
-    <div class="space-y-4">
+  <n-card
+    class="w-full"
+    :class="showBoxEditor ? 'max-w-lg' : 'max-w-5xl'"
+  >
+    <!-- Star Crown banners: treasure boxes get their own tab -->
+    <n-tabs
+      v-if="starCrownOutfitId"
+      v-model:value="activeTab"
+      type="segment"
+      size="small"
+      class="mb-4"
+    >
+      <n-tab name="boxes">{{ t('tracker.manual_log.tab_boxes') }}</n-tab>
+      <n-tab name="pieces">{{ t('tracker.manual_log.tab_pieces') }}</n-tab>
+    </n-tabs>
+    <StarCrownBoxEditor
+      v-if="showBoxEditor && starCrownOutfitId && bannerId"
+      :banner-id="bannerId"
+      :outfit-id="starCrownOutfitId"
+      @close="closeDialog"
+    />
+    <div
+      v-else
+      class="space-y-4"
+    >
       <n-form-item
         :show-label="false"
         :show-feedback="false"
@@ -38,6 +61,14 @@
       </n-form-item>
 
       <template v-if="selectedOutfitId && selectedOutfit">
+        <!-- Box pieces belong in the Treasure Boxes tab, not here -->
+        <p
+          v-if="selectedOutfitId === starCrownOutfitId"
+          class="text-sm opacity-80"
+        >
+          {{ t('tracker.manual_log.pieces_box_hint') }}
+        </p>
+
         <!-- Items section -->
         <div class="rounded-lg">
           <div
@@ -211,6 +242,14 @@
   const importedItemCounts = ref<Record<string, number>>({})
   const bulkCount = ref(0)
   const isSaving = ref(false)
+  const starCrownOutfitId = computed(
+    () => selectedBanner.value?.outfit5StarId.find(isStarCrownOutfit) ?? null
+  )
+  // Star Crown banners open on the Treasure Boxes tab.
+  const activeTab = ref<'pieces' | 'boxes'>('boxes')
+  const showBoxEditor = computed(
+    () => !!starCrownOutfitId.value && activeTab.value === 'boxes'
+  )
 
   // Determine if we should show evolution levels based on banner type
   const showEvoLevels = computed(() => {
@@ -230,6 +269,7 @@
         itemCounts.value = {}
         importedItemCounts.value = {}
         outfitEvoLevel.value = 0
+        activeTab.value = 'boxes'
       }
     },
     { immediate: true }
@@ -358,13 +398,27 @@
     let importedCount = 0
     let manualCount = 0
 
-    // Count imported pulls
-    const rawData = rawPullData[bannerId] || []
-    rawData.forEach(([_, id]: PullRecord) => {
-      if (id === itemId) {
-        importedCount++
-      }
-    })
+    // Count imported copies as the tracker shows them: pulls from the active
+    // source (game or Pearpal) plus Star Crown box rewards. Manual edits have
+    // negative pull indexes and are counted separately below.
+    const processedBanner = pullStore.processedPulls[bannerId]
+    if (processedBanner) {
+      processedBanner.pulls.forEach((pull) => {
+        if (
+          pull.itemId === itemId &&
+          (pull.pullIndex > 0 || pull.obtainedAt === STAR_CROWN_BOX_OBTAINED_AT)
+        ) {
+          importedCount++
+        }
+      })
+    } else {
+      const rawData = rawPullData[bannerId] || []
+      rawData.forEach(([_, id]: PullRecord) => {
+        if (id === itemId) {
+          importedCount++
+        }
+      })
+    }
 
     // Count manual edits
     const editsData = rawEditData[bannerId] || []

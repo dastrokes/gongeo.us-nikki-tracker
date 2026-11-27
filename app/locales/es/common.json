@@ -652,7 +652,19 @@
       "apply_to_all": "Aplicar a todos",
       "success": "¡Atuendo guardado exitosamente!",
       "error": "No se pudo guardar el atuendo",
-      "evo_level": "Nivel de evolución"
+      "evo_level": "Nivel de evolución",
+      "tab_pieces": "Piezas",
+      "tab_boxes": "Cofres",
+      "box_label": "{pulls} tiradas",
+      "box_locked": "Bloqueado",
+      "box_pick": "Elige una pieza",
+      "box_clear": "Borrar",
+      "box_swap": "Intercambiar con el cofre de {pulls}",
+      "box_description": "El historial no incluye las recompensas de cofres. Elige lo que dio cada cofre.",
+      "box_autofill": "Rellenado con piezas que nunca salieron en tiradas. El orden puede variar.",
+      "box_pearpal": "Datos exactos de Whim-Log. Vuelve a importar para actualizar.",
+      "box_saved": "¡Cofres guardados!",
+      "pieces_box_hint": "¿Pieza de un cofre? Regístrala en Cofres."
     },
     "banner": {
       "stats": {

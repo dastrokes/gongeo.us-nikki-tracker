@@ -652,7 +652,19 @@
       "apply_to_all": "全部应用",
       "success": "套装保存成功！",
       "error": "套装保存失败",
-      "evo_level": "套装进化"
+      "evo_level": "套装进化",
+      "tab_pieces": "部件",
+      "tab_boxes": "遗珍礼盒",
+      "box_label": "{pulls} 抽",
+      "box_locked": "未解锁",
+      "box_pick": "选择部件",
+      "box_clear": "清除",
+      "box_swap": "与 {pulls} 抽礼盒交换",
+      "box_description": "抽卡记录不含礼盒奖励，请选择每个礼盒开出的部件。",
+      "box_autofill": "已按未抽到的部件自动填写，礼盒顺序可能不同。",
+      "box_pearpal": "数据来自奇想手账，准确无误。重新导入即可更新。",
+      "box_saved": "礼盒已保存！",
+      "pieces_box_hint": "从海渊遗珍礼盒获得的部件，请在「遗珍礼盒」中记录。"
     },
     "banner": {
       "stats": {

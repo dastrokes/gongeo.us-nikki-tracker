@@ -652,7 +652,19 @@
       "apply_to_all": "Applica a tutti",
       "success": "Completo salvato con successo!",
       "error": "Impossibile salvare l'outfit",
-      "evo_level": "Livello di evoluzione"
+      "evo_level": "Livello di evoluzione",
+      "tab_pieces": "Pezzi",
+      "tab_boxes": "Forzieri",
+      "box_label": "{pulls} tiri",
+      "box_locked": "Bloccato",
+      "box_pick": "Scegli un pezzo",
+      "box_clear": "Cancella",
+      "box_swap": "Scambia con il forziere da {pulls}",
+      "box_description": "La cronologia non include i premi dei forzieri. Scegli cosa ha dato ogni forziere.",
+      "box_autofill": "Compilato con i pezzi mai usciti dai tiri. L'ordine dei forzieri può variare.",
+      "box_pearpal": "Dati esatti da Whim-Log. Importa di nuovo per aggiornare.",
+      "box_saved": "Forzieri salvati!",
+      "pieces_box_hint": "Pezzo da un forziere? Registralo in Forzieri."
     },
     "banner": {
       "stats": {

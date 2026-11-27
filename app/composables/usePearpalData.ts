@@ -114,10 +114,26 @@ export const usePearpalData = () => {
 
       // Star Crown box rewards count as obtained pieces only: no pull index,
       // pity, or stats contribution.
-      const boxItemIds = getStarCrownBoxItemIds(starCrownBoxByBanner[bannerId])
-      boxItemIds.forEach((itemId, index) => {
-        itemCount[itemId] = (itemCount[itemId] || 0) + 1
-        processedPulls.push({
+      // Without a Pear-Pal box list, box pieces are inferred from the pulls.
+      const storedBoxEntries = getStarCrownBoxEntries(
+        starCrownBoxByBanner[bannerId]
+      )
+      const boxEntries =
+        storedBoxEntries.length > 0
+          ? storedBoxEntries
+          : inferBannerStarCrownBoxEntries(
+              outfit5StarId.flatMap((outfitId) => {
+                const outfitData = getOutfitData(outfitId)
+                return outfitData
+                  ? [{ id: outfitId, items: outfitData.items }]
+                  : []
+              }),
+              processedPulls,
+              totalPulls
+            )
+      const boxItemIds = boxEntries.map((entry) => entry.itemId)
+      if (boxItemIds.length > 0) {
+        const boxPulls: PullItem[] = boxItemIds.map((itemId, index) => ({
           pullIndex: -(index + 1),
           itemId,
           outfitId: getOutfitIdFromItemId(itemId),
@@ -125,10 +141,26 @@ export const usePearpalData = () => {
           pullsToObtain: 0,
           obtainedAt: STAR_CROWN_BOX_OBTAINED_AT,
           bannerId,
-          count: itemCount[itemId]!,
+          count: 0,
+        }))
+        // Place each box copy after the pull its box opened after and number
+        // copies (×2) in that order.
+        const ordered = interleaveStarCrownBoxPulls(
+          [...processedPulls],
+          boxPulls,
+          getStarCrownBoxPositions(
+            outfit5StarId,
+            boxEntries.map((entry) => entry.boxIndex),
+            totalPulls
+          )
+        )
+        const orderedCount: Record<string, number> = {}
+        ordered.forEach((pull) => {
+          orderedCount[pull.itemId] = (orderedCount[pull.itemId] || 0) + 1
+          pull.count = orderedCount[pull.itemId]!
         })
-      })
-      const boxItemIdSet = new Set(boxItemIds)
+        processedPulls.splice(0, processedPulls.length, ...ordered)
+      }
 
       // Pity cannot be tracked
       const pity5Star = 0
@@ -210,7 +242,8 @@ export const usePearpalData = () => {
               .length,
             outfitData.items.length,
             totalPulls,
-            outfitData.items.some((itemId) => boxItemIdSet.has(itemId))
+            boxItemIds.filter((itemId) => outfitData.items.includes(itemId))
+              .length
           )
           const completion =
             outfitData.items.length > 0

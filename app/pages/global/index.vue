@@ -777,7 +777,7 @@
         if (banner.outfit5StarId) {
           banner.outfit5StarId.forEach((outfitId: TreeSelectOption) => {
             children.push({
-              label: '5★ ' + t(`outfit.${outfitId}.name`, outfitId),
+              label: `${formatQualityLabel(getDisplayQuality(5, String(outfitId)), t)} ${t(`outfit.${outfitId}.name`, outfitId)}`,
               value: `${bannerId}_5_${outfitId}`,
               key: `${bannerId}_5_${outfitId}`,
             })

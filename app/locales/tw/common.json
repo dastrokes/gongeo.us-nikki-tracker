@@ -652,7 +652,19 @@
       "apply_to_all": "全部應用",
       "success": "套裝儲存成功！",
       "error": "套裝儲存失敗",
-      "evo_level": "套裝進化"
+      "evo_level": "套裝進化",
+      "tab_pieces": "部件",
+      "tab_boxes": "遺珍禮盒",
+      "box_label": "{pulls} 抽",
+      "box_locked": "未解鎖",
+      "box_pick": "選擇部件",
+      "box_clear": "清除",
+      "box_swap": "與 {pulls} 抽禮盒交換",
+      "box_description": "抽卡紀錄不含禮盒獎勵，請選擇每個禮盒開出的部件。",
+      "box_autofill": "已依未抽到的部件自動填寫，禮盒順序可能不同。",
+      "box_pearpal": "資料來自奇想手賬，準確無誤。重新匯入即可更新。",
+      "box_saved": "禮盒已儲存！",
+      "pieces_box_hint": "從海淵遺珍禮盒獲得的部件，請在「遺珍禮盒」中記錄。"
     },
     "banner": {
       "stats": {

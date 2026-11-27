@@ -1102,7 +1102,6 @@
       "quick_filters": "Quick filters",
       "current_filters": "Current filters",
       "empty_wardrobe_hint": "Your wardrobe is empty. Import outfits from {source}, or use the {ownershipIcon} icon to mark your progress.",
-      "stage_complete": "@:banner.outfit.level.1",
       "download_zip": "Download all (ZIP)",
       "image_error": "Some outfit artwork could not load."
     },

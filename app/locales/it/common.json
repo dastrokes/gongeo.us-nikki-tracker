@@ -1102,7 +1102,6 @@
       "quick_filters": "Filtri rapidi",
       "current_filters": "Filtri attuali",
       "empty_wardrobe_hint": "Il tuo guardaroba è vuoto. Importa i completi da {source} oppure usa l’icona {ownershipIcon} per segnare i tuoi progressi.",
-      "stage_complete": "@:global.banner_stats.option_completed_set",
       "download_zip": "Scarica tutto (ZIP)",
       "image_error": "Impossibile caricare alcune immagini degli outfit."
     },

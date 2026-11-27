@@ -1102,7 +1102,6 @@
       "quick_filters": "빠른 필터",
       "current_filters": "현재 필터",
       "empty_wardrobe_hint": "아직 옷장이 비어 있어요. {source}에서 의상을 가져오거나 {ownershipIcon} 아이콘을 눌러 수집 진행 상황을 표시할 수 있어요.",
-      "stage_complete": "@:global.banner_stats.option_completed_set",
       "download_zip": "모두 다운로드(ZIP)",
       "image_error": "일부 의상 이미지를 불러오지 못했습니다."
     },

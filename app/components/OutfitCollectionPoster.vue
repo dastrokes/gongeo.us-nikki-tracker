@@ -133,7 +133,7 @@
     if (progress?.status === 'owned') {
       return {
         stage: 'complete',
-        label: t('compendium.image.stage_complete'),
+        label: t('banner.outfit.level.1'),
       }
     }
     if (progress?.status === 'partial') {

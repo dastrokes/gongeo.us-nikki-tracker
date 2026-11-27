@@ -1102,7 +1102,6 @@
       "quick_filters": "クイックフィルター",
       "current_filters": "現在のフィルター",
       "empty_wardrobe_hint": "ワードローブはまだ空です。{source}からセットをインポートするか、{ownershipIcon}アイコンを使って収集状況を記録できます。",
-      "stage_complete": "@:global.banner_stats.option_completed_set",
       "download_zip": "すべてダウンロード（ZIP）",
       "image_error": "一部のコーデ画像を読み込めませんでした。"
     },

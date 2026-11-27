@@ -1102,7 +1102,6 @@
       "quick_filters": "快速篩選",
       "current_filters": "目前篩選",
       "empty_wardrobe_hint": "你的衣櫥還是空的。可以從 {source} 匯入套裝，或使用 {ownershipIcon} 圖示標記收集進度。",
-      "stage_complete": "@:banner.outfit.level.1",
       "download_zip": "下載全部（ZIP）",
       "image_error": "部分套裝圖片無法載入。"
     },

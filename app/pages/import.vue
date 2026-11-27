@@ -610,7 +610,9 @@
           >
             <div class="w-full">
               <n-form :show-feedback="false">
-                <n-space vertical>
+                <!-- Plain flex column: n-space keys every item wrapper 1, so
+                     toggling these v-if items warns about duplicate keys -->
+                <div class="flex flex-col gap-3">
                   <n-form-item
                     label="UID"
                     class="w-full"
@@ -736,7 +738,7 @@
                   >
                     {{ $t('import.form.submit_global_stats') }}
                   </n-checkbox>
-                </n-space>
+                </div>
               </n-form>
 
               <n-button
@@ -1430,6 +1432,12 @@
         if (hasPearpal && typeof jsonData.pearpal !== 'object') {
           throw new Error('Invalid JSON format')
         }
+        if (
+          'starCrownBox' in jsonData &&
+          typeof jsonData.starCrownBox !== 'object'
+        ) {
+          throw new Error('Invalid JSON format')
+        }
         if (hasWardrobe && typeof jsonData.wardrobe !== 'object') {
           throw new Error('Invalid JSON format')
         }
@@ -1530,7 +1538,23 @@
                 await indexedDB.savePearpalData(pearpalDataByBanner, slot)
               }
 
-              processedBanners = processPearpalData(pearpalDataByBanner)
+              // Star Crown box rewards replace the stored rewards of the
+              // selected banners; responses without the list keep them.
+              const boxList = noteBookData.info_from_self?.cloth_random_box_list
+              let starCrownBoxByBanner: Record<number, StarCrownBoxReward[]> =
+                {}
+              if (Array.isArray(boxList)) {
+                starCrownBoxByBanner = getStarCrownBoxesFromPearpal(
+                  boxList,
+                  selectedBanners.value
+                )
+                await indexedDB.saveStarCrownBoxData(starCrownBoxByBanner, slot)
+              }
+
+              processedBanners = processPearpalData(
+                pearpalDataByBanner,
+                starCrownBoxByBanner
+              )
               message.success(t('import.messages.pearpal_tracker_success'))
             }
 

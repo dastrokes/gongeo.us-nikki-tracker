@@ -786,6 +786,7 @@
         edits: rawEditData,
         evo: evoData,
         pearpal: rawPearpalData,
+        starCrownBox: rawStarCrownBoxData,
       } = await loadData(slot)
       const wardrobeData = await loadWardrobe(slot)
       const bannerWishlist = await loadBannerWishlist(slot)
@@ -798,6 +799,7 @@
         edits: rawEditData,
         evo: evoData,
         pearpal: rawPearpalData,
+        starCrownBox: rawStarCrownBoxData,
         wardrobe: wardrobeData,
         bannerWishlist,
         profile,

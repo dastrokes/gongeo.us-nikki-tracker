@@ -332,12 +332,12 @@
                       class="group focus-visible:outline-primary flex min-w-0 items-center gap-2 rounded-lg p-1 transition-colors hover:bg-gray-100/70 focus-visible:outline-2 focus-visible:outline-offset-2 dark:hover:bg-gray-800/70"
                     >
                       <div
-                        class="relative h-20 w-14 shrink-0 overflow-hidden rounded-md border border-gray-200/70 bg-slate-100 bg-[url('/images/bg.webp')] bg-cover bg-center sm:h-24 sm:w-16 dark:border-gray-700/70"
+                        class="relative isolate h-20 w-14 shrink-0 transform-gpu overflow-hidden rounded-md border border-gray-200/70 bg-slate-100 bg-[url('/images/bg.webp')] bg-cover bg-center sm:h-24 sm:w-16 dark:border-gray-700/70"
                       >
                         <NuxtImg
                           :src="getImageSrc('outfit', outfitId)"
                           :alt="t(`outfit.${outfitId}.name`)"
-                          class="absolute inset-0 h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.04]"
+                          class="absolute inset-0 h-full w-full transform-gpu object-cover transition-transform duration-300 ease-out will-change-transform backface-hidden group-hover:scale-[1.04] motion-reduce:transition-none"
                           preset="tallSm"
                           fit="cover"
                           loading="lazy"

@@ -77,7 +77,11 @@
                 :count="2"
                 :default-value="getItemMinCount(itemId)"
                 size="medium"
-                :color="getQualityColor(selectedOutfit.quality)"
+                :color="
+                  getQualityColor(
+                    getDisplayQuality(selectedOutfit.quality, selectedOutfit.id)
+                  )
+                "
                 class="w-full justify-center"
                 :disabled="false"
               >
@@ -103,7 +107,11 @@
               :default-value="0"
               size="medium"
               class="ml-4"
-              :color="getQualityColor(selectedOutfit.quality)"
+              :color="
+                getQualityColor(
+                  getDisplayQuality(selectedOutfit.quality, selectedOutfit.id)
+                )
+              "
               :disabled="false"
             >
               <n-icon>
@@ -135,7 +143,14 @@
                   :count="4"
                   :default-value="0"
                   size="medium"
-                  :color="getQualityColor(selectedOutfit.quality)"
+                  :color="
+                    getQualityColor(
+                      getDisplayQuality(
+                        selectedOutfit.quality,
+                        selectedOutfit.id
+                      )
+                    )
+                  "
                   @update:value="
                     outfitEvoLevel =
                       outfitEvoLevel === null ? 0 : outfitEvoLevel
@@ -266,7 +281,7 @@
       .map((outfit) => {
         const quality = outfit.quality
         return {
-          label: `${t(`outfit.${outfit.outfitId}.name`)} (${quality}★)`,
+          label: `${t(`outfit.${outfit.outfitId}.name`)} (${formatQualityLabel(getDisplayQuality(quality, outfit.outfitId), t)})`,
           value: outfit.outfitId,
           quality,
         }
@@ -396,6 +411,7 @@
         edits: existingEditData,
         evo: existingEvoData,
         pearpal: existingPearpalData,
+        starCrownBox: existingStarCrownBoxData,
       } = await loadData()
 
       // Prepare updated edit data
@@ -487,6 +503,7 @@
         edits: updatedEditData,
         evo: updatedEvoData,
         pearpal: existingPearpalData,
+        starCrownBox: existingStarCrownBoxData,
       })
 
       message.success(t('tracker.manual_log.success'))

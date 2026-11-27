@@ -25,7 +25,8 @@ export const usePearpalData = () => {
 
   // Process pearpal tracker data directly
   const processPearpalData = (
-    bannerData: Record<number, PearpalTrackerItem[]>
+    bannerData: Record<number, PearpalTrackerItem[]>,
+    starCrownBoxByBanner: Record<number, StarCrownBoxReward[]> = {}
   ): Record<string, ProcessedBanner> => {
     // Sort each banner's data by pool_cnt (chronological order)
     Object.values(bannerData).forEach((items) => {
@@ -59,9 +60,15 @@ export const usePearpalData = () => {
 
       items.forEach((item) => {
         const outfitId = getOutfitIdFromItemId(item.result)
-        const quality = parseInt(item.rarity) // Note: Pearpal data uses 'rarity' field name
-        const pullsToObtain =
-          quality === 5
+        // Pearpal reports Star Crown pulls as rarity 8; they share the 5-star
+        // pull track and count from times_from_last_star_crown.
+        const rarity = parseInt(item.rarity) // Note: Pearpal data uses 'rarity' field name
+        const isStarCrownPull = isStarCrownQuality(rarity)
+        const quality = isStarCrownPull ? 5 : rarity
+        const pullsToObtain = isStarCrownPull
+          ? (item.times_from_last_star_crown ??
+              item.times_from_last_five_stars) + 1
+          : quality === 5
             ? item.times_from_last_five_stars + 1
             : item.times_from_last_four_stars + 1
 
@@ -104,6 +111,24 @@ export const usePearpalData = () => {
 
       // Calculate highest pool_cnt as total pulls
       const totalPulls = Math.max(...items.map((item) => item.pool_cnt + 1))
+
+      // Star Crown box rewards count as obtained pieces only: no pull index,
+      // pity, or stats contribution.
+      const boxItemIds = getStarCrownBoxItemIds(starCrownBoxByBanner[bannerId])
+      boxItemIds.forEach((itemId, index) => {
+        itemCount[itemId] = (itemCount[itemId] || 0) + 1
+        processedPulls.push({
+          pullIndex: -(index + 1),
+          itemId,
+          outfitId: getOutfitIdFromItemId(itemId),
+          quality: 5,
+          pullsToObtain: 0,
+          obtainedAt: STAR_CROWN_BOX_OBTAINED_AT,
+          bannerId,
+          count: itemCount[itemId]!,
+        })
+      })
+      const boxItemIdSet = new Set(boxItemIds)
 
       // Pity cannot be tracked
       const pity5Star = 0
@@ -184,7 +209,8 @@ export const usePearpalData = () => {
             outfitData.items.filter((itemId) => pulledItemIds.has(itemId))
               .length,
             outfitData.items.length,
-            totalPulls
+            totalPulls,
+            outfitData.items.some((itemId) => boxItemIdSet.has(itemId))
           )
           const completion =
             outfitData.items.length > 0

@@ -204,7 +204,11 @@
                         class="inline w-fit cursor-pointer transition-opacity hover:opacity-80"
                       >
                         <n-tag
-                          :color="getQualityTextTheme(outfit.quality)"
+                          :color="
+                            getQualityTextTheme(
+                              getDisplayQuality(outfit.quality, outfit.id)
+                            )
+                          "
                           :bordered="false"
                           round
                           size="small"
@@ -212,9 +216,11 @@
                         >
                           <span class="flex items-center gap-1">
                             {{ $t(`outfit.${outfit.id}.name`) }}
-                            {{ outfit.quality }}
-                            <n-icon> <Star /> </n-icon
-                            ><n-icon v-if="outfit.completion >= 1"
+                            <QualityLabel
+                              :quality="
+                                getDisplayQuality(outfit.quality, outfit.id)
+                              "
+                            /><n-icon v-if="outfit.completion >= 1"
                               ><CheckCircle
                             /></n-icon>
                           </span>
@@ -716,7 +722,11 @@
                       class="inline-block"
                     >
                       <n-tag
-                        :color="getQualityTextTheme(outfit.quality)"
+                        :color="
+                          getQualityTextTheme(
+                            getDisplayQuality(outfit.quality, outfit.id)
+                          )
+                        "
                         :bordered="false"
                         round
                         size="small"
@@ -724,9 +734,11 @@
                       >
                         <span class="flex items-center gap-1">
                           {{ $t(`outfit.${outfit.id}.name`) }}
-                          {{ outfit.quality }}
-                          <n-icon> <Star /> </n-icon
-                          ><n-icon v-if="outfit.completion >= 1"
+                          <QualityLabel
+                            :quality="
+                              getDisplayQuality(outfit.quality, outfit.id)
+                            "
+                          /><n-icon v-if="outfit.completion >= 1"
                             ><CheckCircle
                           /></n-icon>
                         </span>
@@ -989,7 +1001,6 @@
     Cog,
     ChartBarRegular,
     CheckCircle,
-    Star,
     FileImageRegular,
     FileExport,
     Users,
@@ -1361,6 +1372,7 @@
         edits: rawEditData,
         evo: evoData,
         pearpal: rawPearpalData,
+        starCrownBox: rawStarCrownBoxData,
       } = await loadData(slot)
       const wardrobe = await loadWardrobe(slot)
       const bannerWishlist = await loadBannerWishlist(slot)
@@ -1375,6 +1387,7 @@
         edits: rawEditData,
         evo: evoData,
         pearpal: rawPearpalData,
+        starCrownBox: rawStarCrownBoxData,
         wardrobe,
         bannerWishlist,
         profile,

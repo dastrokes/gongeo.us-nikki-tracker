@@ -326,8 +326,7 @@
 
             if (!hasProfileBackupData(uploadDataState)) {
               // Load data from IndexedDB first
-              const { pulls, edits, evo, pearpal } = await loadData()
-              await initFromData({ pulls, edits, evo, pearpal })
+              await initFromData(await loadData())
             }
 
             const result = await uploadData()

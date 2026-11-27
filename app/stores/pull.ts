@@ -66,7 +66,8 @@ export const usePullStore = defineStore('pull', {
 
     async processPullData(
       pullsByBanner: Record<number, PullRecord[]>,
-      editsByBanner: Record<number, EditRecord[]>
+      editsByBanner: Record<number, EditRecord[]>,
+      starCrownBoxByBanner: Record<number, StarCrownBoxReward[]> = {}
     ) {
       if (this.isProcessing) return
       this.isProcessing = true
@@ -75,7 +76,8 @@ export const usePullStore = defineStore('pull', {
         const bannerPullData = useBannerPullData()
         const processedPulls = bannerPullData.processBannerPullData(
           pullsByBanner,
-          editsByBanner
+          editsByBanner,
+          starCrownBoxByBanner
         )
 
         this.processedPulls = processedPulls
@@ -98,7 +100,8 @@ export const usePullStore = defineStore('pull', {
     async processAutoData(
       pullsByBanner: Record<number, PullRecord[]>,
       editsByBanner: Record<number, EditRecord[]>,
-      pearpalData: Record<number, PearpalTrackerItem[]>
+      pearpalData: Record<number, PearpalTrackerItem[]>,
+      starCrownBoxByBanner: Record<number, StarCrownBoxReward[]> = {}
     ) {
       if (this.isProcessing) return
       this.isProcessing = true
@@ -108,11 +111,15 @@ export const usePullStore = defineStore('pull', {
         const bannerPullData = useBannerPullData()
         const gameProcessed = bannerPullData.processBannerPullData(
           pullsByBanner,
-          editsByBanner
+          editsByBanner,
+          starCrownBoxByBanner
         )
 
         const { processPearpalData } = usePearpalData()
-        const pearpalProcessed = processPearpalData(pearpalData)
+        const pearpalProcessed = processPearpalData(
+          pearpalData,
+          starCrownBoxByBanner
+        )
 
         // Merge per banner choosing the source with larger total pulls
         const merged: Record<string, ProcessedBanner> = {}
@@ -156,7 +163,8 @@ export const usePullStore = defineStore('pull', {
     },
 
     async processPearpalData(
-      pearpalData: Record<number, PearpalTrackerItem[]>
+      pearpalData: Record<number, PearpalTrackerItem[]>,
+      starCrownBoxByBanner: Record<number, StarCrownBoxReward[]> = {}
     ) {
       if (this.isProcessing) return
       this.isProcessing = true
@@ -164,7 +172,10 @@ export const usePullStore = defineStore('pull', {
       try {
         // Process the grouped data directly
         const { processPearpalData } = usePearpalData()
-        const processedData = processPearpalData(pearpalData)
+        const processedData = processPearpalData(
+          pearpalData,
+          starCrownBoxByBanner
+        )
         this.processedPulls = processedData
 
         // Recalculate global stats including pearpal tracker data

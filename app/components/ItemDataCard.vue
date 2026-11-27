@@ -21,7 +21,7 @@
       >
         <n-card
           :class="[
-            getCardGradient(item.quality),
+            getCardGradient(displayQuality),
             { 'opacity-60 grayscale': item.count === 0 && info },
           ]"
           :bordered="false"
@@ -73,7 +73,8 @@
               class="flex items-center justify-center"
               size="8"
             >
-              <Asterisk />
+              <Gift v-if="item.obtainedAt === STAR_CROWN_BOX_OBTAINED_AT" />
+              <Asterisk v-else />
             </n-icon>
           </n-tag>
           <n-tag
@@ -82,7 +83,7 @@
             :bordered="false"
             class="absolute top-1 right-1 origin-top-right scale-75 rounded-full text-xs shadow-xs sm:scale-90"
             :style="{
-              backgroundColor: `${getQualityColor(item.quality)}CC`, // 80% opacity
+              backgroundColor: `${getQualityColor(displayQuality)}CC`, // 80% opacity
             }"
           >
             ×{{ item.count }}
@@ -109,7 +110,7 @@
 </template>
 
 <script setup lang="ts">
-  import { Asterisk } from '@vicons/fa'
+  import { Asterisk, Gift } from '@vicons/fa'
 
   interface Props {
     item: PullItem
@@ -135,6 +136,10 @@
   const imageStyle = computed(() => getCardImageSeparationStyle(isDark.value))
 
   const itemType = computed(() => getItemType(props.item.itemId))
+  // Star Crown pieces keep quality 5 for pull colors but show their own rarity
+  const displayQuality = computed(() =>
+    getDisplayQuality(props.item.quality, props.item.outfitId)
+  )
   const { getImageSrc } = imageProvider()
 
   const getCardGradient = (quality: number) => getQualityGradient(quality)

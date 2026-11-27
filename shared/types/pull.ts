@@ -70,6 +70,16 @@ export interface PullState {
   isProcessing: boolean
 }
 
+// Star Crown Deep-Sea Treasure Box reward. `round` is the set the box filled
+// (0 = first set). Pearpal rows carry the game's `pieceIndex`; manual rows infer
+// `round` from how many box copies of the piece exist.
+export interface StarCrownBoxReward {
+  itemId: string
+  round: number
+  source: 'pearpal' | 'manual'
+  pieceIndex?: number
+}
+
 // Pearpal tracker item type for import and server
 export interface PearpalTrackerItem {
   card_pool_id: string
@@ -78,4 +88,6 @@ export interface PearpalTrackerItem {
   times_from_last_five_stars: number
   times_from_last_four_stars: number
   rarity: string
+  // Present from 3.0; Star Crown pulls report rarity "8"
+  times_from_last_star_crown?: number
 }

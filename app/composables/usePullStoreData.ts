@@ -3,6 +3,7 @@ type PullStoreData = {
   edits: Record<number, EditRecord[]>
   evo: Record<number, EvoRecord[]>
   pearpal: Record<number, PearpalTrackerItem[]>
+  starCrownBox: Record<number, StarCrownBoxReward[]>
 }
 
 export const usePullStoreData = () => {
@@ -11,7 +12,7 @@ export const usePullStoreData = () => {
   const dataSource = useDataSource()
 
   const initFromData = async (data: PullStoreData) => {
-    const { pulls, edits, evo, pearpal } = data
+    const { pulls, edits, evo, pearpal, starCrownBox } = data
     const hasPearpal = Object.keys(pearpal).length > 0
     const hasGame =
       Object.keys(pulls).length > 0 || Object.keys(edits).length > 0
@@ -24,16 +25,16 @@ export const usePullStoreData = () => {
 
     if (hasPearpal && hasGame) {
       if (effectiveDataSource === 'pearpal') {
-        await pullStore.processPearpalData(pearpal)
+        await pullStore.processPearpalData(pearpal, starCrownBox)
       } else if (effectiveDataSource === 'game') {
-        await pullStore.processPullData(pulls, edits)
+        await pullStore.processPullData(pulls, edits, starCrownBox)
       } else {
-        await pullStore.processAutoData(pulls, edits, pearpal)
+        await pullStore.processAutoData(pulls, edits, pearpal, starCrownBox)
       }
     } else if (hasPearpal) {
-      await pullStore.processPearpalData(pearpal)
+      await pullStore.processPearpalData(pearpal, starCrownBox)
     } else if (hasGame) {
-      await pullStore.processPullData(pulls, edits)
+      await pullStore.processPullData(pulls, edits, starCrownBox)
     }
 
     if (Object.keys(evo).length > 0) {
@@ -45,6 +46,7 @@ export const usePullStoreData = () => {
       edits,
       evo,
       pearpal,
+      starCrownBox,
       hasPearpal,
       hasGame,
     }

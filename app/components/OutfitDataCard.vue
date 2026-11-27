@@ -7,16 +7,14 @@
         class="cursor-pointer transition-opacity hover:opacity-80"
       >
         <n-tag
-          :color="getQualityTextTheme(quality)"
+          :color="getQualityTextTheme(displayQuality)"
           :bordered="false"
           round
           class="cursor-pointer"
         >
           <span class="flex items-center gap-1">
-            {{ $t(`outfit.${outfitId}.name`) }} {{ quality }}
-            <n-icon>
-              <Star />
-            </n-icon>
+            {{ $t(`outfit.${outfitId}.name`) }}
+            <QualityLabel :quality="displayQuality" />
           </span>
         </n-tag>
       </NuxtLinkLocale>
@@ -32,7 +30,7 @@
         <div class="relative">
           <OutfitCard
             :outfit-id="getVariantId(level)"
-            :quality="quality"
+            :quality="displayQuality"
             :name="`${$t(`outfit.${outfitId}.name`)} ${level === 0 ? 'Base' : `LV${level}`}`"
             :show-info="false"
             class="transition-all duration-300 ease-in-out group-hover:scale-[1.02] group-hover:shadow-lg"
@@ -44,7 +42,7 @@
               round
               size="small"
               :bordered="false"
-              :color="getQualityTextTheme(quality)"
+              :color="getQualityTextTheme(displayQuality)"
               ><span class="flex items-center gap-1">
                 {{ $t(`banner.outfit.level.${level === 0 ? '1' : level}`) }}
                 <n-icon v-if="getOutfitLevel.includes(level.toString())"
@@ -60,7 +58,7 @@
 </template>
 
 <script setup lang="ts">
-  import { Star, CheckCircle } from '@vicons/fa'
+  import { CheckCircle } from '@vicons/fa'
 
   interface CompletionData {
     completion: number
@@ -117,6 +115,11 @@
 
     return levels
   })
+
+  // Star Crown outfits keep quality 5 for level rules but show their own rarity
+  const displayQuality = computed(() =>
+    getDisplayQuality(props.quality, props.outfitId)
+  )
 
   const outfitLevels = computed(() => {
     const levels = [0]

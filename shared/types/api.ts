@@ -47,6 +47,16 @@ export interface PearpalMagicBallItem {
   magic_ball_color: string | number
 }
 
+// Deep-Sea Treasure Box reward for a Star Crown outfit
+export interface PearpalClothRandomBoxItem {
+  box_item_id: string
+  card_pool_id: string
+  reward_item_id: string
+  reward_rarity: number
+  suit_round: number
+  suit_piece_index: number
+}
+
 export interface PearpalNoteBookResponse {
   info_from_gm?: {
     clothes?: Array<{
@@ -58,5 +68,6 @@ export interface PearpalNoteBookResponse {
     gacha_list: PearpalTrackerItem[]
     suit_list?: Array<string | number>
     magic_ball_list?: PearpalMagicBallItem[]
+    cloth_random_box_list?: PearpalClothRandomBoxItem[]
   }
 }

@@ -105,3 +105,38 @@ export const mergePearpalData = (
   remoteRecords: Record<number, PearpalTrackerItem[]> | undefined
 ): Record<number, PearpalTrackerItem[]> =>
   mergeArrayRecords(localRecords, remoteRecords, (row) => JSON.stringify(row))
+
+// Box rewards only accumulate, so both sides are combined. A piece comes from a
+// box at most once per set, so rows match by piece and set. Pearpal rows list
+// every box of a banner, so once either side has them the banner's manual rows
+// are dropped.
+export const mergeStarCrownBoxData = (
+  localRecords: Record<number, StarCrownBoxReward[]> | undefined,
+  remoteRecords: Record<number, StarCrownBoxReward[]> | undefined
+): Record<number, StarCrownBoxReward[]> => {
+  const merged: Record<number, StarCrownBoxReward[]> = {}
+  const bannerIds = new Set([
+    ...Object.keys(localRecords ?? {}),
+    ...Object.keys(remoteRecords ?? {}),
+  ])
+
+  bannerIds.forEach((key) => {
+    const bannerId = Number(key)
+    const rows = [
+      ...(localRecords?.[bannerId] ?? []),
+      ...(remoteRecords?.[bannerId] ?? []),
+    ].filter(isStarCrownBoxReward)
+    const hasPearpalRows = rows.some((row) => row.source === 'pearpal')
+    const byPieceAndSet = new Map<string, StarCrownBoxReward>()
+
+    rows.forEach((row) => {
+      if (hasPearpalRows && row.source !== 'pearpal') return
+      const rowKey = `${row.itemId}|${row.round}`
+      if (!byPieceAndSet.has(rowKey)) byPieceAndSet.set(rowKey, row)
+    })
+
+    if (byPieceAndSet.size > 0) merged[bannerId] = [...byPieceAndSet.values()]
+  })
+
+  return merged
+}

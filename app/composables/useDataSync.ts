@@ -5,6 +5,8 @@ interface SyncData {
   edits: Record<number, EditRecord[]>
   evo: Record<number, EvoRecord[]>
   pearpal: Record<number, PearpalTrackerItem[]>
+  // Missing from backups made before Star Crown box support
+  starCrownBox?: Record<number, StarCrownBoxReward[]>
   wardrobe?: WardrobeData
   bannerWishlist?: BannerWishlistData
   profile?: {
@@ -17,6 +19,7 @@ interface MergedSyncData {
   edits: Record<number, EditRecord[]>
   evo: Record<number, EvoRecord[]>
   pearpal: Record<number, PearpalTrackerItem[]>
+  starCrownBox: Record<number, StarCrownBoxReward[]>
   wardrobe: WardrobeData
   bannerWishlist?: BannerWishlistData
   profile?: {
@@ -36,6 +39,10 @@ const mergeCloudData = (
   edits: mergeEditData(localData.edits, remoteData?.edits ?? {}),
   evo: mergeEvoData(localData.evo, remoteData?.evo, mode),
   pearpal: mergePearpalData(localData.pearpal, remoteData?.pearpal),
+  starCrownBox: mergeStarCrownBoxData(
+    localData.starCrownBox,
+    remoteData?.starCrownBox
+  ),
   wardrobe: mergeSyncWardrobe(remoteData?.wardrobe),
   bannerWishlist:
     remoteData?.bannerWishlist === undefined
@@ -48,7 +55,8 @@ const hasResonanceBackupData = (data: SyncData): boolean =>
   Object.keys(data.pulls).length > 0 ||
   Object.keys(data.edits).length > 0 ||
   Object.keys(data.evo).length > 0 ||
-  Object.keys(data.pearpal).length > 0
+  Object.keys(data.pearpal).length > 0 ||
+  Object.keys(data.starCrownBox ?? {}).length > 0
 
 const hasWardrobeBackupData = (wardrobe: WardrobeData | undefined): boolean =>
   Boolean(
@@ -72,6 +80,7 @@ export const useDataSync = () => {
     saveData,
     loadData,
     savePearpalData,
+    saveStarCrownBoxData,
     loadWardrobe,
     saveWardrobe,
     loadBannerWishlist,
@@ -146,6 +155,7 @@ export const useDataSync = () => {
         edits: rawData.edits,
         evo: rawData.evo,
         pearpal: rawData.pearpal,
+        starCrownBox: rawData.starCrownBox,
         wardrobe,
         ...(bannerWishlist ? { bannerWishlist } : {}),
         profile: buildProfileMeta(slot),
@@ -302,6 +312,7 @@ export const useDataSync = () => {
           edits: localData.edits,
           evo: localData.evo,
           pearpal: localData.pearpal,
+          starCrownBox: localData.starCrownBox,
           wardrobe: localWardrobe,
           ...(localWishlist ? { bannerWishlist: localWishlist } : {}),
           profile: buildProfileMeta(resolvedSlot),
@@ -317,6 +328,7 @@ export const useDataSync = () => {
         resolvedSlot
       )
       await savePearpalData(mergedData.pearpal, resolvedSlot)
+      await saveStarCrownBoxData(mergedData.starCrownBox, resolvedSlot)
       await saveWardrobe(mergedData.wardrobe, resolvedSlot)
       if (mergedData.bannerWishlist !== undefined) {
         await saveBannerWishlist(mergedData.bannerWishlist, resolvedSlot)
@@ -332,6 +344,7 @@ export const useDataSync = () => {
           edits: mergedData.edits,
           evo: mergedData.evo,
           pearpal: mergedData.pearpal,
+          starCrownBox: mergedData.starCrownBox,
         })
       }
 

@@ -14,6 +14,7 @@ export const useBannerPullData = () => {
           edits?: Record<number, EditRecord[]>
           evo?: Record<number, EvoRecord[]>
           pearpal?: Record<number, PearpalTrackerItem[]>
+          starCrownBox?: Record<number, StarCrownBoxReward[]>
           wardrobe?: WardrobeData
           bannerWishlist?: BannerWishlistData
         }
@@ -24,6 +25,7 @@ export const useBannerPullData = () => {
       mergePullData,
       mergeEditData,
       savePearpalData,
+      saveStarCrownBoxData,
       saveWardrobe,
       saveBannerWishlist,
     } = useIndexedDB()
@@ -38,6 +40,7 @@ export const useBannerPullData = () => {
       edits: existingEditData,
       evo: existingEvoData,
       pearpal: existingPearpalData,
+      starCrownBox: existingStarCrownBoxData,
     } = await loadData(slot)
 
     // Handle the new export format that can include pulls, edits, evo, and pearpal
@@ -75,10 +78,15 @@ export const useBannerPullData = () => {
     const mergedEditsData = mergeEditData(existingEditData, editsData)
     const mergedEvoData = { ...existingEvoData, ...evoData }
     const mergedPearpalData = { ...existingPearpalData, ...pearpalData }
+    const mergedStarCrownBoxData = mergeStarCrownBoxData(
+      existingStarCrownBoxData,
+      'starCrownBox' in jsonData ? jsonData.starCrownBox : undefined
+    )
 
     // Save all data, including pearpal if present
     await saveData(mergedPullsData, mergedEditsData, mergedEvoData, slot)
     await savePearpalData(mergedPearpalData, slot)
+    await saveStarCrownBoxData(mergedStarCrownBoxData, slot)
     if (importedWishlist !== undefined) {
       await saveBannerWishlist(importedWishlist, slot)
       if (slot === activeSlot.value)
@@ -130,12 +138,17 @@ export const useBannerPullData = () => {
         pulls: existingPullData,
         edits: existingEditData,
         evo: existingEvoData,
+        starCrownBox: existingStarCrownBoxData,
       } = await loadData()
 
       const mergedData = mergePullData(existingPullData, pullsByBanner)
       await saveData(mergedData, existingEditData, existingEvoData)
 
-      await pullStore.processPullData(mergedData, existingEditData)
+      await pullStore.processPullData(
+        mergedData,
+        existingEditData,
+        existingStarCrownBoxData
+      )
     } catch (error) {
       console.error(error)
     } finally {
@@ -145,9 +158,12 @@ export const useBannerPullData = () => {
     return pullsByBanner
   }
 
+  // starCrownBoxByBanner adds Star Crown box rewards (Pearpal import or manual),
+  // which game pull history never lists.
   const processBannerPullData = (
     pullsByBanner: Record<number, PullRecord[]>,
-    editsByBanner?: Record<number, EditRecord[]>
+    editsByBanner?: Record<number, EditRecord[]>,
+    starCrownBoxByBanner: Record<number, StarCrownBoxReward[]> = {}
   ) => {
     const calculateStats = !!editsByBanner
     const processedPulls: Record<string, ProcessedBanner> = {}
@@ -339,8 +355,31 @@ export const useBannerPullData = () => {
           })
         }
 
-        // Combine pulls and edits
-        const allPulls = [...currentBanner.pulls, ...editPulls].reverse()
+        // Star Crown box rewards count as obtained pieces only
+        const boxItemIds = getStarCrownBoxItemIds(
+          starCrownBoxByBanner[bannerId]
+        )
+        const boxPulls: PullItem[] = boxItemIds.map((itemId) => {
+          editPullIndex--
+          return {
+            pullIndex: editPullIndex,
+            itemId,
+            outfitId: getOutfitIdFromItemId(itemId),
+            quality: 5,
+            pullsToObtain: 0,
+            obtainedAt: STAR_CROWN_BOX_OBTAINED_AT,
+            bannerId: bannerId,
+            count: 0,
+          }
+        })
+        const boxItemIdSet = new Set(boxItemIds)
+
+        // Combine pulls, edits and box rewards
+        const allPulls = [
+          ...currentBanner.pulls,
+          ...editPulls,
+          ...boxPulls,
+        ].reverse()
 
         // Count items and track outfit progress
         const itemCount: Record<string, number> = {}
@@ -369,7 +408,8 @@ export const useBannerPullData = () => {
             outfit.id,
             obtainedItemIds ? obtainedItemIds.size : 0,
             outfit.totalItems,
-            currentBanner.stats.totalPulls
+            currentBanner.stats.totalPulls,
+            outfit.items.some((itemId) => boxItemIdSet.has(itemId))
           )
           outfit.completion =
             outfit.totalItems > 0

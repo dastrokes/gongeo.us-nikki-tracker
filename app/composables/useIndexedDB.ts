@@ -1,9 +1,10 @@
 const DB_NAME = 'gongeousDB'
-const DB_VERSION = 6
+const DB_VERSION = 7
 const PULLS_STORE = 'pullsByBanner'
 const EDITS_STORE = 'editsByBanner'
 const EVO_STORE = 'evoByBanner'
 const PEARPAL_STORE = 'pearpalByBanner'
+const STAR_CROWN_BOX_STORE = 'starCrownBoxByBanner'
 const WARDROBE_STORE = 'wardrobeByProfile'
 const WISHLIST_STORE = 'bannerWishlistByProfile'
 
@@ -16,6 +17,7 @@ const { runWithRecovery } = createIndexedDBConnection({
     EDITS_STORE,
     EVO_STORE,
     PEARPAL_STORE,
+    STAR_CROWN_BOX_STORE,
     WARDROBE_STORE,
     WISHLIST_STORE,
   ],
@@ -37,6 +39,10 @@ const { runWithRecovery } = createIndexedDBConnection({
 
       if (!db.objectStoreNames.contains(PEARPAL_STORE)) {
         db.createObjectStore(PEARPAL_STORE)
+      }
+
+      if (!db.objectStoreNames.contains(STAR_CROWN_BOX_STORE)) {
+        db.createObjectStore(STAR_CROWN_BOX_STORE)
       }
 
       if (!db.objectStoreNames.contains(WARDROBE_STORE)) {
@@ -119,6 +125,7 @@ export function useIndexedDB() {
     edits: Record<number, EditRecord[]>
     evo: Record<number, EvoRecord[]>
     pearpal: Record<number, PearpalTrackerItem[]>
+    starCrownBox: Record<number, StarCrownBoxReward[]>
   }> => {
     try {
       const slot = resolveSlot(slotOverride)
@@ -126,22 +133,33 @@ export function useIndexedDB() {
       const editsKey = resolveSlotKey(EDITS_STORE, slot)
       const evoKey = resolveSlotKey(EVO_STORE, slot)
       const pearpalKey = resolveSlotKey(PEARPAL_STORE, slot)
+      const starCrownBoxKey = resolveSlotKey(STAR_CROWN_BOX_STORE, slot)
 
-      const { pullsResult, editsResult, evoResult, pearpalResult } =
-        await runQueuedIndexedDBOperation(() =>
-          runWithRecovery('loadData', async (db) => {
-            const pullsResult = await db.get(PULLS_STORE, pullsKey)
-            const editsResult = await db.get(EDITS_STORE, editsKey)
-            const evoResult = await db.get(EVO_STORE, evoKey)
-            const pearpalResult = await db.get(PEARPAL_STORE, pearpalKey)
-            return {
-              pullsResult,
-              editsResult,
-              evoResult,
-              pearpalResult,
-            }
-          })
-        )
+      const {
+        pullsResult,
+        editsResult,
+        evoResult,
+        pearpalResult,
+        starCrownBoxResult,
+      } = await runQueuedIndexedDBOperation(() =>
+        runWithRecovery('loadData', async (db) => {
+          const pullsResult = await db.get(PULLS_STORE, pullsKey)
+          const editsResult = await db.get(EDITS_STORE, editsKey)
+          const evoResult = await db.get(EVO_STORE, evoKey)
+          const pearpalResult = await db.get(PEARPAL_STORE, pearpalKey)
+          const starCrownBoxResult = await db.get(
+            STAR_CROWN_BOX_STORE,
+            starCrownBoxKey
+          )
+          return {
+            pullsResult,
+            editsResult,
+            evoResult,
+            pearpalResult,
+            starCrownBoxResult,
+          }
+        })
+      )
 
       if (checkActiveSlot(slot)) {
         pullsData.value = pullsResult
@@ -154,6 +172,7 @@ export function useIndexedDB() {
         edits: editsResult || {},
         evo: evoResult || {},
         pearpal: pearpalResult || {},
+        starCrownBox: starCrownBoxResult || {},
       }
     } catch (error) {
       console.error('Failed to load data:', error)
@@ -168,6 +187,7 @@ export function useIndexedDB() {
       const editsKey = resolveSlotKey(EDITS_STORE, slot)
       const evoKey = resolveSlotKey(EVO_STORE, slot)
       const pearpalKey = resolveSlotKey(PEARPAL_STORE, slot)
+      const starCrownBoxKey = resolveSlotKey(STAR_CROWN_BOX_STORE, slot)
       const wardrobeKey = resolveSlotKey(WARDROBE_STORE, slot)
       const wishlistKey = resolveSlotKey(WISHLIST_STORE, slot)
 
@@ -177,6 +197,7 @@ export function useIndexedDB() {
           await db.delete(EDITS_STORE, editsKey)
           await db.delete(EVO_STORE, evoKey)
           await db.delete(PEARPAL_STORE, pearpalKey)
+          await db.delete(STAR_CROWN_BOX_STORE, starCrownBoxKey)
           await db.delete(WARDROBE_STORE, wardrobeKey)
           await db.delete(WISHLIST_STORE, wishlistKey)
         })
@@ -227,12 +248,43 @@ export function useIndexedDB() {
     }
   }
 
+  // Star Crown box rewards (Pearpal import or manual). Each banner in `data`
+  // replaces that banner's stored rewards; an empty list removes the banner.
+  const saveStarCrownBoxData = async (
+    data: Record<number, StarCrownBoxReward[]>,
+    slotOverride?: number
+  ) => {
+    try {
+      const cleanData = JSON.parse(JSON.stringify(data))
+      const slot = resolveSlot(slotOverride)
+      const starCrownBoxKey = resolveSlotKey(STAR_CROWN_BOX_STORE, slot)
+      await runQueuedIndexedDBOperation(() =>
+        runWithRecovery('saveStarCrownBoxData', async (db) => {
+          const existingData = await db.get(
+            STAR_CROWN_BOX_STORE,
+            starCrownBoxKey
+          )
+          const mergedData = Object.fromEntries(
+            Object.entries({ ...(existingData ?? {}), ...cleanData }).filter(
+              ([, rewards]) => Array.isArray(rewards) && rewards.length > 0
+            )
+          )
+          await db.put(STAR_CROWN_BOX_STORE, mergedData, starCrownBoxKey)
+        })
+      )
+    } catch (error) {
+      console.error('Failed to save Star Crown box reward data:', error)
+      throw error
+    }
+  }
+
   const clearSlotData = async (slot: number) => {
     try {
       const pullsKey = resolveSlotKey(PULLS_STORE, slot)
       const editsKey = resolveSlotKey(EDITS_STORE, slot)
       const evoKey = resolveSlotKey(EVO_STORE, slot)
       const pearpalKey = resolveSlotKey(PEARPAL_STORE, slot)
+      const starCrownBoxKey = resolveSlotKey(STAR_CROWN_BOX_STORE, slot)
       const wardrobeKey = resolveSlotKey(WARDROBE_STORE, slot)
       const wishlistKey = resolveSlotKey(WISHLIST_STORE, slot)
 
@@ -242,6 +294,7 @@ export function useIndexedDB() {
           await db.delete(EDITS_STORE, editsKey)
           await db.delete(EVO_STORE, evoKey)
           await db.delete(PEARPAL_STORE, pearpalKey)
+          await db.delete(STAR_CROWN_BOX_STORE, starCrownBoxKey)
           await db.delete(WARDROBE_STORE, wardrobeKey)
           await db.delete(WISHLIST_STORE, wishlistKey)
         })
@@ -347,6 +400,7 @@ export function useIndexedDB() {
     mergePullData,
     mergeEditData,
     savePearpalData,
+    saveStarCrownBoxData,
     loadWardrobe,
     saveWardrobe,
     loadBannerWishlist,

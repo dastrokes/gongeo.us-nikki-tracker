@@ -414,7 +414,8 @@ export const useWardrobe = () => {
     const bannerPullData = useBannerPullData()
     const gameProcessed = bannerPullData.processBannerPullData(
       trackerData.pulls,
-      trackerData.edits
+      trackerData.edits,
+      trackerData.starCrownBox
     )
     const { processPearpalData } = usePearpalData()
     const pearpalData = Object.fromEntries(
@@ -422,7 +423,10 @@ export const useWardrobe = () => {
         ([, items]) => items.length > 0
       )
     )
-    const pearpalProcessed = processPearpalData(pearpalData)
+    const pearpalProcessed = processPearpalData(
+      pearpalData,
+      trackerData.starCrownBox
+    )
     const processedBanners = mergeProcessedBannerSources([
       gameProcessed,
       pearpalProcessed,

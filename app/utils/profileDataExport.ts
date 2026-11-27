@@ -3,6 +3,7 @@ type ProfileDataExportPayload = {
   edits: Record<string, EditRecord[]>
   evo: Record<string, EvoRecord[]>
   pearpal: Record<string, PearpalTrackerItem[]>
+  starCrownBox?: Record<string, StarCrownBoxReward[]>
   wardrobe: WardrobeData
   bannerWishlist?: BannerWishlistData
   profile?: {
@@ -22,6 +23,7 @@ export const createProfileDataExportPayload = ({
   edits,
   evo,
   pearpal,
+  starCrownBox,
   wardrobe,
   bannerWishlist,
   profile,
@@ -30,6 +32,7 @@ export const createProfileDataExportPayload = ({
   edits: Record<number, EditRecord[]>
   evo: Record<number, EvoRecord[]>
   pearpal: Record<number, PearpalTrackerItem[]>
+  starCrownBox: Record<number, StarCrownBoxReward[]>
   wardrobe: WardrobeData
   bannerWishlist?: BannerWishlistData | null
   profile?: {
@@ -40,6 +43,7 @@ export const createProfileDataExportPayload = ({
   const filteredEdits = filterNonEmptyRecord(edits)
   const filteredEvo = filterNonEmptyRecord(evo)
   const filteredPearpal = filterNonEmptyRecord(pearpal)
+  const filteredStarCrownBox = filterNonEmptyRecord(starCrownBox)
   const hasWardrobeData =
     wardrobe.ownedItemIds.length > 0 ||
     wardrobe.ownedMakeupIds.length > 0 ||
@@ -63,6 +67,9 @@ export const createProfileDataExportPayload = ({
     edits: filteredEdits,
     evo: filteredEvo,
     pearpal: filteredPearpal,
+    ...(Object.keys(filteredStarCrownBox).length > 0
+      ? { starCrownBox: filteredStarCrownBox }
+      : {}),
     wardrobe,
     ...(bannerWishlist
       ? { bannerWishlist: normalizeBannerWishlist(bannerWishlist) }

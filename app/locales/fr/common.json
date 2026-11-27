@@ -1102,7 +1102,6 @@
       "quick_filters": "Filtres rapides",
       "current_filters": "Filtres actuels",
       "empty_wardrobe_hint": "Ta garde-robe est vide. Importe tes tenues depuis {source} ou utilise l’icône {ownershipIcon} pour indiquer ta progression.",
-      "stage_complete": "@:global.banner_stats.option_completed_set",
       "download_zip": "Tout télécharger (ZIP)",
       "image_error": "Certaines images de tenues n’ont pas pu être chargées."
     },

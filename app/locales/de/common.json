@@ -652,7 +652,19 @@
       "apply_to_all": "Auf alles anwenden",
       "success": "Outfit wurde erfolgreich gespeichert!",
       "error": "Outfit konnte nicht gespeichert werden",
-      "evo_level": "Evolutionslevel"
+      "evo_level": "Evolutionslevel",
+      "tab_pieces": "Teile",
+      "tab_boxes": "Schatzkisten",
+      "box_label": "{pulls} Resonanzen",
+      "box_locked": "Gesperrt",
+      "box_pick": "Teil wählen",
+      "box_clear": "Leeren",
+      "box_swap": "Mit Kiste bei {pulls} tauschen",
+      "box_description": "Der Verlauf enthält keine Kistenbelohnungen. Wähle, was jede Kiste gab.",
+      "box_autofill": "Mit nie gezogenen Teilen gefüllt. Die Kistenreihenfolge kann abweichen.",
+      "box_pearpal": "Exakte Daten aus dem Whim-Log. Zum Aktualisieren erneut importieren.",
+      "box_saved": "Kisten gespeichert!",
+      "pieces_box_hint": "Teil aus einer Schatzkiste? Trage es unter Schatzkisten ein."
     },
     "banner": {
       "stats": {

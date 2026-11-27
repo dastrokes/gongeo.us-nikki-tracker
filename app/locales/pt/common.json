@@ -1102,7 +1102,6 @@
       "quick_filters": "Filtros rápidos",
       "current_filters": "Filtros atuais",
       "empty_wardrobe_hint": "Seu guarda-roupa está vazio. Importe trajes de {source} ou use o ícone {ownershipIcon} para registrar seu progresso.",
-      "stage_complete": "@:global.banner_stats.option_completed_set",
       "download_zip": "Baixar tudo (ZIP)",
       "image_error": "Não foi possível carregar algumas imagens de trajes."
     },

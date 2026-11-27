@@ -652,7 +652,19 @@
       "apply_to_all": "Aplicar a todos",
       "success": "Roupa salva com sucesso!",
       "error": "Falha ao salvar a roupa",
-      "evo_level": "Nível de evolução"
+      "evo_level": "Nível de evolução",
+      "tab_pieces": "Peças",
+      "tab_boxes": "Baús",
+      "box_label": "{pulls} puxadas",
+      "box_locked": "Bloqueado",
+      "box_pick": "Escolha uma peça",
+      "box_clear": "Limpar",
+      "box_swap": "Trocar com o baú de {pulls}",
+      "box_description": "O histórico não inclui recompensas dos baús. Escolha o que cada baú deu.",
+      "box_autofill": "Preenchido com peças nunca puxadas. A ordem dos baús pode variar.",
+      "box_pearpal": "Dados exatos do Whim-Log. Importe de novo para atualizar.",
+      "box_saved": "Baús salvos!",
+      "pieces_box_hint": "Peça de um baú? Registre em Baús."
     },
     "banner": {
       "stats": {
